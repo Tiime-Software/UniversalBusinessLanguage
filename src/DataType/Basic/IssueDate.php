@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tiime\UniversalBusinessLanguage\DataType\Basic;
 
-class IssueDateTime
+class IssueDate
 {
     protected const XML_NODE        = 'cbc:IssueDate';
     protected const UBL_DATE_FORMAT = 'Y-m-d';
