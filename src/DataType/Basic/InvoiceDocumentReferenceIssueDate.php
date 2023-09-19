@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Tiime\UniversalBusinessLanguage\DataType\Basic;
 
 /**
- * BT-9.
+ * BT-26.
  */
-class DueDate
+class InvoiceDocumentReferenceIssueDate
 {
-    protected const XML_NODE        = 'cbc:DueDate';
+    protected const XML_NODE        = 'cbc:IssueDate';
     protected const UBL_DATE_FORMAT = 'Y-m-d';
 
     private \DateTimeInterface $dateTimeString;
@@ -31,17 +31,17 @@ class DueDate
 
     public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): ?self
     {
-        $dueDateElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
+        $issueDateElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
 
-        if (!$dueDateElements || !$dueDateElements->item(0) || 0 === $dueDateElements->count()) {
+        if (!$issueDateElements || !$issueDateElements->item(0) || 0 === $issueDateElements->count()) {
             return null;
         }
 
-        if ($dueDateElements->count() > 1) {
+        if ($issueDateElements->count() > 1) {
             throw new \Exception('Malformed');
         }
 
-        $dateTimeString = (string) $dueDateElements->item(0)->nodeValue;
+        $dateTimeString = (string) $issueDateElements->item(0)->nodeValue;
 
         $formattedDateTime = \DateTime::createFromFormat(self::UBL_DATE_FORMAT, $dateTimeString);
 

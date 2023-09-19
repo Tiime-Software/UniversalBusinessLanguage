@@ -6,7 +6,9 @@ namespace Tiime\UniversalBusinessLanguage;
 
 use Tiime\EN16931\DataType\CurrencyCode;
 use Tiime\EN16931\DataType\Identifier\InvoiceIdentifier;
+use Tiime\EN16931\DataType\Identifier\SpecificationIdentifier;
 use Tiime\EN16931\DataType\InvoiceTypeCode;
+use Tiime\UniversalBusinessLanguage\DataType\Aggregate\BillingReference;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\InvoicePeriod;
 use Tiime\UniversalBusinessLanguage\DataType\Basic\DueDate;
 use Tiime\UniversalBusinessLanguage\DataType\Basic\IssueDate;
@@ -52,19 +54,40 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
      */
     private ?Note $note;
 
+    /**
+     * BT-23.
+     */
+    private ?string $profileID;
+
+    /**
+     * BT-24.
+     */
+    private SpecificationIdentifier $customizationID;
+
+    /**
+     * BG-3.
+     *
+     * @var array<int, BillingReference>
+     */
+    private array $billingReferences;
+
     public function __construct(
         InvoiceIdentifier $identifier,
         IssueDate $issueDate,
         InvoiceTypeCode $invoiceTypeCode,
-        CurrencyCode $documentCurrencyCode
+        CurrencyCode $documentCurrencyCode,
+        SpecificationIdentifier $customizationID
     ) {
         $this->identifier           = $identifier;
         $this->issueDate            = $issueDate;
         $this->invoiceTypeCode      = $invoiceTypeCode;
         $this->documentCurrencyCode = $documentCurrencyCode;
+        $this->customizationID      = $customizationID;
         $this->dueDate              = null;
         $this->invoicePeriod        = null;
         $this->note                 = null;
+        $this->profileID            = null;
+        $this->billingReferences    = [];
     }
 
     public function getIdentifier(): InvoiceIdentifier
@@ -90,6 +113,11 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
     public function getDueDate(): ?DueDate
     {
         return $this->dueDate;
+    }
+
+    public function getCustomizationID(): SpecificationIdentifier
+    {
+        return $this->customizationID;
     }
 
     public function getNote(): ?Note
@@ -123,6 +151,48 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
         return $this;
     }
 
+    public function getProfileID(): ?string
+    {
+        return $this->profileID;
+    }
+
+    public function setProfileID(?string $profileID): static
+    {
+        $this->profileID = $profileID;
+
+        return $this;
+    }
+
+    /**
+     * @return array|BillingReference[]
+     */
+    public function getBillingReferences(): array
+    {
+        return $this->billingReferences;
+    }
+
+    /**
+     * @param array<int, BillingReference> $billingReferences
+     *
+     * @return $this
+     */
+    public function setBillingReferences(array $billingReferences): static
+    {
+        $tmpBillingReference = [];
+
+        foreach ($billingReferences as $billingReference) {
+            if (!$billingReference instanceof BillingReference) {
+                throw new \TypeError();
+            }
+
+            $tmpBillingReference[] = $billingReference;
+        }
+
+        $this->billingReferences = $tmpBillingReference;
+
+        return $this;
+    }
+
     public function toXML(): \DOMDocument
     {
         $document = new \DOMDocument('1.0', 'UTF-8');
@@ -148,6 +218,7 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
         $root->appendChild($this->issueDate->toXML($document));
         $root->appendChild($document->createElement('cbc:InvoiceTypeCode', $this->invoiceTypeCode->value));
         $root->appendChild($document->createElement('cbc:DocumentCurrencyCode', $this->documentCurrencyCode->value));
+        $root->appendChild($document->createElement('cbc:CustomizationID', $this->customizationID->value));
 
         if ($this->dueDate instanceof DueDate) {
             $root->appendChild($this->dueDate->toXML($document));
@@ -159,6 +230,14 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
 
         if ($this->note instanceof Note) {
             $root->appendChild($this->note->toXML($document));
+        }
+
+        if ($this->profileID) {
+            $root->appendChild($document->createElement('cbc:ProfileID', $this->profileID));
+        }
+
+        foreach ($this->billingReferences as $billingReference) {
+            $root->appendChild($billingReference->toXML($document));
         }
 
         return $document;
@@ -210,7 +289,14 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
             throw new \Exception('Wrong currency code');
         }
 
-        $universalBusinessLanguage = new self(new InvoiceIdentifier($identifier), $issueDate, $typeCode, $documentCurrencyCode);
+        $customizationIDElements = $xpath->query('./cbc:CustomizationID', $universalBusinessLanguageElement);
+
+        if (!$customizationIDElements || !$customizationIDElements->item(0)) {
+            throw new \Exception('Customization ID (BT-24) not found');
+        }
+        $customizationID = new SpecificationIdentifier((string) $customizationIDElements->item(0)->nodeValue);
+
+        $universalBusinessLanguage = new self(new InvoiceIdentifier($identifier), $issueDate, $typeCode, $documentCurrencyCode, $customizationID);
 
         $dueDate = DueDate::fromXML($xpath, $universalBusinessLanguageElement);
 
@@ -228,6 +314,18 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
 
         if ($note instanceof Note) {
             $universalBusinessLanguage->setNote($note);
+        }
+
+        $profileIDElements = $xpath->query('./cbc:ProfileID', $universalBusinessLanguageElement);
+
+        if ($profileIDElements && $profileIDElements->item(0)) {
+            $universalBusinessLanguage->setProfileID((string) $profileIDElements->item(0)->nodeValue);
+        }
+
+        $billingReferences = BillingReference::fromXML($xpath, $universalBusinessLanguageElement);
+
+        if (\count($billingReferences) > 0) {
+            $universalBusinessLanguage->setBillingReferences($billingReferences);
         }
 
         return $universalBusinessLanguage;

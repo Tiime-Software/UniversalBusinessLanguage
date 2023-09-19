@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Tiime\UniversalBusinessLanguage\DataType\Basic;
 
+/**
+ * BT-2.
+ */
 class IssueDate
 {
     protected const XML_NODE        = 'cbc:IssueDate';
     protected const UBL_DATE_FORMAT = 'Y-m-d';
 
-    /**
-     * BT-2.
-     */
     private \DateTimeInterface $dateTimeString;
 
     public function __construct(\DateTimeInterface $dateTimeString)
