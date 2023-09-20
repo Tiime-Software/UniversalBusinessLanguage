@@ -20,10 +20,16 @@ class SellerParty
      */
     private array $sellerPartyIdentifications;
 
+    /**
+     * BT-30-00.
+     */
+    private ?PartyLegalEntity $partyLegalEntity;
+
     public function __construct(EndpointIdentifier $endpointID)
     {
         $this->endpointIdentifier         = $endpointID;
         $this->sellerPartyIdentifications = [];
+        $this->partyLegalEntity           = null;
     }
 
     public function getEndpointIdentifier(): EndpointIdentifier
@@ -61,11 +67,25 @@ class SellerParty
         return $this;
     }
 
+    public function getPartyLegalEntity(): ?PartyLegalEntity
+    {
+        return $this->partyLegalEntity;
+    }
+
+    public function setPartyLegalEntity(?PartyLegalEntity $partyLegalEntity): void
+    {
+        $this->partyLegalEntity = $partyLegalEntity;
+    }
+
     public function toXML(\DOMDocument $document): \DOMElement
     {
         $currentNode = $document->createElement(self::XML_NODE);
 
         $currentNode->appendChild($this->endpointIdentifier->toXML($document));
+
+        if ($this->partyLegalEntity instanceof PartyLegalEntity) {
+            $currentNode->appendChild($this->partyLegalEntity->toXML($document));
+        }
 
         return $currentNode;
     }
@@ -85,9 +105,19 @@ class SellerParty
 
         $sellerPartyIdentifications = SellerPartyIdentification::fromXML($xpath, $partyElement);
 
+        $partyLegalEntity = PartyLegalEntity::fromXML($xpath, $partyElement);
+
+        if ($partyLegalEntity->count() > 1) {
+            throw new \Exception('Malformed');
+        }
+
         $party = new self($endpointId);
 
         $party->setSellerPartyIdentifications($sellerPartyIdentifications);
+
+        if ($partyLegalEntity instanceof PartyLegalEntity) {
+            $party->setPartyLegalEntity($partyLegalEntity);
+        }
 
         return $party;
     }
