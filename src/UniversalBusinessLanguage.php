@@ -56,8 +56,9 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
 
     /**
      * BT-23.
+     * en (1,1) conformément au format UBL mais en désaccord avec les specs 2.3 (0,1).
      */
-    private ?string $profileID;
+    private string $profileIdentifier;
 
     /**
      * BT-24.
@@ -76,17 +77,18 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
         IssueDate $issueDate,
         InvoiceTypeCode $invoiceTypeCode,
         CurrencyCode $documentCurrencyCode,
-        SpecificationIdentifier $customizationID
+        SpecificationIdentifier $customizationID,
+        string $profileIdentifier
     ) {
         $this->identifier           = $identifier;
         $this->issueDate            = $issueDate;
         $this->invoiceTypeCode      = $invoiceTypeCode;
         $this->documentCurrencyCode = $documentCurrencyCode;
         $this->customizationID      = $customizationID;
+        $this->profileIdentifier    = $profileIdentifier;
         $this->dueDate              = null;
         $this->invoicePeriod        = null;
         $this->note                 = null;
-        $this->profileID            = null;
         $this->billingReferences    = [];
     }
 
@@ -151,16 +153,9 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
         return $this;
     }
 
-    public function getProfileID(): ?string
+    public function getProfileIdentifier(): ?string
     {
-        return $this->profileID;
-    }
-
-    public function setProfileID(?string $profileID): static
-    {
-        $this->profileID = $profileID;
-
-        return $this;
+        return $this->profileIdentifier;
     }
 
     /**
@@ -219,6 +214,7 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
         $root->appendChild($document->createElement('cbc:InvoiceTypeCode', $this->invoiceTypeCode->value));
         $root->appendChild($document->createElement('cbc:DocumentCurrencyCode', $this->documentCurrencyCode->value));
         $root->appendChild($document->createElement('cbc:CustomizationID', $this->customizationID->value));
+        $root->appendChild($document->createElement('cbc:ProfileID', $this->profileIdentifier));
 
         if ($this->dueDate instanceof DueDate) {
             $root->appendChild($this->dueDate->toXML($document));
@@ -230,10 +226,6 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
 
         if ($this->note instanceof Note) {
             $root->appendChild($this->note->toXML($document));
-        }
-
-        if ($this->profileID) {
-            $root->appendChild($document->createElement('cbc:ProfileID', $this->profileID));
         }
 
         foreach ($this->billingReferences as $billingReference) {
@@ -249,9 +241,7 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
 
         $universalBusinessLanguageElements = $xpath->query(sprintf('//%s', self::XML_NODE));
 
-        if (!$universalBusinessLanguageElements
-            || !$universalBusinessLanguageElements->item(0)
-            || 1 !== $universalBusinessLanguageElements->count()) {
+        if (!$universalBusinessLanguageElements || 1 !== $universalBusinessLanguageElements->count()) {
             throw new \Exception('Malformed');
         }
 
@@ -260,17 +250,18 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
 
         $identifierElements = $xpath->query('./cbc:ID', $universalBusinessLanguageElement);
 
-        if (!$identifierElements || !$identifierElements->item(0)) {
-            throw new \Exception('ID not found');
+        if (!$identifierElements || 1 !== $identifierElements->count()) {
+            throw new \Exception('Malformed');
         }
+
         $identifier = (string) $identifierElements->item(0)->nodeValue;
 
         $issueDate = IssueDate::fromXML($xpath, $universalBusinessLanguageElement);
 
         $typeCodeElements = $xpath->query('./cbc:InvoiceTypeCode', $universalBusinessLanguageElement);
 
-        if (!$typeCodeElements || !$typeCodeElements->item(0)) {
-            throw new \Exception('Type Code not found');
+        if (!$typeCodeElements || 1 !== $typeCodeElements->count()) {
+            throw new \Exception('Malformed');
         }
         $typeCode = InvoiceTypeCode::tryFrom((string) $typeCodeElements->item(0)->nodeValue);
 
@@ -280,8 +271,8 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
 
         $documentCurrencyCodeElements = $xpath->query('./cbc:DocumentCurrencyCode', $universalBusinessLanguageElement);
 
-        if (!$documentCurrencyCodeElements || !$documentCurrencyCodeElements->item(0)) {
-            throw new \Exception('Currency Code not found');
+        if (!$documentCurrencyCodeElements || 1 !== $documentCurrencyCodeElements->count()) {
+            throw new \Exception('Malformed');
         }
         $documentCurrencyCode = CurrencyCode::tryFrom((string) $documentCurrencyCodeElements->item(0)->nodeValue);
 
@@ -291,38 +282,48 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
 
         $customizationIDElements = $xpath->query('./cbc:CustomizationID', $universalBusinessLanguageElement);
 
-        if (!$customizationIDElements || !$customizationIDElements->item(0)) {
-            throw new \Exception('Customization ID (BT-24) not found');
+        if (!$customizationIDElements || 1 !== $customizationIDElements->count()) {
+            throw new \Exception('Malformed');
         }
         $customizationID = new SpecificationIdentifier((string) $customizationIDElements->item(0)->nodeValue);
 
-        $universalBusinessLanguage = new self(new InvoiceIdentifier($identifier), $issueDate, $typeCode, $documentCurrencyCode, $customizationID);
+        $profileIdentifierElements = $xpath->query('./cbc:ProfileID', $universalBusinessLanguageElement);
 
-        $dueDate = DueDate::fromXML($xpath, $universalBusinessLanguageElement);
+        if (!$profileIdentifierElements || 1 !== $profileIdentifierElements->count()) {
+            throw new \Exception('Malformed');
+        }
+        $profileIdentifier = (string) $profileIdentifierElements->item(0)->nodeValue;
+
+        $dueDate           = DueDate::fromXML($xpath, $universalBusinessLanguageElement);
+        $invoicePeriod     = InvoicePeriod::fromXML($xpath, $universalBusinessLanguageElement);
+        $note              = Note::fromXML($xpath, $universalBusinessLanguageElement);
+        $billingReferences = BillingReference::fromXML($xpath, $universalBusinessLanguageElement);
+
+        if ($dueDate->count() > 1) {
+            throw new \Exception('Malformed');
+        }
+
+        if ($invoicePeriod->count() > 1) {
+            throw new \Exception('Malformed');
+        }
+
+        if ($note->count() > 1) {
+            throw new \Exception('Malformed');
+        }
+
+        $universalBusinessLanguage = new self(new InvoiceIdentifier($identifier), $issueDate, $typeCode, $documentCurrencyCode, $customizationID, $profileIdentifier);
 
         if ($dueDate instanceof DueDate) {
             $universalBusinessLanguage->setDueDate($dueDate);
         }
 
-        $invoicePeriod = InvoicePeriod::fromXML($xpath, $universalBusinessLanguageElement);
-
         if ($invoicePeriod instanceof InvoicePeriod) {
             $universalBusinessLanguage->setInvoicePeriod($invoicePeriod);
         }
 
-        $note = Note::fromXML($xpath, $universalBusinessLanguageElement);
-
         if ($note instanceof Note) {
             $universalBusinessLanguage->setNote($note);
         }
-
-        $profileIDElements = $xpath->query('./cbc:ProfileID', $universalBusinessLanguageElement);
-
-        if ($profileIDElements && $profileIDElements->item(0)) {
-            $universalBusinessLanguage->setProfileID((string) $profileIDElements->item(0)->nodeValue);
-        }
-
-        $billingReferences = BillingReference::fromXML($xpath, $universalBusinessLanguageElement);
 
         if (\count($billingReferences) > 0) {
             $universalBusinessLanguage->setBillingReferences($billingReferences);

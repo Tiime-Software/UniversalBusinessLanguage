@@ -31,10 +31,8 @@ class AccountingSupplierParty
     {
         $accountingSupplierPartyElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
 
-        if (!$accountingSupplierPartyElements
-            || !$accountingSupplierPartyElements->item(0)
-            || 0 === $accountingSupplierPartyElements->count()) {
-            throw new \Exception('No Accounting Supplier SellerParty element found');
+        if (!$accountingSupplierPartyElements || 1 !== $accountingSupplierPartyElements->count()) {
+            throw new \Exception('Malformed');
         }
 
         /** @var \DOMElement $accountingSupplierPartyElement */

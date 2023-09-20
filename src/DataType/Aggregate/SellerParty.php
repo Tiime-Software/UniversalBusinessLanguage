@@ -2,7 +2,7 @@
 
 namespace Tiime\UniversalBusinessLanguage\DataType\Aggregate;
 
-use Tiime\UniversalBusinessLanguage\DataType\Basic\EndpointID;
+use Tiime\UniversalBusinessLanguage\DataType\Basic\EndpointIdentifier;
 
 class SellerParty
 {
@@ -11,7 +11,7 @@ class SellerParty
     /**
      * BT-34. (warning: pas dans les specs 2.3  mais obligatoire dans la norme UBL).
      */
-    private EndpointID $endpointID;
+    private EndpointIdentifier $endpointIdentifier;
 
     /**
      * BT-29a-00.
@@ -20,15 +20,15 @@ class SellerParty
      */
     private array $sellerPartyIdentifications;
 
-    public function __construct(EndpointID $endpointID)
+    public function __construct(EndpointIdentifier $endpointID)
     {
-        $this->endpointID                 = $endpointID;
+        $this->endpointIdentifier         = $endpointID;
         $this->sellerPartyIdentifications = [];
     }
 
-    public function getEndpointID(): EndpointID
+    public function getEndpointIdentifier(): EndpointIdentifier
     {
-        return $this->endpointID;
+        return $this->endpointIdentifier;
     }
 
     /**
@@ -65,7 +65,7 @@ class SellerParty
     {
         $currentNode = $document->createElement(self::XML_NODE);
 
-        $currentNode->appendChild($this->endpointID->toXML($document));
+        $currentNode->appendChild($this->endpointIdentifier->toXML($document));
 
         return $currentNode;
     }
@@ -74,16 +74,14 @@ class SellerParty
     {
         $partyElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
 
-        if (!$partyElements
-            || !$partyElements->item(0)
-            || 0 === $partyElements->count()) {
-            throw new \Exception('No SellerParty element found');
+        if (!$partyElements || 1 !== $partyElements->count()) {
+            throw new \Exception('Malformed');
         }
 
         /** @var \DOMElement $partyElement */
         $partyElement = $partyElements->item(0);
 
-        $endpointId = EndpointID::fromXML($xpath, $partyElement);
+        $endpointId = EndpointIdentifier::fromXML($xpath, $partyElement);
 
         $sellerPartyIdentifications = SellerPartyIdentification::fromXML($xpath, $partyElement);
 

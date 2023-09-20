@@ -33,7 +33,7 @@ class IssueDate
     {
         $issueDateTimeElement = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
 
-        if (!$issueDateTimeElement || !$issueDateTimeElement->item(0) || 1 !== $issueDateTimeElement->count()) {
+        if (!$issueDateTimeElement || 1 !== $issueDateTimeElement->count()) {
             throw new \Exception('Malformed');
         }
 

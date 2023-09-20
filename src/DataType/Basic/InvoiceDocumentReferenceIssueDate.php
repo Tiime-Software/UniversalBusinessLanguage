@@ -33,7 +33,7 @@ class InvoiceDocumentReferenceIssueDate
     {
         $issueDateElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
 
-        if (!$issueDateElements || !$issueDateElements->item(0) || 0 === $issueDateElements->count()) {
+        if (!$issueDateElements || 0 === $issueDateElements->count()) {
             return null;
         }
 

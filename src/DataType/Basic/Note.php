@@ -102,10 +102,12 @@ class Note
     {
         $noteElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
 
-        if (!$noteElements
-            || !$noteElements->item(0)
-            || 0 === $noteElements->count()) {
+        if (!$noteElements || 0 === $noteElements->count()) {
             return null;
+        }
+
+        if (1 < $noteElements->count()) {
+            throw new \Exception('Malformed');
         }
 
         /** @var \DOMElement $noteElement */

@@ -64,13 +64,7 @@ class InvoiceDocumentReference
     {
         $invoiceReferencedDocumentElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
 
-        if (!$invoiceReferencedDocumentElements
-            || !$invoiceReferencedDocumentElements->item(0)
-            || 0 === $invoiceReferencedDocumentElements->count()) {
-            throw new \Exception('No Invoice Document Reference found');
-        }
-
-        if ($invoiceReferencedDocumentElements->count() > 1) {
+        if (!$invoiceReferencedDocumentElements || 1 !== $invoiceReferencedDocumentElements->count()) {
             throw new \Exception('Malformed');
         }
 
@@ -79,9 +73,7 @@ class InvoiceDocumentReference
 
         $issuerAssignedIdentifierElements = $xpath->query('./cbc:ID', $invoiceReferencedDocumentElement);
 
-        if (!$issuerAssignedIdentifierElements
-            || !$issuerAssignedIdentifierElements->item(0)
-            || 1 !== $issuerAssignedIdentifierElements->count()) {
+        if (!$issuerAssignedIdentifierElements || 1 !== $issuerAssignedIdentifierElements->count()) {
             throw new \Exception('Malformed');
         }
 

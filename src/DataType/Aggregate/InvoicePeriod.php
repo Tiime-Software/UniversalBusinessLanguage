@@ -45,10 +45,12 @@ class InvoicePeriod
     {
         $invoicePeriodElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
 
-        if (!$invoicePeriodElements
-            || !$invoicePeriodElements->item(0)
-            || 0 === $invoicePeriodElements->count()) {
+        if (!$invoicePeriodElements || 0 === $invoicePeriodElements->count()) {
             return null;
+        }
+
+        if (1 < $invoicePeriodElements->count()) {
+            throw new \Exception('Malformed InvoicePeriod');
         }
 
         /** @var \DOMElement $invoicePeriodElement */

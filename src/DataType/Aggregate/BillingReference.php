@@ -36,8 +36,7 @@ class BillingReference
     {
         $billingReferenceElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
 
-        if (!$billingReferenceElements
-        || 0 === $billingReferenceElements->count()) {
+        if (!$billingReferenceElements || 0 === $billingReferenceElements->count()) {
             return [];
         }
 

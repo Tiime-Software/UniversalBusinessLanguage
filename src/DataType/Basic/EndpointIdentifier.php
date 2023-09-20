@@ -8,7 +8,7 @@ use Tiime\EN16931\DataType\Identifier\ElectronicAddressIdentifier;
 /**
  * BT-34.
  */
-class EndpointID extends ElectronicAddressIdentifier
+class EndpointIdentifier extends ElectronicAddressIdentifier
 {
     protected const XML_NODE = 'cbc:EndpointID';
 

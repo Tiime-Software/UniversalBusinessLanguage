@@ -33,7 +33,7 @@ class DueDate
     {
         $dueDateElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
 
-        if (!$dueDateElements || !$dueDateElements->item(0) || 0 === $dueDateElements->count()) {
+        if (!$dueDateElements || 0 === $dueDateElements->count()) {
             return null;
         }
 
