@@ -30,17 +30,15 @@ class EndpointIdentifier extends ElectronicAddressIdentifier
     {
         $endpointIDElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
 
-        if (!$endpointIDElements
-            || !$endpointIDElements->item(0)
-            || 0 === $endpointIDElements->count()) {
-            throw new \Exception('No EndpointID found');
+        if (1 !== $endpointIDElements->count()) {
+            throw new \Exception('Malformed');
         }
 
-        /** @var \DOMElement $endpointElement */
-        $endpointElement = $endpointIDElements->item(0);
-        $value           = (string) $endpointElement->nodeValue;
-        $scheme          = '' !== $endpointElement->getAttribute('schemeID') ?
-            ElectronicAddressScheme::tryFrom($endpointElement->getAttribute('schemeID')) : null;
+        /** @var \DOMElement $endpointItem */
+        $endpointItem = $endpointIDElements->item(0);
+        $value        = (string) $endpointItem->nodeValue;
+        $scheme       = '' !== $endpointItem->getAttribute('schemeID') ?
+            ElectronicAddressScheme::tryFrom($endpointItem->getAttribute('schemeID')) : null;
 
         if (!$scheme) {
             throw new \Exception('SchemeID invalid or not found');

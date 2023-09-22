@@ -102,7 +102,7 @@ class Note
     {
         $noteElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
 
-        if (!$noteElements || 0 === $noteElements->count()) {
+        if (0 === $noteElements->count()) {
             return null;
         }
 
@@ -110,16 +110,16 @@ class Note
             throw new \Exception('Malformed');
         }
 
-        /** @var \DOMElement $noteElement */
-        $noteElement = $noteElements->item(0);
-        $content     = (string) $noteElement->nodeValue;
+        /** @var \DOMElement $noteItem */
+        $noteItem = $noteElements->item(0);
+        $content  = (string) $noteItem->nodeValue;
 
         $note = new self($content);
 
-        $languageID = $noteElement->getAttribute('languageID');
+        $languageID = $noteItem->getAttribute('languageID');
         $note->setLanguageID($languageID);
 
-        $languageLocaleID = $noteElement->getAttribute('languageLocaleID');
+        $languageLocaleID = $noteItem->getAttribute('languageLocaleID');
         $note->setLanguageLocaleID($languageLocaleID);
 
         // @todo si nécessaire : rechercher (regex) le code entre ## si présent et l'affecter à subjectcode

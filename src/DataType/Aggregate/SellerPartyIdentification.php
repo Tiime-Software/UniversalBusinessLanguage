@@ -37,7 +37,7 @@ class SellerPartyIdentification extends SellerIdentifier
     {
         $partyIdentifications = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
 
-        if (!$partyIdentifications || 0 === $partyIdentifications->count()) {
+        if (0 === $partyIdentifications->count()) {
             return [];
         }
 

@@ -68,10 +68,10 @@ class InvoiceDocumentReference
             throw new \Exception('Malformed');
         }
 
-        /** @var \DOMElement $invoiceReferencedDocumentElement */
-        $invoiceReferencedDocumentElement = $invoiceReferencedDocumentElements->item(0);
+        /** @var \DOMElement $invoiceReferencedDocumentItem */
+        $invoiceReferencedDocumentItem = $invoiceReferencedDocumentElements->item(0);
 
-        $issuerAssignedIdentifierElements = $xpath->query('./cbc:ID', $invoiceReferencedDocumentElement);
+        $issuerAssignedIdentifierElements = $xpath->query('./cbc:ID', $invoiceReferencedDocumentItem);
 
         if (!$issuerAssignedIdentifierElements || 1 !== $issuerAssignedIdentifierElements->count()) {
             throw new \Exception('Malformed');
@@ -81,7 +81,7 @@ class InvoiceDocumentReference
 
         $invoiceReferencedDocument = new self(new PrecedingInvoiceReference($issuerAssignedIdentifier));
 
-        $issueDate = InvoiceDocumentReferenceIssueDate::fromXML($xpath, $invoiceReferencedDocumentElement);
+        $issueDate = InvoiceDocumentReferenceIssueDate::fromXML($xpath, $invoiceReferencedDocumentItem);
 
         if ($issueDate instanceof InvoiceDocumentReferenceIssueDate) {
             $invoiceReferencedDocument->setIssueDate($issueDate);

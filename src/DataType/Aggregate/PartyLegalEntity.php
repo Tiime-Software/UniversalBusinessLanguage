@@ -60,10 +60,10 @@ class PartyLegalEntity
             throw new \Exception('Malformed');
         }
 
-        /** @var \DOMElement $specifiedLegalOrganizationElement */
-        $specifiedLegalOrganizationElement = $specifiedLegalOrganizationElements->item(0);
+        /** @var \DOMElement $specifiedLegalOrganizationItem */
+        $specifiedLegalOrganizationItem = $specifiedLegalOrganizationElements->item(0);
 
-        $identifierElements = $xpath->query('./cbc:CompanyID', $specifiedLegalOrganizationElement);
+        $identifierElements = $xpath->query('./cbc:CompanyID', $specifiedLegalOrganizationItem);
 
         if ($identifierElements->count() > 1) {
             throw new \Exception('Malformed');
