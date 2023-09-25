@@ -23,12 +23,12 @@ class SellerParty
     /**
      * BT-30-00.
      */
-    private ?PartyLegalEntity $partyLegalEntity;
+    private ?SellerPartyLegalEntity $partyLegalEntity;
 
     /**
      * BT-31-00.
      */
-    private ?PartyTaxScheme $partyTaxScheme;
+    private ?SellerPartyTaxScheme $partyTaxScheme;
 
     public function __construct(EndpointIdentifier $endpointID)
     {
@@ -73,24 +73,24 @@ class SellerParty
         return $this;
     }
 
-    public function getPartyLegalEntity(): ?PartyLegalEntity
+    public function getPartyLegalEntity(): ?SellerPartyLegalEntity
     {
         return $this->partyLegalEntity;
     }
 
-    public function setPartyLegalEntity(?PartyLegalEntity $partyLegalEntity): static
+    public function setPartyLegalEntity(?SellerPartyLegalEntity $partyLegalEntity): static
     {
         $this->partyLegalEntity = $partyLegalEntity;
 
         return $this;
     }
 
-    public function getPartyTaxScheme(): ?PartyTaxScheme
+    public function getPartyTaxScheme(): ?SellerPartyTaxScheme
     {
         return $this->partyTaxScheme;
     }
 
-    public function setPartyTaxScheme(?PartyTaxScheme $partyTaxScheme): static
+    public function setPartyTaxScheme(?SellerPartyTaxScheme $partyTaxScheme): static
     {
         $this->partyTaxScheme = $partyTaxScheme;
 
@@ -103,11 +103,11 @@ class SellerParty
 
         $currentNode->appendChild($this->endpointIdentifier->toXML($document));
 
-        if ($this->partyLegalEntity instanceof PartyLegalEntity) {
+        if ($this->partyLegalEntity instanceof SellerPartyLegalEntity) {
             $currentNode->appendChild($this->partyLegalEntity->toXML($document));
         }
 
-        if ($this->partyTaxScheme instanceof PartyTaxScheme) {
+        if ($this->partyTaxScheme instanceof SellerPartyTaxScheme) {
             $currentNode->appendChild($this->partyTaxScheme->toXML($document));
         }
 
@@ -126,18 +126,18 @@ class SellerParty
         $partyItem                  = $partyElements->item(0);
         $endpointId                 = EndpointIdentifier::fromXML($xpath, $partyItem);
         $sellerPartyIdentifications = SellerPartyIdentification::fromXML($xpath, $partyItem);
-        $partyLegalEntity           = PartyLegalEntity::fromXML($xpath, $partyItem);
-        $partyTaxScheme             = PartyTaxScheme::fromXML($xpath, $partyItem);
+        $partyLegalEntity           = SellerPartyLegalEntity::fromXML($xpath, $partyItem);
+        $partyTaxScheme             = SellerPartyTaxScheme::fromXML($xpath, $partyItem);
 
         $party = new self($endpointId);
 
         $party->setSellerPartyIdentifications($sellerPartyIdentifications);
 
-        if ($partyLegalEntity instanceof PartyLegalEntity) {
+        if ($partyLegalEntity instanceof SellerPartyLegalEntity) {
             $party->setPartyLegalEntity($partyLegalEntity);
         }
 
-        if ($partyTaxScheme instanceof PartyTaxScheme) {
+        if ($partyTaxScheme instanceof SellerPartyTaxScheme) {
             $party->setPartyTaxScheme($partyTaxScheme);
         }
 

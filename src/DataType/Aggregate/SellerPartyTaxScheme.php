@@ -7,9 +7,9 @@ use Tiime\EN16931\DataType\Identifier\VatIdentifier;
 /**
  * BT-30. et BT-30-1.
  */
-class PartyTaxScheme
+class SellerPartyTaxScheme
 {
-    protected const XML_NODE = 'cac:PartyTaxScheme';
+    protected const XML_NODE = 'cac:SellerPartyTaxScheme';
 
     private VatIdentifier $companyIdentifier;
 

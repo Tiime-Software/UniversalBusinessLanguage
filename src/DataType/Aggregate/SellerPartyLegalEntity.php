@@ -8,9 +8,9 @@ use Tiime\EN16931\DataType\InternationalCodeDesignator;
 /**
  * BT-30. et BT-30-1.
  */
-class PartyLegalEntity
+class SellerPartyLegalEntity
 {
-    protected const XML_NODE = 'cac:PartyLegalEntity';
+    protected const XML_NODE = 'cac:SellerPartyLegalEntity';
 
     protected ?LegalRegistrationIdentifier $identifier;
 

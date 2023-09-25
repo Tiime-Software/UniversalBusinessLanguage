@@ -24,7 +24,7 @@ use Tiime\UniversalBusinessLanguage\DataType\Basic\TaxPointDate;
 
 class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
 {
-    private const XML_NODE = 'Invoice';
+    private const XML_NODE = 'ubl:Invoice';
 
     /**
      * BT-1.
