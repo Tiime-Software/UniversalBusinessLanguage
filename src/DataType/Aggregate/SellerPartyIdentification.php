@@ -6,7 +6,7 @@ use Tiime\EN16931\DataType\Identifier\SellerIdentifier;
 use Tiime\EN16931\DataType\InternationalCodeDesignator;
 
 /**
- * BT-29a. et BT-29a-1.
+ * BT-29.
  */
 class SellerPartyIdentification extends SellerIdentifier
 {

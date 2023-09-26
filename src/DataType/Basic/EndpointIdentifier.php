@@ -6,7 +6,7 @@ use Tiime\EN16931\DataType\ElectronicAddressScheme;
 use Tiime\EN16931\DataType\Identifier\ElectronicAddressIdentifier;
 
 /**
- * BT-34.
+ * BT-34. or BT-49.
  */
 class EndpointIdentifier extends ElectronicAddressIdentifier
 {

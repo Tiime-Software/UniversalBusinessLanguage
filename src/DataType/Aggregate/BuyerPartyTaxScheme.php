@@ -4,12 +4,12 @@ namespace Tiime\UniversalBusinessLanguage\DataType\Aggregate;
 
 use Tiime\EN16931\DataType\Identifier\VatIdentifier;
 
-class SellerPartyTaxScheme
+class BuyerPartyTaxScheme
 {
-    protected const XML_NODE = 'cac:PartyTaxScheme';
+    protected const XML_NODE = 'cac:BuyerPartyTaxScheme';
 
     /**
-     * BT-31.
+     * BT-48.
      */
     private VatIdentifier $companyIdentifier;
 
@@ -40,38 +40,30 @@ class SellerPartyTaxScheme
         return $currentNode;
     }
 
-    /**
-     * @return array<int, SellerPartyTaxScheme>
-     */
-    public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): array
+    public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): ?self
     {
         $partyTaxSchemeElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
 
         if (0 === $partyTaxSchemeElements->count()) {
-            return [];
+            return null;
         }
 
-        if ($partyTaxSchemeElements->count() > 2) {
+        if ($partyTaxSchemeElements->count() > 1) {
             throw new \Exception('Malformed');
         }
 
-        $partyTaxSchemes = [];
+        /** @var \DOMElement $partyTaxSchemeItem */
+        $partyTaxSchemeItem = $partyTaxSchemeElements->item(0);
 
-        /** @var \DOMElement $partyTaxSchemeElement */
-        foreach ($partyTaxSchemeElements as $partyTaxSchemeElement) {
-            $identifierElements = $xpath->query('./cbc:CompanyID', $partyTaxSchemeElement);
+        $companyIdentifierElements = $xpath->query('./cbc:CompanyID', $partyTaxSchemeItem);
 
-            if (1 !== $identifierElements->count()) {
-                throw new \Exception('Malformed');
-            }
-
-            $identifier = new VatIdentifier((string) $identifierElements->item(0)->nodeValue);
-
-            $taxScheme = TaxScheme::fromXML($xpath, $partyTaxSchemeElement);
-
-            $partyTaxSchemes[] = new self($identifier, $taxScheme);
+        if (1 !== $companyIdentifierElements->count()) {
+            throw new \Exception('Malformed');
         }
 
-        return $partyTaxSchemes;
+        $companyIdentifier = (string) $companyIdentifierElements->item(0)->nodeValue;
+        $taxScheme         = TaxScheme::fromXML($xpath, $partyTaxSchemeItem);
+
+        return new self(new VatIdentifier($companyIdentifier), $taxScheme);
     }
 }
