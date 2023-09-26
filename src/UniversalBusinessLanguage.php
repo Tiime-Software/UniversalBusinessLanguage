@@ -355,17 +355,13 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
      */
     public function setBillingReferences(array $billingReferences): static
     {
-        $tmpBillingReference = [];
-
         foreach ($billingReferences as $billingReference) {
             if (!$billingReference instanceof BillingReference) {
                 throw new \TypeError();
             }
-
-            $tmpBillingReference[] = $billingReference;
         }
 
-        $this->billingReferences = $tmpBillingReference;
+        $this->billingReferences = $billingReferences;
 
         return $this;
     }
@@ -385,17 +381,13 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
      */
     public function setAdditionalDocumentReferences(array $additionalDocumentReferences): static
     {
-        $tmpAdditionalDocumentReference = [];
-
         foreach ($additionalDocumentReferences as $additionalDocumentReference) {
             if (!$additionalDocumentReference instanceof AdditionalDocumentReference) {
                 throw new \TypeError();
             }
-
-            $tmpAdditionalDocumentReference[] = $additionalDocumentReference;
         }
 
-        $this->additionalDocumentReferences = $tmpAdditionalDocumentReference;
+        $this->additionalDocumentReferences = $additionalDocumentReferences;
 
         return $this;
     }

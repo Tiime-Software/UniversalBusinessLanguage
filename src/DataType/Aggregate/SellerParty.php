@@ -75,17 +75,13 @@ class SellerParty
      */
     public function setSellerPartyIdentifications(array $sellerPartyIdentifications): static
     {
-        $tmpSellerPartyIdentification = [];
-
         foreach ($sellerPartyIdentifications as $sellerPartyIdentification) {
             if (!$sellerPartyIdentification instanceof SellerPartyIdentification) {
                 throw new \TypeError();
             }
-
-            $tmpSellerPartyIdentification[] = $sellerPartyIdentification;
         }
 
-        $this->sellerPartyIdentifications = $tmpSellerPartyIdentification;
+        $this->sellerPartyIdentifications = $sellerPartyIdentifications;
 
         return $this;
     }
@@ -109,17 +105,13 @@ class SellerParty
 
     public function setPartyTaxSchemes(array $partyTaxSchemes): static
     {
-        $tmpPartyTaxScheme = [];
-
         foreach ($partyTaxSchemes as $partyTaxScheme) {
             if (!$partyTaxScheme instanceof SellerPartyTaxScheme) {
                 throw new \TypeError();
             }
-
-            $tmpPartyTaxScheme[] = $partyTaxScheme;
         }
 
-        $this->sellerPartyIdentifications = $tmpPartyTaxScheme;
+        $this->partyTaxSchemes = $partyTaxSchemes;
 
         return $this;
     }
