@@ -42,10 +42,10 @@ class DespatchDocumentReference
             throw new \Exception('Malformed');
         }
 
-        /** @var \DOMElement $despatchDocumentReferenceItem */
-        $despatchDocumentReferenceItem = $despatchDocumentReferenceElements->item(0);
+        /** @var \DOMElement $despatchDocumentReferenceElement */
+        $despatchDocumentReferenceElement = $despatchDocumentReferenceElements->item(0);
 
-        $identifierElements = $xpath->query('./cbc:ID', $despatchDocumentReferenceItem);
+        $identifierElements = $xpath->query('./cbc:ID', $despatchDocumentReferenceElement);
 
         if (1 !== $identifierElements->count()) {
             throw new \Exception('Malformed');

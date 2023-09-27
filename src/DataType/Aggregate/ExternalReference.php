@@ -42,10 +42,10 @@ class ExternalReference
             throw new \Exception('Malformed');
         }
 
-        /** @var \DOMElement $externalReferenceItem */
-        $externalReferenceItem = $externalReferenceElements->item(0);
+        /** @var \DOMElement $externalReferenceElement */
+        $externalReferenceElement = $externalReferenceElements->item(0);
 
-        $uriElements = $xpath->query('./cbc:URI', $externalReferenceItem);
+        $uriElements = $xpath->query('./cbc:URI', $externalReferenceElement);
 
         if (1 !== $uriElements->count()) {
             throw new \Exception('Malformed');

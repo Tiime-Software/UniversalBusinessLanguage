@@ -52,17 +52,17 @@ class BuyerPartyTaxScheme
             throw new \Exception('Malformed');
         }
 
-        /** @var \DOMElement $partyTaxSchemeItem */
-        $partyTaxSchemeItem = $partyTaxSchemeElements->item(0);
+        /** @var \DOMElement $partyTaxSchemeElement */
+        $partyTaxSchemeElement = $partyTaxSchemeElements->item(0);
 
-        $companyIdentifierElements = $xpath->query('./cbc:CompanyID', $partyTaxSchemeItem);
+        $companyIdentifierElements = $xpath->query('./cbc:CompanyID', $partyTaxSchemeElement);
 
         if (1 !== $companyIdentifierElements->count()) {
             throw new \Exception('Malformed');
         }
 
         $companyIdentifier = (string) $companyIdentifierElements->item(0)->nodeValue;
-        $taxScheme         = TaxScheme::fromXML($xpath, $partyTaxSchemeItem);
+        $taxScheme         = TaxScheme::fromXML($xpath, $partyTaxSchemeElement);
 
         return new self(new VatIdentifier($companyIdentifier), $taxScheme);
     }

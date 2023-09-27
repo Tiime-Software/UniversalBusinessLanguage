@@ -102,14 +102,14 @@ class InvoicePeriod
             throw new \Exception('Malformed InvoicePeriod');
         }
 
-        /** @var \DOMElement $invoicePeriodItem */
-        $invoicePeriodItem = $invoicePeriodElements->item(0);
+        /** @var \DOMElement $invoicePeriodElement */
+        $invoicePeriodElement = $invoicePeriodElements->item(0);
 
         $invoicePeriod = new self();
 
-        $descriptionCodeElements = $xpath->query('./cbc:DescriptionCode', $invoicePeriodItem);
-        $startDate               = InvoicePeriodStartDate::fromXML($xpath, $invoicePeriodItem);
-        $endDate                 = InvoicePeriodEndDate::fromXML($xpath, $invoicePeriodItem);
+        $descriptionCodeElements = $xpath->query('./cbc:DescriptionCode', $invoicePeriodElement);
+        $startDate               = InvoicePeriodStartDate::fromXML($xpath, $invoicePeriodElement);
+        $endDate                 = InvoicePeriodEndDate::fromXML($xpath, $invoicePeriodElement);
 
         if (1 === $descriptionCodeElements->count()) {
             $descriptionCode = DateCode2005::tryFrom((string) $descriptionCodeElements->item(0)->nodeValue);

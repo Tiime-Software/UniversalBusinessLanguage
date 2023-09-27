@@ -173,14 +173,14 @@ class PostalAddress
             throw new \Exception('Malformed');
         }
 
-        /** @var \DOMElement $postalAddressItem */
-        $postalAddressItem = $postalAddressElements->item(0);
+        /** @var \DOMElement $postalAddressElement */
+        $postalAddressElement = $postalAddressElements->item(0);
 
-        $country = Country::fromXML($xpath, $postalAddressItem);
+        $country = Country::fromXML($xpath, $postalAddressElement);
 
         $postalAddress = new self($country);
 
-        $streetNameElements = $xpath->query('./cbc:StreetName', $postalAddressItem);
+        $streetNameElements = $xpath->query('./cbc:StreetName', $postalAddressElement);
 
         if ($streetNameElements->count() > 1) {
             throw new \Exception('Malformed');
@@ -190,7 +190,7 @@ class PostalAddress
             $postalAddress->setStreetName((string) $streetNameElements->item(0)->nodeValue);
         }
 
-        $additionalStreetNameElements = $xpath->query('./cbc:AdditionalStreetName', $postalAddressItem);
+        $additionalStreetNameElements = $xpath->query('./cbc:AdditionalStreetName', $postalAddressElement);
 
         if ($additionalStreetNameElements->count() > 1) {
             throw new \Exception('Malformed');
@@ -200,7 +200,7 @@ class PostalAddress
             $postalAddress->setAdditionalStreetName((string) $additionalStreetNameElements->item(0)->nodeValue);
         }
 
-        $cityNameElements = $xpath->query('./cbc:CityName', $postalAddressItem);
+        $cityNameElements = $xpath->query('./cbc:CityName', $postalAddressElement);
 
         if ($cityNameElements->count() > 1) {
             throw new \Exception('Malformed');
@@ -210,7 +210,7 @@ class PostalAddress
             $postalAddress->setCityName((string) $cityNameElements->item(0)->nodeValue);
         }
 
-        $postalZoneElements = $xpath->query('./cbc:PostalZone', $postalAddressItem);
+        $postalZoneElements = $xpath->query('./cbc:PostalZone', $postalAddressElement);
 
         if ($postalZoneElements->count() > 1) {
             throw new \Exception('Malformed');
@@ -220,7 +220,7 @@ class PostalAddress
             $postalAddress->setPostalZone((string) $postalZoneElements->item(0)->nodeValue);
         }
 
-        $addressLine = AddressLine::fromXML($xpath, $postalAddressItem);
+        $addressLine = AddressLine::fromXML($xpath, $postalAddressElement);
 
         if ($addressLine instanceof AddressLine) {
             $postalAddress->setAddressLine($addressLine);

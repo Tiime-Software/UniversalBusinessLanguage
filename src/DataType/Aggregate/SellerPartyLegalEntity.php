@@ -103,10 +103,10 @@ class SellerPartyLegalEntity
 
         $registrationName = $registrationNameElements->item(0)->nodeValue;
 
-        /** @var \DOMElement $sellerPartyLegalEntityItem */
-        $sellerPartyLegalEntityItem = $sellerPartyLegalEntityElements->item(0);
+        /** @var \DOMElement $sellerPartyLegalEntityElement */
+        $sellerPartyLegalEntityElement = $sellerPartyLegalEntityElements->item(0);
 
-        $identifierElements = $xpath->query('./cbc:CompanyID', $sellerPartyLegalEntityItem);
+        $identifierElements = $xpath->query('./cbc:CompanyID', $sellerPartyLegalEntityElement);
 
         if ($identifierElements->count() > 1) {
             throw new \Exception('Malformed');
@@ -115,14 +115,14 @@ class SellerPartyLegalEntity
         $sellerPartyLegalEntity = new self($registrationName);
 
         if (1 === $identifierElements->count()) {
-            /** @var \DOMElement $identifierItem */
-            $identifierItem = $identifierElements->item(0);
-            $identifier     = (string) $identifierItem->nodeValue;
+            /** @var \DOMElement $identifierElement */
+            $identifierElement = $identifierElements->item(0);
+            $identifier        = (string) $identifierElement->nodeValue;
 
             $scheme = null;
 
-            if ($identifierItem->hasAttribute('schemeID')) {
-                $scheme = InternationalCodeDesignator::tryFrom($identifierItem->getAttribute('schemeID'));
+            if ($identifierElement->hasAttribute('schemeID')) {
+                $scheme = InternationalCodeDesignator::tryFrom($identifierElement->getAttribute('schemeID'));
 
                 if (!$scheme instanceof InternationalCodeDesignator) {
                     throw new \Exception('Wrong schemeID');
@@ -132,7 +132,7 @@ class SellerPartyLegalEntity
             $sellerPartyLegalEntity->setIdentifier(new LegalRegistrationIdentifier($identifier, $scheme));
         }
 
-        $companyLegalFormElements = $xpath->query('./cbc:CompanyLegalForm', $sellerPartyLegalEntityItem);
+        $companyLegalFormElements = $xpath->query('./cbc:CompanyLegalForm', $sellerPartyLegalEntityElement);
 
         if ($companyLegalFormElements->count() > 1) {
             throw new \Exception('Malformed');

@@ -35,10 +35,10 @@ class TaxScheme
             throw new \Exception('Malformed');
         }
 
-        /** @var \DOMElement $orderReferenceItem */
-        $taxSchemeItem = $taxSchemeElements->item(0);
+        /** @var \DOMElement $taxSchemeElement */
+        $taxSchemeElement = $taxSchemeElements->item(0);
 
-        $identifierElements = $xpath->query('./cbc:ID', $taxSchemeItem);
+        $identifierElements = $xpath->query('./cbc:ID', $taxSchemeElement);
 
         if (1 !== $identifierElements->count()) {
             throw new \Exception('Malformed');

@@ -35,10 +35,10 @@ class AccountingCustomerParty
             throw new \Exception('Malformed');
         }
 
-        /** @var \DOMElement $accountingCustomerPartyItem */
-        $accountingCustomerPartyItem = $accountingCustomerPartyElements->item(0);
+        /** @var \DOMElement $accountingCustomerPartyElement */
+        $accountingCustomerPartyElement = $accountingCustomerPartyElements->item(0);
 
-        $party = BuyerParty::fromXML($xpath, $accountingCustomerPartyItem);
+        $party = BuyerParty::fromXML($xpath, $accountingCustomerPartyElement);
 
         return new self($party);
     }

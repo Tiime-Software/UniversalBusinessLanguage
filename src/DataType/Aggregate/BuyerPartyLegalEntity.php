@@ -81,10 +81,10 @@ class BuyerPartyLegalEntity
 
         $registrationName = $registrationNameElements->item(0)->nodeValue;
 
-        /** @var \DOMElement $buyerPartyLegalEntityItem */
-        $buyerPartyLegalEntityItem = $buyerPartyLegalEntityElements->item(0);
+        /** @var \DOMElement $buyerPartyLegalEntityElement */
+        $buyerPartyLegalEntityElement = $buyerPartyLegalEntityElements->item(0);
 
-        $identifierElements = $xpath->query('./cbc:CompanyID', $buyerPartyLegalEntityItem);
+        $identifierElements = $xpath->query('./cbc:CompanyID', $buyerPartyLegalEntityElement);
 
         if ($identifierElements->count() > 1) {
             throw new \Exception('Malformed');
@@ -93,14 +93,14 @@ class BuyerPartyLegalEntity
         $buyerPartyLegalEntity = new self($registrationName);
 
         if (1 === $identifierElements->count()) {
-            /** @var \DOMElement $identifierItem */
-            $identifierItem = $identifierElements->item(0);
-            $identifier     = (string) $identifierItem->nodeValue;
+            /** @var \DOMElement $identifierElement */
+            $identifierElement = $identifierElements->item(0);
+            $identifier        = (string) $identifierElement->nodeValue;
 
             $scheme = null;
 
-            if ($identifierItem->hasAttribute('schemeID')) {
-                $scheme = InternationalCodeDesignator::tryFrom($identifierItem->getAttribute('schemeID'));
+            if ($identifierElement->hasAttribute('schemeID')) {
+                $scheme = InternationalCodeDesignator::tryFrom($identifierElement->getAttribute('schemeID'));
 
                 if (!$scheme instanceof InternationalCodeDesignator) {
                     throw new \Exception('Wrong schemeID');

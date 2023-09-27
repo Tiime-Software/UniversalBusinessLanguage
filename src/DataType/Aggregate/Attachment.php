@@ -77,11 +77,11 @@ class Attachment
             throw new \Exception('Malformed');
         }
 
-        /** @var \DOMElement $attachmentItem */
-        $attachmentItem = $attachmentElements->item(0);
+        /** @var \DOMElement $attachmentElement */
+        $attachmentElement = $attachmentElements->item(0);
 
-        $embeddedDocumentBinaryObjectElements = $xpath->query('./cbc:EmbeddedDocumentBinaryObject', $attachmentItem);
-        $externalReference                    = ExternalReference::fromXML($xpath, $attachmentItem);
+        $embeddedDocumentBinaryObjectElements = $xpath->query('./cbc:EmbeddedDocumentBinaryObject', $attachmentElement);
+        $externalReference                    = ExternalReference::fromXML($xpath, $attachmentElement);
 
         if (1 < $embeddedDocumentBinaryObjectElements->count()) {
             throw new \Exception('Malformed');
@@ -90,16 +90,18 @@ class Attachment
         $attachment = new self();
 
         if (1 === $embeddedDocumentBinaryObjectElements->count()) {
-            $embeddedDocumentBinaryObjectItem = $embeddedDocumentBinaryObjectElements->item(0);
-            $content                          = $embeddedDocumentBinaryObjectItem->nodeValue;
+            /** @var \DOMElement $embeddedDocumentBinaryObjectElement */
+            $embeddedDocumentBinaryObjectElement = $embeddedDocumentBinaryObjectElements->item(0);
 
-            $mimeCode = MimeCode::tryFrom($embeddedDocumentBinaryObjectItem->getAttribute('mimeCode'));
+            $content                          = $embeddedDocumentBinaryObjectElement->nodeValue;
+
+            $mimeCode = MimeCode::tryFrom($embeddedDocumentBinaryObjectElement->getAttribute('mimeCode'));
 
             if (!$mimeCode instanceof MimeCode) {
                 throw new \Exception('Wrong mimeCode');
             }
 
-            $filename = $embeddedDocumentBinaryObjectItem->getAttribute('filename');
+            $filename = $embeddedDocumentBinaryObjectElement->getAttribute('filename');
 
             $attachment->setEmbeddedDocumentBinaryObject(new BinaryObject($content, $mimeCode, $filename));
         }

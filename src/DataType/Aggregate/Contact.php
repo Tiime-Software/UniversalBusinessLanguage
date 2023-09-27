@@ -98,22 +98,22 @@ class Contact
             throw new \Exception('Malformed');
         }
 
-        /** @var \DOMElement $universalBusinessLanguageElement */
-        $contactItem = $contactElements->item(0);
+        /** @var \DOMElement $contactElement */
+        $contactElement = $contactElements->item(0);
 
-        $nameElements = $xpath->query('./cbc:Name', $contactItem);
+        $nameElements = $xpath->query('./cbc:Name', $contactElement);
 
         if ($nameElements->count() > 1) {
             throw new \Exception('Malformed');
         }
 
-        $telephoneElements = $xpath->query('./cbc:Name', $contactItem);
+        $telephoneElements = $xpath->query('./cbc:Telephone', $contactElement);
 
         if ($telephoneElements->count() > 1) {
             throw new \Exception('Malformed');
         }
 
-        $electronicMailElements = $xpath->query('./cbc:Name', $contactItem);
+        $electronicMailElements = $xpath->query('./cbc:ElectronicMail', $contactElement);
 
         if ($electronicMailElements->count() > 1) {
             throw new \Exception('Malformed');

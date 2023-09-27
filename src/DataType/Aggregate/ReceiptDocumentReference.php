@@ -42,10 +42,10 @@ class ReceiptDocumentReference
             throw new \Exception('Malformed');
         }
 
-        /** @var \DOMElement $receiptDocumentReferenceItem */
-        $receiptDocumentReferenceItem = $receiptDocumentReferenceElements->item(0);
+        /** @var \DOMElement $receiptDocumentReferenceElement */
+        $receiptDocumentReferenceElement = $receiptDocumentReferenceElements->item(0);
 
-        $identifierElements = $xpath->query('./cbc:ID', $receiptDocumentReferenceItem);
+        $identifierElements = $xpath->query('./cbc:ID', $receiptDocumentReferenceElement);
 
         if (1 !== $identifierElements->count()) {
             throw new \Exception('Malformed');

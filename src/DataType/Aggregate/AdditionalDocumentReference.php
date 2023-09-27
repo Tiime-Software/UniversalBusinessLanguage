@@ -136,12 +136,12 @@ class AdditionalDocumentReference
                 throw new \Exception('Malformed');
             }
 
-            /** @var \DOMNode $identifierItem */
-            $identifierItem = $identifierElements->item(0);
-            $scheme         = '' !== $identifierItem->getAttribute('schemeID') ?
-                ObjectSchemeCode::tryFrom($identifierItem->getAttribute('schemeID')) : null;
+            /** @var \DOMNode $identifierElement */
+            $identifierElement = $identifierElements->item(0);
+            $scheme            = $identifierElement->hasAttribute('schemeID') ?
+                ObjectSchemeCode::tryFrom($identifierElement->getAttribute('schemeID')) : null;
 
-            $identifier = (string) $identifierItem->nodeValue;
+            $identifier = (string) $identifierElement->nodeValue;
 
             $additionalDocumentReference = new self(new ObjectIdentifier($identifier, $scheme));
 

@@ -76,11 +76,11 @@ class OrderReference
             throw new \Exception('Malformed');
         }
 
-        /** @var \DOMElement $orderReferenceItem */
-        $orderReferenceItem = $orderReferenceElements->item(0);
+        /** @var \DOMElement $orderReferenceElement */
+        $orderReferenceElement = $orderReferenceElements->item(0);
 
-        $identifierElements           = $xpath->query('./cbc:ID', $orderReferenceItem);
-        $salesOrderIdentifierElements = $xpath->query('./cbc:SalesOrderID', $orderReferenceItem);
+        $identifierElements           = $xpath->query('./cbc:ID', $orderReferenceElement);
+        $salesOrderIdentifierElements = $xpath->query('./cbc:SalesOrderID', $orderReferenceElement);
 
         if (1 !== $identifierElements->count()) {
             throw new \Exception('Malformed');

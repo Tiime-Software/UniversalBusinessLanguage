@@ -42,10 +42,10 @@ class OriginatorDocumentReference
             throw new \Exception('Malformed');
         }
 
-        /** @var \DOMElement $originatorDocumentReferenceItem */
-        $originatorDocumentReferenceItem = $originatorDocumentReferenceElements->item(0);
+        /** @var \DOMElement $originatorDocumentReferenceElement */
+        $originatorDocumentReferenceElement = $originatorDocumentReferenceElements->item(0);
 
-        $identifierElements = $xpath->query('./cbc:ID', $originatorDocumentReferenceItem);
+        $identifierElements = $xpath->query('./cbc:ID', $originatorDocumentReferenceElement);
 
         if (1 !== $identifierElements->count()) {
             throw new \Exception('Malformed');

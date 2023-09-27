@@ -51,11 +51,11 @@ class BuyerPartyIdentification
             throw new \Exception('Malformed');
         }
 
-        /** @var \DOMElement $partyIdentificationItem */
-        $identifierItem = $identifierElements->item(0);
-        $value          = (string) $identifierItem->nodeValue;
-        $scheme         = '' !== $identifierItem->getAttribute('schemeID') ?
-            InternationalCodeDesignator::tryFrom($identifierItem->getAttribute('schemeID')) : null;
+        /** @var \DOMElement $identifierElement */
+        $identifierElement = $identifierElements->item(0);
+        $value             = (string) $identifierElement->nodeValue;
+        $scheme            = $identifierElement->hasAttribute('schemeID') ?
+            InternationalCodeDesignator::tryFrom($identifierElement->getAttribute('schemeID')) : null;
 
         $identifier = new BuyerIdentifier($value, $scheme);
 

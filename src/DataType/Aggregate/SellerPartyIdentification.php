@@ -46,7 +46,7 @@ class SellerPartyIdentification extends SellerIdentifier
         /** @var \DOMElement $partyIdentification */
         foreach ($partyIdentifications as $partyIdentification) {
             $sellerGlobalIdentifier = (string) $partyIdentification->nodeValue;
-            $scheme                 = '' !== $partyIdentification->getAttribute('schemeID') ?
+            $scheme                 = $partyIdentification->hasAttribute('schemeID') ?
                 InternationalCodeDesignator::tryFrom($partyIdentification->getAttribute('schemeID')) : null;
 
             if (null === $scheme) {

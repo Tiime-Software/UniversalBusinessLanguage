@@ -158,16 +158,16 @@ class BuyerParty
             throw new \Exception('Malformed');
         }
 
-        /** @var \DOMElement $partyItem */
-        $partyItem = $partyElements->item(0);
+        /** @var \DOMElement $partyElement */
+        $partyElement = $partyElements->item(0);
 
-        $endpointId               = EndpointIdentifier::fromXML($xpath, $partyItem);
-        $buyerPartyIdentification = BuyerPartyIdentification::fromXML($xpath, $partyItem);
-        $partyLegalEntity         = BuyerPartyLegalEntity::fromXML($xpath, $partyItem);
-        $partyTaxScheme           = BuyerPartyTaxScheme::fromXML($xpath, $partyItem);
-        $partyName                = PartyName::fromXML($xpath, $partyItem);
-        $postalAddress            = PostalAddress::fromXML($xpath, $partyItem);
-        $contact                  = Contact::fromXML($xpath, $partyItem);
+        $endpointId               = EndpointIdentifier::fromXML($xpath, $partyElement);
+        $buyerPartyIdentification = BuyerPartyIdentification::fromXML($xpath, $partyElement);
+        $partyLegalEntity         = BuyerPartyLegalEntity::fromXML($xpath, $partyElement);
+        $partyTaxScheme           = BuyerPartyTaxScheme::fromXML($xpath, $partyElement);
+        $partyName                = PartyName::fromXML($xpath, $partyElement);
+        $postalAddress            = PostalAddress::fromXML($xpath, $partyElement);
+        $contact                  = Contact::fromXML($xpath, $partyElement);
 
         $party = new self($endpointId, $postalAddress);
 

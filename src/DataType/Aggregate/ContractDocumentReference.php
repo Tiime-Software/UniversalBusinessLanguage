@@ -42,10 +42,10 @@ class ContractDocumentReference
             throw new \Exception('Malformed');
         }
 
-        /** @var \DOMElement $contractDocumentReferenceItem */
-        $contractDocumentReferenceItem = $contractDocumentReferenceElements->item(0);
+        /** @var \DOMElement $contractDocumentReferenceElement */
+        $contractDocumentReferenceElement = $contractDocumentReferenceElements->item(0);
 
-        $identifierElements = $xpath->query('./cbc:ID', $contractDocumentReferenceItem);
+        $identifierElements = $xpath->query('./cbc:ID', $contractDocumentReferenceElement);
 
         if (1 !== $identifierElements->count()) {
             throw new \Exception('Malformed');

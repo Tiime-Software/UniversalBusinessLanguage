@@ -42,10 +42,10 @@ class AddressLine
             throw new \Exception('Malformed');
         }
 
-        /** @var \DOMElement $countryItem */
-        $countryItem = $countryElements->item(0);
+        /** @var \DOMElement $countryElement */
+        $countryElement = $countryElements->item(0);
 
-        $lineElements = $xpath->query('./cbc:Line', $countryItem);
+        $lineElements = $xpath->query('./cbc:Line', $countryElement);
 
         if (1 !== $lineElements->count()) {
             throw new \Exception('Malformed');

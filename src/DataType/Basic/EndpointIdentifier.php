@@ -34,11 +34,11 @@ class EndpointIdentifier extends ElectronicAddressIdentifier
             throw new \Exception('Malformed');
         }
 
-        /** @var \DOMElement $endpointItem */
-        $endpointItem = $endpointIDElements->item(0);
-        $value        = (string) $endpointItem->nodeValue;
-        $scheme       = '' !== $endpointItem->getAttribute('schemeID') ?
-            ElectronicAddressScheme::tryFrom($endpointItem->getAttribute('schemeID')) : null;
+        /** @var \DOMElement $endpointElement */
+        $endpointElement = $endpointIDElements->item(0);
+        $value        = (string) $endpointElement->nodeValue;
+        $scheme       = $endpointElement->hasAttribute('schemeID') ?
+            ElectronicAddressScheme::tryFrom($endpointElement->getAttribute('schemeID')) : null;
 
         if (!$scheme) {
             throw new \Exception('SchemeID invalid or not found');

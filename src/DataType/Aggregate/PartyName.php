@@ -42,10 +42,10 @@ class PartyName
             throw new \Exception('Malformed');
         }
 
-        /** @var \DOMElement $partyNameItem */
-        $partyNameItem = $partyNameElements->item(0);
+        /** @var \DOMElement $partyNameElement */
+        $partyNameElement = $partyNameElements->item(0);
 
-        $nameElements = $xpath->query('./cbc:Name', $partyNameItem);
+        $nameElements = $xpath->query('./cbc:Name', $partyNameElement);
 
         if (1 !== $nameElements->count()) {
             throw new \Exception('Malformed');

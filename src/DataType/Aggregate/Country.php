@@ -40,10 +40,10 @@ class Country
             throw new \Exception('Malformed');
         }
 
-        /** @var \DOMElement $countryItem */
-        $countryItem = $countryElements->item(0);
+        /** @var \DOMElement $countryElement */
+        $countryElement = $countryElements->item(0);
 
-        $identificationCodeElements = $xpath->query('./cbc:IdentificationCode', $countryItem);
+        $identificationCodeElements = $xpath->query('./cbc:IdentificationCode', $countryElement);
 
         if (1 !== $identificationCodeElements->count()) {
             throw new \Exception('Malformed');

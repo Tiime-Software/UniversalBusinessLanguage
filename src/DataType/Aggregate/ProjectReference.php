@@ -42,10 +42,10 @@ class ProjectReference
             throw new \Exception('Malformed');
         }
 
-        /** @var \DOMElement $projectReferenceItem */
-        $projectReferenceItem = $projectReferenceElements->item(0);
+        /** @var \DOMElement $projectReferenceElement */
+        $projectReferenceElement = $projectReferenceElements->item(0);
 
-        $identifierElements = $xpath->query('./cbc:ID', $projectReferenceItem);
+        $identifierElements = $xpath->query('./cbc:ID', $projectReferenceElement);
 
         if (1 !== $identifierElements->count()) {
             throw new \Exception('Malformed');
