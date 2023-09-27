@@ -25,7 +25,7 @@
     },
     "authors": [],
     "scripts": {
-        "test": "vendor/bin/phpunit tests --display-warnings",
+        "test": "vendor/bin/phpunit tests --display-warnings --bootstrap vendor/autoload.php",
         "fix-cs": "vendor/bin/php-cs-fixer fix src",
         "phpstan": "vendor/bin/phpstan analyse -l 9 src tests"
     },
