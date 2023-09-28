@@ -23,16 +23,10 @@ class Note
      */
     private ?InvoiceNoteCode $subjectCode;
 
-    private ?string $languageIdentifier;
-
-    private ?string $languageLocaleIdentifier;
-
     public function __construct(string $content)
     {
-        $this->content                  = $content;
-        $this->subjectCode              = null;
-        $this->languageIdentifier       = null;
-        $this->languageLocaleIdentifier = null;
+        $this->content     = $content;
+        $this->subjectCode = null;
     }
 
     public function getContent(): string
@@ -52,30 +46,6 @@ class Note
         return $this;
     }
 
-    public function getLanguageIdentifier(): ?string
-    {
-        return $this->languageIdentifier;
-    }
-
-    public function setLanguageIdentifier(?string $languageIdentifier): static
-    {
-        $this->languageIdentifier = $languageIdentifier;
-
-        return $this;
-    }
-
-    public function getLanguageLocaleIdentifier(): ?string
-    {
-        return $this->languageLocaleIdentifier;
-    }
-
-    public function setLanguageLocaleIdentifier(?string $languageLocaleIdentifier): static
-    {
-        $this->languageLocaleIdentifier = $languageLocaleIdentifier;
-
-        return $this;
-    }
-
     public function toXML(\DOMDocument $document): \DOMElement
     {
         $content = '';
@@ -86,14 +56,6 @@ class Note
         $content .= $this->content;
 
         $currentNode = $document->createElement(self::XML_NODE, $content);
-
-        if ($this->languageIdentifier) {
-            $currentNode->setAttribute('languageID', $this->languageIdentifier);
-        }
-
-        if ($this->languageLocaleIdentifier) {
-            $currentNode->setAttribute('languageLocaleID', $this->languageLocaleIdentifier);
-        }
 
         return $currentNode;
     }
@@ -110,28 +72,10 @@ class Note
             throw new \Exception('Malformed');
         }
 
-        /** @var \DOMElement $noteElement */
-        $noteElement = $noteElements->item(0);
-        $content     = (string) $noteElement->nodeValue;
-
-        $note = new self($content);
-
-        $languageIdentifier = $noteElement->hasAttribute('languageID') ?
-            $noteElement->getAttribute('languageID') : null;
-
-        if (\is_string($languageIdentifier)) {
-            $note->setLanguageIdentifier($languageIdentifier);
-        }
-
-        $languageLocaleIdentifier = $noteElement->hasAttribute('languageLocaleID') ?
-            $noteElement->getAttribute('languageLocaleID') : null;
-
-        if (\is_string($languageLocaleIdentifier)) {
-            $note->setLanguageLocaleIdentifier($languageLocaleIdentifier);
-        }
+        $content = (string) $noteElements->item(0)->nodeValue;
 
         // @todo si nécessaire : rechercher (regex) le code entre ## si présent et l'affecter à subjectcode
 
-        return $note;
+        return new self($content);
     }
 }
