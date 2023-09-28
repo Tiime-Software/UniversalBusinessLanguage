@@ -1,6 +1,6 @@
 <?php
 
-namespace TiimePDP\UniversalBusinessLanguage\Tests\helpers;
+namespace Tiime\UniversalBusinessLanguage\Tests\helpers;
 
 use PHPUnit\Framework\TestCase;
 

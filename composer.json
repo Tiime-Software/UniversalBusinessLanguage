@@ -20,7 +20,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "TiimePDP\\UniversalBusinessLanguage\\Tests\\": "tests/"
+            "Tiime\\UniversalBusinessLanguage\\Tests\\": "tests/"
         }
     },
     "authors": [],

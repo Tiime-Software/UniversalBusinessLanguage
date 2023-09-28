@@ -1,9 +1,9 @@
 <?php
 
-namespace TiimePDP\UniversalBusinessLanguage\Tests\unit\Basic;
+namespace Tiime\UniversalBusinessLanguage\Tests\unit\Basic;
 
 use Tiime\UniversalBusinessLanguage\DataType\Basic\IssueDate;
-use TiimePDP\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
+use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
 class IssueDateTest extends BaseXMLNodeTestWithHelpers
 {
