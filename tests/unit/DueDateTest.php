@@ -74,6 +74,4 @@ XMLCONTENT;
         $generatedOutput = $this->formatXMLOutput();
         $this->assertEquals(self::XML_REFERENCE, $generatedOutput);
     }
-
-
 }
