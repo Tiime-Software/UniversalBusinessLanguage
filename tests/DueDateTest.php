@@ -12,7 +12,8 @@ XMLCONTENT;
 
     protected const XML_REFERENCE = <<<XMLCONTENT
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
-<cbc:DueDate>2023-01-02</cbc:DueDate></Invoice>
+  <cbc:DueDate>2023-01-02</cbc:DueDate>
+</Invoice>
 XMLCONTENT;
 
     protected const XML_VALID_DATE = <<<XMLCONTENT
@@ -83,11 +84,11 @@ XMLCONTENT;
         $ublObject = DueDate::fromXML($this->xpath, $currentElement);
         $rootDestination = $this->loadXMLDocument(self::XML_ROOT);
         $rootDestination->appendChild($ublObject->toXML($this->document));
-        $generatedOutput = $this->document->saveXml($this->document->documentElement, LIBXML_NOEMPTYTAG);
+        $generatedOutput = $this->formatXMLOutput();
         $this->assertEquals(self::XML_REFERENCE, $generatedOutput);
     }
 
-    protected function loadXMLDocument($xmlSource): \DOMElement
+    protected function loadXMLDocument(string $xmlSource): \DOMElement
     {
         $this->document = new \DOMDocument('1.0', 'UTF-8');
         $this->document->preserveWhiteSpace = false;
@@ -98,5 +99,15 @@ XMLCONTENT;
         $this->xpath = new \DOMXPath($this->document);
 
         return $this->document->documentElement;
+    }
+
+    protected function formatXMLOutput(): string
+    {
+        $tmpDocument = new \DOMDocument('1.0', 'UTF-8');
+        $tmpDocument->preserveWhiteSpace = false;
+        $tmpDocument->formatOutput = true;
+        $tmpDocument->loadXML($this->document->saveXml());
+
+        return $tmpDocument->saveXml($tmpDocument->documentElement, LIBXML_NOEMPTYTAG);
     }
 }
