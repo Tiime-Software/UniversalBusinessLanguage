@@ -185,7 +185,7 @@ class SellerParty
         }
 
         /** @var \DOMElement $partyElement */
-        $partyElement                  = $partyElements->item(0);
+        $partyElement = $partyElements->item(0);
 
         $endpointId                 = EndpointIdentifier::fromXML($xpath, $partyElement);
         $sellerPartyIdentifications = SellerPartyIdentification::fromXML($xpath, $partyElement);

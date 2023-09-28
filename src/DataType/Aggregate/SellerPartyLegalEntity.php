@@ -95,23 +95,26 @@ class SellerPartyLegalEntity
             throw new \Exception('Malformed');
         }
 
-        $registrationNameElements = $xpath->query('./cbc:RegistrationName', $sellerPartyLegalEntityElements);
+        /** @var \DOMElement $sellerPartyLegalEntityElement */
+        $sellerPartyLegalEntityElement = $sellerPartyLegalEntityElements->item(0);
+
+        $registrationNameElements = $xpath->query('./cbc:RegistrationName', $sellerPartyLegalEntityElement);
+        $identifierElements       = $xpath->query('./cbc:CompanyID', $sellerPartyLegalEntityElement);
+        $companyLegalFormElements = $xpath->query('./cbc:CompanyLegalForm', $sellerPartyLegalEntityElement);
 
         if (1 !== $registrationNameElements->count()) {
             throw new \Exception('Malformed');
         }
 
-        $registrationName = $registrationNameElements->item(0)->nodeValue;
-
-        /** @var \DOMElement $sellerPartyLegalEntityElement */
-        $sellerPartyLegalEntityElement = $sellerPartyLegalEntityElements->item(0);
-
-        $identifierElements = $xpath->query('./cbc:CompanyID', $sellerPartyLegalEntityElement);
-
         if ($identifierElements->count() > 1) {
             throw new \Exception('Malformed');
         }
 
+        if ($companyLegalFormElements->count() > 1) {
+            throw new \Exception('Malformed');
+        }
+
+        $registrationName       = $registrationNameElements->item(0)->nodeValue;
         $sellerPartyLegalEntity = new self($registrationName);
 
         if (1 === $identifierElements->count()) {
@@ -130,12 +133,6 @@ class SellerPartyLegalEntity
             }
 
             $sellerPartyLegalEntity->setIdentifier(new LegalRegistrationIdentifier($identifier, $scheme));
-        }
-
-        $companyLegalFormElements = $xpath->query('./cbc:CompanyLegalForm', $sellerPartyLegalEntityElement);
-
-        if ($companyLegalFormElements->count() > 1) {
-            throw new \Exception('Malformed');
         }
 
         if (1 === $companyLegalFormElements->count()) {

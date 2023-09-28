@@ -2,24 +2,24 @@
 
 namespace Tiime\UniversalBusinessLanguage\DataType\Aggregate;
 
-use Tiime\EN16931\DataType\Identifier\BuyerIdentifier;
+use Tiime\EN16931\DataType\Identifier\PayeeIdentifier;
 use Tiime\EN16931\DataType\InternationalCodeDesignator;
 
-/**
- * BT-46.
- */
-class BuyerPartyIdentification
+class PayeePartyIdentification
 {
     protected const XML_NODE = 'cac:PartyIdentification';
 
-    private BuyerIdentifier $buyerIdentifier;
+    /**
+     * BT-60.
+     */
+    private PayeeIdentifier $buyerIdentifier;
 
-    public function __construct(BuyerIdentifier $buyerIdentifier)
+    public function __construct(PayeeIdentifier $buyerIdentifier)
     {
         $this->buyerIdentifier = $buyerIdentifier;
     }
 
-    public function getBuyerIdentifier(): BuyerIdentifier
+    public function getBuyerIdentifier(): PayeeIdentifier
     {
         return $this->buyerIdentifier;
     }
@@ -61,7 +61,7 @@ class BuyerPartyIdentification
         $scheme            = $identifierElement->hasAttribute('schemeID') ?
             InternationalCodeDesignator::tryFrom($identifierElement->getAttribute('schemeID')) : null;
 
-        $identifier = new BuyerIdentifier($value, $scheme);
+        $identifier = new PayeeIdentifier($value, $scheme);
 
         return new self($identifier);
     }

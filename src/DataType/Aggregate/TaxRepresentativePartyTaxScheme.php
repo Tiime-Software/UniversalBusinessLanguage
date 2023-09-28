@@ -4,12 +4,12 @@ namespace Tiime\UniversalBusinessLanguage\DataType\Aggregate;
 
 use Tiime\EN16931\DataType\Identifier\VatIdentifier;
 
-class BuyerPartyTaxScheme
+class TaxRepresentativePartyTaxScheme
 {
     protected const XML_NODE = 'cac:PartyTaxScheme';
 
     /**
-     * BT-48.
+     * BT-63.
      */
     private VatIdentifier $companyIdentifier;
 
@@ -44,11 +44,7 @@ class BuyerPartyTaxScheme
     {
         $partyTaxSchemeElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
 
-        if (0 === $partyTaxSchemeElements->count()) {
-            return null;
-        }
-
-        if ($partyTaxSchemeElements->count() > 1) {
+        if (1 !== $partyTaxSchemeElements->count()) {
             throw new \Exception('Malformed');
         }
 

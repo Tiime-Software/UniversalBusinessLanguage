@@ -93,7 +93,7 @@ class Attachment
             /** @var \DOMElement $embeddedDocumentBinaryObjectElement */
             $embeddedDocumentBinaryObjectElement = $embeddedDocumentBinaryObjectElements->item(0);
 
-            $content                          = $embeddedDocumentBinaryObjectElement->nodeValue;
+            $content = $embeddedDocumentBinaryObjectElement->nodeValue;
 
             $mimeCode = MimeCode::tryFrom($embeddedDocumentBinaryObjectElement->getAttribute('mimeCode'));
 

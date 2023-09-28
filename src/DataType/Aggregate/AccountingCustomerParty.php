@@ -31,7 +31,7 @@ class AccountingCustomerParty
     {
         $accountingCustomerPartyElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
 
-        if (!$accountingCustomerPartyElements || 1 !== $accountingCustomerPartyElements->count()) {
+        if (1 !== $accountingCustomerPartyElements->count()) {
             throw new \Exception('Malformed');
         }
 

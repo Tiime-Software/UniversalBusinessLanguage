@@ -36,8 +36,8 @@ class EndpointIdentifier extends ElectronicAddressIdentifier
 
         /** @var \DOMElement $endpointElement */
         $endpointElement = $endpointIDElements->item(0);
-        $value        = (string) $endpointElement->nodeValue;
-        $scheme       = $endpointElement->hasAttribute('schemeID') ?
+        $value           = (string) $endpointElement->nodeValue;
+        $scheme          = $endpointElement->hasAttribute('schemeID') ?
             ElectronicAddressScheme::tryFrom($endpointElement->getAttribute('schemeID')) : null;
 
         if (!$scheme) {

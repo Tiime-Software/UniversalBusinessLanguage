@@ -3,44 +3,44 @@
 namespace Tiime\UniversalBusinessLanguage\DataType\Aggregate;
 
 /**
- * BG-5.
+ * BG-5. or BG-8. or BG-12.
  */
 class PostalAddress
 {
     protected const XML_NODE = 'cac:PostalAddress';
 
     /**
-     * BT-40-00.
+     * BT-40-00. or BT-55-00. or  or BT-59-00.
      */
     private Country $country;
 
     /**
-     * BT-35.
+     * BT-35. or BT-50. or BT-64.
      */
     private ?string $streetName;
 
     /**
-     * BT-36.
+     * BT-36. or BT-51. or BT-65.
      */
     private ?string $additionalStreetName;
 
     /**
-     * BT-37.
+     * BT-37. or BT-52. or BT-66.
      */
     private ?string $cityName;
 
     /**
-     * BT-38.
+     * BT-38. or BT-53. or BT-67.
      */
     private ?string $postalZone;
 
     /**
-     * BT-39.
+     * BT-39. or BT-54. or BT-68.
      */
     private ?string $countrySubentity;
 
     /**
-     * BT-163-00.
+     * BT-162-00. or BT-163-00. or BT-164-00.
      */
     private ?AddressLine $addressLine;
 

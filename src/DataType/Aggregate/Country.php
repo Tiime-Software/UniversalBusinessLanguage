@@ -9,7 +9,7 @@ class Country
     protected const XML_NODE = 'cac:Country';
 
     /**
-     * BT-40.
+     * BT-40. or BT-55. or BT-69.
      */
     private CountryAlpha2Code $identificationCode;
 

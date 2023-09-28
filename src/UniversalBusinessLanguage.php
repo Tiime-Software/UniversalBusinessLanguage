@@ -8,6 +8,8 @@ use Tiime\EN16931\DataType\CurrencyCode;
 use Tiime\EN16931\DataType\Identifier\InvoiceIdentifier;
 use Tiime\EN16931\DataType\Identifier\SpecificationIdentifier;
 use Tiime\EN16931\DataType\InvoiceTypeCode;
+use Tiime\UniversalBusinessLanguage\DataType\Aggregate\AccountingCustomerParty;
+use Tiime\UniversalBusinessLanguage\DataType\Aggregate\AccountingSupplierParty;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\AdditionalDocumentReference;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\BillingReference;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\ContractDocumentReference;
@@ -15,8 +17,10 @@ use Tiime\UniversalBusinessLanguage\DataType\Aggregate\DespatchDocumentReference
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\InvoicePeriod;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\OrderReference;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\OriginatorDocumentReference;
+use Tiime\UniversalBusinessLanguage\DataType\Aggregate\PayeeParty;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\ProjectReference;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\ReceiptDocumentReference;
+use Tiime\UniversalBusinessLanguage\DataType\Aggregate\TaxRepresentativeParty;
 use Tiime\UniversalBusinessLanguage\DataType\Basic\DueDate;
 use Tiime\UniversalBusinessLanguage\DataType\Basic\IssueDate;
 use Tiime\UniversalBusinessLanguage\DataType\Basic\Note;
@@ -138,20 +142,44 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
      */
     private array $additionalDocumentReferences;
 
+    /**
+     * BG-4.
+     */
+    private AccountingSupplierParty $accountingSupplierParty;
+
+    /**
+     * BG-7.
+     */
+    private AccountingCustomerParty $accountingCustomerParty;
+
+    /**
+     * BG-10.
+     */
+    private ?PayeeParty $payeeParty;
+
+    /**
+     * BG-11.
+     */
+    private ?TaxRepresentativeParty $taxRepresentativeParty;
+
     public function __construct(
         InvoiceIdentifier $identifier,
         IssueDate $issueDate,
         InvoiceTypeCode $invoiceTypeCode,
         CurrencyCode $documentCurrencyCode,
         SpecificationIdentifier $customizationID,
-        string $profileIdentifier
+        string $profileIdentifier,
+        AccountingSupplierParty $accountingSupplierParty,
+        AccountingCustomerParty $accountingCustomerParty
     ) {
-        $this->identifier           = $identifier;
-        $this->issueDate            = $issueDate;
-        $this->invoiceTypeCode      = $invoiceTypeCode;
-        $this->documentCurrencyCode = $documentCurrencyCode;
-        $this->customizationID      = $customizationID;
-        $this->profileIdentifier    = $profileIdentifier;
+        $this->identifier              = $identifier;
+        $this->issueDate               = $issueDate;
+        $this->invoiceTypeCode         = $invoiceTypeCode;
+        $this->documentCurrencyCode    = $documentCurrencyCode;
+        $this->customizationID         = $customizationID;
+        $this->profileIdentifier       = $profileIdentifier;
+        $this->accountingSupplierParty = $accountingSupplierParty;
+        $this->accountingCustomerParty = $accountingCustomerParty;
 
         $this->taxCurrencyCode              = null;
         $this->taxPointDate                 = null;
@@ -168,6 +196,8 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
         $this->note                         = null;
         $this->billingReferences            = [];
         $this->additionalDocumentReferences = [];
+        $this->payeeParty                   = null;
+        $this->taxRepresentativeParty       = null;
     }
 
     public function getIdentifier(): InvoiceIdentifier
@@ -392,6 +422,40 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
         return $this;
     }
 
+    public function getAccountingSupplierParty(): AccountingSupplierParty
+    {
+        return $this->accountingSupplierParty;
+    }
+
+    public function getAccountingCustomerParty(): AccountingCustomerParty
+    {
+        return $this->accountingCustomerParty;
+    }
+
+    public function getPayeeParty(): ?PayeeParty
+    {
+        return $this->payeeParty;
+    }
+
+    public function setPayeeParty(?PayeeParty $payeeParty): static
+    {
+        $this->payeeParty = $payeeParty;
+
+        return $this;
+    }
+
+    public function getTaxRepresentativeParty(): ?TaxRepresentativeParty
+    {
+        return $this->taxRepresentativeParty;
+    }
+
+    public function setTaxRepresentativeParty(?TaxRepresentativeParty $taxRepresentativeParty): static
+    {
+        $this->taxRepresentativeParty = $taxRepresentativeParty;
+
+        return $this;
+    }
+
     public function toXML(): \DOMDocument
     {
         $document = new \DOMDocument('1.0', 'UTF-8');
@@ -419,6 +483,8 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
         $root->appendChild($document->createElement('cbc:DocumentCurrencyCode', $this->documentCurrencyCode->value));
         $root->appendChild($document->createElement('cbc:CustomizationID', $this->customizationID->value));
         $root->appendChild($document->createElement('cbc:ProfileID', $this->profileIdentifier));
+        $root->appendChild($this->accountingSupplierParty->toXML($document));
+        $root->appendChild($this->accountingCustomerParty->toXML($document));
 
         if ($this->taxCurrencyCode instanceof CurrencyCode) {
             $root->appendChild($document->createElement('cbc:TaxCurrencyCode', $this->taxCurrencyCode->value));
@@ -480,6 +546,14 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
             $root->appendChild($additionalDocumentReference->toXML($document));
         }
 
+        if ($this->payeeParty instanceof PayeeParty) {
+            $root->appendChild($this->payeeParty->toXML($document));
+        }
+
+        if ($this->taxRepresentativeParty instanceof TaxRepresentativeParty) {
+            $root->appendChild($this->taxRepresentativeParty->toXML($document));
+        }
+
         return $document;
     }
 
@@ -498,7 +572,7 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
 
         $identifierElements = $xpath->query('./cbc:ID', $universalBusinessLanguageElement);
 
-        if (!$identifierElements || 1 !== $identifierElements->count()) {
+        if (1 !== $identifierElements->count()) {
             throw new \Exception('Malformed');
         }
 
@@ -508,7 +582,7 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
 
         $typeCodeElements = $xpath->query('./cbc:InvoiceTypeCode', $universalBusinessLanguageElement);
 
-        if (!$typeCodeElements || 1 !== $typeCodeElements->count()) {
+        if (1 !== $typeCodeElements->count()) {
             throw new \Exception('Malformed');
         }
         $typeCode = InvoiceTypeCode::tryFrom((string) $typeCodeElements->item(0)->nodeValue);
@@ -530,14 +604,14 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
 
         $customizationIDElements = $xpath->query('./cbc:CustomizationID', $universalBusinessLanguageElement);
 
-        if (!$customizationIDElements || 1 !== $customizationIDElements->count()) {
+        if (1 !== $customizationIDElements->count()) {
             throw new \Exception('Malformed');
         }
         $customizationID = new SpecificationIdentifier((string) $customizationIDElements->item(0)->nodeValue);
 
         $profileIdentifierElements = $xpath->query('./cbc:ProfileID', $universalBusinessLanguageElement);
 
-        if (!$profileIdentifierElements || 1 !== $profileIdentifierElements->count()) {
+        if (1 !== $profileIdentifierElements->count()) {
             throw new \Exception('Malformed');
         }
         $profileIdentifier = (string) $profileIdentifierElements->item(0)->nodeValue;
@@ -557,6 +631,10 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
         $note                         = Note::fromXML($xpath, $universalBusinessLanguageElement);
         $billingReferences            = BillingReference::fromXML($xpath, $universalBusinessLanguageElement);
         $additionalDocumentReferences = AdditionalDocumentReference::fromXML($xpath, $universalBusinessLanguageElement);
+        $accountingSupplierParty      = AccountingSupplierParty::fromXML($xpath, $universalBusinessLanguageElement);
+        $accountingCustomerParty      = AccountingCustomerParty::fromXML($xpath, $universalBusinessLanguageElement);
+        $payeeParty                   = PayeeParty::fromXML($xpath, $universalBusinessLanguageElement);
+        $taxRepresentativeParty       = TaxRepresentativeParty::fromXML($xpath, $universalBusinessLanguageElement);
 
         if ($taxCurrencyCodeElements->count() > 1) {
             throw new \Exception('Malformed');
@@ -580,7 +658,16 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
             }
         }
 
-        $universalBusinessLanguage = new self(new InvoiceIdentifier($identifier), $issueDate, $typeCode, $documentCurrencyCode, $customizationID, $profileIdentifier);
+        $universalBusinessLanguage = new self(
+            new InvoiceIdentifier($identifier),
+            $issueDate,
+            $typeCode,
+            $documentCurrencyCode,
+            $customizationID,
+            $profileIdentifier,
+            $accountingSupplierParty,
+            $accountingCustomerParty
+        );
 
         if ($taxCurrencyCode instanceof CurrencyCode) {
             $universalBusinessLanguage->setTaxCurrencyCode($taxCurrencyCode);
@@ -640,6 +727,14 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
 
         if (\count($additionalDocumentReferences) > 0) {
             $universalBusinessLanguage->setAdditionalDocumentReferences($additionalDocumentReferences);
+        }
+
+        if ($payeeParty instanceof PayeeParty) {
+            $universalBusinessLanguage->setPayeeParty($payeeParty);
+        }
+
+        if ($taxRepresentativeParty instanceof TaxRepresentativeParty) {
+            $universalBusinessLanguage->setTaxRepresentativeParty($taxRepresentativeParty);
         }
 
         return $universalBusinessLanguage;

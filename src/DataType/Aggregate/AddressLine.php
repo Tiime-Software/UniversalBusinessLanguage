@@ -7,7 +7,7 @@ class AddressLine
     protected const XML_NODE = 'cac:AddressLine';
 
     /**
-     * BT-162.
+     * BT-162. or BT-163. or BT-164.
      */
     private string $line;
 
