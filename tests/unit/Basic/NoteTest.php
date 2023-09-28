@@ -2,7 +2,6 @@
 
 namespace TiimePDP\UniversalBusinessLanguage\Tests\unit\Basic;
 
-use Tiime\EN16931\DataType\InvoiceNoteCode;
 use Tiime\UniversalBusinessLanguage\DataType\Basic\Note;
 use TiimePDP\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
