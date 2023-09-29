@@ -19,6 +19,8 @@ use Tiime\UniversalBusinessLanguage\DataType\Aggregate\InvoicePeriod;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\OrderReference;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\OriginatorDocumentReference;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\PayeeParty;
+use Tiime\UniversalBusinessLanguage\DataType\Aggregate\PaymentMeans;
+use Tiime\UniversalBusinessLanguage\DataType\Aggregate\PaymentTerms;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\ProjectReference;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\ReceiptDocumentReference;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\TaxRepresentativeParty;
@@ -168,6 +170,15 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
      */
     private ?Delivery $delivery;
 
+    /**
+     * BG-16.
+     *
+     * @var array<int, PaymentMeans>
+     */
+    private array $paymentMeans;
+
+    private ?PaymentTerms $paymentTerms;
+
     public function __construct(
         InvoiceIdentifier $identifier,
         IssueDate $issueDate,
@@ -205,6 +216,8 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
         $this->payeeParty                   = null;
         $this->taxRepresentativeParty       = null;
         $this->delivery                     = null;
+        $this->paymentMeans                 = [];
+        $this->paymentTerms                 = null;
     }
 
     public function getIdentifier(): InvoiceIdentifier
@@ -475,6 +488,44 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
         return $this;
     }
 
+    /**
+     * @return array|PaymentMeans[]
+     */
+    public function getPaymentMeans(): array
+    {
+        return $this->paymentMeans;
+    }
+
+    /**
+     * @param array<int, PaymentMeans> $paymentMeans
+     *
+     * @return $this
+     */
+    public function setPaymentMeans(array $paymentMeans): static
+    {
+        foreach ($paymentMeans as $paymentMean) {
+            if (!$paymentMean instanceof PaymentMeans) {
+                throw new \TypeError();
+            }
+        }
+
+        $this->paymentMeans = $paymentMeans;
+
+        return $this;
+    }
+
+    public function getPaymentTerms(): ?PaymentTerms
+    {
+        return $this->paymentTerms;
+    }
+
+    public function setPaymentTerms(?PaymentTerms $paymentTerms): static
+    {
+        $this->paymentTerms = $paymentTerms;
+
+        return $this;
+    }
+
     public function toXML(): \DOMDocument
     {
         $document = new \DOMDocument('1.0', 'UTF-8');
@@ -577,6 +628,14 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
             $root->appendChild($this->delivery->toXML($document));
         }
 
+        foreach ($this->paymentMeans as $paymentMean) {
+            $root->appendChild($paymentMean->toXML($document));
+        }
+
+        if ($this->paymentTerms instanceof PaymentTerms) {
+            $root->appendChild($this->paymentTerms->toXML($document));
+        }
+
         return $document;
     }
 
@@ -659,6 +718,8 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
         $payeeParty                   = PayeeParty::fromXML($xpath, $universalBusinessLanguageElement);
         $taxRepresentativeParty       = TaxRepresentativeParty::fromXML($xpath, $universalBusinessLanguageElement);
         $delivery                     = Delivery::fromXML($xpath, $universalBusinessLanguageElement);
+        $paymentMeans                 = PaymentMeans::fromXML($xpath, $universalBusinessLanguageElement);
+        $paymentTerms                 = PaymentTerms::fromXML($xpath, $universalBusinessLanguageElement);
 
         if ($taxCurrencyCodeElements->count() > 1) {
             throw new \Exception('Malformed');
@@ -763,6 +824,14 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
 
         if ($delivery instanceof Delivery) {
             $universalBusinessLanguage->setDelivery($delivery);
+        }
+
+        if (\count($paymentMeans) > 0) {
+            $universalBusinessLanguage->setPaymentMeans($paymentMeans);
+        }
+
+        if ($paymentTerms instanceof PaymentTerms) {
+            $universalBusinessLanguage->setPaymentTerms($paymentTerms);
         }
 
         return $universalBusinessLanguage;
