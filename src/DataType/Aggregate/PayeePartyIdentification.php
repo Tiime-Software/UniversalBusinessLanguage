@@ -49,7 +49,10 @@ class PayeePartyIdentification
             throw new \Exception('Malformed');
         }
 
-        $identifierElements = $xpath->query('./cbc:ID', $partyIdentificationElements);
+        /** @var \DOMElement $partyIdentificationElement */
+        $partyIdentificationElement = $partyIdentificationElements->item(0);
+
+        $identifierElements = $xpath->query('./cbc:ID', $partyIdentificationElement);
 
         if (1 !== $identifierElements->count()) {
             throw new \Exception('Malformed');
@@ -58,8 +61,12 @@ class PayeePartyIdentification
         /** @var \DOMElement $identifierElement */
         $identifierElement = $identifierElements->item(0);
         $value             = (string) $identifierElement->nodeValue;
-        $scheme            = $identifierElement->hasAttribute('schemeID') ?
-            InternationalCodeDesignator::tryFrom($identifierElement->getAttribute('schemeID')) : null;
+
+        $scheme = InternationalCodeDesignator::tryFrom($identifierElement->getAttribute('schemeID'));
+
+        if (!$scheme instanceof InternationalCodeDesignator) {
+            throw new \Exception('Wrong schemeID');
+        }
 
         $identifier = new PayeeIdentifier($value, $scheme);
 

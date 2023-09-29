@@ -13,6 +13,7 @@ use Tiime\UniversalBusinessLanguage\DataType\Aggregate\AccountingSupplierParty;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\AdditionalDocumentReference;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\BillingReference;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\ContractDocumentReference;
+use Tiime\UniversalBusinessLanguage\DataType\Aggregate\Delivery;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\DespatchDocumentReference;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\InvoicePeriod;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\OrderReference;
@@ -162,6 +163,11 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
      */
     private ?TaxRepresentativeParty $taxRepresentativeParty;
 
+    /**
+     * BG-13.
+     */
+    private ?Delivery $delivery;
+
     public function __construct(
         InvoiceIdentifier $identifier,
         IssueDate $issueDate,
@@ -198,6 +204,7 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
         $this->additionalDocumentReferences = [];
         $this->payeeParty                   = null;
         $this->taxRepresentativeParty       = null;
+        $this->delivery                     = null;
     }
 
     public function getIdentifier(): InvoiceIdentifier
@@ -456,6 +463,18 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
         return $this;
     }
 
+    public function getDelivery(): ?Delivery
+    {
+        return $this->delivery;
+    }
+
+    public function setDelivery(?Delivery $delivery): static
+    {
+        $this->delivery = $delivery;
+
+        return $this;
+    }
+
     public function toXML(): \DOMDocument
     {
         $document = new \DOMDocument('1.0', 'UTF-8');
@@ -554,6 +573,10 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
             $root->appendChild($this->taxRepresentativeParty->toXML($document));
         }
 
+        if ($this->delivery instanceof Delivery) {
+            $root->appendChild($this->delivery->toXML($document));
+        }
+
         return $document;
     }
 
@@ -635,6 +658,7 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
         $accountingCustomerParty      = AccountingCustomerParty::fromXML($xpath, $universalBusinessLanguageElement);
         $payeeParty                   = PayeeParty::fromXML($xpath, $universalBusinessLanguageElement);
         $taxRepresentativeParty       = TaxRepresentativeParty::fromXML($xpath, $universalBusinessLanguageElement);
+        $delivery                     = Delivery::fromXML($xpath, $universalBusinessLanguageElement);
 
         if ($taxCurrencyCodeElements->count() > 1) {
             throw new \Exception('Malformed');
@@ -651,7 +675,7 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
         $taxCurrencyCode = null;
 
         if (1 === $taxCurrencyCodeElements->count()) {
-            $taxCurrencyCode = CurrencyCode::tryFrom($taxCurrencyCodeElements->item(0)->nodeValue);
+            $taxCurrencyCode = CurrencyCode::tryFrom((string) $taxCurrencyCodeElements->item(0)->nodeValue);
 
             if (null === $taxCurrencyCode) {
                 throw new \Exception('Wrong TaxCurrencyCode');
@@ -735,6 +759,10 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
 
         if ($taxRepresentativeParty instanceof TaxRepresentativeParty) {
             $universalBusinessLanguage->setTaxRepresentativeParty($taxRepresentativeParty);
+        }
+
+        if ($delivery instanceof Delivery) {
+            $universalBusinessLanguage->setDelivery($delivery);
         }
 
         return $universalBusinessLanguage;

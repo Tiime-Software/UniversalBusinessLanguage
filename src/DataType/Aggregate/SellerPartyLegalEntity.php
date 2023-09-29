@@ -114,7 +114,7 @@ class SellerPartyLegalEntity
             throw new \Exception('Malformed');
         }
 
-        $registrationName       = $registrationNameElements->item(0)->nodeValue;
+        $registrationName       = (string) $registrationNameElements->item(0)->nodeValue;
         $sellerPartyLegalEntity = new self($registrationName);
 
         if (1 === $identifierElements->count()) {

@@ -94,7 +94,7 @@ class OrderReference
         $orderReference = new self(new PurchaseOrderReference($identifier));
 
         if (1 === $salesOrderIdentifierElements->count()) {
-            $orderReference->setSalesOrderIdentifier(new SalesOrderReference($salesOrderIdentifierElements->item(0)->nodeValue));
+            $orderReference->setSalesOrderIdentifier(new SalesOrderReference((string) $salesOrderIdentifierElements->item(0)->nodeValue));
         }
 
         return $orderReference;

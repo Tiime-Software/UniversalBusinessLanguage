@@ -61,28 +61,24 @@ class BuyerPartyLegalEntity
         return $currentNode;
     }
 
-    public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): ?self
+    public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): self
     {
         $buyerPartyLegalEntityElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
 
-        if (0 === $buyerPartyLegalEntityElements->count()) {
-            return null;
-        }
-
-        if ($buyerPartyLegalEntityElements->count() > 1) {
+        if (1 !== $buyerPartyLegalEntityElements->count()) {
             throw new \Exception('Malformed');
         }
 
-        $registrationNameElements = $xpath->query('./cbc:RegistrationName', $buyerPartyLegalEntityElements);
+        /** @var \DOMElement $buyerPartyLegalEntityElement */
+        $buyerPartyLegalEntityElement = $buyerPartyLegalEntityElements->item(0);
+
+        $registrationNameElements = $xpath->query('./cbc:RegistrationName', $buyerPartyLegalEntityElement);
 
         if (1 !== $registrationNameElements->count()) {
             throw new \Exception('Malformed');
         }
 
-        $registrationName = $registrationNameElements->item(0)->nodeValue;
-
-        /** @var \DOMElement $buyerPartyLegalEntityElement */
-        $buyerPartyLegalEntityElement = $buyerPartyLegalEntityElements->item(0);
+        $registrationName = (string) $registrationNameElements->item(0)->nodeValue;
 
         $identifierElements = $xpath->query('./cbc:CompanyID', $buyerPartyLegalEntityElement);
 

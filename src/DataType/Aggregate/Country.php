@@ -9,7 +9,7 @@ class Country
     protected const XML_NODE = 'cac:Country';
 
     /**
-     * BT-40. or BT-55. or BT-69.
+     * BT-40. or BT-55. or BT-69. or BT-80.
      */
     private CountryAlpha2Code $identificationCode;
 
@@ -27,7 +27,7 @@ class Country
     {
         $currentNode = $document->createElement(self::XML_NODE);
 
-        $currentNode->appendChild($document->createElement('cbc:IdentificationCode', $this->identificationCode));
+        $currentNode->appendChild($document->createElement('cbc:IdentificationCode', $this->identificationCode->value));
 
         return $currentNode;
     }
@@ -49,7 +49,7 @@ class Country
             throw new \Exception('Malformed');
         }
 
-        $identificationCode = CountryAlpha2Code::tryFrom($identificationCodeElements->item(0)->nodeValue);
+        $identificationCode = CountryAlpha2Code::tryFrom((string) $identificationCodeElements->item(0)->nodeValue);
 
         if (null === $identificationCode) {
             throw new \Exception('Wrong country');

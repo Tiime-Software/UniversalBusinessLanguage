@@ -98,11 +98,19 @@ class SellerParty
         return $this;
     }
 
+    /**
+     * @return array|SellerPartyTaxScheme[]
+     */
     public function getPartyTaxSchemes(): array
     {
         return $this->partyTaxSchemes;
     }
 
+    /**
+     * @param array<int, SellerPartyTaxScheme> $partyTaxSchemes
+     *
+     * @return $this
+     */
     public function setPartyTaxSchemes(array $partyTaxSchemes): static
     {
         foreach ($partyTaxSchemes as $partyTaxScheme) {

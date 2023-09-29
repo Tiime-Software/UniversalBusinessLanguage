@@ -18,7 +18,7 @@ class BuyerParty
      */
     private ?BuyerPartyIdentification $buyerPartyIdentification;
 
-    private ?BuyerPartyLegalEntity $partyLegalEntity;
+    private BuyerPartyLegalEntity $partyLegalEntity;
 
     /**
      * BT-48-00.
@@ -40,12 +40,12 @@ class BuyerParty
      */
     private ?Contact $contact;
 
-    public function __construct(EndpointIdentifier $endpointID, PostalAddress $postalAddress)
+    public function __construct(EndpointIdentifier $endpointID, PostalAddress $postalAddress, BuyerPartyLegalEntity $partyLegalEntity)
     {
         $this->endpointIdentifier       = $endpointID;
         $this->postalAddress            = $postalAddress;
+        $this->partyLegalEntity         = $partyLegalEntity;
         $this->buyerPartyIdentification = null;
-        $this->partyLegalEntity         = null;
         $this->partyTaxScheme           = null;
         $this->partyName                = null;
         $this->contact                  = null;
@@ -71,13 +71,6 @@ class BuyerParty
     public function getPartyLegalEntity(): ?BuyerPartyLegalEntity
     {
         return $this->partyLegalEntity;
-    }
-
-    public function setPartyLegalEntity(?BuyerPartyLegalEntity $partyLegalEntity): static
-    {
-        $this->partyLegalEntity = $partyLegalEntity;
-
-        return $this;
     }
 
     public function getPartyTaxScheme(): ?BuyerPartyTaxScheme
@@ -169,13 +162,9 @@ class BuyerParty
         $postalAddress            = PostalAddress::fromXML($xpath, $partyElement);
         $contact                  = Contact::fromXML($xpath, $partyElement);
 
-        $party = new self($endpointId, $postalAddress);
+        $party = new self($endpointId, $postalAddress, $partyLegalEntity);
 
         $party->setBuyerPartyIdentification($buyerPartyIdentification);
-
-        if ($partyLegalEntity instanceof BuyerPartyLegalEntity) {
-            $party->setPartyLegalEntity($partyLegalEntity);
-        }
 
         if ($partyTaxScheme instanceof BuyerPartyTaxScheme) {
             $party->setPartyTaxScheme($partyTaxScheme);

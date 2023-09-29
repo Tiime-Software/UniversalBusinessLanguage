@@ -34,6 +34,8 @@ class BuyerPartyIdentification
             $buyerIdentifier->setAttribute('schemeID', $this->buyerIdentifier->scheme->value);
         }
 
+        $currentNode->appendChild($buyerIdentifier);
+
         return $currentNode;
     }
 
@@ -49,7 +51,10 @@ class BuyerPartyIdentification
             throw new \Exception('Malformed');
         }
 
-        $identifierElements = $xpath->query('./cbc:ID', $partyIdentificationElements);
+        /** @var \DOMElement $partyIdentificationElement */
+        $partyIdentificationElement = $partyIdentificationElements->item(0);
+
+        $identifierElements = $xpath->query('./cbc:ID', $partyIdentificationElement);
 
         if (1 !== $identifierElements->count()) {
             throw new \Exception('Malformed');

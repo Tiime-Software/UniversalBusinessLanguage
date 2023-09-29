@@ -3,14 +3,14 @@
 namespace Tiime\UniversalBusinessLanguage\DataType\Aggregate;
 
 /**
- * BG-5. or BG-8. or BG-12.
+ * BG-5. or BG-8. or BG-12. or BG-15.
  */
 class PostalAddress
 {
     protected const XML_NODE = 'cac:PostalAddress';
 
     /**
-     * BT-40-00. or BT-55-00. or  or BT-59-00.
+     * BT-40-00. or BT-55-00. or or BT-59-00.
      */
     private Country $country;
 
@@ -165,7 +165,7 @@ class PostalAddress
         return $currentNode;
     }
 
-    public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): ?self
+    public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): self
     {
         $postalAddressElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
 
