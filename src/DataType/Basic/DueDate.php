@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace Tiime\UniversalBusinessLanguage\DataType\Basic;
 
+use Tiime\UniversalBusinessLanguage\DataType\Utils\UniversalBusinessLanguageUtils;
+
 /**
  * BT-9.
  */
 class DueDate
 {
     protected const XML_NODE        = 'cbc:DueDate';
-    protected const UBL_DATE_FORMAT = 'Y-m-d';
 
     private \DateTimeInterface $dateTimeString;
 
@@ -26,7 +27,7 @@ class DueDate
 
     public function toXML(\DOMDocument $document): \DOMElement
     {
-        return $document->createElement(self::XML_NODE, $this->dateTimeString->format(self::UBL_DATE_FORMAT));
+        return $document->createElement(self::XML_NODE, $this->dateTimeString->format(UniversalBusinessLanguageUtils::UBL_DATE_FORMAT));
     }
 
     public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): ?self
@@ -43,7 +44,7 @@ class DueDate
 
         $dateTimeString = (string) $dueDateElements->item(0)->nodeValue;
 
-        $formattedDateTime = \DateTime::createFromFormat(self::UBL_DATE_FORMAT, $dateTimeString);
+        $formattedDateTime = \DateTime::createFromFormat(UniversalBusinessLanguageUtils::UBL_DATE_FORMAT, $dateTimeString);
 
         if (!$formattedDateTime) {
             throw new \Exception('Malformed date');
