@@ -11,6 +11,7 @@ use Tiime\EN16931\DataType\InvoiceTypeCode;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\AccountingCustomerParty;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\AccountingSupplierParty;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\AdditionalDocumentReference;
+use Tiime\UniversalBusinessLanguage\DataType\Aggregate\AllowanceCharge;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\BillingReference;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\ContractDocumentReference;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\Delivery;
@@ -179,6 +180,13 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
 
     private ?PaymentTerms $paymentTerms;
 
+    /**
+     * BG-20.
+     *
+     * @var array<int, AllowanceCharge>
+     */
+    private array $allowanceCharges;
+
     public function __construct(
         InvoiceIdentifier $identifier,
         IssueDate $issueDate,
@@ -218,6 +226,7 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
         $this->delivery                     = null;
         $this->paymentMeans                 = [];
         $this->paymentTerms                 = null;
+        $this->allowanceCharges             = [];
     }
 
     public function getIdentifier(): InvoiceIdentifier
@@ -526,6 +535,32 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
         return $this;
     }
 
+    /**
+     * @return array|AllowanceCharge[]
+     */
+    public function getAllowanceCharges(): array
+    {
+        return $this->allowanceCharges;
+    }
+
+    /**
+     * @param array<int, AllowanceCharge> $allowanceCharges
+     *
+     * @return $this
+     */
+    public function setAllowanceCharges(array $allowanceCharges): static
+    {
+        foreach ($allowanceCharges as $allowanceCharge) {
+            if (!$allowanceCharge instanceof AllowanceCharge) {
+                throw new \TypeError();
+            }
+        }
+
+        $this->allowanceCharges = $allowanceCharges;
+
+        return $this;
+    }
+
     public function toXML(): \DOMDocument
     {
         $document = new \DOMDocument('1.0', 'UTF-8');
@@ -636,6 +671,10 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
             $root->appendChild($this->paymentTerms->toXML($document));
         }
 
+        foreach ($this->allowanceCharges as $allowanceCharge) {
+            $root->appendChild($allowanceCharge->toXML($document));
+        }
+
         return $document;
     }
 
@@ -720,6 +759,7 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
         $delivery                     = Delivery::fromXML($xpath, $universalBusinessLanguageElement);
         $paymentMeans                 = PaymentMeans::fromXML($xpath, $universalBusinessLanguageElement);
         $paymentTerms                 = PaymentTerms::fromXML($xpath, $universalBusinessLanguageElement);
+        $allowanceCharges             = AllowanceCharge::fromXML($xpath, $universalBusinessLanguageElement);
 
         if ($taxCurrencyCodeElements->count() > 1) {
             throw new \Exception('Malformed');
@@ -832,6 +872,10 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
 
         if ($paymentTerms instanceof PaymentTerms) {
             $universalBusinessLanguage->setPaymentTerms($paymentTerms);
+        }
+
+        if (\count($allowanceCharges) > 0) {
+            $universalBusinessLanguage->setAllowanceCharges($allowanceCharges);
         }
 
         return $universalBusinessLanguage;
