@@ -11,7 +11,7 @@ use Tiime\UniversalBusinessLanguage\DataType\Utils\UniversalBusinessLanguageUtil
  */
 class ActualDeliveryDate
 {
-    protected const XML_NODE        = 'cbc:ActualDeliveryDate';
+    protected const XML_NODE = 'cbc:ActualDeliveryDate';
 
     private \DateTimeInterface $dateTimeString;
 

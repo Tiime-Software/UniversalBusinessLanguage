@@ -11,7 +11,7 @@ use Tiime\UniversalBusinessLanguage\DataType\Utils\UniversalBusinessLanguageUtil
  */
 class InvoicePeriodEndDate
 {
-    protected const XML_NODE        = 'cbc:EndDate';
+    protected const XML_NODE = 'cbc:EndDate';
 
     private \DateTimeInterface $dateTimeString;
 

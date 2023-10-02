@@ -11,7 +11,7 @@ use Tiime\UniversalBusinessLanguage\DataType\Utils\UniversalBusinessLanguageUtil
  */
 class DueDate
 {
-    protected const XML_NODE        = 'cbc:DueDate';
+    protected const XML_NODE = 'cbc:DueDate';
 
     private \DateTimeInterface $dateTimeString;
 

@@ -11,7 +11,7 @@ use Tiime\UniversalBusinessLanguage\DataType\Utils\UniversalBusinessLanguageUtil
  */
 class IssueDate
 {
-    protected const XML_NODE        = 'cbc:IssueDate';
+    protected const XML_NODE = 'cbc:IssueDate';
 
     private \DateTimeInterface $dateTimeString;
 
