@@ -94,12 +94,12 @@ class InvoicePeriod
     {
         $invoicePeriodElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
 
-        if (!$invoicePeriodElements || 0 === $invoicePeriodElements->count()) {
+        if (0 === $invoicePeriodElements->count()) {
             return null;
         }
 
         if (1 < $invoicePeriodElements->count()) {
-            throw new \Exception('Malformed InvoicePeriod');
+            throw new \Exception('Malformed');
         }
 
         /** @var \DOMElement $invoicePeriodElement */
@@ -113,6 +113,10 @@ class InvoicePeriod
 
         if (1 === $descriptionCodeElements->count()) {
             $descriptionCode = DateCode2005::tryFrom((string) $descriptionCodeElements->item(0)->nodeValue);
+
+            if (null === $descriptionCode) {
+                throw new \Exception('Wrong description code');
+            }
             $invoicePeriod->setDescriptionCode($descriptionCode);
         }
 
