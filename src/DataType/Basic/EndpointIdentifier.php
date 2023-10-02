@@ -28,17 +28,17 @@ class EndpointIdentifier extends ElectronicAddressIdentifier
 
     public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): self
     {
-        $endpointIDElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
+        $EndpointIdentifierElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
 
-        if (1 !== $endpointIDElements->count()) {
+        if (1 !== $EndpointIdentifierElements->count()) {
             throw new \Exception('Malformed');
         }
 
-        /** @var \DOMElement $endpointElement */
-        $endpointElement = $endpointIDElements->item(0);
-        $value           = (string) $endpointElement->nodeValue;
-        $scheme          = $endpointElement->hasAttribute('schemeID') ?
-            ElectronicAddressScheme::tryFrom($endpointElement->getAttribute('schemeID')) : null;
+        /** @var \DOMElement $endpointIdentifierElement */
+        $endpointIdentifierElement = $EndpointIdentifierElements->item(0);
+        $value           = (string) $endpointIdentifierElement->nodeValue;
+        $scheme          = $endpointIdentifierElement->hasAttribute('schemeID') ?
+            ElectronicAddressScheme::tryFrom($endpointIdentifierElement->getAttribute('schemeID')) : null;
 
         if (!$scheme) {
             throw new \Exception('SchemeID invalid or not found');

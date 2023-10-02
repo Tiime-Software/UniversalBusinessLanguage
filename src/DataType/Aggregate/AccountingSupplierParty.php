@@ -2,6 +2,9 @@
 
 namespace Tiime\UniversalBusinessLanguage\DataType\Aggregate;
 
+/**
+ * BG-4.
+ */
 class AccountingSupplierParty
 {
     protected const XML_NODE = 'cac:AccountingSupplierParty';
@@ -31,7 +34,7 @@ class AccountingSupplierParty
     {
         $accountingSupplierPartyElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
 
-        if (!$accountingSupplierPartyElements || 1 !== $accountingSupplierPartyElements->count()) {
+        if (1 !== $accountingSupplierPartyElements->count()) {
             throw new \Exception('Malformed');
         }
 

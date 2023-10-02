@@ -2,6 +2,9 @@
 
 namespace Tiime\UniversalBusinessLanguage\DataType\Aggregate;
 
+/**
+ * BG-7.
+ */
 class AccountingCustomerParty
 {
     protected const XML_NODE = 'cac:AccountingCustomerParty';

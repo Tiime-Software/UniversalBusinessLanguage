@@ -59,6 +59,13 @@ class AdditionalDocumentReference
         return $this->documentDescription;
     }
 
+    public function setDocumentDescription(?string $documentDescription): static
+    {
+        $this->documentDescription = $documentDescription;
+
+        return $this;
+    }
+
     public function getAttachment(): ?Attachment
     {
         return $this->attachment;
@@ -67,13 +74,6 @@ class AdditionalDocumentReference
     public function setAttachment(?Attachment $attachment): static
     {
         $this->attachment = $attachment;
-
-        return $this;
-    }
-
-    public function setDocumentDescription(?string $documentDescription): static
-    {
-        $this->documentDescription = $documentDescription;
 
         return $this;
     }
