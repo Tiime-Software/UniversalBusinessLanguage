@@ -13,9 +13,14 @@ class DueDateTest extends BaseXMLNodeTestWithHelpers
 </Invoice>
 XMLCONTENT;
 
-    protected const XML_VALID_DATE = <<<XMLCONTENT
+    protected const XML_VALID_FULL_CONTENT = <<<XMLCONTENT
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cbc:DueDate>2023-01-02</cbc:DueDate>
+</Invoice>
+XMLCONTENT;
+
+    protected const XML_VALID_MINIMAL_CONTENT = <<<XMLCONTENT
+<Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
 </Invoice>
 XMLCONTENT;
 
@@ -31,22 +36,17 @@ XMLCONTENT;
 </Invoice>
 XMLCONTENT;
 
-    protected const XML_OMITTED_DATE = <<<XMLCONTENT
-<Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
-</Invoice>
-XMLCONTENT;
-
-    public function testCanBeCreatedFromValid(): void
+    public function testCanBeCreatedFromFullContent(): void
     {
-        $currentElement = $this->loadXMLDocument(self::XML_VALID_DATE);
+        $currentElement = $this->loadXMLDocument(self::XML_VALID_FULL_CONTENT);
         $ublObject = DueDate::fromXML($this->xpath, $currentElement);
         $this->assertInstanceOf(DueDate::class, $ublObject);
         $this->assertEquals($ublObject->getDateTimeString(), new \DateTime('2023-01-02'));
     }
 
-    public function testCanBeCreatedFromOmitted(): void
+    public function testCanBeCreatedFromMinimalContent(): void
     {
-        $currentElement = $this->loadXMLDocument(self::XML_OMITTED_DATE);
+        $currentElement = $this->loadXMLDocument(self::XML_VALID_MINIMAL_CONTENT);
         $ublObject = DueDate::fromXML($this->xpath, $currentElement);
         $this->assertNull($ublObject);
     }
@@ -67,7 +67,7 @@ XMLCONTENT;
 
     public function testGenerateXml(): void
     {
-        $currentElement = $this->loadXMLDocument(self::XML_VALID_DATE);
+        $currentElement = $this->loadXMLDocument(self::XML_VALID_FULL_CONTENT);
         $ublObject = DueDate::fromXML($this->xpath, $currentElement);
         $rootDestination = $this->generateEmptyRootDocument();
         $rootDestination->appendChild($ublObject->toXML($this->document));
