@@ -34,7 +34,7 @@ class SellerPartyTaxScheme
     public function toXML(\DOMDocument $document): \DOMElement
     {
         $currentNode = $document->createElement(self::XML_NODE);
-        $currentNode->appendChild($document->createElement('cbc:CompanyID', $this->companyIdentifier->value));
+        $currentNode->appendChild($document->createElement('cbc:CompanyID', $this->companyIdentifier->getValue()));
         $currentNode->appendChild($this->taxScheme->toXML($document));
 
         return $currentNode;
