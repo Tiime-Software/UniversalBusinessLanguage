@@ -6,11 +6,11 @@ use Tiime\EN16931\DataType\CurrencyCode;
 use Tiime\EN16931\SemanticDataType\Amount;
 
 /**
- * BT-93. or BT-100.
+ * BT-115.
  */
-class BaseAmount
+class PayableAmount
 {
-    protected const XML_NODE = 'cbc:BaseAmount';
+    protected const XML_NODE = 'cbc:PayableAmount';
 
     private Amount $amount;
 
@@ -34,35 +34,31 @@ class BaseAmount
 
     public function toXML(\DOMDocument $document): \DOMElement
     {
-        $currentNode = $document->createElement(self::XML_NODE, $this->amount->getFormattedValueRounded());
+        $currentNode = $document->createElement(self::XML_NODE, $this->amount);
 
         $currentNode->setAttribute('currencyID', $this->currencyCode->value);
 
         return $currentNode;
     }
 
-    public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): ?self
+    public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): self
     {
-        $baseAmountElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
+        $payableAmountElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
 
-        if (0 === $baseAmountElements->count()) {
-            return null;
-        }
-
-        if ($baseAmountElements->count() > 1) {
+        if (1 !== $payableAmountElements->count()) {
             throw new \Exception('Malformed');
         }
 
-        /** @var \DOMElement $baseAmountElement */
-        $baseAmountElement = $baseAmountElements->item(0);
-        $value             = (float) $baseAmountElement->nodeValue;
+        /** @var \DOMElement $payableAmountElement */
+        $payableAmountElement = $payableAmountElements->item(0);
+        $value                = (float) $payableAmountElement->nodeValue;
 
         if (!is_numeric($value)) {
             throw new \Exception('Invalid amount');
         }
 
-        $currencyCode = $baseAmountElement->hasAttribute('currencyID') ?
-            CurrencyCode::tryFrom($baseAmountElement->getAttribute('currencyID')) : null;
+        $currencyCode = $payableAmountElement->hasAttribute('currencyID') ?
+            CurrencyCode::tryFrom($payableAmountElement->getAttribute('currencyID')) : null;
 
         if (!$currencyCode) {
             throw new \Exception('Invalid currency code');

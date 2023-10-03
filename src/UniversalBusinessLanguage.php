@@ -17,6 +17,7 @@ use Tiime\UniversalBusinessLanguage\DataType\Aggregate\ContractDocumentReference
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\Delivery;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\DespatchDocumentReference;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\InvoicePeriod;
+use Tiime\UniversalBusinessLanguage\DataType\Aggregate\LegalMonetaryTotal;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\OrderReference;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\OriginatorDocumentReference;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\PayeeParty;
@@ -118,7 +119,7 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
 
     /**
      * BG-1-00.
-     * en (0,1) conformément au format UBL mais en désaccord avec les specs 2.3 (0,n).
+     * en (0,1) conformément au format UBL Peppol mais en désaccord avec les specs 2.3 (0,n) et la norme Oasis (2.x).
      */
     private ?Note $note;
 
@@ -190,9 +191,14 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
 
     /**
      * @var array<int, TaxTotal>
-     *                           1..2
+     * (1..2)
      */
     private array $taxTotals;
+
+    /**
+     * BG-22.
+     */
+    private LegalMonetaryTotal $legalMonetaryTotal;
 
     public function __construct(
         InvoiceIdentifier $identifier,
@@ -202,7 +208,8 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
         SpecificationIdentifier $customizationID,
         string $profileIdentifier,
         AccountingSupplierParty $accountingSupplierParty,
-        AccountingCustomerParty $accountingCustomerParty
+        AccountingCustomerParty $accountingCustomerParty,
+        LegalMonetaryTotal $legalMonetaryTotal
     ) {
         $this->identifier              = $identifier;
         $this->issueDate               = $issueDate;
@@ -212,6 +219,7 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
         $this->profileIdentifier       = $profileIdentifier;
         $this->accountingSupplierParty = $accountingSupplierParty;
         $this->accountingCustomerParty = $accountingCustomerParty;
+        $this->legalMonetaryTotal      = $legalMonetaryTotal;
 
         $this->taxCurrencyCode              = null;
         $this->taxPointDate                 = null;
@@ -595,6 +603,14 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
         return $this;
     }
 
+    /**
+     * @return LegalMonetaryTotal
+     */
+    public function getLegalMonetaryTotal(): LegalMonetaryTotal
+    {
+        return $this->legalMonetaryTotal;
+    }
+
     public function toXML(): \DOMDocument
     {
         $document = new \DOMDocument('1.0', 'UTF-8');
@@ -624,6 +640,7 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
         $root->appendChild($document->createElement('cbc:ProfileID', $this->profileIdentifier));
         $root->appendChild($this->accountingSupplierParty->toXML($document));
         $root->appendChild($this->accountingCustomerParty->toXML($document));
+        $root->appendChild($this->legalMonetaryTotal->toXML($document));
 
         if ($this->taxCurrencyCode instanceof CurrencyCode) {
             $root->appendChild($document->createElement('cbc:TaxCurrencyCode', $this->taxCurrencyCode->value));
@@ -799,6 +816,7 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
         $paymentTerms                 = PaymentTerms::fromXML($xpath, $universalBusinessLanguageElement);
         $allowanceCharges             = AllowanceCharge::fromXML($xpath, $universalBusinessLanguageElement);
         $taxTotals                    = TaxTotal::fromXML($xpath, $universalBusinessLanguageElement);
+        $legalMonetaryTotal           = LegalMonetaryTotal::fromXML($xpath, $universalBusinessLanguageElement);
 
         if ($taxCurrencyCodeElements->count() > 1) {
             throw new \Exception('Malformed');
@@ -830,7 +848,8 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
             $customizationID,
             $profileIdentifier,
             $accountingSupplierParty,
-            $accountingCustomerParty
+            $accountingCustomerParty,
+            $legalMonetaryTotal
         );
 
         if ($taxCurrencyCode instanceof CurrencyCode) {
