@@ -224,6 +224,16 @@ class DeliveryAddress
             $deliveryAddress->setPostalZone((string) $postalZoneElements->item(0)->nodeValue);
         }
 
+        $countrySubentityElements = $xpath->query('./cbc:CountrySubentity', $deliveryAddressElement);
+
+        if ($countrySubentityElements->count() > 1) {
+            throw new \Exception('Malformed');
+        }
+
+        if (1 === $countrySubentityElements->count()) {
+            $deliveryAddress->setCountrySubentity((string) $countrySubentityElements->item(0)->nodeValue);
+        }
+
         $addressLine = AddressLine::fromXML($xpath, $deliveryAddressElement);
 
         if ($addressLine instanceof AddressLine) {

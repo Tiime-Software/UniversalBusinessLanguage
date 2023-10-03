@@ -220,6 +220,16 @@ class PostalAddress
             $postalAddress->setPostalZone((string) $postalZoneElements->item(0)->nodeValue);
         }
 
+        $countrySubentityElements = $xpath->query('./cbc:CountrySubentity', $postalAddressElement);
+
+        if ($countrySubentityElements->count() > 1) {
+            throw new \Exception('Malformed');
+        }
+
+        if (1 === $countrySubentityElements->count()) {
+            $postalAddress->setCountrySubentity((string) $countrySubentityElements->item(0)->nodeValue);
+        }
+
         $addressLine = AddressLine::fromXML($xpath, $postalAddressElement);
 
         if ($addressLine instanceof AddressLine) {
