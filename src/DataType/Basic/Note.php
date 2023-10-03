@@ -25,8 +25,8 @@ class Note
 
     public function __construct(string $content)
     {
-        $this->content     = $content;
-        $this->subjectCode = null;
+        $this->content                  = $content;
+        $this->subjectCode              = null;
     }
 
     public function getContent(): string
@@ -72,7 +72,7 @@ class Note
             throw new \Exception('Malformed');
         }
 
-        $content = (string) $noteElements->item(0)->nodeValue;
+        $content     = (string) $noteElements->item(0)->nodeValue;
 
         // @todo si nécessaire : rechercher (regex) le code entre ## si présent et l'affecter à subjectcode
 
