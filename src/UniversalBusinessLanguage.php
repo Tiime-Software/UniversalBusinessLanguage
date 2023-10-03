@@ -25,6 +25,7 @@ use Tiime\UniversalBusinessLanguage\DataType\Aggregate\PaymentTerms;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\ProjectReference;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\ReceiptDocumentReference;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\TaxRepresentativeParty;
+use Tiime\UniversalBusinessLanguage\DataType\Aggregate\TaxTotal;
 use Tiime\UniversalBusinessLanguage\DataType\Basic\DueDate;
 use Tiime\UniversalBusinessLanguage\DataType\Basic\IssueDate;
 use Tiime\UniversalBusinessLanguage\DataType\Basic\Note;
@@ -187,6 +188,12 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
      */
     private array $allowanceCharges;
 
+    /**
+     * @var array<int, TaxTotal>
+     *                           1..2
+     */
+    private array $taxTotals;
+
     public function __construct(
         InvoiceIdentifier $identifier,
         IssueDate $issueDate,
@@ -227,6 +234,7 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
         $this->paymentMeans                 = [];
         $this->paymentTerms                 = null;
         $this->allowanceCharges             = [];
+        $this->taxTotals                    = [];
     }
 
     public function getIdentifier(): InvoiceIdentifier
@@ -561,6 +569,32 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
         return $this;
     }
 
+    /**
+     * @return array|TaxTotal[]
+     */
+    public function getTaxTotals(): array
+    {
+        return $this->taxTotals;
+    }
+
+    /**
+     * @param array<int, TaxTotal> $taxTotals
+     *
+     * @return $this
+     */
+    public function setTaxTotals(array $taxTotals): static
+    {
+        foreach ($taxTotals as $taxTotal) {
+            if (!$taxTotal instanceof TaxTotal) {
+                throw new \TypeError();
+            }
+        }
+
+        $this->taxTotals = $taxTotals;
+
+        return $this;
+    }
+
     public function toXML(): \DOMDocument
     {
         $document = new \DOMDocument('1.0', 'UTF-8');
@@ -675,6 +709,10 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
             $root->appendChild($allowanceCharge->toXML($document));
         }
 
+        foreach ($this->taxTotals as $taxTotal) {
+            $root->appendChild($taxTotal->toXML($document));
+        }
+
         return $document;
     }
 
@@ -760,6 +798,7 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
         $paymentMeans                 = PaymentMeans::fromXML($xpath, $universalBusinessLanguageElement);
         $paymentTerms                 = PaymentTerms::fromXML($xpath, $universalBusinessLanguageElement);
         $allowanceCharges             = AllowanceCharge::fromXML($xpath, $universalBusinessLanguageElement);
+        $taxTotals                    = TaxTotal::fromXML($xpath, $universalBusinessLanguageElement);
 
         if ($taxCurrencyCodeElements->count() > 1) {
             throw new \Exception('Malformed');
@@ -876,6 +915,10 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
 
         if (\count($allowanceCharges) > 0) {
             $universalBusinessLanguage->setAllowanceCharges($allowanceCharges);
+        }
+
+        if (\count($taxTotals) > 0) {
+            $universalBusinessLanguage->setTaxTotals($taxTotals);
         }
 
         return $universalBusinessLanguage;
