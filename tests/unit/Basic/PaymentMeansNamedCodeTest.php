@@ -9,35 +9,35 @@ use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
 class PaymentMeansNamedCodeTest extends BaseXMLNodeTestWithHelpers
 {
-    protected const XML_VALID_FULL_CONTENT = <<<XMLCONTENT
+    protected const XML_VALID_FULL_CONTENT = <<<XML
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cbc:PaymentMeansCode name="Virement">30</cbc:PaymentMeansCode>
 </Invoice>
-XMLCONTENT;
+XML;
 
-    protected const XML_VALID_MINIMAL_CONTENT = <<<XMLCONTENT
+    protected const XML_VALID_MINIMAL_CONTENT = <<<XML
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cbc:PaymentMeansCode>30</cbc:PaymentMeansCode>
 </Invoice>
-XMLCONTENT;
+XML;
 
-    protected const XML_INVALID_CODE = <<<XMLCONTENT
+    protected const XML_INVALID_CODE = <<<XML
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cbc:PaymentMeansCode>AZ42</cbc:PaymentMeansCode>
 </Invoice>
-XMLCONTENT;
+XML;
 
-    protected const XML_INVALID_MULTIPLE_CODES = <<<XMLCONTENT
+    protected const XML_INVALID_MULTIPLE_CODES = <<<XML
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cbc:PaymentMeansCode name="Virement">30</cbc:PaymentMeansCode>
   <cbc:PaymentMeansCode name="Virement">30</cbc:PaymentMeansCode>
 </Invoice>
-XMLCONTENT;
+XML;
 
-    protected const XML_INVALID_NO_CODE = <<<XMLCONTENT
+    protected const XML_INVALID_NO_CODE = <<<XML
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
 </Invoice>
-XMLCONTENT;
+XML;
 
 
     public function testCanBeCreatedFromFullContent(): void

@@ -1,15 +1,19 @@
 <?php
 
-namespace Tiime\UniversalBusinessLanguage\Tests\unit\Basic;
+namespace Tiime\UniversalBusinessLanguage\Tests\unit\Aggregate;
 
-use Tiime\UniversalBusinessLanguage\DataType\Basic\DueDate;
+use Tiime\UniversalBusinessLanguage\DataType\Aggregate\Contact;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
-class DueDateTest extends BaseXMLNodeTestWithHelpers
+class ContactTest extends BaseXMLNodeTestWithHelpers
 {
     protected const XML_VALID_FULL_CONTENT = <<<XML
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
-  <cbc:DueDate>2023-01-02</cbc:DueDate>
+  <cac:Contact>
+    <cbc:Name>Contact Fournisseur</cbc:Name>
+    <cbc:Telephone>01 02 03 04 05</cbc:Telephone>
+    <cbc:ElectronicMail>contact@vendeur.com</cbc:ElectronicMail>
+  </cac:Contact>
 </Invoice>
 XML;
 
@@ -18,51 +22,66 @@ XML;
 </Invoice>
 XML;
 
-    protected const XML_INVALID_DATE = <<<XML
+    protected const XML_INVALID_MULTIPLE_ELEMENTS = <<<XML
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
-  <cbc:DueDate>201</cbc:DueDate>
+  <cac:Contact>
+    <cbc:Name>Contact Fournisseur</cbc:Name>
+    <cbc:Name>Contact Fournisseur 2</cbc:Name>
+    <cbc:Telephone>01 02 03 04 05</cbc:Telephone>
+    <cbc:ElectronicMail>contact@vendeur.com</cbc:ElectronicMail>
+  </cac:Contact>
 </Invoice>
 XML;
-
-    protected const XML_EMPTY_DATE = <<<XML
+    protected const XML_INVALID_MULTIPLE_CONTACTS = <<<XML
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
-  <cbc:DueDate></cbc:DueDate>
+  <cac:Contact>
+    <cbc:Name>Contact Fournisseur</cbc:Name>
+    <cbc:Telephone>01 02 03 04 05</cbc:Telephone>
+    <cbc:ElectronicMail>contact@vendeur.com</cbc:ElectronicMail>
+  </cac:Contact>
+  <cac:Contact>
+    <cbc:Name>Contact Fournisseur</cbc:Name>
+    <cbc:Telephone>01 02 03 04 05</cbc:Telephone>
+    <cbc:ElectronicMail>contact@vendeur.com</cbc:ElectronicMail>
+  </cac:Contact>
 </Invoice>
 XML;
 
     public function testCanBeCreatedFromFullContent(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_FULL_CONTENT);
-        $ublObject = DueDate::fromXML($this->xpath, $currentElement);
-        $this->assertInstanceOf(DueDate::class, $ublObject);
-        $this->assertEquals($ublObject->getDateTimeString(), new \DateTime('2023-01-02'));
+        $ublObject = Contact::fromXML($this->xpath, $currentElement);
+        $this->assertInstanceOf(Contact::class, $ublObject);
+        $this->assertEquals("Contact Fournisseur", $ublObject->getName());
+        $this->assertEquals("01 02 03 04 05", $ublObject->getTelephone());
+        $this->assertEquals("contact@vendeur.com", $ublObject->getElectronicMail());
     }
 
     public function testCanBeCreatedFromMinimalContent(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_MINIMAL_CONTENT);
-        $ublObject = DueDate::fromXML($this->xpath, $currentElement);
+        $ublObject = Contact::fromXML($this->xpath, $currentElement);
         $this->assertNull($ublObject);
     }
 
-    public function testCannotBeCreatedFromInvalid(): void
+    public function testCannotBeCreatedFromOmittedLine(): void
     {
         $this->expectException(\Exception::class);
-        $currentElement = $this->loadXMLDocument(self::XML_INVALID_DATE);
-        DueDate::fromXML($this->xpath, $currentElement);
+        $currentElement = $this->loadXMLDocument(self::XML_INVALID_MULTIPLE_ELEMENTS);
+        Contact::fromXML($this->xpath, $currentElement);
     }
 
-    public function testCannotBeCreatedFromEmpty(): void
+    public function testCannotBeCreatedFromMultipleAddresses(): void
     {
         $this->expectException(\Exception::class);
-        $currentElement = $this->loadXMLDocument(self::XML_EMPTY_DATE);
-        DueDate::fromXML($this->xpath, $currentElement);
+        $currentElement = $this->loadXMLDocument(self::XML_INVALID_MULTIPLE_CONTACTS);
+        Contact::fromXML($this->xpath, $currentElement);
     }
 
     public function testGenerateXml(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_FULL_CONTENT);
-        $ublObject = DueDate::fromXML($this->xpath, $currentElement);
+        $ublObject = Contact::fromXML($this->xpath, $currentElement);
         $rootDestination = $this->generateEmptyRootDocument();
         $rootDestination->appendChild($ublObject->toXML($this->document));
         $generatedOutput = $this->formatXMLOutput();

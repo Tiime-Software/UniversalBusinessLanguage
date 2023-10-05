@@ -7,28 +7,28 @@ use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
 class ActualDeliveryDateTest extends BaseXMLNodeTestWithHelpers
 {
-    protected const XML_VALID_FULL_CONTENT = <<<XMLCONTENT
+    protected const XML_VALID_FULL_CONTENT = <<<XML
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cbc:ActualDeliveryDate>2023-01-02</cbc:ActualDeliveryDate>
 </Invoice>
-XMLCONTENT;
+XML;
 
-    protected const XML_VALID_MINIMAL_CONTENT = <<<XMLCONTENT
+    protected const XML_VALID_MINIMAL_CONTENT = <<<XML
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
 </Invoice>
-XMLCONTENT;
+XML;
 
-    protected const XML_INVALID_DATE = <<<XMLCONTENT
+    protected const XML_INVALID_DATE = <<<XML
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cbc:ActualDeliveryDate>201</cbc:ActualDeliveryDate>
 </Invoice>
-XMLCONTENT;
+XML;
 
-    protected const XML_EMPTY_DATE = <<<XMLCONTENT
+    protected const XML_EMPTY_DATE = <<<XML
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cbc:ActualDeliveryDate></cbc:ActualDeliveryDate>
 </Invoice>
-XMLCONTENT;
+XML;
 
     public function testCanBeCreatedFromFullContent(): void
     {

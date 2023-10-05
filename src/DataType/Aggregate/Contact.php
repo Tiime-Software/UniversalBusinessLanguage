@@ -72,15 +72,15 @@ class Contact
         $currentNode = $document->createElement(self::XML_NODE);
 
         if (\is_string($this->name)) {
-            $currentNode->appendChild($this->$document->createElement('cbc:Name', $this->name));
+            $currentNode->appendChild($this->document->createElement('cbc:Name', $this->name));
         }
 
         if (\is_string($this->telephone)) {
-            $currentNode->appendChild($this->$document->createElement('cbc:Telephone', $this->telephone));
+            $currentNode->appendChild($this->document->createElement('cbc:Telephone', $this->telephone));
         }
 
         if (\is_string($this->electronicMail)) {
-            $currentNode->appendChild($this->$document->createElement('cbc:ElectronicMail', $this->electronicMail));
+            $currentNode->appendChild($this->document->createElement('cbc:ElectronicMail', $this->electronicMail));
         }
 
         return $currentNode;

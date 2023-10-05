@@ -9,29 +9,29 @@ use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
 class EndpointIdentifierTest extends BaseXMLNodeTestWithHelpers
 {
-    protected const XML_VALID_CONTENT = <<<XMLCONTENT
+    protected const XML_VALID_CONTENT = <<<XML
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cbc:EndpointID schemeID="EM">VendeurCanal1.00017@100000009.ppf</cbc:EndpointID>
 </Invoice>
-XMLCONTENT;
+XML;
 
-    protected const XML_INVALID_SCHEMEID = <<<XMLCONTENT
+    protected const XML_INVALID_SCHEMEID = <<<XML
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cbc:EndpointID schemeID="AZ42">VendeurCanal1.00017@100000009.ppf</cbc:EndpointID>
 </Invoice>
-XMLCONTENT;
+XML;
 
-    protected const XML_INVALID_MULTIPLE_CODES = <<<XMLCONTENT
+    protected const XML_INVALID_MULTIPLE_CODES = <<<XML
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cbc:EndpointID schemeID="EM">VendeurCanal1.00017@100000009.ppf</cbc:EndpointID>
   <cbc:EndpointID schemeID="EM">VendeurCanal1.00017@100000009.ppf</cbc:EndpointID>
 </Invoice>
-XMLCONTENT;
+XML;
 
-    protected const XML_INVALID_NO_CODE = <<<XMLCONTENT
+    protected const XML_INVALID_NO_CODE = <<<XML
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
 </Invoice>
-XMLCONTENT;
+XML;
 
 
     public function testCanBeCreatedFromContent(): void
@@ -39,8 +39,8 @@ XMLCONTENT;
         $currentElement = $this->loadXMLDocument(self::XML_VALID_CONTENT);
         $ublObject = EndpointIdentifier::fromXML($this->xpath, $currentElement);
         $this->assertInstanceOf(EndpointIdentifier::class, $ublObject);
-        $this->assertEquals(ElectronicAddressScheme::tryFrom('EM'), $ublObject->getElectronicAddressScheme());
-        $this->assertEquals("VendeurCanal1.00017@100000009.ppf", $ublObject->getValue());
+        $this->assertEquals(ElectronicAddressScheme::tryFrom('EM'), $ublObject->scheme);
+        $this->assertEquals("VendeurCanal1.00017@100000009.ppf", $ublObject->value);
     }
 
     public function testCannotBeCreatedFromInvalidSchemeID(): void

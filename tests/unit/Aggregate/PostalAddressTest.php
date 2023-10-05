@@ -9,9 +9,12 @@ use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
 class PostalAddressTest extends BaseXMLNodeTestWithHelpers
 {
-    protected const XML_VALID_FULL_CONTENT = <<<XMLCONTENT
+    protected const XML_VALID_FULL_CONTENT = <<<XML
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cac:PostalAddress>
+    <cac:Country>
+      <cbc:IdentificationCode>FR</cbc:IdentificationCode>
+    </cac:Country>
     <cbc:StreetName>1, rue du fournisseur</cbc:StreetName>
     <cbc:AdditionalStreetName>Cour du fournisseur</cbc:AdditionalStreetName>
     <cbc:CityName>Quimper</cbc:CityName>
@@ -20,14 +23,11 @@ class PostalAddressTest extends BaseXMLNodeTestWithHelpers
     <cac:AddressLine>
       <cbc:Line>BATIMENT DU FOURNISSEUR</cbc:Line>
     </cac:AddressLine>
-    <cac:Country>
-      <cbc:IdentificationCode>FR</cbc:IdentificationCode>
-    </cac:Country>
   </cac:PostalAddress>
 </Invoice>
-XMLCONTENT;
+XML;
 
-    protected const XML_VALID_MINIMAL_CONTENT = <<<XMLCONTENT
+    protected const XML_VALID_MINIMAL_CONTENT = <<<XML
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cac:PostalAddress>
     <cac:Country>
@@ -35,16 +35,16 @@ XMLCONTENT;
     </cac:Country>
   </cac:PostalAddress>
 </Invoice>
-XMLCONTENT;
+XML;
 
-    protected const XML_INVALID_NO_COUNTRY = <<<XMLCONTENT
+    protected const XML_INVALID_NO_COUNTRY = <<<XML
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cac:PostalAddress>
   </cac:PostalAddress>
 </Invoice>
-XMLCONTENT;
+XML;
 
-    protected const XML_INVALID_MULTIPLE_STREETNAME = <<<XMLCONTENT
+    protected const XML_INVALID_MULTIPLE_STREETNAME = <<<XML
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cac:PostalAddress>
     <cbc:StreetName>1, rue du fournisseur</cbc:StreetName>
@@ -54,7 +54,7 @@ XMLCONTENT;
     </cac:Country>
   </cac:PostalAddress>
 </Invoice>
-XMLCONTENT;
+XML;
 
 
     public function testCanBeCreatedFromFullContent(): void
@@ -82,13 +82,23 @@ XMLCONTENT;
     {
         $this->expectException(\Exception::class);
         $currentElement = $this->loadXMLDocument(self::XML_INVALID_NO_COUNTRY);
-        $ublObject = PostalAddress::fromXML($this->xpath, $currentElement);
+        PostalAddress::fromXML($this->xpath, $currentElement);
     }
 
     public function testCannotBeCreatedFromMultipleStreetName(): void
     {
         $this->expectException(\Exception::class);
         $currentElement = $this->loadXMLDocument(self::XML_INVALID_MULTIPLE_STREETNAME);
+        PostalAddress::fromXML($this->xpath, $currentElement);
+    }
+
+    public function testGenerateXml(): void
+    {
+        $currentElement = $this->loadXMLDocument(self::XML_VALID_FULL_CONTENT);
         $ublObject = PostalAddress::fromXML($this->xpath, $currentElement);
+        $rootDestination = $this->generateEmptyRootDocument();
+        $rootDestination->appendChild($ublObject->toXML($this->document));
+        $generatedOutput = $this->formatXMLOutput();
+        $this->assertEquals(self::XML_VALID_FULL_CONTENT, $generatedOutput);
     }
 }

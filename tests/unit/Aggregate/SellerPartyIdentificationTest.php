@@ -1,15 +1,18 @@
 <?php
 
-namespace Tiime\UniversalBusinessLanguage\Tests\unit\Basic;
+namespace Tiime\UniversalBusinessLanguage\Tests\unit\Aggregate;
 
-use Tiime\UniversalBusinessLanguage\DataType\Basic\Note;
+use Tiime\UniversalBusinessLanguage\DataType\Aggregate\SellerPartyIdentification;
+use Tiime\UniversalBusinessLanguage\DataType\Aggregate\SubtotalTaxCategory;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
-class NoteTest extends BaseXMLNodeTestWithHelpers
+class SellerPartyIdentificationTest extends BaseXMLNodeTestWithHelpers
 {
     protected const XML_VALID_FULL_CONTENT = <<<XML
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
-  <cbc:Note>#PMD#Localized content</cbc:Note>
+  <cac:PartyIdentification>
+    <cbc:ID schemeID="0009">10000000900017</cbc:ID>
+  </cac:PartyIdentification>
 </Invoice>
 XML;
 
@@ -18,49 +21,46 @@ XML;
 </Invoice>
 XML;
 
-    protected const XML_INVALID_MULTIPLE_NOTES = <<<XML
+    protected const XML_INVALID_BAD_SCHEME_ID = <<<XML
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
-  <cbc:Note>#PMD#Localized content</cbc:Note>
-  <cbc:Note>#AAB#Localized content</cbc:Note>
-  <cbc:Note>#ABL#Localized content</cbc:Note>
-  <cbc:Note>#AAI#Localized content</cbc:Note>
+  <cac:PartyIdentification>
+    <cbc:ID schemeID="AZERTY">10000000900017</cbc:ID>
+  </cac:PartyIdentification>
 </Invoice>
 XML;
 
-
-    public function testCanBeCreatedFromCompleteValid(): void
+    public function testCanBeCreatedFromFullContent(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_FULL_CONTENT);
-        $ublObject = Note::fromXML($this->xpath, $currentElement);
-        $this->assertInstanceOf(Note::class, $ublObject);
-        $this->assertEquals("#PMD#Localized content", $ublObject->getContent());
+        $ublObjects = SellerPartyIdentification::fromXML($this->xpath, $currentElement);
+        $this->assertIsArray($ublObjects);
+        $this->assertCount(1, $ublObjects);
+        $this->assertInstanceOf(SellerPartyIdentification::class, $ublObjects[0]);
     }
 
     public function testCanBeCreatedFromMinimalContent(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_MINIMAL_CONTENT);
-        $ublObject = Note::fromXML($this->xpath, $currentElement);
-        $this->assertNull($ublObject);
+        $ublObjects = SellerPartyIdentification::fromXML($this->xpath, $currentElement);
+        $this->assertIsArray($ublObjects);
+        $this->assertCount(0, $ublObjects);
     }
 
-    /**
-     * Note: this test should be valid
-     * According to Oasis-open's UBL2.1 XSD and PPF specs, cbc:Note cardinality is 0..n
-     * Peppol specs is the only one who states cbc:Note cardinality is 0..1
-     */
-    public function testCannotBeCreatedFromMultipleNotes(): void
+    public function testCannotBeCreatedFromBadSchemeId(): void
     {
-        $currentElement = $this->loadXMLDocument(self::XML_INVALID_MULTIPLE_NOTES);
         $this->expectException(\Exception::class);
-        $ublObject = Note::fromXML($this->xpath, $currentElement);
+        $currentElement = $this->loadXMLDocument(self::XML_INVALID_BAD_SCHEME_ID);
+        SellerPartyIdentification::fromXML($this->xpath, $currentElement);
     }
 
     public function testGenerateXml(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_FULL_CONTENT);
-        $ublObject = Note::fromXML($this->xpath, $currentElement);
+        $ublObjects = SellerPartyIdentification::fromXML($this->xpath, $currentElement);
         $rootDestination = $this->generateEmptyRootDocument();
-        $rootDestination->appendChild($ublObject->toXML($this->document));
+        foreach($ublObjects as $ublObject) {
+            $rootDestination->appendChild($ublObject->toXML($this->document));
+        }
         $generatedOutput = $this->formatXMLOutput();
         $this->assertEquals(self::XML_VALID_FULL_CONTENT, $generatedOutput);
     }

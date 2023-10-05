@@ -8,23 +8,23 @@ use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
 class AllowanceAmountTest extends BaseXMLNodeTestWithHelpers
 {
-    protected const XML_VALID_CONTENT = <<<XMLCONTENT
+    protected const XML_VALID_CONTENT = <<<XML
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cbc:Amount currencyID="EUR">36.01</cbc:Amount>
 </Invoice>
-XMLCONTENT;
+XML;
 
-    protected const XML_INVALID_AMOUNT = <<<XMLCONTENT
+    protected const XML_INVALID_AMOUNT = <<<XML
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cbc:Amount currencyID="ER">36.0.0</cbc:Amount>
 </Invoice>
-XMLCONTENT;
+XML;
 
-    protected const XML_EMPTY_AMOUNT = <<<XMLCONTENT
+    protected const XML_EMPTY_AMOUNT = <<<XML
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cbc:Amount></cbc:Amount>
 </Invoice>
-XMLCONTENT;
+XML;
 
     public function testCanBeCreatedFromFullContent(): void
     {
