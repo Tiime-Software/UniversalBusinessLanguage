@@ -184,14 +184,14 @@ class LegalMonetaryTotal
         /** @var \DOMElement $legalMonetaryTotalElement */
         $legalMonetaryTotalElement = $legalMonetaryTotalElements->item(0);
 
-        $lineExtensionAmount = LineExtensionAmount::fromXML($xpath, $legalMonetaryTotalElement);
-        $taxExclusiveAmount = TaxExclusiveAmount::fromXML($xpath, $legalMonetaryTotalElement);
-        $taxInclusiveAmount = TaxInclusiveAmount::fromXML($xpath, $legalMonetaryTotalElement);
-        $allowanceTotalAmount = AllowanceTotalAmount::fromXML($xpath, $legalMonetaryTotalElement);
-        $chargeTotalAmount = ChargeTotalAmount::fromXML($xpath, $legalMonetaryTotalElement);
-        $prepaidAmount = PrepaidAmount::fromXML($xpath, $legalMonetaryTotalElement);
+        $lineExtensionAmount   = LineExtensionAmount::fromXML($xpath, $legalMonetaryTotalElement);
+        $taxExclusiveAmount    = TaxExclusiveAmount::fromXML($xpath, $legalMonetaryTotalElement);
+        $taxInclusiveAmount    = TaxInclusiveAmount::fromXML($xpath, $legalMonetaryTotalElement);
+        $allowanceTotalAmount  = AllowanceTotalAmount::fromXML($xpath, $legalMonetaryTotalElement);
+        $chargeTotalAmount     = ChargeTotalAmount::fromXML($xpath, $legalMonetaryTotalElement);
+        $prepaidAmount         = PrepaidAmount::fromXML($xpath, $legalMonetaryTotalElement);
         $payableRoundingAmount = PayableRoundingAmount::fromXML($xpath, $legalMonetaryTotalElement);
-        $payableAmount = PayableAmount::fromXML($xpath, $legalMonetaryTotalElement);
+        $payableAmount         = PayableAmount::fromXML($xpath, $legalMonetaryTotalElement);
 
         $legalMonetaryTotal = new self($lineExtensionAmount, $taxExclusiveAmount, $taxInclusiveAmount, $payableAmount);
 

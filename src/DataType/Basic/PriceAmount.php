@@ -6,11 +6,11 @@ use Tiime\EN16931\DataType\CurrencyCode;
 use Tiime\EN16931\SemanticDataType\Amount;
 
 /**
- * BT-106. or BT-131.
+ * BT-146.
  */
-class LineExtensionAmount
+class PriceAmount
 {
-    protected const XML_NODE = 'cbc:LineExtensionAmount';
+    protected const XML_NODE = 'cbc:PriceAmount';
 
     private Amount $amount;
 
@@ -43,22 +43,22 @@ class LineExtensionAmount
 
     public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): self
     {
-        $lineExtensionAmountElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
+        $priceAmountElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
 
-        if (1 !== $lineExtensionAmountElements->count()) {
+        if (1 !== $priceAmountElements->count()) {
             throw new \Exception('Malformed');
         }
 
-        /** @var \DOMElement $lineExtensionAmountElement */
-        $lineExtensionAmountElement = $lineExtensionAmountElements->item(0);
-        $value                      = (float) $lineExtensionAmountElement->nodeValue;
+        /** @var \DOMElement $priceAmountElement */
+        $priceAmountElement = $priceAmountElements->item(0);
+        $value              = (float) $priceAmountElement->nodeValue;
 
         if (!is_numeric($value)) {
-            throw new \Exception('Invalid amount');
+            throw new \Exception('Invalid amount amount');
         }
 
-        $currencyCode = $lineExtensionAmountElement->hasAttribute('currencyID') ?
-            CurrencyCode::tryFrom($lineExtensionAmountElement->getAttribute('currencyID')) : null;
+        $currencyCode = $priceAmountElement->hasAttribute('currencyID') ?
+            CurrencyCode::tryFrom($priceAmountElement->getAttribute('currencyID')) : null;
 
         if (!$currencyCode) {
             throw new \Exception('Invalid currency code');

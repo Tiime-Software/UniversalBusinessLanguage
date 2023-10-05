@@ -16,6 +16,7 @@ use Tiime\UniversalBusinessLanguage\DataType\Aggregate\BillingReference;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\ContractDocumentReference;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\Delivery;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\DespatchDocumentReference;
+use Tiime\UniversalBusinessLanguage\DataType\Aggregate\InvoiceLine;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\InvoicePeriod;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\LegalMonetaryTotal;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\OrderReference;
@@ -191,7 +192,7 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
 
     /**
      * @var array<int, TaxTotal>
-     * (1..2)
+     *                           (1..2)
      */
     private array $taxTotals;
 
@@ -200,6 +201,16 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
      */
     private LegalMonetaryTotal $legalMonetaryTotal;
 
+    /**
+     * BG-25.
+     *
+     * @var non-empty-array<int,InvoiceLine>
+     */
+    private array $invoiceLines;
+
+    /**
+     * @param non-empty-array<int,InvoiceLine> $invoiceLines
+     */
     public function __construct(
         InvoiceIdentifier $identifier,
         IssueDate $issueDate,
@@ -209,8 +220,20 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
         string $profileIdentifier,
         AccountingSupplierParty $accountingSupplierParty,
         AccountingCustomerParty $accountingCustomerParty,
-        LegalMonetaryTotal $legalMonetaryTotal
+        LegalMonetaryTotal $legalMonetaryTotal,
+        array $invoiceLines
     ) {
+        if (0 === \count($invoiceLines)) {
+            throw new \Exception('Malformed');
+        }
+
+        foreach ($invoiceLines as $invoiceLine) {
+            if (!$invoiceLine instanceof InvoiceLine) {
+                throw new \TypeError();
+            }
+        }
+
+        $this->invoiceLines            = $invoiceLines;
         $this->identifier              = $identifier;
         $this->issueDate               = $issueDate;
         $this->invoiceTypeCode         = $invoiceTypeCode;
@@ -603,12 +626,17 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
         return $this;
     }
 
-    /**
-     * @return LegalMonetaryTotal
-     */
     public function getLegalMonetaryTotal(): LegalMonetaryTotal
     {
         return $this->legalMonetaryTotal;
+    }
+
+    /**
+     * @return InvoiceLine[]
+     */
+    public function getInvoiceLines(): array
+    {
+        return $this->invoiceLines;
     }
 
     public function toXML(): \DOMDocument
@@ -730,6 +758,10 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
             $root->appendChild($taxTotal->toXML($document));
         }
 
+        foreach ($this->invoiceLines as $invoiceLine) {
+            $root->appendChild($invoiceLine->toXML($document));
+        }
+
         return $document;
     }
 
@@ -817,6 +849,7 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
         $allowanceCharges             = AllowanceCharge::fromXML($xpath, $universalBusinessLanguageElement);
         $taxTotals                    = TaxTotal::fromXML($xpath, $universalBusinessLanguageElement);
         $legalMonetaryTotal           = LegalMonetaryTotal::fromXML($xpath, $universalBusinessLanguageElement);
+        $invoiceLines                 = InvoiceLine::fromXML($xpath, $universalBusinessLanguageElement);
 
         if ($taxCurrencyCodeElements->count() > 1) {
             throw new \Exception('Malformed');
@@ -849,7 +882,8 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
             $profileIdentifier,
             $accountingSupplierParty,
             $accountingCustomerParty,
-            $legalMonetaryTotal
+            $legalMonetaryTotal,
+            $invoiceLines
         );
 
         if ($taxCurrencyCode instanceof CurrencyCode) {

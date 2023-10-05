@@ -2,49 +2,30 @@
 
 namespace Tiime\UniversalBusinessLanguage\DataType\Aggregate;
 
-use Tiime\EN16931\DataType\DateCode2005;
 use Tiime\UniversalBusinessLanguage\DataType\Basic\InvoicePeriodEndDate;
 use Tiime\UniversalBusinessLanguage\DataType\Basic\InvoicePeriodStartDate;
 
 /**
- * BG-14.
+ * BG-26.
  */
-class InvoicePeriod
+class InvoiceLineInvoicePeriod
 {
     protected const XML_NODE = 'cac:InvoicePeriod';
 
     /**
-     * BT-8.
-     */
-    private ?DateCode2005 $descriptionCode;
-
-    /**
-     * BT-73.
+     * BT-134.
      */
     private ?InvoicePeriodStartDate $startDate;
 
     /**
-     * BT-74.
+     * BT-135.
      */
     private ?InvoicePeriodEndDate $endDate;
 
     public function __construct()
     {
-        $this->descriptionCode = null;
-        $this->startDate       = null;
-        $this->endDate         = null;
-    }
-
-    public function getDescriptionCode(): ?DateCode2005
-    {
-        return $this->descriptionCode;
-    }
-
-    public function setDescriptionCode(?DateCode2005 $descriptionCode): static
-    {
-        $this->descriptionCode = $descriptionCode;
-
-        return $this;
+        $this->startDate = null;
+        $this->endDate   = null;
     }
 
     public function getStartDate(): ?InvoicePeriodStartDate
@@ -75,10 +56,6 @@ class InvoicePeriod
     {
         $currentNode = $document->createElement(self::XML_NODE);
 
-        if ($this->descriptionCode instanceof DateCode2005) {
-            $currentNode->appendChild($document->createElement('cbc:DescriptionCode', $this->descriptionCode->value));
-        }
-
         if ($this->startDate instanceof InvoicePeriodStartDate) {
             $currentNode->appendChild($this->startDate->toXML($document));
         }
@@ -107,18 +84,8 @@ class InvoicePeriod
 
         $invoicePeriod = new self();
 
-        $descriptionCodeElements = $xpath->query('./cbc:DescriptionCode', $invoicePeriodElement);
-        $startDate               = InvoicePeriodStartDate::fromXML($xpath, $invoicePeriodElement);
-        $endDate                 = InvoicePeriodEndDate::fromXML($xpath, $invoicePeriodElement);
-
-        if (1 === $descriptionCodeElements->count()) {
-            $descriptionCode = DateCode2005::tryFrom((string) $descriptionCodeElements->item(0)->nodeValue);
-
-            if (null === $descriptionCode) {
-                throw new \Exception('Wrong description code');
-            }
-            $invoicePeriod->setDescriptionCode($descriptionCode);
-        }
+        $startDate = InvoicePeriodStartDate::fromXML($xpath, $invoicePeriodElement);
+        $endDate   = InvoicePeriodEndDate::fromXML($xpath, $invoicePeriodElement);
 
         if ($startDate instanceof InvoicePeriodStartDate) {
             $invoicePeriod->setStartDate($startDate);

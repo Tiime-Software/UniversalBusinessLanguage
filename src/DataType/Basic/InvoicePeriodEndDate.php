@@ -7,7 +7,7 @@ namespace Tiime\UniversalBusinessLanguage\DataType\Basic;
 use Tiime\UniversalBusinessLanguage\DataType\Utils\UniversalBusinessLanguageUtils;
 
 /**
- * BT-74.
+ * BT-74. or BT-135.
  */
 class InvoicePeriodEndDate
 {
