@@ -16,15 +16,15 @@ class AllowanceAmount
 
     private CurrencyCode $currencyCode;
 
-    public function __construct(float $value, CurrencyCode $currencyCode)
+    public function __construct(Amount $amount, CurrencyCode $currencyCode)
     {
-        $this->amount       = new Amount($value);
+        $this->amount       = $amount;
         $this->currencyCode = $currencyCode;
     }
 
-    public function getAmount(): float
+    public function getAmount(): Amount
     {
-        return $this->amount->getValueRounded();
+        return $this->amount;
     }
 
     public function getCurrencyCode(): CurrencyCode
@@ -34,7 +34,7 @@ class AllowanceAmount
 
     public function toXML(\DOMDocument $document): \DOMElement
     {
-        $currentNode = $document->createElement(self::XML_NODE, $this->amount);
+        $currentNode = $document->createElement(self::XML_NODE, $this->amount->getFormattedValueRounded());
 
         $currentNode->setAttribute('currencyID', $this->currencyCode->value);
 
@@ -51,11 +51,12 @@ class AllowanceAmount
 
         /** @var \DOMElement $allowanceAmountElement */
         $allowanceAmountElement = $allowanceAmountElements->item(0);
-        $value                  = (float) $allowanceAmountElement->nodeValue;
 
-        if (!is_numeric($value)) {
-            throw new \Exception('Invalid amount amount');
+        if (!is_numeric($allowanceAmountElement->nodeValue)) {
+            throw new \TypeError();
         }
+
+        $amount                 = new Amount((float) $allowanceAmountElement->nodeValue);
 
         $currencyCode = $allowanceAmountElement->hasAttribute('currencyID') ?
             CurrencyCode::tryFrom($allowanceAmountElement->getAttribute('currencyID')) : null;
@@ -64,6 +65,6 @@ class AllowanceAmount
             throw new \Exception('Invalid currency code');
         }
 
-        return new self($value, $currencyCode);
+        return new self($amount, $currencyCode);
     }
 }
