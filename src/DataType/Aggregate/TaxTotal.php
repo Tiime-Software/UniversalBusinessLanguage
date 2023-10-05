@@ -54,7 +54,7 @@ class TaxTotal
             }
         }
 
-        $this->$taxSubtotals = $taxSubtotals;
+        $this->taxSubtotals = $taxSubtotals;
 
         return $this;
     }

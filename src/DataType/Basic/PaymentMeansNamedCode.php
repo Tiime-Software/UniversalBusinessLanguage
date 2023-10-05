@@ -43,7 +43,7 @@ class PaymentMeansNamedCode
 
     public function toXML(\DOMDocument $document): \DOMElement
     {
-        $currentNode = $document->createElement(self::XML_NODE);
+        $currentNode = $document->createElement(self::XML_NODE, $this->paymentMeansCode->value);
 
         if (\is_string($this->name)) {
             $currentNode->setAttribute('name', $this->name);

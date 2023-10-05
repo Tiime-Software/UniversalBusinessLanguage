@@ -12,7 +12,7 @@ use Tiime\UniversalBusinessLanguage\DataType\Basic\TaxAmount;
  */
 class TaxSubtotal
 {
-    protected const XML_NODE = 'cbc:TaxSubtotal';
+    protected const XML_NODE = 'cac:TaxSubtotal';
 
     /**
      * BT-116.
