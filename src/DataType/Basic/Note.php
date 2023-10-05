@@ -68,7 +68,7 @@ class Note
             return null;
         }
 
-        if (1 < $noteElements->count()) {
+        if ($noteElements->count() > 1) {
             throw new \Exception('Malformed');
         }
 

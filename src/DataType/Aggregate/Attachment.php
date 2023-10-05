@@ -83,7 +83,7 @@ class Attachment
         $embeddedDocumentBinaryObjectElements = $xpath->query('./cbc:EmbeddedDocumentBinaryObject', $attachmentElement);
         $externalReference                    = ExternalReference::fromXML($xpath, $attachmentElement);
 
-        if (1 < $embeddedDocumentBinaryObjectElements->count()) {
+        if ($embeddedDocumentBinaryObjectElements->count() > 1) {
             throw new \Exception('Malformed');
         }
 

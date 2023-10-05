@@ -86,7 +86,7 @@ class OrderReference
             throw new \Exception('Malformed');
         }
 
-        if (1 < $salesOrderIdentifierElements->count()) {
+        if ($salesOrderIdentifierElements->count() > 1) {
             throw new \Exception('Malformed');
         }
 

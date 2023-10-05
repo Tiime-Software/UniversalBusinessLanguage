@@ -44,9 +44,9 @@ class SellerParty
      */
     private ?Contact $contact;
 
-    public function __construct(EndpointIdentifier $endpointID, PostalAddress $postalAddress)
+    public function __construct(EndpointIdentifier $endpointIdentifier, PostalAddress $postalAddress)
     {
-        $this->endpointIdentifier         = $endpointID;
+        $this->endpointIdentifier         = $endpointIdentifier;
         $this->postalAddress              = $postalAddress;
         $this->sellerPartyIdentifications = [];
         $this->partyLegalEntity           = null;

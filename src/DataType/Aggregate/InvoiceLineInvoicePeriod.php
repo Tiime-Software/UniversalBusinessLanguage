@@ -75,7 +75,7 @@ class InvoiceLineInvoicePeriod
             return null;
         }
 
-        if (1 < $invoicePeriodElements->count()) {
+        if ($invoicePeriodElements->count() > 1) {
             throw new \Exception('Malformed');
         }
 

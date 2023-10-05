@@ -94,7 +94,7 @@ class Contact
             return null;
         }
 
-        if (1 < $contactElements->count()) {
+        if ($contactElements->count() > 1) {
             throw new \Exception('Malformed');
         }
 

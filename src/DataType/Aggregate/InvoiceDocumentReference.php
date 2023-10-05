@@ -79,9 +79,9 @@ class InvoiceDocumentReference
 
         $issuerAssignedIdentifier = (string) $issuerAssignedIdentifierElements->item(0)->nodeValue;
 
-        $invoiceReferencedDocument = new self(new PrecedingInvoiceReference($issuerAssignedIdentifier));
-
         $issueDate = InvoiceDocumentReferenceIssueDate::fromXML($xpath, $invoiceReferencedDocumentElement);
+
+        $invoiceReferencedDocument = new self(new PrecedingInvoiceReference($issuerAssignedIdentifier));
 
         if ($issueDate instanceof InvoiceDocumentReferenceIssueDate) {
             $invoiceReferencedDocument->setIssueDate($issueDate);

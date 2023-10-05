@@ -112,7 +112,7 @@ class AdditionalDocumentReference
     {
         $additionalDocumentReferenceElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
 
-        if (!$additionalDocumentReferenceElements || 0 === $additionalDocumentReferenceElements->count()) {
+        if (0 === $additionalDocumentReferenceElements->count()) {
             return [];
         }
 
@@ -125,19 +125,20 @@ class AdditionalDocumentReference
             $identifierElements          = $xpath->query('./cbc:ID', $additionalDocumentReferenceElement);
             $documentTypeCodeElements    = $xpath->query('./cbc:DocumentTypeCode', $additionalDocumentReferenceElement);
             $documentDescriptionElements = $xpath->query('./cbc:DocumentDescription', $additionalDocumentReferenceElement);
-            $attachment                  = Attachment::fromXML($xpath, $additionalDocumentReferenceElement);
 
             if (1 !== $identifierElements->count()) {
                 throw new \Exception('Malformed');
             }
 
-            if (1 < $documentTypeCodeElements->count()) {
+            if ($documentTypeCodeElements->count() > 1) {
                 throw new \Exception('Malformed');
             }
 
-            if (1 < $documentDescriptionElements->count()) {
+            if ($documentDescriptionElements->count() > 1) {
                 throw new \Exception('Malformed');
             }
+
+            $attachment = Attachment::fromXML($xpath, $additionalDocumentReferenceElement);
 
             /** @var \DOMNode $identifierElement */
             $identifierElement = $identifierElements->item(0);
