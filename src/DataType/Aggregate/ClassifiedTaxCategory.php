@@ -107,10 +107,8 @@ class ClassifiedTaxCategory
             throw new \Exception('Malformed');
         }
 
-        $percent = (float) $percentElements->item(0)->nodeValue;
-
         if (1 === $percentElements->count()) {
-            $classifiedTaxCategory->setPercent($percent);
+            $classifiedTaxCategory->setPercent((float) $percentElements->item(0)->nodeValue);
         }
 
         return $classifiedTaxCategory;
