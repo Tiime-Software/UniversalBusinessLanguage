@@ -9,7 +9,7 @@ use Tiime\UniversalBusinessLanguage\DataType\Utils\UniversalBusinessLanguageUtil
 /**
  * BT-73. or BT-134.
  */
-class InvoicePeriodStartDate
+class StartDate
 {
     protected const XML_NODE = 'cbc:StartDate';
 

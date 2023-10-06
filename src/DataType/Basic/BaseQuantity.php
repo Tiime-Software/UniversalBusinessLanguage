@@ -14,19 +14,19 @@ class BaseQuantity
 {
     protected const XML_NODE = 'cbc:InvoicedQuantity';
 
-    private Quantity $quantity;
+    private Quantity $value;
 
     private ?UnitOfMeasurement $unitCode;
 
-    public function __construct(float $quantity)
+    public function __construct(float $value)
     {
-        $this->quantity = new Quantity($quantity);
+        $this->value = new Quantity($value);
         $this->unitCode = null;
     }
 
-    public function getQuantity(): float
+    public function getQuantity(): Quantity
     {
-        return $this->quantity->getValueRounded();
+        return $this->value;
     }
 
     public function getUnitCode(): ?UnitOfMeasurement
@@ -43,7 +43,7 @@ class BaseQuantity
 
     public function toXML(\DOMDocument $document): \DOMElement
     {
-        $currentNode = $document->createElement(self::XML_NODE, $this->quantity->getFormattedValueRounded());
+        $currentNode = $document->createElement(self::XML_NODE, $this->value->getFormattedValueRounded());
 
         if ($this->unitCode instanceof UnitOfMeasurement) {
             $currentNode->setAttribute('unitCode', $this->unitCode->value);
@@ -63,9 +63,13 @@ class BaseQuantity
         /** @var \DOMElement $baseQuantityElement */
         $baseQuantityElement = $baseQuantityElements->item(0);
 
-        $baseQuantity = $baseQuantityElement->nodeValue;
+        if (!is_numeric($baseQuantityElement->nodeValue)) {
+            throw new \TypeError();
+        }
 
-        $baseQuantity = new self((float) $baseQuantity);
+        $value = (float) $baseQuantityElement->nodeValue;
+        
+        $baseQuantity = new self($value);
 
         $unitCode = $baseQuantityElement->hasAttribute('unitCode') ?
             UnitOfMeasurement::tryFrom($baseQuantityElement->getAttribute('unitCode')) : null;

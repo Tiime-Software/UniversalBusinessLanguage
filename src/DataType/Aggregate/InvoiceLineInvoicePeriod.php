@@ -2,8 +2,8 @@
 
 namespace Tiime\UniversalBusinessLanguage\DataType\Aggregate;
 
-use Tiime\UniversalBusinessLanguage\DataType\Basic\InvoicePeriodEndDate;
-use Tiime\UniversalBusinessLanguage\DataType\Basic\InvoicePeriodStartDate;
+use Tiime\UniversalBusinessLanguage\DataType\Basic\EndDate;
+use Tiime\UniversalBusinessLanguage\DataType\Basic\StartDate;
 
 /**
  * BG-26.
@@ -15,12 +15,12 @@ class InvoiceLineInvoicePeriod
     /**
      * BT-134.
      */
-    private ?InvoicePeriodStartDate $startDate;
+    private ?StartDate $startDate;
 
     /**
      * BT-135.
      */
-    private ?InvoicePeriodEndDate $endDate;
+    private ?EndDate $endDate;
 
     public function __construct()
     {
@@ -28,24 +28,24 @@ class InvoiceLineInvoicePeriod
         $this->endDate   = null;
     }
 
-    public function getStartDate(): ?InvoicePeriodStartDate
+    public function getStartDate(): ?StartDate
     {
         return $this->startDate;
     }
 
-    public function setStartDate(?InvoicePeriodStartDate $startDate): static
+    public function setStartDate(?StartDate $startDate): static
     {
         $this->startDate = $startDate;
 
         return $this;
     }
 
-    public function getEndDate(): ?InvoicePeriodEndDate
+    public function getEndDate(): ?EndDate
     {
         return $this->endDate;
     }
 
-    public function setEndDate(?InvoicePeriodEndDate $endDate): static
+    public function setEndDate(?EndDate $endDate): static
     {
         $this->endDate = $endDate;
 
@@ -56,11 +56,11 @@ class InvoiceLineInvoicePeriod
     {
         $currentNode = $document->createElement(self::XML_NODE);
 
-        if ($this->startDate instanceof InvoicePeriodStartDate) {
+        if ($this->startDate instanceof StartDate) {
             $currentNode->appendChild($this->startDate->toXML($document));
         }
 
-        if ($this->endDate instanceof InvoicePeriodEndDate) {
+        if ($this->endDate instanceof EndDate) {
             $currentNode->appendChild($this->endDate->toXML($document));
         }
 
@@ -84,14 +84,14 @@ class InvoiceLineInvoicePeriod
 
         $invoicePeriod = new self();
 
-        $startDate = InvoicePeriodStartDate::fromXML($xpath, $invoicePeriodElement);
-        $endDate   = InvoicePeriodEndDate::fromXML($xpath, $invoicePeriodElement);
+        $startDate = StartDate::fromXML($xpath, $invoicePeriodElement);
+        $endDate   = EndDate::fromXML($xpath, $invoicePeriodElement);
 
-        if ($startDate instanceof InvoicePeriodStartDate) {
+        if ($startDate instanceof StartDate) {
             $invoicePeriod->setStartDate($startDate);
         }
 
-        if ($endDate instanceof InvoicePeriodEndDate) {
+        if ($endDate instanceof EndDate) {
             $invoicePeriod->setEndDate($endDate);
         }
 

@@ -8,54 +8,66 @@ use Tiime\EN16931\DataType\InternationalCodeDesignator;
 /**
  * BT-29.
  */
-class SellerPartyIdentification extends SellerIdentifier
+class SellerPartyIdentification
 {
     protected const XML_NODE = 'cac:PartyIdentification';
 
-    public function __construct(string $value, InternationalCodeDesignator $scheme)
+    private SellerIdentifier $sellerIdentifier;
+
+    public function __construct(SellerIdentifier $sellerIdentifier)
     {
-        parent::__construct($value, $scheme);
+        $this->sellerIdentifier = $sellerIdentifier;
+    }
+
+    public function getBuyerIdentifier(): SellerIdentifier
+    {
+        return $this->sellerIdentifier;
     }
 
     public function toXML(\DOMDocument $document): \DOMElement
     {
-        $currentNode = $document->createElement(self::XML_NODE, $this->value);
+        $currentNode = $document->createElement(self::XML_NODE);
 
-        if (!$this->scheme) {
-            throw new \Exception('No scheme found');
+        $sellerIdentifier = $document->createElement('cbc:ID', $this->sellerIdentifier->value);
+
+        if ($this->sellerIdentifier->scheme instanceof InternationalCodeDesignator) {
+            $sellerIdentifier->setAttribute('schemeID', $this->sellerIdentifier->scheme->value);
         }
 
-        $currentNode->setAttribute('schemeID', $this->scheme->value);
+        $currentNode->appendChild($sellerIdentifier);
 
         return $currentNode;
     }
 
-    /**
-     * @return array<int, SellerPartyIdentification>
-     */
-    public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): array
+    public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): ?self
     {
-        $partyIdentifications = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
+        $partyIdentificationElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
 
-        if (0 === $partyIdentifications->count()) {
-            return [];
+        if (0 === $partyIdentificationElements->count()) {
+            return null;
         }
 
-        $sellerGlobalIdentifiers = [];
-
-        /** @var \DOMElement $partyIdentification */
-        foreach ($partyIdentifications as $partyIdentification) {
-            $sellerGlobalIdentifier = (string) $partyIdentification->nodeValue;
-            $scheme                 = $partyIdentification->hasAttribute('schemeID') ?
-                InternationalCodeDesignator::tryFrom($partyIdentification->getAttribute('schemeID')) : null;
-
-            if (null === $scheme) {
-                throw new \Exception('Wrong schemeID');
-            }
-
-            $sellerGlobalIdentifiers[] = new self($sellerGlobalIdentifier, $scheme);
+        if ($partyIdentificationElements->count() > 1) {
+            throw new \Exception('Malformed');
         }
 
-        return $sellerGlobalIdentifiers;
+        /** @var \DOMElement $partyIdentificationElement */
+        $partyIdentificationElement = $partyIdentificationElements->item(0);
+
+        $identifierElements = $xpath->query('./cbc:ID', $partyIdentificationElement);
+
+        if (1 !== $identifierElements->count()) {
+            throw new \Exception('Malformed');
+        }
+
+        /** @var \DOMElement $identifierElement */
+        $identifierElement = $identifierElements->item(0);
+        $value             = (string) $identifierElement->nodeValue;
+        $scheme            = $identifierElement->hasAttribute('schemeID') ?
+            InternationalCodeDesignator::tryFrom($identifierElement->getAttribute('schemeID')) : null;
+
+        $identifier = new SellerIdentifier($value, $scheme);
+
+        return new self($identifier);
     }
 }

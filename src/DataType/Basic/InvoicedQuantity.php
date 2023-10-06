@@ -14,22 +14,22 @@ class InvoicedQuantity
     /**
      * BT-129.
      */
-    private Quantity $quantity;
+    private Quantity $value;
 
     /**
      * BT-130.
      */
     private UnitOfMeasurement $unitCode;
 
-    public function __construct(float $quantity, UnitOfMeasurement $unitCode)
+    public function __construct(float $value, UnitOfMeasurement $unitCode)
     {
-        $this->quantity = new Quantity($quantity);
+        $this->value = new Quantity($value);
         $this->unitCode = $unitCode;
     }
 
-    public function getQuantity(): float
+    public function getQuantity(): Quantity
     {
-        return $this->quantity->getValueRounded();
+        return $this->value;
     }
 
     public function getUnitCode(): UnitOfMeasurement
@@ -39,7 +39,7 @@ class InvoicedQuantity
 
     public function toXML(\DOMDocument $document): \DOMElement
     {
-        $currentNode = $document->createElement(self::XML_NODE, $this->quantity->getFormattedValueRounded());
+        $currentNode = $document->createElement(self::XML_NODE, $this->value->getFormattedValueRounded());
         $currentNode->setAttribute('unitCode', $this->unitCode->value);
 
         return $currentNode;
@@ -56,7 +56,12 @@ class InvoicedQuantity
         /** @var \DOMElement $invoicedQuantityElement */
         $invoicedQuantityElement = $invoicedQuantityElements->item(0);
 
-        $invoicedQuantity = $invoicedQuantityElement->nodeValue;
+        if (!is_numeric($invoicedQuantityElement->nodeValue)) {
+            throw new \TypeError();
+        }
+
+        $value = (float) $invoicedQuantityElement->nodeValue;
+
         $unitCode         = $invoicedQuantityElement->hasAttribute('unitCode') ?
             UnitOfMeasurement::tryFrom($invoicedQuantityElement->getAttribute('unitCode')) : null;
 
@@ -64,6 +69,6 @@ class InvoicedQuantity
             throw new \Exception('Wrong unitCode');
         }
 
-        return new self((float) $invoicedQuantity, $unitCode);
+        return new self($value, $unitCode);
     }
 }

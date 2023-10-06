@@ -36,20 +36,20 @@ class InvoiceLineAllowanceCharge
     /**
      * BT-136. or BT-141.
      */
-    private AllowanceAmount $amount;
+    private AllowanceAmount $value;
 
     /**
      * BT-137. or BT-142.
      */
     private ?BaseAmount $baseAmount;
 
-    public function __construct(AllowanceAmount $amount)
+    public function __construct(AllowanceAmount $value)
     {
         $this->chargeIndicator           = 'false';
         $this->allowanceChargeReasonCode = null;
         $this->allowanceChargeReason     = null;
         $this->multiplierFactorNumeric   = null;
-        $this->amount                    = $amount;
+        $this->value                     = $value;
         $this->baseAmount                = null;
     }
 
@@ -58,9 +58,9 @@ class InvoiceLineAllowanceCharge
         return $this->chargeIndicator;
     }
 
-    public function getAmount(): AllowanceAmount
+    public function getValue(): AllowanceAmount
     {
-        return $this->amount;
+        return $this->value;
     }
 
     public function getAllowanceChargeReasonCode(): ?AllowanceReasonCode
@@ -85,14 +85,14 @@ class InvoiceLineAllowanceCharge
         return $this;
     }
 
-    public function getMultiplierFactorNumeric(): ?float
+    public function getMultiplierFactorNumeric(): ?Percentage
     {
-        return $this->multiplierFactorNumeric?->getValueRounded();
+        return $this->multiplierFactorNumeric;
     }
 
-    public function setMultiplierFactorNumeric(?float $multiplierFactorNumeric): static
+    public function setMultiplierFactorNumeric(?float $value): static
     {
-        $this->multiplierFactorNumeric = \is_float($multiplierFactorNumeric) ? new Percentage($multiplierFactorNumeric) : null;
+        $this->multiplierFactorNumeric = \is_float($value) ? new Percentage($value) : null;
 
         return $this;
     }
@@ -139,7 +139,7 @@ class InvoiceLineAllowanceCharge
             );
         }
 
-        $currentNode->appendChild($this->amount->toXML($document));
+        $currentNode->appendChild($this->value->toXML($document));
 
         if ($this->baseAmount instanceof BaseAmount) {
             $currentNode->appendChild($this->baseAmount->toXML($document));
@@ -163,7 +163,7 @@ class InvoiceLineAllowanceCharge
 
         /** @var \DOMElement $allowanceChargeElement */
         foreach ($allowanceChargeElements as $allowanceChargeElement) {
-            $chargeIndicatorElements = $xpath->query('cbc:ChargeIndicator', $allowanceChargeElement);
+            $chargeIndicatorElements = $xpath->query('./cbc:ChargeIndicator', $allowanceChargeElement);
 
             if (1 !== $chargeIndicatorElements->count()) {
                 throw new \Exception('Malformed');
@@ -175,28 +175,28 @@ class InvoiceLineAllowanceCharge
                 throw new \Exception('Malformed');
             }
 
-            $allowanceChargeReasonCodeElements = $xpath->query('cbc:AllowanceChargeReasonCode', $allowanceChargeElement);
+            $allowanceChargeReasonCodeElements = $xpath->query('./cbc:AllowanceChargeReasonCode', $allowanceChargeElement);
 
             if ($allowanceChargeReasonCodeElements->count() > 1) {
                 throw new \Exception('Malformed');
             }
 
-            $allowanceChargeReasonElements = $xpath->query('cbc:AllowanceChargeReason', $allowanceChargeElement);
+            $allowanceChargeReasonElements = $xpath->query('./cbc:AllowanceChargeReason', $allowanceChargeElement);
 
             if ($allowanceChargeReasonElements->count() > 1) {
                 throw new \Exception('Malformed');
             }
 
-            $multiplierFactorNumericElements = $xpath->query('cbc:MultiplierFactorNumeric', $allowanceChargeElement);
+            $multiplierFactorNumericElements = $xpath->query('./cbc:MultiplierFactorNumeric', $allowanceChargeElement);
 
             if ($multiplierFactorNumericElements->count() > 1) {
                 throw new \Exception('Malformed');
             }
 
-            $amount     = AllowanceAmount::fromXML($xpath, $allowanceChargeElement);
+            $value      = AllowanceAmount::fromXML($xpath, $allowanceChargeElement);
             $baseAmount = BaseAmount::fromXML($xpath, $allowanceChargeElement);
 
-            $allowanceCharge = new self($amount);
+            $allowanceCharge = new self($value);
 
             if (1 === $allowanceChargeReasonCodeElements->count()) {
                 $allowanceChargeReasonCode = AllowanceReasonCode::tryFrom(

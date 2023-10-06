@@ -12,31 +12,31 @@ class PrepaidAmount
 {
     protected const XML_NODE = 'cbc:PrepaidAmount';
 
-    private Amount $amount;
+    private Amount $value;
 
-    private CurrencyCode $currencyCode;
+    private CurrencyCode $currencyIdentifier;
 
-    public function __construct(float $value, CurrencyCode $currencyCode)
+    public function __construct(float $value, CurrencyCode $currencyIdentifier)
     {
-        $this->amount       = new Amount($value);
-        $this->currencyCode = $currencyCode;
+        $this->value              = new Amount($value);
+        $this->currencyIdentifier = $currencyIdentifier;
     }
 
-    public function getAmount(): float
+    public function getValue(): Amount
     {
-        return $this->amount->getValueRounded();
+        return $this->value;
     }
 
     public function getCurrencyCode(): CurrencyCode
     {
-        return $this->currencyCode;
+        return $this->currencyIdentifier;
     }
 
     public function toXML(\DOMDocument $document): \DOMElement
     {
-        $currentNode = $document->createElement(self::XML_NODE, $this->amount->getFormattedValueRounded());
+        $currentNode = $document->createElement(self::XML_NODE, $this->value->getFormattedValueRounded());
 
-        $currentNode->setAttribute('currencyID', $this->currencyCode->value);
+        $currentNode->setAttribute('currencyID', $this->currencyIdentifier->value);
 
         return $currentNode;
     }
@@ -55,19 +55,20 @@ class PrepaidAmount
 
         /** @var \DOMElement $prepaidAmountElement */
         $prepaidAmountElement = $prepaidAmountElements->item(0);
-        $value                = (float) $prepaidAmountElement->nodeValue;
 
-        if (!is_numeric($value)) {
-            throw new \Exception('Invalid amount');
+        if (!is_numeric($prepaidAmountElement->nodeValue)) {
+            throw new \TypeError();
         }
 
-        $currencyCode = $prepaidAmountElement->hasAttribute('currencyID') ?
+        $value = (float) $prepaidAmountElement->nodeValue;
+
+        $currencyIdentifier = $prepaidAmountElement->hasAttribute('currencyID') ?
             CurrencyCode::tryFrom($prepaidAmountElement->getAttribute('currencyID')) : null;
 
-        if (!$currencyCode) {
+        if (!$currencyIdentifier) {
             throw new \Exception('Invalid currency code');
         }
 
-        return new self($value, $currencyCode);
+        return new self($value, $currencyIdentifier);
     }
 }

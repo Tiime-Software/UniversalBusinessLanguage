@@ -16,17 +16,17 @@ class PriceAllowanceCharge
     /**
      * BT-147.
      */
-    private AllowanceAmount $amount;
+    private AllowanceAmount $value;
 
     /**
      * BT-148.
      */
     private ?BaseAmount $baseAmount;
 
-    public function __construct(AllowanceAmount $amount)
+    public function __construct(AllowanceAmount $value)
     {
         $this->chargeIndicator = 'false';
-        $this->amount          = $amount;
+        $this->value           = $value;
         $this->baseAmount      = null;
     }
 
@@ -35,9 +35,9 @@ class PriceAllowanceCharge
         return $this->chargeIndicator;
     }
 
-    public function getAmount(): AllowanceAmount
+    public function getValue(): AllowanceAmount
     {
-        return $this->amount;
+        return $this->value;
     }
 
     public function getBaseAmount(): ?BaseAmount
@@ -57,7 +57,7 @@ class PriceAllowanceCharge
         $currentNode = $document->createElement(self::XML_NODE);
 
         $currentNode->appendChild($document->createElement('cbc:ChargeIndicator', 'false'));
-        $currentNode->appendChild($this->amount->toXML($document));
+        $currentNode->appendChild($this->value->toXML($document));
 
         if ($this->baseAmount instanceof BaseAmount) {
             $currentNode->appendChild($this->baseAmount->toXML($document));
@@ -77,7 +77,7 @@ class PriceAllowanceCharge
         /** @var \DOMElement $priceAllowanceChargeElement */
         $priceAllowanceChargeElement = $priceAllowanceChargeElements->item(0);
 
-        $chargeIndicatorElements = $xpath->query('cbc:ChargeIndicator', $priceAllowanceChargeElement);
+        $chargeIndicatorElements = $xpath->query('./cbc:ChargeIndicator', $priceAllowanceChargeElement);
 
         if (1 !== $chargeIndicatorElements->count()) {
             throw new \Exception('Malformed');
@@ -89,10 +89,10 @@ class PriceAllowanceCharge
             throw new \Exception('Malformed');
         }
 
-        $amount     = AllowanceAmount::fromXML($xpath, $priceAllowanceChargeElement);
+        $value      = AllowanceAmount::fromXML($xpath, $priceAllowanceChargeElement);
         $baseAmount = BaseAmount::fromXML($xpath, $priceAllowanceChargeElement);
 
-        $priceAllowanceCharge = new self($amount);
+        $priceAllowanceCharge = new self($value);
 
         if ($baseAmount instanceof BaseAmount) {
             $priceAllowanceCharge->setBaseAmount($baseAmount);

@@ -3,8 +3,8 @@
 namespace Tiime\UniversalBusinessLanguage\DataType\Aggregate;
 
 use Tiime\EN16931\DataType\DateCode2005;
-use Tiime\UniversalBusinessLanguage\DataType\Basic\InvoicePeriodEndDate;
-use Tiime\UniversalBusinessLanguage\DataType\Basic\InvoicePeriodStartDate;
+use Tiime\UniversalBusinessLanguage\DataType\Basic\EndDate;
+use Tiime\UniversalBusinessLanguage\DataType\Basic\StartDate;
 
 /**
  * BG-14.
@@ -21,12 +21,12 @@ class InvoicePeriod
     /**
      * BT-73.
      */
-    private ?InvoicePeriodStartDate $startDate;
+    private ?StartDate $startDate;
 
     /**
      * BT-74.
      */
-    private ?InvoicePeriodEndDate $endDate;
+    private ?EndDate $endDate;
 
     public function __construct()
     {
@@ -47,24 +47,24 @@ class InvoicePeriod
         return $this;
     }
 
-    public function getStartDate(): ?InvoicePeriodStartDate
+    public function getStartDate(): ?StartDate
     {
         return $this->startDate;
     }
 
-    public function setStartDate(?InvoicePeriodStartDate $startDate): static
+    public function setStartDate(?StartDate $startDate): static
     {
         $this->startDate = $startDate;
 
         return $this;
     }
 
-    public function getEndDate(): ?InvoicePeriodEndDate
+    public function getEndDate(): ?EndDate
     {
         return $this->endDate;
     }
 
-    public function setEndDate(?InvoicePeriodEndDate $endDate): static
+    public function setEndDate(?EndDate $endDate): static
     {
         $this->endDate = $endDate;
 
@@ -79,11 +79,11 @@ class InvoicePeriod
             $currentNode->appendChild($document->createElement('cbc:DescriptionCode', $this->descriptionCode->value));
         }
 
-        if ($this->startDate instanceof InvoicePeriodStartDate) {
+        if ($this->startDate instanceof StartDate) {
             $currentNode->appendChild($this->startDate->toXML($document));
         }
 
-        if ($this->endDate instanceof InvoicePeriodEndDate) {
+        if ($this->endDate instanceof EndDate) {
             $currentNode->appendChild($this->endDate->toXML($document));
         }
 
@@ -108,8 +108,8 @@ class InvoicePeriod
         $invoicePeriod = new self();
 
         $descriptionCodeElements = $xpath->query('./cbc:DescriptionCode', $invoicePeriodElement);
-        $startDate               = InvoicePeriodStartDate::fromXML($xpath, $invoicePeriodElement);
-        $endDate                 = InvoicePeriodEndDate::fromXML($xpath, $invoicePeriodElement);
+        $startDate               = StartDate::fromXML($xpath, $invoicePeriodElement);
+        $endDate                 = EndDate::fromXML($xpath, $invoicePeriodElement);
 
         if (1 === $descriptionCodeElements->count()) {
             $descriptionCode = DateCode2005::tryFrom((string) $descriptionCodeElements->item(0)->nodeValue);
@@ -120,11 +120,11 @@ class InvoicePeriod
             $invoicePeriod->setDescriptionCode($descriptionCode);
         }
 
-        if ($startDate instanceof InvoicePeriodStartDate) {
+        if ($startDate instanceof StartDate) {
             $invoicePeriod->setStartDate($startDate);
         }
 
-        if ($endDate instanceof InvoicePeriodEndDate) {
+        if ($endDate instanceof EndDate) {
             $invoicePeriod->setEndDate($endDate);
         }
 

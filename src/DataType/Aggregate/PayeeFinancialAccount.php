@@ -88,7 +88,7 @@ class PayeeFinancialAccount
         /** @var \DOMElement $payeeFinancialAccountElement */
         $payeeFinancialAccountElement = $payeeFinancialAccountElements->item(0);
 
-        $paymentAccountIdentifierElements = $xpath->query('cbc:ID', $payeeFinancialAccountElement);
+        $paymentAccountIdentifierElements = $xpath->query('./cbc:ID', $payeeFinancialAccountElement);
 
         if (1 !== $paymentAccountIdentifierElements->count()) {
             throw new \Exception('Malformed');
@@ -100,7 +100,7 @@ class PayeeFinancialAccount
 
         $payeeFinancialAccount = new self($paymentAccountIdentifier);
 
-        $paymentAccountNameElements = $xpath->query('cbc:Name', $payeeFinancialAccountElement);
+        $paymentAccountNameElements = $xpath->query('./cbc:Name', $payeeFinancialAccountElement);
 
         if ($paymentAccountNameElements->count() > 1) {
             throw new \Exception('Malformed');

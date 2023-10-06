@@ -56,12 +56,17 @@ class CommodityClassification
 
     public function toXML(\DOMDocument $document): \DOMElement
     {
-        $currentNode = $document->createElement(self::XML_NODE, $this->itemClassificationCode);
-        $currentNode->setAttribute('listID', $this->listIdentifier->value);
+        $currentNode = $document->createElement(self::XML_NODE);
+
+        $itemClassificationCodeElement = $document->createElement('cbc:ItemClassificationCode', $this->itemClassificationCode);
+
+        $itemClassificationCodeElement->setAttribute('listID', $this->listIdentifier->value);
 
         if (\is_string($this->listVersionIdentifier)) {
-            $currentNode->setAttribute('listVersionID', $this->listVersionIdentifier);
+            $itemClassificationCodeElement->setAttribute('listVersionID', $this->listVersionIdentifier);
         }
+
+        $currentNode->appendChild($itemClassificationCodeElement);
 
         return $currentNode;
     }
@@ -81,9 +86,18 @@ class CommodityClassification
 
         /** @var \DOMElement $commodityClassificationElement */
         foreach ($commodityClassificationElements as $commodityClassificationElement) {
-            $itemClassificationCode = (string) $commodityClassificationElement->nodeValue;
+            $itemClassificationCodeElements = $xpath->query('./cbc:ItemClassificationCode',$commodityClassificationElement);
 
-            $identifier = ItemTypeCode::tryFrom($commodityClassificationElement->getAttribute('listID'));
+            if (1 !== $itemClassificationCodeElements->count()) {
+                throw new \Exception('Malformed');
+            }
+
+            /** @var \DOMElement $itemClassificationCodeElement */
+            $itemClassificationCodeElement = $itemClassificationCodeElements->item(0);
+
+            $itemClassificationCode = (string) $itemClassificationCodeElement->nodeValue;
+
+            $identifier = ItemTypeCode::tryFrom($itemClassificationCodeElement->getAttribute('listID'));
 
             if (!$identifier instanceof ItemTypeCode) {
                 throw new \Exception('Wrong listID');
@@ -91,8 +105,8 @@ class CommodityClassification
 
             $commodityClassification = new self($itemClassificationCode, $identifier);
 
-            if ($commodityClassificationElement->hasAttribute('listVersionID')) {
-                $listVersionIdentifier = $commodityClassificationElement->getAttribute('listVersionID');
+            if ($itemClassificationCodeElement->hasAttribute('listVersionID')) {
+                $listVersionIdentifier = $itemClassificationCodeElement->getAttribute('listVersionID');
 
                 $commodityClassification->setListVersionIdentifier($listVersionIdentifier);
             }

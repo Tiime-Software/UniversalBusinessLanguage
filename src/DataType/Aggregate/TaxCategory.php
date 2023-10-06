@@ -14,7 +14,7 @@ class TaxCategory
     /**
      * BT-95. or BT-102.
      */
-    private VatCategory $vatCategory;
+    private VatCategory $identifier;
 
     /**
      * BT-96. or BT-103.
@@ -23,26 +23,26 @@ class TaxCategory
 
     private TaxScheme $taxScheme;
 
-    public function __construct(VatCategory $vatCategory)
+    public function __construct(VatCategory $identifier)
     {
-        $this->vatCategory = $vatCategory;
+        $this->identifier = $identifier;
         $this->percent     = null;
         $this->taxScheme   = new TaxScheme('VAT');
     }
 
     public function getVatCategory(): VatCategory
     {
-        return $this->vatCategory;
+        return $this->identifier;
     }
 
-    public function getPercent(): ?float
+    public function getPercent(): ?Percentage
     {
-        return $this->percent->getValueRounded();
+        return $this->percent;
     }
 
-    public function setPercent(?float $percent): static
+    public function setPercent(?float $value): static
     {
-        $this->percent = \is_float($percent) ? new Percentage($percent) : null;
+        $this->percent = \is_float($value) ? new Percentage($value) : null;
 
         return $this;
     }
@@ -56,7 +56,7 @@ class TaxCategory
     {
         $currentNode = $document->createElement(self::XML_NODE);
 
-        $currentNode->appendChild($document->createElement('cbc:ID', $this->vatCategory->value));
+        $currentNode->appendChild($document->createElement('cbc:ID', $this->identifier->value));
 
         if ($this->percent instanceof Percentage) {
             $currentNode->appendChild($document->createElement('cbc:Percent', $this->percent->getFormattedValueRounded()));
@@ -78,15 +78,15 @@ class TaxCategory
         /** @var \DOMElement $taxCategoryElement */
         $taxCategoryElement = $taxCategoryElements->item(0);
 
-        $vatCategoryElements = $xpath->query('cbc:ID', $taxCategoryElement);
+        $identifierElements = $xpath->query('./cbc:ID', $taxCategoryElement);
 
-        if (1 !== $vatCategoryElements->count()) {
+        if (1 !== $identifierElements->count()) {
             throw new \Exception('Malformed');
         }
 
-        $vatCategory = VatCategory::tryFrom((string) $vatCategoryElements->item(0)->nodeValue);
+        $identifier = VatCategory::tryFrom((string) $identifierElements->item(0)->nodeValue);
 
-        if (null === $vatCategory) {
+        if (null === $identifier) {
             throw new \Exception('Invalid VAT category');
         }
 
@@ -96,9 +96,9 @@ class TaxCategory
             throw new \Exception('Invalid tax scheme');
         }
 
-        $taxCategory = new self($vatCategory);
+        $taxCategory = new self($identifier);
 
-        $percentElements = $xpath->query('cbc:Percent', $taxCategoryElement);
+        $percentElements = $xpath->query('./cbc:Percent', $taxCategoryElement);
 
         if ($percentElements->count() > 1) {
             throw new \Exception('Malformed');

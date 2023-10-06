@@ -15,7 +15,7 @@ class SubtotalTaxCategory
     /**
      * BT-118.
      */
-    private VatCategory $vatCategory;
+    private VatCategory $identifier;
 
     /**
      * BT-119.
@@ -34,9 +34,9 @@ class SubtotalTaxCategory
 
     private TaxScheme $taxScheme;
 
-    public function __construct(VatCategory $vatCategory)
+    public function __construct(VatCategory $identifier)
     {
-        $this->vatCategory            = $vatCategory;
+        $this->identifier            = $identifier;
         $this->percent                = null;
         $this->taxExemptionReasonCode = null;
         $this->taxExemptionReason     = null;
@@ -45,7 +45,7 @@ class SubtotalTaxCategory
 
     public function getVatCategory(): VatCategory
     {
-        return $this->vatCategory;
+        return $this->identifier;
     }
 
     public function getTaxExemptionReasonCode(): ?VatExoneration
@@ -72,14 +72,14 @@ class SubtotalTaxCategory
         return $this;
     }
 
-    public function getPercent(): ?float
+    public function getPercent(): ?Percentage
     {
-        return $this->percent->getValueRounded();
+        return $this->percent;
     }
 
-    public function setPercent(?float $percent): static
+    public function setPercent(?float $value): static
     {
-        $this->percent = \is_float($percent) ? new Percentage($percent) : null;
+        $this->percent = \is_float($value) ? new Percentage($value) : null;
 
         return $this;
     }
@@ -93,7 +93,7 @@ class SubtotalTaxCategory
     {
         $currentNode = $document->createElement(self::XML_NODE);
 
-        $currentNode->appendChild($document->createElement('cbc:ID', $this->vatCategory->value));
+        $currentNode->appendChild($document->createElement('cbc:ID', $this->identifier->value));
 
         if ($this->taxExemptionReasonCode instanceof VatExoneration) {
             $currentNode->appendChild(
@@ -129,15 +129,15 @@ class SubtotalTaxCategory
         /** @var \DOMElement $taxCategoryElement */
         $taxCategoryElement = $taxCategoryElements->item(0);
 
-        $vatCategoryElements = $xpath->query('cbc:ID', $taxCategoryElement);
+        $identifierElements = $xpath->query('./cbc:ID', $taxCategoryElement);
 
-        if (1 !== $vatCategoryElements->count()) {
+        if (1 !== $identifierElements->count()) {
             throw new \Exception('Malformed');
         }
 
-        $vatCategory = VatCategory::tryFrom((string) $vatCategoryElements->item(0)->nodeValue);
+        $identifier = VatCategory::tryFrom((string) $identifierElements->item(0)->nodeValue);
 
-        if (null === $vatCategory) {
+        if (null === $identifier) {
             throw new \Exception('Invalid VAT category');
         }
 
@@ -147,9 +147,9 @@ class SubtotalTaxCategory
             throw new \Exception('Invalid tax scheme');
         }
 
-        $taxCategory = new self($vatCategory);
+        $taxCategory = new self($identifier);
 
-        $taxExemptionReasonCodeElements = $xpath->query('cbc:TaxExemptionReasonCode', $taxCategoryElement);
+        $taxExemptionReasonCodeElements = $xpath->query('./cbc:TaxExemptionReasonCode', $taxCategoryElement);
 
         if ($taxExemptionReasonCodeElements->count() > 1) {
             throw new \Exception('Malformed');
@@ -164,7 +164,7 @@ class SubtotalTaxCategory
             $taxCategory->setTaxExemptionReasonCode($taxExemptionReasonCode);
         }
 
-        $taxExemptionReasonElements = $xpath->query('cbc:TaxExemptionReason', $taxCategoryElement);
+        $taxExemptionReasonElements = $xpath->query('./cbc:TaxExemptionReason', $taxCategoryElement);
 
         if ($taxExemptionReasonElements->count() > 1) {
             throw new \Exception('Malformed');
@@ -174,7 +174,7 @@ class SubtotalTaxCategory
             $taxCategory->setTaxExemptionReason((string) $taxExemptionReasonElements->item(0)->nodeValue);
         }
 
-        $percentElements = $xpath->query('cbc:Percent', $taxCategoryElement);
+        $percentElements = $xpath->query('./cbc:Percent', $taxCategoryElement);
 
         if ($percentElements->count() > 1) {
             throw new \Exception('Malformed');

@@ -136,7 +136,7 @@ class PaymentMeans
         /** @var \DOMElement $paymentMeansElement */
         foreach ($paymentMeansElements as $paymentMeansElement) {
             $paymentMeansCode          = PaymentMeansNamedCode::fromXML($xpath, $paymentMeansElement);
-            $paymentIdentifierElements = $xpath->query('cbc:PaymentID', $paymentMeansElement);
+            $paymentIdentifierElements = $xpath->query('./cbc:PaymentID', $paymentMeansElement);
             $cardAccount               = CardAccount::fromXML($xpath, $paymentMeansElement);
             $payeeFinancialAccount     = PayeeFinancialAccount::fromXML($xpath, $paymentMeansElement);
             $paymentMandate            = PaymentMandate::fromXML($xpath, $paymentMeansElement);

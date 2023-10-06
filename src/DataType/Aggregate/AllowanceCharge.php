@@ -93,14 +93,14 @@ class AllowanceCharge
         return $this;
     }
 
-    public function getMultiplierFactorNumeric(): ?float
+    public function getMultiplierFactorNumeric(): ?Percentage
     {
-        return $this->multiplierFactorNumeric?->getValueRounded();
+        return $this->multiplierFactorNumeric;
     }
 
-    public function setMultiplierFactorNumeric(?float $multiplierFactorNumeric): static
+    public function setMultiplierFactorNumeric(?float $value): static
     {
-        $this->multiplierFactorNumeric = \is_float($multiplierFactorNumeric) ? new Percentage($multiplierFactorNumeric) : null;
+        $this->multiplierFactorNumeric = \is_float($value) ? new Percentage($value) : null;
 
         return $this;
     }
@@ -173,7 +173,7 @@ class AllowanceCharge
 
         /** @var \DOMElement $allowanceChargeElement */
         foreach ($allowanceChargeElements as $allowanceChargeElement) {
-            $chargeIndicatorElements = $xpath->query('cbc:ChargeIndicator', $allowanceChargeElement);
+            $chargeIndicatorElements = $xpath->query('./cbc:ChargeIndicator', $allowanceChargeElement);
 
             if (1 !== $chargeIndicatorElements->count()) {
                 throw new \Exception('Malformed');
@@ -185,19 +185,19 @@ class AllowanceCharge
                 throw new \Exception('Malformed');
             }
 
-            $allowanceChargeReasonCodeElements = $xpath->query('cbc:AllowanceChargeReasonCode', $allowanceChargeElement);
+            $allowanceChargeReasonCodeElements = $xpath->query('./cbc:AllowanceChargeReasonCode', $allowanceChargeElement);
 
             if ($allowanceChargeReasonCodeElements->count() > 1) {
                 throw new \Exception('Malformed');
             }
 
-            $allowanceChargeReasonElements = $xpath->query('cbc:AllowanceChargeReason', $allowanceChargeElement);
+            $allowanceChargeReasonElements = $xpath->query('./cbc:AllowanceChargeReason', $allowanceChargeElement);
 
             if ($allowanceChargeReasonElements->count() > 1) {
                 throw new \Exception('Malformed');
             }
 
-            $multiplierFactorNumericElements = $xpath->query('cbc:MultiplierFactorNumeric', $allowanceChargeElement);
+            $multiplierFactorNumericElements = $xpath->query('./cbc:MultiplierFactorNumeric', $allowanceChargeElement);
 
             if ($multiplierFactorNumericElements->count() > 1) {
                 throw new \Exception('Malformed');

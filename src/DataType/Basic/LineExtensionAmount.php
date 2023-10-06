@@ -12,31 +12,31 @@ class LineExtensionAmount
 {
     protected const XML_NODE = 'cbc:LineExtensionAmount';
 
-    private Amount $amount;
+    private Amount $value;
 
-    private CurrencyCode $currencyCode;
+    private CurrencyCode $currencyIdentifier;
 
-    public function __construct(float $value, CurrencyCode $currencyCode)
+    public function __construct(float $value, CurrencyCode $currencyIdentifier)
     {
-        $this->amount       = new Amount($value);
-        $this->currencyCode = $currencyCode;
+        $this->value              = new Amount($value);
+        $this->currencyIdentifier = $currencyIdentifier;
     }
 
-    public function getAmount(): float
+    public function getValue(): Amount
     {
-        return $this->amount->getValueRounded();
+        return $this->value;
     }
 
     public function getCurrencyCode(): CurrencyCode
     {
-        return $this->currencyCode;
+        return $this->currencyIdentifier;
     }
 
     public function toXML(\DOMDocument $document): \DOMElement
     {
-        $currentNode = $document->createElement(self::XML_NODE, $this->amount);
+        $currentNode = $document->createElement(self::XML_NODE, $this->value);
 
-        $currentNode->setAttribute('currencyID', $this->currencyCode->value);
+        $currentNode->setAttribute('currencyID', $this->currencyIdentifier->value);
 
         return $currentNode;
     }
@@ -51,19 +51,20 @@ class LineExtensionAmount
 
         /** @var \DOMElement $lineExtensionAmountElement */
         $lineExtensionAmountElement = $lineExtensionAmountElements->item(0);
-        $value                      = (float) $lineExtensionAmountElement->nodeValue;
 
-        if (!is_numeric($value)) {
-            throw new \Exception('Invalid amount');
+        if (!is_numeric($lineExtensionAmountElement->nodeValue)) {
+            throw new \TypeError();
         }
 
-        $currencyCode = $lineExtensionAmountElement->hasAttribute('currencyID') ?
+        $value = (float) $lineExtensionAmountElement->nodeValue;
+
+        $currencyIdentifier = $lineExtensionAmountElement->hasAttribute('currencyID') ?
             CurrencyCode::tryFrom($lineExtensionAmountElement->getAttribute('currencyID')) : null;
 
-        if (!$currencyCode) {
+        if (!$currencyIdentifier) {
             throw new \Exception('Invalid currency code');
         }
 
-        return new self($value, $currencyCode);
+        return new self($value, $currencyIdentifier);
     }
 }

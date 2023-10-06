@@ -12,31 +12,31 @@ class BaseAmount
 {
     protected const XML_NODE = 'cbc:BaseAmount';
 
-    private Amount $amount;
+    private Amount $value;
 
-    private CurrencyCode $currencyCode;
+    private CurrencyCode $currencyIdentifier;
 
-    public function __construct(float $value, CurrencyCode $currencyCode)
+    public function __construct(float $value, CurrencyCode $currencyIdentifier)
     {
-        $this->amount       = new Amount($value);
-        $this->currencyCode = $currencyCode;
+        $this->value              = new Amount($value);
+        $this->currencyIdentifier = $currencyIdentifier;
     }
 
-    public function getAmount(): float
+    public function getValue(): Amount
     {
-        return $this->amount->getValueRounded();
+        return $this->value;
     }
 
     public function getCurrencyCode(): CurrencyCode
     {
-        return $this->currencyCode;
+        return $this->currencyIdentifier;
     }
 
     public function toXML(\DOMDocument $document): \DOMElement
     {
-        $currentNode = $document->createElement(self::XML_NODE, $this->amount->getFormattedValueRounded());
+        $currentNode = $document->createElement(self::XML_NODE, $this->value->getFormattedValueRounded());
 
-        $currentNode->setAttribute('currencyID', $this->currencyCode->value);
+        $currentNode->setAttribute('currencyID', $this->currencyIdentifier->value);
 
         return $currentNode;
     }
@@ -55,19 +55,20 @@ class BaseAmount
 
         /** @var \DOMElement $baseAmountElement */
         $baseAmountElement = $baseAmountElements->item(0);
-        $value             = (float) $baseAmountElement->nodeValue;
 
-        if (!is_numeric($value)) {
-            throw new \Exception('Invalid amount');
+        if (!is_numeric($baseAmountElement->nodeValue)) {
+            throw new \TypeError();
         }
 
-        $currencyCode = $baseAmountElement->hasAttribute('currencyID') ?
+        $value = (float) $baseAmountElement->nodeValue;
+
+        $currencyIdentifier = $baseAmountElement->hasAttribute('currencyID') ?
             CurrencyCode::tryFrom($baseAmountElement->getAttribute('currencyID')) : null;
 
-        if (!$currencyCode) {
+        if (!$currencyIdentifier) {
             throw new \Exception('Invalid currency code');
         }
 
-        return new self($value, $currencyCode);
+        return new self($value, $currencyIdentifier);
     }
 }

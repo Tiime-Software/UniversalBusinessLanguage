@@ -12,31 +12,31 @@ class TaxAmount
 {
     protected const XML_NODE = 'cbc:TaxAmount';
 
-    private Amount $amount;
+    private Amount $value;
 
-    private CurrencyCode $currencyCode;
+    private CurrencyCode $currencyIdentifier;
 
-    public function __construct(float $value, CurrencyCode $currencyCode)
+    public function __construct(float $value, CurrencyCode $currencyIdentifier)
     {
-        $this->amount       = new Amount($value);
-        $this->currencyCode = $currencyCode;
+        $this->value              = new Amount($value);
+        $this->currencyIdentifier = $currencyIdentifier;
     }
 
-    public function getAmount(): float
+    public function getValue(): Amount
     {
-        return $this->amount->getValueRounded();
+        return $this->value;
     }
 
     public function getCurrencyCode(): CurrencyCode
     {
-        return $this->currencyCode;
+        return $this->currencyIdentifier;
     }
 
     public function toXML(\DOMDocument $document): \DOMElement
     {
-        $currentNode = $document->createElement(self::XML_NODE, $this->amount);
+        $currentNode = $document->createElement(self::XML_NODE, $this->value->getFormattedValueRounded());
 
-        $currentNode->setAttribute('currencyID', $this->currencyCode->value);
+        $currentNode->setAttribute('currencyID', $this->currencyIdentifier->value);
 
         return $currentNode;
     }
@@ -51,19 +51,20 @@ class TaxAmount
 
         /** @var \DOMElement $taxAmountElement */
         $taxAmountElement = $taxAmountElements->item(0);
-        $value            = (float) $taxAmountElement->nodeValue;
 
-        if (!is_numeric($value)) {
-            throw new \Exception('Invalid amount amount');
+        if (!is_numeric($taxAmountElement->nodeValue)) {
+            throw new \TypeError();
         }
 
-        $currencyCode = $taxAmountElement->hasAttribute('currencyID') ?
+        $value = (float) $taxAmountElement->nodeValue;
+
+        $currencyIdentifier = $taxAmountElement->hasAttribute('currencyID') ?
             CurrencyCode::tryFrom($taxAmountElement->getAttribute('currencyID')) : null;
 
-        if (!$currencyCode) {
+        if (!$currencyIdentifier) {
             throw new \Exception('Invalid currency code');
         }
 
-        return new self($value, $currencyCode);
+        return new self($value, $currencyIdentifier);
     }
 }
