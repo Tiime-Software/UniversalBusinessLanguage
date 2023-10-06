@@ -12,31 +12,31 @@ class AllowanceAmount
 {
     protected const XML_NODE = 'cbc:Amount';
 
-    private Amount $amount;
+    private Amount $value;
 
-    private CurrencyCode $currencyCode;
+    private CurrencyCode $currencyIdentifier;
 
-    public function __construct(Amount $amount, CurrencyCode $currencyCode)
+    public function __construct(float $value, CurrencyCode $currencyIdentifier)
     {
-        $this->amount       = $amount;
-        $this->currencyCode = $currencyCode;
+        $this->value              = new Amount($value);
+        $this->currencyIdentifier = $currencyIdentifier;
     }
 
-    public function getAmount(): Amount
+    public function getValue(): Amount
     {
-        return $this->amount;
+        return $this->value;
     }
 
     public function getCurrencyCode(): CurrencyCode
     {
-        return $this->currencyCode;
+        return $this->currencyIdentifier;
     }
 
     public function toXML(\DOMDocument $document): \DOMElement
     {
-        $currentNode = $document->createElement(self::XML_NODE, $this->amount->getFormattedValueRounded());
+        $currentNode = $document->createElement(self::XML_NODE, $this->value->getFormattedValueRounded());
 
-        $currentNode->setAttribute('currencyID', $this->currencyCode->value);
+        $currentNode->setAttribute('currencyID', $this->currencyIdentifier->value);
 
         return $currentNode;
     }
@@ -56,15 +56,15 @@ class AllowanceAmount
             throw new \TypeError();
         }
 
-        $amount                 = new Amount((float) $allowanceAmountElement->nodeValue);
+        $value = (float) $allowanceAmountElement->nodeValue;
 
-        $currencyCode = $allowanceAmountElement->hasAttribute('currencyID') ?
+        $currencyIdentifier = $allowanceAmountElement->hasAttribute('currencyID') ?
             CurrencyCode::tryFrom($allowanceAmountElement->getAttribute('currencyID')) : null;
 
-        if (!$currencyCode) {
+        if (!$currencyIdentifier) {
             throw new \Exception('Invalid currency code');
         }
 
-        return new self($amount, $currencyCode);
+        return new self($value, $currencyIdentifier);
     }
 }
