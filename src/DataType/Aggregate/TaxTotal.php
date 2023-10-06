@@ -88,9 +88,10 @@ class TaxTotal
         /** @var \DOMElement $taxTotalElement */
         foreach ($taxTotalElements as $taxTotalElement) {
             $value        = TaxAmount::fromXML($xpath, $taxTotalElement);
-            $taxSubtotals = TaxSubtotal::fromXML($xpath, $taxTotalElement);
 
             $taxTotal = new self($value);
+
+            $taxSubtotals = TaxSubtotal::fromXML($xpath, $taxTotalElement);
 
             if (\count($taxSubtotals) > 0) {
                 $taxTotal->setTaxSubtotals($taxSubtotals);

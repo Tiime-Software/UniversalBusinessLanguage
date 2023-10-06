@@ -220,9 +220,20 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
         string $profileIdentifier,
         AccountingSupplierParty $accountingSupplierParty,
         AccountingCustomerParty $accountingCustomerParty,
+        array $taxTotals,
         LegalMonetaryTotal $legalMonetaryTotal,
         array $invoiceLines
     ) {
+        if (0 === \count($taxTotals) || \count($taxTotals) > 2) {
+            throw new \Exception('Malformed');
+        }
+
+        foreach ($taxTotals as $taxTotal) {
+            if (!$taxTotal instanceof TaxTotal) {
+                throw new \TypeError();
+            }
+        }
+
         if (0 === \count($invoiceLines)) {
             throw new \Exception('Malformed');
         }
@@ -242,6 +253,7 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
         $this->profileIdentifier       = $profileIdentifier;
         $this->accountingSupplierParty = $accountingSupplierParty;
         $this->accountingCustomerParty = $accountingCustomerParty;
+        $this->taxTotals               = $taxTotals;
         $this->legalMonetaryTotal      = $legalMonetaryTotal;
 
         $this->taxCurrencyCode              = null;
@@ -265,7 +277,6 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
         $this->paymentMeans                 = [];
         $this->paymentTerms                 = null;
         $this->allowanceCharges             = [];
-        $this->taxTotals                    = [];
     }
 
     public function getIdentifier(): InvoiceIdentifier
@@ -608,24 +619,6 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
         return $this->taxTotals;
     }
 
-    /**
-     * @param array<int, TaxTotal> $taxTotals
-     *
-     * @return $this
-     */
-    public function setTaxTotals(array $taxTotals): static
-    {
-        foreach ($taxTotals as $taxTotal) {
-            if (!$taxTotal instanceof TaxTotal) {
-                throw new \TypeError();
-            }
-        }
-
-        $this->taxTotals = $taxTotals;
-
-        return $this;
-    }
-
     public function getLegalMonetaryTotal(): LegalMonetaryTotal
     {
         return $this->legalMonetaryTotal;
@@ -882,6 +875,7 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
             $profileIdentifier,
             $accountingSupplierParty,
             $accountingCustomerParty,
+            $taxTotals,
             $legalMonetaryTotal,
             $invoiceLines
         );
@@ -968,10 +962,6 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
 
         if (\count($allowanceCharges) > 0) {
             $universalBusinessLanguage->setAllowanceCharges($allowanceCharges);
-        }
-
-        if (\count($taxTotals) > 0) {
-            $universalBusinessLanguage->setTaxTotals($taxTotals);
         }
 
         return $universalBusinessLanguage;
