@@ -12,7 +12,7 @@ use Tiime\EN16931\SemanticDataType\Quantity;
  */
 class BaseQuantity
 {
-    protected const XML_NODE = 'cbc:InvoicedQuantity';
+    protected const XML_NODE = 'cbc:BaseQuantity';
 
     private Quantity $value;
 

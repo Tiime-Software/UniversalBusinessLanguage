@@ -32,17 +32,17 @@ class TaxPointDate
 
     public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): ?self
     {
-        $issueDateElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
+        $taxPointDateElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
 
-        if (0 === $issueDateElements->count()) {
+        if (0 === $taxPointDateElements->count()) {
             return null;
         }
 
-        if ($issueDateElements->count() > 1) {
+        if ($taxPointDateElements->count() > 1) {
             throw new \Exception('Malformed');
         }
 
-        $dateTimeString = (string) $issueDateElements->item(0)->nodeValue;
+        $dateTimeString = (string) $taxPointDateElements->item(0)->nodeValue;
 
         $formattedDateTime = \DateTime::createFromFormat(UniversalBusinessLanguageUtils::UBL_DATE_FORMAT, $dateTimeString);
 

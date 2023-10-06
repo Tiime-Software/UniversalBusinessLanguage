@@ -39,35 +39,35 @@ class SellerPartyIdentification
         return $currentNode;
     }
 
-    public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): ?self
+    public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): array
     {
         $partyIdentificationElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
 
         if (0 === $partyIdentificationElements->count()) {
-            return null;
+            return [];
         }
 
-        if ($partyIdentificationElements->count() > 1) {
-            throw new \Exception('Malformed');
-        }
+        $partyIdentifications = [];
 
         /** @var \DOMElement $partyIdentificationElement */
-        $partyIdentificationElement = $partyIdentificationElements->item(0);
+        foreach ($partyIdentificationElements as $partyIdentificationElement) {
+            $identifierElements = $xpath->query('./cbc:ID', $partyIdentificationElement);
 
-        $identifierElements = $xpath->query('./cbc:ID', $partyIdentificationElement);
+            if (1 !== $identifierElements->count()) {
+                throw new \Exception('Malformed');
+            }
 
-        if (1 !== $identifierElements->count()) {
-            throw new \Exception('Malformed');
+            /** @var \DOMElement $identifierElement */
+            $identifierElement = $identifierElements->item(0);
+            $value = (string)$identifierElement->nodeValue;
+            $scheme = $identifierElement->hasAttribute('schemeID') ?
+                InternationalCodeDesignator::tryFrom($identifierElement->getAttribute('schemeID')) : null;
+
+            $identifier = new SellerIdentifier($value, $scheme);
+
+            $partyIdentifications[] = new self($identifier);
         }
 
-        /** @var \DOMElement $identifierElement */
-        $identifierElement = $identifierElements->item(0);
-        $value             = (string) $identifierElement->nodeValue;
-        $scheme            = $identifierElement->hasAttribute('schemeID') ?
-            InternationalCodeDesignator::tryFrom($identifierElement->getAttribute('schemeID')) : null;
-
-        $identifier = new SellerIdentifier($value, $scheme);
-
-        return new self($identifier);
+        return $partyIdentifications;
     }
 }

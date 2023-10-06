@@ -34,7 +34,7 @@ class PriceAmount
 
     public function toXML(\DOMDocument $document): \DOMElement
     {
-        $currentNode = $document->createElement(self::XML_NODE, $this->value);
+        $currentNode = $document->createElement(self::XML_NODE, $this->value->getFormattedValueRounded());
 
         $currentNode->setAttribute('currencyID', $this->currencyIdentifier->value);
 

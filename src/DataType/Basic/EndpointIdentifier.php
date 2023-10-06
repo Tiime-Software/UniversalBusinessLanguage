@@ -28,14 +28,14 @@ class EndpointIdentifier extends ElectronicAddressIdentifier
 
     public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): self
     {
-        $EndpointIdentifierElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
+        $endpointIdentifierElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
 
-        if (1 !== $EndpointIdentifierElements->count()) {
+        if (1 !== $endpointIdentifierElements->count()) {
             throw new \Exception('Malformed');
         }
 
         /** @var \DOMElement $endpointIdentifierElement */
-        $endpointIdentifierElement = $EndpointIdentifierElements->item(0);
+        $endpointIdentifierElement = $endpointIdentifierElements->item(0);
         $value                     = (string) $endpointIdentifierElement->nodeValue;
         $scheme                    = $endpointIdentifierElement->hasAttribute('schemeID') ?
             ElectronicAddressScheme::tryFrom($endpointIdentifierElement->getAttribute('schemeID')) : null;
