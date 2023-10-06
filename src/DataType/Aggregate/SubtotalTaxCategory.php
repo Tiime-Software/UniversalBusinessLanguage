@@ -36,7 +36,7 @@ class SubtotalTaxCategory
 
     public function __construct(VatCategory $identifier)
     {
-        $this->identifier            = $identifier;
+        $this->identifier             = $identifier;
         $this->percent                = null;
         $this->taxExemptionReasonCode = null;
         $this->taxExemptionReason     = null;

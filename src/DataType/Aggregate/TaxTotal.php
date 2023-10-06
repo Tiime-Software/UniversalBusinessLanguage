@@ -87,7 +87,7 @@ class TaxTotal
 
         /** @var \DOMElement $taxTotalElement */
         foreach ($taxTotalElements as $taxTotalElement) {
-            $value        = TaxAmount::fromXML($xpath, $taxTotalElement);
+            $value = TaxAmount::fromXML($xpath, $taxTotalElement);
 
             $taxTotal = new self($value);
 

@@ -20,7 +20,7 @@ class BaseQuantity
 
     public function __construct(float $value)
     {
-        $this->value = new Quantity($value);
+        $this->value    = new Quantity($value);
         $this->unitCode = null;
     }
 
@@ -68,7 +68,7 @@ class BaseQuantity
         }
 
         $value = (float) $baseQuantityElement->nodeValue;
-        
+
         $baseQuantity = new self($value);
 
         $unitCode = $baseQuantityElement->hasAttribute('unitCode') ?

@@ -29,8 +29,8 @@ class ClassifiedTaxCategory
     public function __construct(VatCategory $identifier)
     {
         $this->identifier = $identifier;
-        $this->percent     = null;
-        $this->taxScheme   = new TaxScheme('VAT');
+        $this->percent    = null;
+        $this->taxScheme  = new TaxScheme('VAT');
     }
 
     public function getVatCategory(): VatCategory

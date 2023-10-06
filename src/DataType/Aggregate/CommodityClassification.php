@@ -86,7 +86,7 @@ class CommodityClassification
 
         /** @var \DOMElement $commodityClassificationElement */
         foreach ($commodityClassificationElements as $commodityClassificationElement) {
-            $itemClassificationCodeElements = $xpath->query('./cbc:ItemClassificationCode',$commodityClassificationElement);
+            $itemClassificationCodeElements = $xpath->query('./cbc:ItemClassificationCode', $commodityClassificationElement);
 
             if (1 !== $itemClassificationCodeElements->count()) {
                 throw new \Exception('Malformed');

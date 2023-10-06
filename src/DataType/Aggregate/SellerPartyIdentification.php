@@ -59,8 +59,8 @@ class SellerPartyIdentification
 
             /** @var \DOMElement $identifierElement */
             $identifierElement = $identifierElements->item(0);
-            $value = (string)$identifierElement->nodeValue;
-            $scheme = $identifierElement->hasAttribute('schemeID') ?
+            $value             = (string) $identifierElement->nodeValue;
+            $scheme            = $identifierElement->hasAttribute('schemeID') ?
                 InternationalCodeDesignator::tryFrom($identifierElement->getAttribute('schemeID')) : null;
 
             $identifier = new SellerIdentifier($value, $scheme);

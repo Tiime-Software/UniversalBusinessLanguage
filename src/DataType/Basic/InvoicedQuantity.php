@@ -23,7 +23,7 @@ class InvoicedQuantity
 
     public function __construct(float $value, UnitOfMeasurement $unitCode)
     {
-        $this->value = new Quantity($value);
+        $this->value    = new Quantity($value);
         $this->unitCode = $unitCode;
     }
 
@@ -62,7 +62,7 @@ class InvoicedQuantity
 
         $value = (float) $invoicedQuantityElement->nodeValue;
 
-        $unitCode         = $invoicedQuantityElement->hasAttribute('unitCode') ?
+        $unitCode = $invoicedQuantityElement->hasAttribute('unitCode') ?
             UnitOfMeasurement::tryFrom($invoicedQuantityElement->getAttribute('unitCode')) : null;
 
         if (null === $unitCode) {
