@@ -36,7 +36,7 @@ class AllowanceCharge
     /**
      * BT-92-00. or BT-99-00.
      */
-    private AllowanceAmount $amount;
+    private AllowanceAmount $value;
 
     /**
      * BT-93-00. or BT-100-00.
@@ -45,10 +45,10 @@ class AllowanceCharge
 
     private TaxCategory $taxCategory;
 
-    public function __construct(AllowanceAmount $amount, TaxCategory $taxCategory)
+    public function __construct(AllowanceAmount $value, TaxCategory $taxCategory)
     {
         $this->chargeIndicator           = 'false';
-        $this->amount                    = $amount;
+        $this->value                     = $value;
         $this->taxCategory               = $taxCategory;
         $this->allowanceChargeReasonCode = null;
         $this->allowanceChargeReason     = null;
@@ -61,9 +61,9 @@ class AllowanceCharge
         return $this->chargeIndicator;
     }
 
-    public function getAmount(): AllowanceAmount
+    public function getValue(): AllowanceAmount
     {
-        return $this->amount;
+        return $this->value;
     }
 
     public function getTaxCategory(): TaxCategory
@@ -147,7 +147,7 @@ class AllowanceCharge
             );
         }
 
-        $currentNode->appendChild($this->amount->toXML($document));
+        $currentNode->appendChild($this->value->toXML($document));
 
         if ($this->baseAmount instanceof BaseAmount) {
             $currentNode->appendChild($this->baseAmount->toXML($document));
@@ -203,11 +203,11 @@ class AllowanceCharge
                 throw new \Exception('Malformed');
             }
 
-            $amount      = AllowanceAmount::fromXML($xpath, $allowanceChargeElement);
+            $value       = AllowanceAmount::fromXML($xpath, $allowanceChargeElement);
             $baseAmount  = BaseAmount::fromXML($xpath, $allowanceChargeElement);
             $taxCategory = TaxCategory::fromXML($xpath, $allowanceChargeElement);
 
-            $allowanceCharge = new self($amount, $taxCategory);
+            $allowanceCharge = new self($value, $taxCategory);
 
             if (1 === $allowanceChargeReasonCodeElements->count()) {
                 $allowanceChargeReasonCode = AllowanceReasonCode::tryFrom(
