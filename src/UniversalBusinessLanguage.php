@@ -30,7 +30,6 @@ use Tiime\UniversalBusinessLanguage\DataType\Aggregate\TaxRepresentativeParty;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\TaxTotal;
 use Tiime\UniversalBusinessLanguage\DataType\Basic\DueDate;
 use Tiime\UniversalBusinessLanguage\DataType\Basic\IssueDate;
-use Tiime\UniversalBusinessLanguage\DataType\Basic\Note;
 use Tiime\UniversalBusinessLanguage\DataType\Basic\TaxPointDate;
 
 class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
@@ -121,7 +120,7 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
      * BG-1-00.
      * en (0,1) conformément au format UBL Peppol mais en désaccord avec les specs 2.3 (0,n) et la norme Oasis (2.x).
      */
-    private ?Note $note;
+    private ?string $note;
 
     /**
      * BT-23.
@@ -435,12 +434,12 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
         return $this;
     }
 
-    public function getNote(): ?Note
+    public function getNote(): ?string
     {
         return $this->note;
     }
 
-    public function setNote(?Note $note): static
+    public function setNote(?string $note): static
     {
         $this->note = $note;
 
@@ -726,8 +725,8 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
             $root->appendChild($document->createElement('cbc:AccountingCost', $this->accountingCost));
         }
 
-        if ($this->note instanceof Note) {
-            $root->appendChild($this->note->toXML($document));
+        if (\is_string($this->note)) {
+            $root->appendChild($document->createElement('cbc:Note', $this->note));
         }
 
         foreach ($this->billingReferences as $billingReference) {
@@ -844,7 +843,7 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
         $despatchDocumentReference    = DespatchDocumentReference::fromXML($xpath, $universalBusinessLanguageElement);
         $originatorDocumentReference  = OriginatorDocumentReference::fromXML($xpath, $universalBusinessLanguageElement);
         $accountingCostElements       = $xpath->query('./cbc:AccountingCost', $universalBusinessLanguageElement);
-        $note                         = Note::fromXML($xpath, $universalBusinessLanguageElement);
+        $noteElements                 = $xpath->query('./cbc:Note', $universalBusinessLanguageElement);
         $billingReferences            = BillingReference::fromXML($xpath, $universalBusinessLanguageElement);
         $additionalDocumentReferences = AdditionalDocumentReference::fromXML($xpath, $universalBusinessLanguageElement);
         $accountingSupplierParty      = AccountingSupplierParty::fromXML($xpath, $universalBusinessLanguageElement);
@@ -868,6 +867,10 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
         }
 
         if ($accountingCostElements->count() > 1) {
+            throw new \Exception('Malformed');
+        }
+
+        if ($noteElements->count() > 1) {
             throw new \Exception('Malformed');
         }
 
@@ -915,8 +918,8 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
             $universalBusinessLanguage->setBuyerReference($buyerReferenceElements->item(0)->nodeValue);
         }
 
-        if ($note instanceof Note) {
-            $universalBusinessLanguage->setNote($note);
+        if (1 === $noteElements->count()) {
+            $universalBusinessLanguage->setNote($noteElements->item(0)->nodeValue);
         }
 
         if ($projectReference instanceof ProjectReference) {
