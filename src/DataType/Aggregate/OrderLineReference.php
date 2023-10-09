@@ -25,13 +25,6 @@ class OrderLineReference
         return $this->lineIdentifier;
     }
 
-    public function setIdentifier(PurchaseOrderLineReference $lineIdentifier): static
-    {
-        $this->lineIdentifier = $lineIdentifier;
-
-        return $this;
-    }
-
     public function toXML(\DOMDocument $document): \DOMElement
     {
         $currentNode = $document->createElement(self::XML_NODE);
@@ -62,9 +55,8 @@ class OrderLineReference
             throw new \Exception('Malformed');
         }
 
-        $identifier         = (string) $identifierElements->item(0)->nodeValue;
-        $orderLineReference = new self(new PurchaseOrderLineReference($identifier));
+        $identifier = (string) $identifierElements->item(0)->nodeValue;
 
-        return $orderLineReference;
+        return new self(new PurchaseOrderLineReference($identifier));
     }
 }
