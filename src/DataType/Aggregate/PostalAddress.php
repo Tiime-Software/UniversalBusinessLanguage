@@ -3,7 +3,7 @@
 namespace Tiime\UniversalBusinessLanguage\DataType\Aggregate;
 
 /**
- * BG-5. or BG-8. or BG-12. or BG-15.
+ * BG-5. or BG-8. or BG-12.
  */
 class PostalAddress
 {

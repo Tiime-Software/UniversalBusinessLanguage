@@ -16,7 +16,7 @@ class BuyerParty
     /**
      * BT-46.
      */
-    private ?BuyerPartyIdentification $buyerPartyIdentification;
+    private ?BuyerPartyIdentification $partyIdentification;
 
     private BuyerPartyLegalEntity $partyLegalEntity;
 
@@ -40,15 +40,15 @@ class BuyerParty
      */
     private ?Contact $contact;
 
-    public function __construct(EndpointIdentifier $endpointID, PostalAddress $postalAddress, BuyerPartyLegalEntity $partyLegalEntity)
+    public function __construct(EndpointIdentifier $endpointIdentifier, PostalAddress $postalAddress, BuyerPartyLegalEntity $partyLegalEntity)
     {
-        $this->endpointIdentifier       = $endpointID;
-        $this->postalAddress            = $postalAddress;
-        $this->partyLegalEntity         = $partyLegalEntity;
-        $this->buyerPartyIdentification = null;
-        $this->partyTaxScheme           = null;
-        $this->partyName                = null;
-        $this->contact                  = null;
+        $this->endpointIdentifier  = $endpointIdentifier;
+        $this->postalAddress       = $postalAddress;
+        $this->partyLegalEntity    = $partyLegalEntity;
+        $this->partyIdentification = null;
+        $this->partyTaxScheme      = null;
+        $this->partyName           = null;
+        $this->contact             = null;
     }
 
     public function getEndpointIdentifier(): EndpointIdentifier
@@ -56,19 +56,19 @@ class BuyerParty
         return $this->endpointIdentifier;
     }
 
-    public function getBuyerPartyIdentification(): ?BuyerPartyIdentification
+    public function getPartyIdentification(): ?BuyerPartyIdentification
     {
-        return $this->buyerPartyIdentification;
+        return $this->partyIdentification;
     }
 
-    public function setBuyerPartyIdentification(?BuyerPartyIdentification $buyerPartyIdentification): static
+    public function setPartyIdentification(?BuyerPartyIdentification $partyIdentification): static
     {
-        $this->buyerPartyIdentification = $buyerPartyIdentification;
+        $this->partyIdentification = $partyIdentification;
 
         return $this;
     }
 
-    public function getPartyLegalEntity(): ?BuyerPartyLegalEntity
+    public function getPartyLegalEntity(): BuyerPartyLegalEntity
     {
         return $this->partyLegalEntity;
     }
@@ -85,12 +85,12 @@ class BuyerParty
         return $this;
     }
 
-    public function getpartyName(): ?PartyName
+    public function getPartyName(): ?PartyName
     {
         return $this->partyName;
     }
 
-    public function setpartyName(?PartyName $partyName): static
+    public function setPartyName(?PartyName $partyName): static
     {
         $this->partyName = $partyName;
 
@@ -120,8 +120,8 @@ class BuyerParty
 
         $currentNode->appendChild($this->endpointIdentifier->toXML($document));
 
-        if ($this->buyerPartyIdentification instanceof BuyerPartyIdentification) {
-            $currentNode->appendChild($this->buyerPartyIdentification->toXML($document));
+        if ($this->partyIdentification instanceof BuyerPartyIdentification) {
+            $currentNode->appendChild($this->partyIdentification->toXML($document));
         }
 
         $currentNode->appendChild($this->partyLegalEntity->toXML($document));
@@ -154,17 +154,19 @@ class BuyerParty
         /** @var \DOMElement $partyElement */
         $partyElement = $partyElements->item(0);
 
-        $endpointId               = EndpointIdentifier::fromXML($xpath, $partyElement);
-        $buyerPartyIdentification = BuyerPartyIdentification::fromXML($xpath, $partyElement);
-        $partyLegalEntity         = BuyerPartyLegalEntity::fromXML($xpath, $partyElement);
-        $partyTaxScheme           = BuyerPartyTaxScheme::fromXML($xpath, $partyElement);
-        $partyName                = PartyName::fromXML($xpath, $partyElement);
-        $postalAddress            = PostalAddress::fromXML($xpath, $partyElement);
-        $contact                  = Contact::fromXML($xpath, $partyElement);
+        $endpointId          = EndpointIdentifier::fromXML($xpath, $partyElement);
+        $partyIdentification = BuyerPartyIdentification::fromXML($xpath, $partyElement);
+        $partyLegalEntity    = BuyerPartyLegalEntity::fromXML($xpath, $partyElement);
+        $partyTaxScheme      = BuyerPartyTaxScheme::fromXML($xpath, $partyElement);
+        $partyName           = PartyName::fromXML($xpath, $partyElement);
+        $postalAddress       = PostalAddress::fromXML($xpath, $partyElement);
+        $contact             = Contact::fromXML($xpath, $partyElement);
 
         $party = new self($endpointId, $postalAddress, $partyLegalEntity);
 
-        $party->setBuyerPartyIdentification($buyerPartyIdentification);
+        if ($partyIdentification instanceof BuyerPartyIdentification) {
+            $party->setPartyIdentification($partyIdentification);
+        }
 
         if ($partyTaxScheme instanceof BuyerPartyTaxScheme) {
             $party->setPartyTaxScheme($partyTaxScheme);
