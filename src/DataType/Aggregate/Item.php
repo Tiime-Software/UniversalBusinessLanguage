@@ -282,11 +282,11 @@ class Item
             $item->setOriginCountry($originCountry);
         }
 
-        foreach ($commodityClassifications as $commodityClassification) {
+        if (\count($commodityClassifications) > 0) {
             $item->setCommodityClassifications($commodityClassifications);
         }
 
-        foreach ($additionalProperties as $additionalProperty) {
+        if (\count($additionalProperties) > 0) {
             $item->setAdditionalProperties($additionalProperties);
         }
 

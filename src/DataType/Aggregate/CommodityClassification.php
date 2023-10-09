@@ -97,6 +97,10 @@ class CommodityClassification
 
             $itemClassificationCode = (string) $itemClassificationCodeElement->nodeValue;
 
+            if (!$itemClassificationCodeElement->hasAttribute('listID')) {
+                throw new \Exception('Malformed');
+            }
+
             $identifier = ItemTypeCode::tryFrom($itemClassificationCodeElement->getAttribute('listID'));
 
             if (!$identifier instanceof ItemTypeCode) {

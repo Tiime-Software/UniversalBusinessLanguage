@@ -30,7 +30,7 @@ class DocumentReference
         return $this->identifier;
     }
 
-    public function getDocumentTypeCode(): ?string
+    public function getDocumentTypeCode(): string
     {
         return $this->documentTypeCode;
     }

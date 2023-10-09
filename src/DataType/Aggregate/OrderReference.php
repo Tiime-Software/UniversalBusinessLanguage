@@ -32,13 +32,6 @@ class OrderReference
         return $this->identifier;
     }
 
-    public function setIdentifier(PurchaseOrderReference $identifier): static
-    {
-        $this->identifier = $identifier;
-
-        return $this;
-    }
-
     public function getSalesOrderIdentifier(): ?SalesOrderReference
     {
         return $this->salesOrderIdentifier;
