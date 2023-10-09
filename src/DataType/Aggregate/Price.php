@@ -12,7 +12,7 @@ use Tiime\UniversalBusinessLanguage\DataType\Basic\PriceAmount;
  */
 class Price
 {
-    protected const XML_NODE = 'cac:Contact';
+    protected const XML_NODE = 'cac:Price';
 
     private PriceAmount $priceAmount;
 

@@ -104,10 +104,11 @@ class TaxCategory
             throw new \Exception('Malformed');
         }
 
-        $percent = (float) $percentElements->item(0)->nodeValue;
-
         if (1 === $percentElements->count()) {
-            $taxCategory->setPercent($percent);
+            if (!is_numeric($percentElements->item(0)->nodeValue)) {
+                throw new \Exception('Malformed');
+            }
+            $taxCategory->setPercent((float) $percentElements->item(0)->nodeValue);
         }
 
         return $taxCategory;

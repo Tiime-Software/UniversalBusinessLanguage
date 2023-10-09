@@ -12,29 +12,29 @@ class PayeePartyLegalEntity
     /**
      * BT-61.
      */
-    private LegalRegistrationIdentifier $identifier;
+    private LegalRegistrationIdentifier $companyIdentifier;
 
-    public function __construct(LegalRegistrationIdentifier $identifier)
+    public function __construct(LegalRegistrationIdentifier $companyIdentifier)
     {
-        $this->identifier = $identifier;
+        $this->companyIdentifier = $companyIdentifier;
     }
 
     public function getIdentifier(): ?LegalRegistrationIdentifier
     {
-        return $this->identifier;
+        return $this->companyIdentifier;
     }
 
     public function toXML(\DOMDocument $document): \DOMElement
     {
         $currentNode = $document->createElement(self::XML_NODE);
 
-        $identifierElement = $document->createElement('cbc:CompanyID', $this->identifier->value);
+        $companyIdentifierElement = $document->createElement('cbc:CompanyID', $this->companyIdentifier->value);
 
-        if ($this->identifier->scheme instanceof InternationalCodeDesignator) {
-            $identifierElement->setAttribute('schemeID', $this->identifier->scheme->value);
+        if ($this->companyIdentifier->scheme instanceof InternationalCodeDesignator) {
+            $companyIdentifierElement->setAttribute('schemeID', $this->companyIdentifier->scheme->value);
         }
 
-        $currentNode->appendChild($identifierElement);
+        $currentNode->appendChild($companyIdentifierElement);
 
         return $currentNode;
     }
@@ -54,26 +54,26 @@ class PayeePartyLegalEntity
         /** @var \DOMElement $payeePartyLegalEntityElement */
         $payeePartyLegalEntityElement = $payeePartyLegalEntityElements->item(0);
 
-        $identifierElements = $xpath->query('./cbc:CompanyID', $payeePartyLegalEntityElement);
+        $companyIdentifierElements = $xpath->query('./cbc:CompanyID', $payeePartyLegalEntityElement);
 
-        if (1 !== $identifierElements->count()) {
+        if (1 !== $companyIdentifierElements->count()) {
             throw new \Exception('Malformed');
         }
 
-        /** @var \DOMElement $identifierElement */
-        $identifierElement = $identifierElements->item(0);
-        $identifier        = (string) $identifierElement->nodeValue;
+        /** @var \DOMElement $companyIdentifierElement */
+        $companyIdentifierElement = $companyIdentifierElements->item(0);
+        $companyIdentifier        = (string) $companyIdentifierElement->nodeValue;
 
         $scheme = null;
 
-        if ($identifierElement->hasAttribute('schemeID')) {
-            $scheme = InternationalCodeDesignator::tryFrom($identifierElement->getAttribute('schemeID'));
+        if ($companyIdentifierElement->hasAttribute('schemeID')) {
+            $scheme = InternationalCodeDesignator::tryFrom($companyIdentifierElement->getAttribute('schemeID'));
 
             if (!$scheme instanceof InternationalCodeDesignator) {
                 throw new \Exception('Wrong schemeID');
             }
         }
 
-        return new self(new LegalRegistrationIdentifier($identifier, $scheme));
+        return new self(new LegalRegistrationIdentifier($companyIdentifier, $scheme));
     }
 }

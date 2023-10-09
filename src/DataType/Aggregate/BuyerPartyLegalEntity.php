@@ -17,12 +17,12 @@ class BuyerPartyLegalEntity
     /**
      * BT-47.
      */
-    private ?LegalRegistrationIdentifier $identifier;
+    private ?LegalRegistrationIdentifier $companyIdentifier;
 
     public function __construct(string $registrationName)
     {
-        $this->registrationName = $registrationName;
-        $this->identifier       = null;
+        $this->registrationName  = $registrationName;
+        $this->companyIdentifier = null;
     }
 
     public function getRegistrationName(): string
@@ -32,12 +32,12 @@ class BuyerPartyLegalEntity
 
     public function getIdentifier(): ?LegalRegistrationIdentifier
     {
-        return $this->identifier;
+        return $this->companyIdentifier;
     }
 
-    public function setIdentifier(?LegalRegistrationIdentifier $identifier): static
+    public function setIdentifier(?LegalRegistrationIdentifier $companyIdentifier): static
     {
-        $this->identifier = $identifier;
+        $this->companyIdentifier = $companyIdentifier;
 
         return $this;
     }
@@ -48,14 +48,14 @@ class BuyerPartyLegalEntity
 
         $currentNode->appendChild($document->createElement('cbc:RegistrationName', $this->registrationName));
 
-        if ($this->identifier instanceof LegalRegistrationIdentifier) {
-            $identifierElement = $document->createElement('cbc:CompanyID', $this->identifier->value);
+        if ($this->companyIdentifier instanceof LegalRegistrationIdentifier) {
+            $companyIdentifierElement = $document->createElement('cbc:CompanyID', $this->companyIdentifier->value);
 
-            if ($this->identifier->scheme instanceof InternationalCodeDesignator) {
-                $identifierElement->setAttribute('schemeID', $this->identifier->scheme->value);
+            if ($this->companyIdentifier->scheme instanceof InternationalCodeDesignator) {
+                $companyIdentifierElement->setAttribute('schemeID', $this->companyIdentifier->scheme->value);
             }
 
-            $currentNode->appendChild($identifierElement);
+            $currentNode->appendChild($companyIdentifierElement);
         }
 
         return $currentNode;
@@ -80,30 +80,30 @@ class BuyerPartyLegalEntity
 
         $registrationName = (string) $registrationNameElements->item(0)->nodeValue;
 
-        $identifierElements = $xpath->query('./cbc:CompanyID', $buyerPartyLegalEntityElement);
+        $companyIdentifierElements = $xpath->query('./cbc:CompanyID', $buyerPartyLegalEntityElement);
 
-        if ($identifierElements->count() > 1) {
+        if ($companyIdentifierElements->count() > 1) {
             throw new \Exception('Malformed');
         }
 
         $buyerPartyLegalEntity = new self($registrationName);
 
-        if (1 === $identifierElements->count()) {
-            /** @var \DOMElement $identifierElement */
-            $identifierElement = $identifierElements->item(0);
-            $identifier        = (string) $identifierElement->nodeValue;
+        if (1 === $companyIdentifierElements->count()) {
+            /** @var \DOMElement $companyIdentifierElement */
+            $companyIdentifierElement = $companyIdentifierElements->item(0);
+            $companyIdentifier        = (string) $companyIdentifierElement->nodeValue;
 
             $scheme = null;
 
-            if ($identifierElement->hasAttribute('schemeID')) {
-                $scheme = InternationalCodeDesignator::tryFrom($identifierElement->getAttribute('schemeID'));
+            if ($companyIdentifierElement->hasAttribute('schemeID')) {
+                $scheme = InternationalCodeDesignator::tryFrom($companyIdentifierElement->getAttribute('schemeID'));
 
                 if (!$scheme instanceof InternationalCodeDesignator) {
                     throw new \Exception('Wrong schemeID');
                 }
             }
 
-            $buyerPartyLegalEntity->setIdentifier(new LegalRegistrationIdentifier($identifier, $scheme));
+            $buyerPartyLegalEntity->setIdentifier(new LegalRegistrationIdentifier($companyIdentifier, $scheme));
         }
 
         return $buyerPartyLegalEntity;

@@ -64,7 +64,6 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
 
     /**
      * BT-7.
-     * Pas dans les specs 2.3.
      */
     private ?TaxPointDate $taxPointDate;
 
@@ -133,7 +132,7 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
     /**
      * BT-24.
      */
-    private SpecificationIdentifier $customizationID;
+    private SpecificationIdentifier $customizationIdentifier;
 
     /**
      * BG-3.
@@ -216,7 +215,7 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
         IssueDate $issueDate,
         InvoiceTypeCode $invoiceTypeCode,
         CurrencyCode $documentCurrencyCode,
-        SpecificationIdentifier $customizationID,
+        SpecificationIdentifier $customizationIdentifier,
         string $profileIdentifier,
         AccountingSupplierParty $accountingSupplierParty,
         AccountingCustomerParty $accountingCustomerParty,
@@ -249,7 +248,7 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
         $this->issueDate               = $issueDate;
         $this->invoiceTypeCode         = $invoiceTypeCode;
         $this->documentCurrencyCode    = $documentCurrencyCode;
-        $this->customizationID         = $customizationID;
+        $this->customizationIdentifier = $customizationIdentifier;
         $this->profileIdentifier       = $profileIdentifier;
         $this->accountingSupplierParty = $accountingSupplierParty;
         $this->accountingCustomerParty = $accountingCustomerParty;
@@ -304,9 +303,11 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
         return $this->taxCurrencyCode;
     }
 
-    public function setTaxCurrencyCode(?CurrencyCode $taxCurrencyCode): void
+    public function setTaxCurrencyCode(?CurrencyCode $taxCurrencyCode): static
     {
         $this->taxCurrencyCode = $taxCurrencyCode;
+
+        return $this;
     }
 
     public function getTaxPointDate(): ?TaxPointDate
@@ -314,9 +315,11 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
         return $this->taxPointDate;
     }
 
-    public function setTaxPointDate(?TaxPointDate $taxPointDate): void
+    public function setTaxPointDate(?TaxPointDate $taxPointDate): static
     {
         $this->taxPointDate = $taxPointDate;
+
+        return $this;
     }
 
     public function getDueDate(): ?DueDate
@@ -324,9 +327,16 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
         return $this->dueDate;
     }
 
+    public function setDueDate(?DueDate $dueDate): static
+    {
+        $this->dueDate = $dueDate;
+
+        return $this;
+    }
+
     public function getCustomizationID(): SpecificationIdentifier
     {
-        return $this->customizationID;
+        return $this->customizationIdentifier;
     }
 
     public function getBuyerReference(): ?string
@@ -346,9 +356,11 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
         return $this->projectReference;
     }
 
-    public function setProjectReference(?ProjectReference $projectReference): void
+    public function setProjectReference(?ProjectReference $projectReference): static
     {
         $this->projectReference = $projectReference;
+
+        return $this;
     }
 
     public function getContractDocumentReference(): ?ContractDocumentReference
@@ -356,9 +368,11 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
         return $this->contractDocumentReference;
     }
 
-    public function setContractDocumentReference(?ContractDocumentReference $contractDocumentReference): void
+    public function setContractDocumentReference(?ContractDocumentReference $contractDocumentReference): static
     {
         $this->contractDocumentReference = $contractDocumentReference;
+
+        return $this;
     }
 
     public function getOrderReference(): ?OrderReference
@@ -366,9 +380,11 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
         return $this->orderReference;
     }
 
-    public function setOrderReference(?OrderReference $orderReference): void
+    public function setOrderReference(?OrderReference $orderReference): static
     {
         $this->orderReference = $orderReference;
+
+        return $this;
     }
 
     public function getReceiptDocumentReference(): ?ReceiptDocumentReference
@@ -376,9 +392,11 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
         return $this->receiptDocumentReference;
     }
 
-    public function setReceiptDocumentReference(?ReceiptDocumentReference $receiptDocumentReference): void
+    public function setReceiptDocumentReference(?ReceiptDocumentReference $receiptDocumentReference): static
     {
         $this->receiptDocumentReference = $receiptDocumentReference;
+
+        return $this;
     }
 
     public function getDespatchDocumentReference(): ?DespatchDocumentReference
@@ -386,14 +404,23 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
         return $this->despatchDocumentReference;
     }
 
-    public function setDespatchDocumentReference(?DespatchDocumentReference $despatchDocumentReference): void
+    public function setDespatchDocumentReference(?DespatchDocumentReference $despatchDocumentReference): static
     {
         $this->despatchDocumentReference = $despatchDocumentReference;
+
+        return $this;
     }
 
     public function getOriginatorDocumentReference(): ?OriginatorDocumentReference
     {
         return $this->originatorDocumentReference;
+    }
+
+    public function setOriginatorDocumentReference(?OriginatorDocumentReference $originatorDocumentReference): static
+    {
+        $this->originatorDocumentReference = $originatorDocumentReference;
+
+        return $this;
     }
 
     public function getAccountingCost(): ?string
@@ -408,11 +435,6 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
         return $this;
     }
 
-    public function setOriginatorDocumentReference(?OriginatorDocumentReference $originatorDocumentReference): void
-    {
-        $this->originatorDocumentReference = $originatorDocumentReference;
-    }
-
     public function getNote(): ?Note
     {
         return $this->note;
@@ -421,13 +443,6 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
     public function setNote(?Note $note): static
     {
         $this->note = $note;
-
-        return $this;
-    }
-
-    public function setDueDate(?DueDate $dueDate): static
-    {
-        $this->dueDate = $dueDate;
 
         return $this;
     }
@@ -444,7 +459,7 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
         return $this;
     }
 
-    public function getProfileIdentifier(): ?string
+    public function getProfileIdentifier(): string
     {
         return $this->profileIdentifier;
     }
@@ -657,7 +672,7 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
         $root->appendChild($this->issueDate->toXML($document));
         $root->appendChild($document->createElement('cbc:InvoiceTypeCode', $this->invoiceTypeCode->value));
         $root->appendChild($document->createElement('cbc:DocumentCurrencyCode', $this->documentCurrencyCode->value));
-        $root->appendChild($document->createElement('cbc:CustomizationID', $this->customizationID->value));
+        $root->appendChild($document->createElement('cbc:CustomizationID', $this->customizationIdentifier->value));
         $root->appendChild($document->createElement('cbc:ProfileID', $this->profileIdentifier));
         $root->appendChild($this->accountingSupplierParty->toXML($document));
         $root->appendChild($this->accountingCustomerParty->toXML($document));
@@ -781,14 +796,14 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
 
         $issueDate = IssueDate::fromXML($xpath, $universalBusinessLanguageElement);
 
-        $typeCodeElements = $xpath->query('./cbc:InvoiceTypeCode', $universalBusinessLanguageElement);
+        $invoiceTypeCodeElements = $xpath->query('./cbc:InvoiceTypeCode', $universalBusinessLanguageElement);
 
-        if (1 !== $typeCodeElements->count()) {
+        if (1 !== $invoiceTypeCodeElements->count()) {
             throw new \Exception('Malformed');
         }
-        $typeCode = InvoiceTypeCode::tryFrom((string) $typeCodeElements->item(0)->nodeValue);
+        $invoiceTypeCode = InvoiceTypeCode::tryFrom((string) $invoiceTypeCodeElements->item(0)->nodeValue);
 
-        if (null === $typeCode) {
+        if (null === $invoiceTypeCode) {
             throw new \Exception('Wrong type code');
         }
 
@@ -803,12 +818,12 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
             throw new \Exception('Wrong currency code');
         }
 
-        $customizationIDElements = $xpath->query('./cbc:CustomizationID', $universalBusinessLanguageElement);
+        $customizationIdentifierElements = $xpath->query('./cbc:CustomizationID', $universalBusinessLanguageElement);
 
-        if (1 !== $customizationIDElements->count()) {
+        if (1 !== $customizationIdentifierElements->count()) {
             throw new \Exception('Malformed');
         }
-        $customizationID = new SpecificationIdentifier((string) $customizationIDElements->item(0)->nodeValue);
+        $customizationIdentifier = new SpecificationIdentifier((string) $customizationIdentifierElements->item(0)->nodeValue);
 
         $profileIdentifierElements = $xpath->query('./cbc:ProfileID', $universalBusinessLanguageElement);
 
@@ -817,18 +832,18 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
         }
         $profileIdentifier = (string) $profileIdentifierElements->item(0)->nodeValue;
 
-        $taxCurrencyCodeElements      = $xpath->query('cbc:TaxCurrencyCode', $universalBusinessLanguageElement);
+        $taxCurrencyCodeElements      = $xpath->query('./cbc:TaxCurrencyCode', $universalBusinessLanguageElement);
         $taxPointDate                 = TaxPointDate::fromXML($xpath, $universalBusinessLanguageElement);
         $invoicePeriod                = InvoicePeriod::fromXML($xpath, $universalBusinessLanguageElement);
         $dueDate                      = DueDate::fromXML($xpath, $universalBusinessLanguageElement);
-        $buyerReferenceElements       = $xpath->query('cbc:BuyerReference', $universalBusinessLanguageElement);
+        $buyerReferenceElements       = $xpath->query('./cbc:BuyerReference', $universalBusinessLanguageElement);
         $projectReference             = ProjectReference::fromXML($xpath, $universalBusinessLanguageElement);
         $contractDocumentReference    = ContractDocumentReference::fromXML($xpath, $universalBusinessLanguageElement);
         $orderReference               = OrderReference::fromXML($xpath, $universalBusinessLanguageElement);
         $receiptDocumentReference     = ReceiptDocumentReference::fromXML($xpath, $universalBusinessLanguageElement);
         $despatchDocumentReference    = DespatchDocumentReference::fromXML($xpath, $universalBusinessLanguageElement);
         $originatorDocumentReference  = OriginatorDocumentReference::fromXML($xpath, $universalBusinessLanguageElement);
-        $accountingCostElements       = $xpath->query('cbc:AccountingCost', $universalBusinessLanguageElement);
+        $accountingCostElements       = $xpath->query('./cbc:AccountingCost', $universalBusinessLanguageElement);
         $note                         = Note::fromXML($xpath, $universalBusinessLanguageElement);
         $billingReferences            = BillingReference::fromXML($xpath, $universalBusinessLanguageElement);
         $additionalDocumentReferences = AdditionalDocumentReference::fromXML($xpath, $universalBusinessLanguageElement);
@@ -869,9 +884,9 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
         $universalBusinessLanguage = new self(
             new InvoiceIdentifier($identifier),
             $issueDate,
-            $typeCode,
+            $invoiceTypeCode,
             $documentCurrencyCode,
-            $customizationID,
+            $customizationIdentifier,
             $profileIdentifier,
             $accountingSupplierParty,
             $accountingCustomerParty,

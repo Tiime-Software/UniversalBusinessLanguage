@@ -17,7 +17,7 @@ class SellerPartyLegalEntity
     /**
      * BT-30.
      */
-    private ?LegalRegistrationIdentifier $identifier;
+    private ?LegalRegistrationIdentifier $companyIdentifier;
 
     /**
      * BT-33.
@@ -26,9 +26,9 @@ class SellerPartyLegalEntity
 
     public function __construct(string $registrationName)
     {
-        $this->registrationName = $registrationName;
-        $this->identifier       = null;
-        $this->companyLegalForm = null;
+        $this->registrationName  = $registrationName;
+        $this->companyIdentifier = null;
+        $this->companyLegalForm  = null;
     }
 
     public function getRegistrationName(): string
@@ -38,12 +38,12 @@ class SellerPartyLegalEntity
 
     public function getIdentifier(): ?LegalRegistrationIdentifier
     {
-        return $this->identifier;
+        return $this->companyIdentifier;
     }
 
-    public function setIdentifier(?LegalRegistrationIdentifier $identifier): static
+    public function setIdentifier(?LegalRegistrationIdentifier $companyIdentifier): static
     {
-        $this->identifier = $identifier;
+        $this->companyIdentifier = $companyIdentifier;
 
         return $this;
     }
@@ -70,43 +70,39 @@ class SellerPartyLegalEntity
             $currentNode->appendChild($document->createElement('cbc:CompanyLegalForm', $this->companyLegalForm));
         }
 
-        if ($this->identifier instanceof LegalRegistrationIdentifier) {
-            $identifierElement = $document->createElement('cbc:CompanyID', $this->identifier->value);
+        if ($this->companyIdentifier instanceof LegalRegistrationIdentifier) {
+            $companyIdentifierElement = $document->createElement('cbc:CompanyID', $this->companyIdentifier->value);
 
-            if ($this->identifier->scheme instanceof InternationalCodeDesignator) {
-                $identifierElement->setAttribute('schemeID', $this->identifier->scheme->value);
+            if ($this->companyIdentifier->scheme instanceof InternationalCodeDesignator) {
+                $companyIdentifierElement->setAttribute('schemeID', $this->companyIdentifier->scheme->value);
             }
 
-            $currentNode->appendChild($identifierElement);
+            $currentNode->appendChild($companyIdentifierElement);
         }
 
         return $currentNode;
     }
 
-    public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): ?self
+    public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): self
     {
         $sellerPartyLegalEntityElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
 
-        if (0 === $sellerPartyLegalEntityElements->count()) {
-            return null;
-        }
-
-        if ($sellerPartyLegalEntityElements->count() > 1) {
+        if (1 !== $sellerPartyLegalEntityElements->count()) {
             throw new \Exception('Malformed');
         }
 
         /** @var \DOMElement $sellerPartyLegalEntityElement */
         $sellerPartyLegalEntityElement = $sellerPartyLegalEntityElements->item(0);
 
-        $registrationNameElements = $xpath->query('./cbc:RegistrationName', $sellerPartyLegalEntityElement);
-        $identifierElements       = $xpath->query('./cbc:CompanyID', $sellerPartyLegalEntityElement);
-        $companyLegalFormElements = $xpath->query('./cbc:CompanyLegalForm', $sellerPartyLegalEntityElement);
+        $registrationNameElements  = $xpath->query('./cbc:RegistrationName', $sellerPartyLegalEntityElement);
+        $companyIdentifierElements = $xpath->query('./cbc:CompanyID', $sellerPartyLegalEntityElement);
+        $companyLegalFormElements  = $xpath->query('./cbc:CompanyLegalForm', $sellerPartyLegalEntityElement);
 
         if (1 !== $registrationNameElements->count()) {
             throw new \Exception('Malformed');
         }
 
-        if ($identifierElements->count() > 1) {
+        if ($companyIdentifierElements->count() > 1) {
             throw new \Exception('Malformed');
         }
 
@@ -117,22 +113,22 @@ class SellerPartyLegalEntity
         $registrationName       = (string) $registrationNameElements->item(0)->nodeValue;
         $sellerPartyLegalEntity = new self($registrationName);
 
-        if (1 === $identifierElements->count()) {
-            /** @var \DOMElement $identifierElement */
-            $identifierElement = $identifierElements->item(0);
-            $identifier        = (string) $identifierElement->nodeValue;
+        if (1 === $companyIdentifierElements->count()) {
+            /** @var \DOMElement $companyIdentifierElement */
+            $companyIdentifierElement = $companyIdentifierElements->item(0);
+            $companyIdentifier        = (string) $companyIdentifierElement->nodeValue;
 
             $scheme = null;
 
-            if ($identifierElement->hasAttribute('schemeID')) {
-                $scheme = InternationalCodeDesignator::tryFrom($identifierElement->getAttribute('schemeID'));
+            if ($companyIdentifierElement->hasAttribute('schemeID')) {
+                $scheme = InternationalCodeDesignator::tryFrom($companyIdentifierElement->getAttribute('schemeID'));
 
                 if (!$scheme instanceof InternationalCodeDesignator) {
                     throw new \Exception('Wrong schemeID');
                 }
             }
 
-            $sellerPartyLegalEntity->setIdentifier(new LegalRegistrationIdentifier($identifier, $scheme));
+            $sellerPartyLegalEntity->setIdentifier(new LegalRegistrationIdentifier($companyIdentifier, $scheme));
         }
 
         if (1 === $companyLegalFormElements->count()) {
