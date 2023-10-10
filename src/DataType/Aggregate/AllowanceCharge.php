@@ -36,7 +36,7 @@ class AllowanceCharge
     /**
      * BT-92-00. or BT-99-00.
      */
-    private AllowanceAmount $value;
+    private AllowanceAmount $amount;
 
     /**
      * BT-93-00. or BT-100-00.
@@ -45,10 +45,10 @@ class AllowanceCharge
 
     private TaxCategory $taxCategory;
 
-    public function __construct(AllowanceAmount $value, TaxCategory $taxCategory)
+    public function __construct(AllowanceAmount $amount, TaxCategory $taxCategory)
     {
         $this->chargeIndicator           = 'false';
-        $this->value                     = $value;
+        $this->amount                    = $amount;
         $this->taxCategory               = $taxCategory;
         $this->allowanceChargeReasonCode = null;
         $this->allowanceChargeReason     = null;
@@ -61,9 +61,9 @@ class AllowanceCharge
         return $this->chargeIndicator;
     }
 
-    public function getValue(): AllowanceAmount
+    public function getAmount(): AllowanceAmount
     {
-        return $this->value;
+        return $this->amount;
     }
 
     public function getTaxCategory(): TaxCategory
@@ -76,9 +76,11 @@ class AllowanceCharge
         return $this->allowanceChargeReasonCode;
     }
 
-    public function setAllowanceChargeReasonCode(?AllowanceReasonCode $allowanceChargeReasonCode): void
+    public function setAllowanceChargeReasonCode(?AllowanceReasonCode $allowanceChargeReasonCode): static
     {
         $this->allowanceChargeReasonCode = $allowanceChargeReasonCode;
+
+        return $this;
     }
 
     public function getAllowanceChargeReason(): ?string
@@ -147,7 +149,7 @@ class AllowanceCharge
             );
         }
 
-        $currentNode->appendChild($this->value->toXML($document));
+        $currentNode->appendChild($this->amount->toXML($document));
 
         if ($this->baseAmount instanceof BaseAmount) {
             $currentNode->appendChild($this->baseAmount->toXML($document));
@@ -203,11 +205,11 @@ class AllowanceCharge
                 throw new \Exception('Malformed');
             }
 
-            $value       = AllowanceAmount::fromXML($xpath, $allowanceChargeElement);
+            $amount      = AllowanceAmount::fromXML($xpath, $allowanceChargeElement);
             $baseAmount  = BaseAmount::fromXML($xpath, $allowanceChargeElement);
             $taxCategory = TaxCategory::fromXML($xpath, $allowanceChargeElement);
 
-            $allowanceCharge = new self($value, $taxCategory);
+            $allowanceCharge = new self($amount, $taxCategory);
 
             if (1 === $allowanceChargeReasonCodeElements->count()) {
                 $allowanceChargeReasonCode = AllowanceReasonCode::tryFrom(

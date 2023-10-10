@@ -16,17 +16,17 @@ class PriceAllowanceCharge
     /**
      * BT-147.
      */
-    private AllowanceAmount $value;
+    private AllowanceAmount $amount;
 
     /**
      * BT-148.
      */
     private ?BaseAmount $baseAmount;
 
-    public function __construct(AllowanceAmount $value)
+    public function __construct(AllowanceAmount $amount)
     {
         $this->chargeIndicator = 'false';
-        $this->value           = $value;
+        $this->amount          = $amount;
         $this->baseAmount      = null;
     }
 
@@ -35,9 +35,9 @@ class PriceAllowanceCharge
         return $this->chargeIndicator;
     }
 
-    public function getValue(): AllowanceAmount
+    public function getAmount(): AllowanceAmount
     {
-        return $this->value;
+        return $this->amount;
     }
 
     public function getBaseAmount(): ?BaseAmount
@@ -57,7 +57,7 @@ class PriceAllowanceCharge
         $currentNode = $document->createElement(self::XML_NODE);
 
         $currentNode->appendChild($document->createElement('cbc:ChargeIndicator', 'false'));
-        $currentNode->appendChild($this->value->toXML($document));
+        $currentNode->appendChild($this->amount->toXML($document));
 
         if ($this->baseAmount instanceof BaseAmount) {
             $currentNode->appendChild($this->baseAmount->toXML($document));
@@ -89,10 +89,10 @@ class PriceAllowanceCharge
             throw new \Exception('Malformed');
         }
 
-        $value      = AllowanceAmount::fromXML($xpath, $priceAllowanceChargeElement);
+        $amount     = AllowanceAmount::fromXML($xpath, $priceAllowanceChargeElement);
         $baseAmount = BaseAmount::fromXML($xpath, $priceAllowanceChargeElement);
 
-        $priceAllowanceCharge = new self($value);
+        $priceAllowanceCharge = new self($amount);
 
         if ($baseAmount instanceof BaseAmount) {
             $priceAllowanceCharge->setBaseAmount($baseAmount);

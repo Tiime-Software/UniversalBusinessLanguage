@@ -36,20 +36,20 @@ class InvoiceLineAllowanceCharge
     /**
      * BT-136. or BT-141.
      */
-    private AllowanceAmount $value;
+    private AllowanceAmount $amount;
 
     /**
      * BT-137. or BT-142.
      */
     private ?BaseAmount $baseAmount;
 
-    public function __construct(AllowanceAmount $value)
+    public function __construct(AllowanceAmount $amount)
     {
         $this->chargeIndicator           = 'false';
         $this->allowanceChargeReasonCode = null;
         $this->allowanceChargeReason     = null;
         $this->multiplierFactorNumeric   = null;
-        $this->value                     = $value;
+        $this->amount                    = $amount;
         $this->baseAmount                = null;
     }
 
@@ -58,9 +58,9 @@ class InvoiceLineAllowanceCharge
         return $this->chargeIndicator;
     }
 
-    public function getValue(): AllowanceAmount
+    public function getAmount(): AllowanceAmount
     {
-        return $this->value;
+        return $this->amount;
     }
 
     public function getAllowanceChargeReasonCode(): ?AllowanceReasonCode
@@ -139,7 +139,7 @@ class InvoiceLineAllowanceCharge
             );
         }
 
-        $currentNode->appendChild($this->value->toXML($document));
+        $currentNode->appendChild($this->amount->toXML($document));
 
         if ($this->baseAmount instanceof BaseAmount) {
             $currentNode->appendChild($this->baseAmount->toXML($document));
@@ -193,10 +193,10 @@ class InvoiceLineAllowanceCharge
                 throw new \Exception('Malformed');
             }
 
-            $value      = AllowanceAmount::fromXML($xpath, $allowanceChargeElement);
+            $amount     = AllowanceAmount::fromXML($xpath, $allowanceChargeElement);
             $baseAmount = BaseAmount::fromXML($xpath, $allowanceChargeElement);
 
-            $allowanceCharge = new self($value);
+            $allowanceCharge = new self($amount);
 
             if (1 === $allowanceChargeReasonCodeElements->count()) {
                 $allowanceChargeReasonCode = AllowanceReasonCode::tryFrom(
