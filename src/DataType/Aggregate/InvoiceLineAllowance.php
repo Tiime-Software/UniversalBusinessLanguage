@@ -10,7 +10,7 @@ use Tiime\UniversalBusinessLanguage\DataType\Basic\AllowanceChargeAmount;
 use Tiime\UniversalBusinessLanguage\DataType\Basic\BaseAmount;
 
 /**
- * BG-27. or BG-28.
+ * BG-27.
  */
 class InvoiceLineAllowance
 {
@@ -19,27 +19,27 @@ class InvoiceLineAllowance
     private bool $chargeIndicator;
 
     /**
-     * BT-140. or BT-145.
+     * BT-140.
      */
     private ?AllowanceReasonCode $allowanceReasonCode;
 
     /**
-     * BT-19 or BT-144.
+     * BT-19.
      */
     private ?string $allowanceReason;
 
     /**
-     * BT-138. or BT-143.
+     * BT-138.
      */
     private ?Percentage $multiplierFactorNumeric;
 
     /**
-     * BT-136. or BT-141.
+     * BT-136.
      */
     private AllowanceChargeAmount $amount;
 
     /**
-     * BT-137. or BT-142.
+     * BT-137.
      */
     private ?BaseAmount $baseAmount;
 

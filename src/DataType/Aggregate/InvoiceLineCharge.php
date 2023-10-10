@@ -45,7 +45,7 @@ class InvoiceLineCharge
 
     public function __construct(AllowanceChargeAmount $amount)
     {
-        $this->chargeIndicator         = false;
+        $this->chargeIndicator         = true;
         $this->chargeReasonCode        = null;
         $this->chargeReason            = null;
         $this->multiplierFactorNumeric = null;

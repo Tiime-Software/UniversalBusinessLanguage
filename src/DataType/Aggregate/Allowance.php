@@ -207,12 +207,12 @@ class Allowance
                 if (null === $allowanceReasonCode) {
                     throw new \Exception('Wrong allowance reason code');
                 }
-                $allowance->setallowanceReasonCode($allowanceReasonCode);
+                $allowance->setAllowanceReasonCode($allowanceReasonCode);
             }
 
             if (1 === $allowanceReasonElements->count()) {
                 $allowanceReason = (string) $allowanceReasonElements->item(0)->nodeValue;
-                $allowance->setallowanceReason($allowanceReason);
+                $allowance->setAllowanceReason($allowanceReason);
             }
 
             if (1 === $multiplierFactorNumericElements->count()) {
