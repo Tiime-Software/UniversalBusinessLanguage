@@ -71,10 +71,13 @@ class BaseQuantity
 
         $baseQuantity = new self($value);
 
-        $unitCode = $baseQuantityElement->hasAttribute('unitCode') ?
-            UnitOfMeasurement::tryFrom($baseQuantityElement->getAttribute('unitCode')) : null;
+        if ($baseQuantityElement->hasAttribute('unitCode')) {
+            $unitCode = UnitOfMeasurement::tryFrom($baseQuantityElement->getAttribute('unitCode'));
 
-        if ($unitCode instanceof UnitOfMeasurement) {
+            if (!$unitCode instanceof UnitOfMeasurement) {
+                throw new \Exception('Wrong unitCode');
+            }
+
             $baseQuantity->setUnitCode($unitCode);
         }
 

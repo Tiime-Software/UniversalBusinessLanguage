@@ -61,7 +61,7 @@ class TaxExclusiveAmount
         $currencyIdentifier = $taxExclusiveAmountElement->hasAttribute('currencyID') ?
             CurrencyCode::tryFrom($taxExclusiveAmountElement->getAttribute('currencyID')) : null;
 
-        if (!$currencyIdentifier) {
+        if (!$currencyIdentifier instanceof CurrencyCode) {
             throw new \Exception('Invalid currency code');
         }
 

@@ -40,8 +40,8 @@ class EndpointIdentifier extends ElectronicAddressIdentifier
         $scheme                    = $endpointIdentifierElement->hasAttribute('schemeID') ?
             ElectronicAddressScheme::tryFrom($endpointIdentifierElement->getAttribute('schemeID')) : null;
 
-        if (!$scheme) {
-            throw new \Exception('SchemeID invalid or not found');
+        if (!$scheme instanceof ElectronicAddressScheme) {
+            throw new \Exception('Invalid schemeID');
         }
 
         return new self($value, $scheme);

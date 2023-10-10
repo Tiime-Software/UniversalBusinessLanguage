@@ -61,7 +61,7 @@ class PayableAmount
         $currencyIdentifier = $payableAmountElement->hasAttribute('currencyID') ?
             CurrencyCode::tryFrom($payableAmountElement->getAttribute('currencyID')) : null;
 
-        if (!$currencyIdentifier) {
+        if (!$currencyIdentifier instanceof CurrencyCode) {
             throw new \Exception('Invalid currency code');
         }
 

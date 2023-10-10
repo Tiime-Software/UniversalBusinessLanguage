@@ -62,9 +62,15 @@ class PayeePartyIdentification
         $identifierElement = $identifierElements->item(0);
         $value             = (string) $identifierElement->nodeValue;
 
-        $scheme = $identifierElement->hasAttribute('schemeID') ?
-                    InternationalCodeDesignator::tryFrom($identifierElement->getAttribute('schemeID')) :
-                    null;
+        $scheme = null;
+
+        if ($identifierElement->hasAttribute('schemeID')) {
+            $scheme = InternationalCodeDesignator::tryFrom($identifierElement->getAttribute('schemeID'));
+
+            if (!$scheme instanceof InternationalCodeDesignator) {
+                throw new \Exception('Wrong schemeID');
+            }
+        }
 
         $identifier = new PayeeIdentifier($value, $scheme);
 

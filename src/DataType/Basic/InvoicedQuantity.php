@@ -65,7 +65,7 @@ class InvoicedQuantity
         $unitCode = $invoicedQuantityElement->hasAttribute('unitCode') ?
             UnitOfMeasurement::tryFrom($invoicedQuantityElement->getAttribute('unitCode')) : null;
 
-        if (null === $unitCode) {
+        if (!$unitCode instanceof UnitOfMeasurement) {
             throw new \Exception('Wrong unitCode');
         }
 

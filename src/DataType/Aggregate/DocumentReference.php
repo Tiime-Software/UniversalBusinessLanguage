@@ -80,8 +80,16 @@ class DocumentReference
 
         /** @var \DOMNode $identifierElement */
         $identifierElement = $identifierElements->item(0);
-        $scheme            = $identifierElement->hasAttribute('schemeID') ?
-            ObjectSchemeCode::tryFrom($identifierElement->getAttribute('schemeID')) : null;
+
+        $scheme = null;
+
+        if ($identifierElement->hasAttribute('schemeID')) {
+            $scheme = ObjectSchemeCode::tryFrom($identifierElement->getAttribute('schemeID'));
+
+            if (!$scheme instanceof ObjectSchemeCode) {
+                throw new \Exception('Wrong schemeID');
+            }
+        }
 
         $identifier = (string) $identifierElement->nodeValue;
 

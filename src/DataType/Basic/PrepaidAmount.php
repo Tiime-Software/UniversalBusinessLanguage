@@ -65,7 +65,7 @@ class PrepaidAmount
         $currencyIdentifier = $prepaidAmountElement->hasAttribute('currencyID') ?
             CurrencyCode::tryFrom($prepaidAmountElement->getAttribute('currencyID')) : null;
 
-        if (!$currencyIdentifier) {
+        if (!$currencyIdentifier instanceof CurrencyCode) {
             throw new \Exception('Invalid currency code');
         }
 

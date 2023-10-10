@@ -65,7 +65,7 @@ class ChargeTotalAmount
         $currencyIdentifier = $chargeTotalAmountElement->hasAttribute('currencyID') ?
             CurrencyCode::tryFrom($chargeTotalAmountElement->getAttribute('currencyID')) : null;
 
-        if (!$currencyIdentifier) {
+        if (!$currencyIdentifier instanceof CurrencyCode) {
             throw new \Exception('Invalid currency code');
         }
 

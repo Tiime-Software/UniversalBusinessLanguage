@@ -61,7 +61,7 @@ class AllowanceChargeAmount
         $currencyIdentifier = $allowanceAmountElement->hasAttribute('currencyID') ?
             CurrencyCode::tryFrom($allowanceAmountElement->getAttribute('currencyID')) : null;
 
-        if (!$currencyIdentifier) {
+        if (!$currencyIdentifier instanceof CurrencyCode) {
             throw new \Exception('Invalid currency code');
         }
 

@@ -65,7 +65,7 @@ class PayableRoundingAmount
         $currencyIdentifier = $payableRoundingAmountElement->hasAttribute('currencyID') ?
             CurrencyCode::tryFrom($payableRoundingAmountElement->getAttribute('currencyID')) : null;
 
-        if (!$currencyIdentifier) {
+        if (!$currencyIdentifier instanceof CurrencyCode) {
             throw new \Exception('Invalid currency code');
         }
 
