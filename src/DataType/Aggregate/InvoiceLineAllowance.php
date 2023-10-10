@@ -16,7 +16,7 @@ class InvoiceLineAllowance
 {
     protected const XML_NODE = 'cac:AllowanceCharge';
 
-    private bool $chargeIndicator;
+    private string $chargeIndicator;
 
     /**
      * BT-140.
@@ -45,7 +45,7 @@ class InvoiceLineAllowance
 
     public function __construct(AllowanceChargeAmount $amount)
     {
-        $this->chargeIndicator         = false;
+        $this->chargeIndicator         = 'false';
         $this->allowanceReasonCode     = null;
         $this->allowanceReason         = null;
         $this->multiplierFactorNumeric = null;
@@ -53,7 +53,7 @@ class InvoiceLineAllowance
         $this->baseAmount              = null;
     }
 
-    public function getChargeIndicator(): bool
+    public function getChargeIndicator(): string
     {
         return $this->chargeIndicator;
     }
