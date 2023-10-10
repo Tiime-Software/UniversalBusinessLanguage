@@ -18,13 +18,13 @@ class Price
 
     private ?BaseQuantity $baseQuantity;
 
-    private ?PriceAllowanceCharge $allowanceCharge;
+    private ?PriceAllowanceCharge $allowance;
 
     public function __construct(PriceAmount $priceAmount)
     {
-        $this->priceAmount     = $priceAmount;
-        $this->baseQuantity    = null;
-        $this->allowanceCharge = null;
+        $this->priceAmount  = $priceAmount;
+        $this->baseQuantity = null;
+        $this->allowance    = null;
     }
 
     public function getPriceAmount(): PriceAmount
@@ -44,14 +44,14 @@ class Price
         return $this;
     }
 
-    public function getAllowanceCharge(): ?PriceAllowanceCharge
+    public function getAllowance(): ?PriceAllowanceCharge
     {
-        return $this->allowanceCharge;
+        return $this->allowance;
     }
 
-    public function setAllowanceCharge(?PriceAllowanceCharge $allowanceCharge): static
+    public function setAllowance(?PriceAllowanceCharge $allowance): static
     {
-        $this->allowanceCharge = $allowanceCharge;
+        $this->allowance = $allowance;
 
         return $this;
     }
@@ -66,8 +66,8 @@ class Price
             $currentNode->appendChild($this->baseQuantity->toXML($document));
         }
 
-        if ($this->allowanceCharge instanceof PriceAllowanceCharge) {
-            $currentNode->appendChild($this->allowanceCharge->toXML($document));
+        if ($this->allowance instanceof PriceAllowanceCharge) {
+            $currentNode->appendChild($this->allowance->toXML($document));
         }
 
         return $currentNode;
@@ -84,9 +84,9 @@ class Price
         /** @var \DOMElement $priceElement */
         $priceElement = $priceElements->item(0);
 
-        $priceAmount     = PriceAmount::fromXML($xpath, $priceElement);
-        $baseQuantity    = BaseQuantity::fromXML($xpath, $priceElement);
-        $allowanceCharge = PriceAllowanceCharge::fromXML($xpath, $priceElement);
+        $priceAmount  = PriceAmount::fromXML($xpath, $priceElement);
+        $baseQuantity = BaseQuantity::fromXML($xpath, $priceElement);
+        $allowance    = PriceAllowanceCharge::fromXML($xpath, $priceElement);
 
         $price = new self($priceAmount);
 
@@ -94,8 +94,8 @@ class Price
             $price->setBaseQuantity($baseQuantity);
         }
 
-        if ($allowanceCharge instanceof PriceAllowanceCharge) {
-            $price->setAllowanceCharge($allowanceCharge);
+        if ($allowance instanceof PriceAllowanceCharge) {
+            $price->setallowance($allowance);
         }
 
         return $price;

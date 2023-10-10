@@ -8,7 +8,7 @@ use Tiime\EN16931\SemanticDataType\Amount;
 /**
  * BT-92. or BT-99.
  */
-class AllowanceAmount
+class AllowanceChargeAmount
 {
     protected const XML_NODE = 'cbc:Amount';
 

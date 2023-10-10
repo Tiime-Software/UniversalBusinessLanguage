@@ -4,26 +4,26 @@ declare(strict_types=1);
 
 namespace Tiime\UniversalBusinessLanguage\DataType\Aggregate;
 
-use Tiime\UniversalBusinessLanguage\DataType\Basic\AllowanceAmount;
+use Tiime\UniversalBusinessLanguage\DataType\Basic\AllowanceChargeAmount;
 use Tiime\UniversalBusinessLanguage\DataType\Basic\BaseAmount;
 
 class PriceAllowanceCharge
 {
-    protected const XML_NODE = 'cac:AllowanceCharge';
+    protected const XML_NODE = 'cac:Allowance';
 
     private string $chargeIndicator;
 
     /**
      * BT-147.
      */
-    private AllowanceAmount $amount;
+    private AllowanceChargeAmount $amount;
 
     /**
      * BT-148.
      */
     private ?BaseAmount $baseAmount;
 
-    public function __construct(AllowanceAmount $amount)
+    public function __construct(AllowanceChargeAmount $amount)
     {
         $this->chargeIndicator = 'false';
         $this->amount          = $amount;
@@ -35,7 +35,7 @@ class PriceAllowanceCharge
         return $this->chargeIndicator;
     }
 
-    public function getAmount(): AllowanceAmount
+    public function getAmount(): AllowanceChargeAmount
     {
         return $this->amount;
     }
@@ -68,16 +68,16 @@ class PriceAllowanceCharge
 
     public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): ?self
     {
-        $priceAllowanceChargeElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
+        $priceAllowanceElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
 
-        if (0 === $priceAllowanceChargeElements->count()) {
+        if (0 === $priceAllowanceElements->count()) {
             return null;
         }
 
-        /** @var \DOMElement $priceAllowanceChargeElement */
-        $priceAllowanceChargeElement = $priceAllowanceChargeElements->item(0);
+        /** @var \DOMElement $priceAllowanceElement */
+        $priceAllowanceElement = $priceAllowanceElements->item(0);
 
-        $chargeIndicatorElements = $xpath->query('./cbc:ChargeIndicator', $priceAllowanceChargeElement);
+        $chargeIndicatorElements = $xpath->query('./cbc:ChargeIndicator', $priceAllowanceElement);
 
         if (1 !== $chargeIndicatorElements->count()) {
             throw new \Exception('Malformed');
@@ -89,8 +89,8 @@ class PriceAllowanceCharge
             throw new \Exception('Malformed');
         }
 
-        $amount     = AllowanceAmount::fromXML($xpath, $priceAllowanceChargeElement);
-        $baseAmount = BaseAmount::fromXML($xpath, $priceAllowanceChargeElement);
+        $amount     = AllowanceChargeAmount::fromXML($xpath, $priceAllowanceElement);
+        $baseAmount = BaseAmount::fromXML($xpath, $priceAllowanceElement);
 
         $priceAllowanceCharge = new self($amount);
 

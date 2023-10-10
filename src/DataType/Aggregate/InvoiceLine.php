@@ -56,9 +56,14 @@ class InvoiceLine
     private ?DocumentReference $documentReference;
 
     /**
-     * @var array<int,AllowanceCharge>
+     * @var array<int,InvoiceLineAllowance>
      */
-    private array $allowanceCharges;
+    private array $allowances;
+
+    /**
+     * @var array<int,InvoiceLineCharge>
+     */
+    private array $charges;
 
     /**
      * BG-31.
@@ -85,7 +90,8 @@ class InvoiceLine
         $this->invoicePeriod         = null;
         $this->orderLineReference    = null;
         $this->documentReference     = null;
-        $this->allowanceCharges      = [];
+        $this->allowances            = [];
+        $this->charges               = [];
         $this->item                  = $item;
         $this->price                 = $price;
     }
@@ -166,25 +172,49 @@ class InvoiceLine
     }
 
     /**
-     * @return array|AllowanceCharge[]
+     * @return array|InvoiceLineAllowance[]
      */
-    public function getAllowanceCharges(): array
+    public function getAllowances(): array
     {
-        return $this->allowanceCharges;
+        return $this->allowances;
     }
 
     /**
-     * @param array<int, AllowanceCharge> $allowanceCharges
+     * @param array<int, InvoiceLineAllowance> $allowances
      */
-    public function setAllowanceCharges(array $allowanceCharges): static
+    public function setAllowances(array $allowances): static
     {
-        foreach ($allowanceCharges as $allowanceCharge) {
-            if (!$allowanceCharge instanceof AllowanceCharge) {
+        foreach ($allowances as $allowance) {
+            if (!$allowance instanceof InvoiceLineAllowance) {
                 throw new \TypeError();
             }
         }
 
-        $this->allowanceCharges = $allowanceCharges;
+        $this->allowances = $allowances;
+
+        return $this;
+    }
+
+    /**
+     * @return array|InvoiceLineCharge[]
+     */
+    public function getCharges(): array
+    {
+        return $this->charges;
+    }
+
+    /**
+     * @param array<int, InvoiceLineCharge> $charges
+     */
+    public function setCharges(array $charges): static
+    {
+        foreach ($charges as $charge) {
+            if (!$charge instanceof InvoiceLineCharge) {
+                throw new \TypeError();
+            }
+        }
+
+        $this->charges = $charges;
 
         return $this;
     }
@@ -228,8 +258,12 @@ class InvoiceLine
             $currentNode->appendChild($this->documentReference->toXML($document));
         }
 
-        foreach ($this->allowanceCharges as $allowanceCharge) {
-            $currentNode->appendChild($allowanceCharge->toXML($document));
+        foreach ($this->allowances as $allowance) {
+            $currentNode->appendChild($allowance->toXML($document));
+        }
+
+        foreach ($this->charges as $charge) {
+            $currentNode->appendChild($charge->toXML($document));
         }
 
         $currentNode->appendChild($this->item->toXML($document));
@@ -266,7 +300,8 @@ class InvoiceLine
             $invoicePeriod       = InvoiceLineInvoicePeriod::fromXML($xpath, $invoiceLineElement);
             $orderLineReference  = OrderLineReference::fromXML($xpath, $invoiceLineElement);
             $documentReference   = DocumentReference::fromXML($xpath, $invoiceLineElement);
-            $allowanceCharges    = AllowanceCharge::fromXML($xpath, $invoiceLineElement);
+            $allowances          = InvoiceLineAllowance::fromXML($xpath, $invoiceLineElement);
+            $charges             = InvoiceLineCharge::fromXML($xpath, $invoiceLineElement);
             $item                = Item::fromXML($xpath, $invoiceLineElement);
             $price               = Price::fromXML($xpath, $invoiceLineElement);
 
@@ -310,8 +345,12 @@ class InvoiceLine
                 $invoiceLine->setDocumentReference($documentReference);
             }
 
-            if (\count($allowanceCharges) > 0) {
-                $invoiceLine->setAllowanceCharges($allowanceCharges);
+            if (\count($allowances) > 0) {
+                $invoiceLine->setAllowances($allowances);
+            }
+
+            if (\count($charges) > 0) {
+                $invoiceLine->setCharges($charges);
             }
 
             $invoiceLines[] = $invoiceLine;
