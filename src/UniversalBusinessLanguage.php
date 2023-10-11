@@ -814,9 +814,9 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
     public static function fromXML(\DOMDocument $document): self
     {
         $xpath = new \DOMXPath($document);
+        $xpath->registerNamespace("ubl", "urn:oasis:names:specification:ubl:schema:xsd:Invoice-2");
 
         $universalBusinessLanguageElements = $xpath->query(sprintf('//%s', self::XML_NODE));
-
         if (!$universalBusinessLanguageElements || 1 !== $universalBusinessLanguageElements->count()) {
             throw new \Exception('Malformed');
         }
