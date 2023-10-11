@@ -3,20 +3,20 @@
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Aggregate;
 
 use Tiime\EN16931\DataType\AllowanceReasonCode;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\AllowanceCharge;
+use Tiime\UniversalBusinessLanguage\DataType\Aggregate\Allowance;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\TaxCategory;
-use Tiime\UniversalBusinessLanguage\DataType\Basic\AllowanceAmount;
+use Tiime\UniversalBusinessLanguage\DataType\Basic\AllowanceChargeAmount;
 use Tiime\UniversalBusinessLanguage\DataType\Basic\BaseAmount;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
-class AllowanceChargeTest extends BaseXMLNodeTestWithHelpers
+class AllowanceTest extends BaseXMLNodeTestWithHelpers
 {
     protected const XML_VALID_FULL_CONTENT = <<<XML
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cac:AllowanceCharge>
     <cbc:ChargeIndicator>false</cbc:ChargeIndicator>
-    <cbc:AllowangeChargeReasonCode>95</cbc:AllowangeChargeReasonCode>
-    <cbc:AllowangeChargeReason>Discount</cbc:AllowangeChargeReason>
+    <cbc:AllowanceChargeReasonCode>95</cbc:AllowanceChargeReasonCode>
+    <cbc:AllowanceChargeReason>Discount</cbc:AllowanceChargeReason>
     <cbc:MultiplierFactorNumeric>20.00</cbc:MultiplierFactorNumeric>
     <cbc:Amount currencyID="EUR">200.00</cbc:Amount>
     <cbc:BaseAmount currencyID="EUR">1000.00</cbc:BaseAmount>
@@ -103,15 +103,15 @@ XML;
     public function testCanBeCreatedFromFullContent(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_FULL_CONTENT);
-        $ublObjects = AllowanceCharge::fromXML($this->xpath, $currentElement);
+        $ublObjects = Allowance::fromXML($this->xpath, $currentElement);
         $this->assertIsArray($ublObjects);
         $this->assertCount(1, $ublObjects);
-        $this->assertInstanceOf(AllowanceCharge::class, $ublObjects[0]);
+        $this->assertInstanceOf(Allowance::class, $ublObjects[0]);
         $this->assertEquals("false", $ublObjects[0]->getChargeIndicator());
-        $this->assertInstanceOf(AllowanceReasonCode::class, $ublObjects[0]->getAllowanceChargeReasonCode());
-        $this->assertEquals("Discount", $ublObjects[0]->getAllowanceChargeReason());
+        $this->assertInstanceOf(AllowanceReasonCode::class, $ublObjects[0]->getAllowanceReasonCode());
+        $this->assertEquals("Discount", $ublObjects[0]->getAllowanceReason());
         $this->assertEquals("20.00", $ublObjects[0]->getMultiplierFactorNumeric());
-        $this->assertInstanceOf(AllowanceAmount::class, $ublObjects[0]->getValue());
+        $this->assertInstanceOf(AllowanceChargeAmount::class, $ublObjects[0]->getAmount());
         $this->assertInstanceOf(BaseAmount::class, $ublObjects[0]->getBaseAmount());
         $this->assertInstanceOf(TaxCategory::class, $ublObjects[0]->getTaxCategory());
     }
@@ -119,15 +119,15 @@ XML;
     public function testCanBeCreatedFromMinimalContent(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_MINIMAL_CONTENT);
-        $ublObjects = AllowanceCharge::fromXML($this->xpath, $currentElement);
+        $ublObjects = Allowance::fromXML($this->xpath, $currentElement);
         $this->assertIsArray($ublObjects);
         $this->assertCount(1, $ublObjects);
-        $this->assertInstanceOf(AllowanceCharge::class, $ublObjects[0]);
+        $this->assertInstanceOf(Allowance::class, $ublObjects[0]);
         $this->assertEquals("false", $ublObjects[0]->getChargeIndicator());
-        $this->assertNull($ublObjects[0]->getAllowanceChargeReasonCode());
-        $this->assertNull($ublObjects[0]->getAllowanceChargeReason());
+        $this->assertNull($ublObjects[0]->getAllowanceReasonCode());
+        $this->assertNull($ublObjects[0]->getAllowanceReason());
         $this->assertNull($ublObjects[0]->getMultiplierFactorNumeric());
-        $this->assertInstanceOf(AllowanceAmount::class, $ublObjects[0]->getValue());
+        $this->assertInstanceOf(AllowanceChargeAmount::class, $ublObjects[0]->getAmount());
         $this->assertNull($ublObjects[0]->getBaseAmount());
         $this->assertInstanceOf(TaxCategory::class, $ublObjects[0]->getTaxCategory());
     }
@@ -135,7 +135,7 @@ XML;
     public function testCanBeCreatedFromNoLine(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_NO_LINE);
-        $ublObjects = AllowanceCharge::fromXML($this->xpath, $currentElement);
+        $ublObjects = Allowance::fromXML($this->xpath, $currentElement);
         $this->assertIsArray($ublObjects);
         $this->assertCount(0, $ublObjects);
     }
@@ -144,13 +144,13 @@ XML;
     {
         $this->expectException(\Exception::class);
         $currentElement = $this->loadXMLDocument(self::XML_INVALID_NOT_ENOUGH_DATA);
-        AllowanceCharge::fromXML($this->xpath, $currentElement);
+        Allowance::fromXML($this->xpath, $currentElement);
     }
 
     public function testCanBeCreatedFromManyEntries(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_MANY_LINES);
-        $ublObjects = AllowanceCharge::fromXML($this->xpath, $currentElement);
+        $ublObjects = Allowance::fromXML($this->xpath, $currentElement);
         $this->assertIsArray($ublObjects);
         $this->assertCount(2, $ublObjects);
     }
@@ -158,7 +158,7 @@ XML;
     public function testGenerateXml(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_FULL_CONTENT);
-        $ublObjects = AllowanceCharge::fromXML($this->xpath, $currentElement);
+        $ublObjects = Allowance::fromXML($this->xpath, $currentElement);
         $rootDestination = $this->generateEmptyRootDocument();
         foreach($ublObjects as $ublObject) {
             $rootDestination->appendChild($ublObject->toXML($this->document));

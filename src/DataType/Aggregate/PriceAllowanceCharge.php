@@ -9,7 +9,7 @@ use Tiime\UniversalBusinessLanguage\DataType\Basic\BaseAmount;
 
 class PriceAllowanceCharge
 {
-    protected const XML_NODE = 'cac:Allowance';
+    protected const XML_NODE = 'cac:AllowanceCharge';
 
     private string $chargeIndicator;
 

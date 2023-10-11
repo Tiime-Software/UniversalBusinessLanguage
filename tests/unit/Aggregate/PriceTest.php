@@ -55,7 +55,7 @@ XML;
         $this->assertInstanceOf(Price::class, $ublObject);
         $this->assertInstanceOf(PriceAmount::class, $ublObject->getPriceAmount());
         $this->assertInstanceOf(BaseQuantity::class, $ublObject->getBaseQuantity());
-        $this->assertInstanceOf(PriceAllowanceCharge::class, $ublObject->getAllowanceCharge());
+        $this->assertInstanceOf(PriceAllowanceCharge::class, $ublObject->getAllowance());
 
     }
 
@@ -66,7 +66,7 @@ XML;
         $this->assertInstanceOf(Price::class, $ublObject);
         $this->assertInstanceOf(PriceAmount::class, $ublObject->getPriceAmount());
         $this->assertNull($ublObject->getBaseQuantity());
-        $this->assertNull($ublObject->getAllowanceCharge());
+        $this->assertNull($ublObject->getAllowance());
     }
 
     public function testCannotBeCreatedFromNoLine(): void

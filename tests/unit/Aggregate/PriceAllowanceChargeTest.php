@@ -3,7 +3,7 @@
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Aggregate;
 
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\PriceAllowanceCharge;
-use Tiime\UniversalBusinessLanguage\DataType\Basic\AllowanceAmount;
+use Tiime\UniversalBusinessLanguage\DataType\Basic\AllowanceChargeAmount;
 use Tiime\UniversalBusinessLanguage\DataType\Basic\BaseAmount;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
@@ -70,7 +70,7 @@ XML;
         $ublObject = PriceAllowanceCharge::fromXML($this->xpath, $currentElement);
         $this->assertInstanceOf(PriceAllowanceCharge::class, $ublObject);
         $this->assertEquals("false", $ublObject->getChargeIndicator());
-        $this->assertInstanceOf(AllowanceAmount::class, $ublObject->getValue());
+        $this->assertInstanceOf(AllowanceChargeAmount::class, $ublObject->getAmount());
         $this->assertInstanceOf(BaseAmount::class, $ublObject->getBaseAmount());
     }
 
@@ -80,7 +80,7 @@ XML;
         $ublObject = PriceAllowanceCharge::fromXML($this->xpath, $currentElement);
         $this->assertInstanceOf(PriceAllowanceCharge::class, $ublObject);
         $this->assertEquals("false", $ublObject->getChargeIndicator());
-        $this->assertInstanceOf(AllowanceAmount::class, $ublObject->getValue());
+        $this->assertInstanceOf(AllowanceChargeAmount::class, $ublObject->getAmount());
         $this->assertNull($ublObject->getBaseAmount());
     }
 
