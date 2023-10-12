@@ -3,6 +3,7 @@
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Aggregate;
 
 use Tiime\EN16931\DataType\BinaryObject;
+use Tiime\EN16931\DataType\MimeCode;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\Attachment;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\ExternalReference;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
@@ -47,7 +48,7 @@ XML;
         $ublObject = Attachment::fromXML($this->xpath, $currentElement);
         $this->assertInstanceOf(Attachment::class, $ublObject);
         $this->assertInstanceOf(BinaryObject::class, $ublObject->getEmbeddedDocumentBinaryObject());
-        $this->assertEquals("text/csv", $ublObject->getEmbeddedDocumentBinaryObject()->mimeCode);
+        $this->assertEquals(MimeCode::tryFrom("text/csv"), $ublObject->getEmbeddedDocumentBinaryObject()->mimeCode);
         $this->assertEquals("Hours-spent.csv", $ublObject->getEmbeddedDocumentBinaryObject()->filename);
         $this->assertInstanceOf(ExternalReference::class, $ublObject->getExternalReference());
         $this->assertEquals("http://www.example.com/index.html", $ublObject->getExternalReference()->getUri());

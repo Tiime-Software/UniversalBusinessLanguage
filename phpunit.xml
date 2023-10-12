@@ -11,15 +11,11 @@
          failOnWarning="true">
     <testsuites>
         <testsuite name="default">
-            <directory>unit</directory>
+            <directory>tests/unit/Basic</directory>
+            <directory>tests/unit/Aggregate</directory>
+            <file>tests/unit/UniversalBusinessLanguageTest.php</file>
         </testsuite>
     </testsuites>
-
-    <coverage>
-        <include>
-            <directory>src</directory>
-        </include>
-    </coverage>
 
     <source restrictDeprecations="true" restrictNotices="true" restrictWarnings="true">
         <include>

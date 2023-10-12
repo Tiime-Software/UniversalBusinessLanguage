@@ -266,9 +266,9 @@
       <cbc:StartDate>2017-10-05</cbc:StartDate>
       <cbc:EndDate>2017-10-15</cbc:EndDate>
     </cac:InvoicePeriod>
-    <cacOrderLineReference>
+    <cac:OrderLineReference>
       <cbc:LineID>3</cbc:LineID>
-    </cacOrderLineReference>
+    </cac:OrderLineReference>
     <cac:DocumentReference>
       <cbc:ID schemeID="ABZ">AB12345</cbc:ID>
       <cbc:DocumentTypeCode>130</cbc:DocumentTypeCode>
@@ -299,26 +299,26 @@
       <cac:CommodityClassification>
         <cbc:ItemClassificationCode listID="STI" listVersionID="0.1">9873242</cbc:ItemClassificationCode>
       </cac:CommodityClassification>
+      <cac:ClassifiedTaxCategory>
+        <cbc:ID>5</cbc:ID>
+        <cbc:Percent>25</cbc:Percent>
+        <cac:TaxScheme>
+          <cbc:ID>VAT</cbc:ID>
+        </cac:TaxScheme>
+      </cac:ClassifiedTaxCategory>
+      <cac:AdditionalItemProperty>
+        <cbc:Name>Color</cbc:Name>
+        <cbc:Value>Black</cbc:Value>
+      </cac:AdditionalItemProperty>
     </cac:Item>
-    <cac:ClassifiedTaxCategory>
-      <cbc:ID>5</cbc:ID>
-      <cbc:Percent>25</cbc:Percent>
-      <cac:TaxScheme>
-        <cbc:ID>VAT</cbc:ID>
-      </cac:TaxScheme>
-    </cac:ClassifiedTaxCategory>
-    <cac:AdditionalItemProperty>
-      <cbc:Name>Color</cbc:Name>
-      <cbc:Value>Black</cbc:Value>
-    </cac:AdditionalItemProperty>
+    <cac:Price>
+      <cbc:PriceAmount currencyID="EUR">23.45</cbc:PriceAmount>
+      <cbc:BaseQuantity unitCode="C62">1</cbc:BaseQuantity>
+      <cac:AllowanceCharge>
+        <cbc:ChargeIndicator>false</cbc:ChargeIndicator>
+        <cbc:Amount currencyID="EUR">100.00</cbc:Amount>
+        <cbc:BaseAmount currencyID="EUR">123.45</cbc:BaseAmount>
+      </cac:AllowanceCharge>
+    </cac:Price>
   </cac:InvoiceLine>
-  <cac:Price>
-    <cbc:PriceAmount currencyID="EUR">23.45</cbc:PriceAmount>
-    <cbc:BaseQuantity unitCode="C62">1</cbc:BaseQuantity>
-    <cac:AllowanceCharge>
-      <cbc:ChargeIndicator>false</cbc:ChargeIndicator>
-      <cbc:Amount currencyID="EUR">100.00</cbc:Amount>
-      <cbc:BaseAmount currencyID="EUR">123.45</cbc:BaseAmount>
-    </cac:AllowanceCharge>
-  </cac:Price>
 </Invoice>

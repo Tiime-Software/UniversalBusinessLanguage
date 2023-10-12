@@ -6,8 +6,28 @@ use Tiime\EN16931\DataType\CurrencyCode;
 use Tiime\EN16931\DataType\Identifier\InvoiceIdentifier;
 use Tiime\EN16931\DataType\Identifier\SpecificationIdentifier;
 use Tiime\EN16931\DataType\InvoiceTypeCode;
+use Tiime\UniversalBusinessLanguage\DataType\Aggregate\AccountingCustomerParty;
+use Tiime\UniversalBusinessLanguage\DataType\Aggregate\AccountingSupplierParty;
+use Tiime\UniversalBusinessLanguage\DataType\Aggregate\AdditionalDocumentReference;
+use Tiime\UniversalBusinessLanguage\DataType\Aggregate\Allowance;
+use Tiime\UniversalBusinessLanguage\DataType\Aggregate\BillingReference;
+use Tiime\UniversalBusinessLanguage\DataType\Aggregate\ContractDocumentReference;
+use Tiime\UniversalBusinessLanguage\DataType\Aggregate\Delivery;
+use Tiime\UniversalBusinessLanguage\DataType\Aggregate\DespatchDocumentReference;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\ExternalReference;
+use Tiime\UniversalBusinessLanguage\DataType\Aggregate\InvoiceLine;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\InvoicePeriod;
+use Tiime\UniversalBusinessLanguage\DataType\Aggregate\LegalMonetaryTotal;
+use Tiime\UniversalBusinessLanguage\DataType\Aggregate\OrderReference;
+use Tiime\UniversalBusinessLanguage\DataType\Aggregate\OriginatorDocumentReference;
+use Tiime\UniversalBusinessLanguage\DataType\Aggregate\PayeeParty;
+use Tiime\UniversalBusinessLanguage\DataType\Aggregate\PaymentMeans;
+use Tiime\UniversalBusinessLanguage\DataType\Aggregate\PaymentTerms;
+use Tiime\UniversalBusinessLanguage\DataType\Aggregate\ProjectReference;
+use Tiime\UniversalBusinessLanguage\DataType\Aggregate\ReceiptDocumentReference;
+use Tiime\UniversalBusinessLanguage\DataType\Aggregate\TaxRepresentativeParty;
+use Tiime\UniversalBusinessLanguage\DataType\Aggregate\TaxTotal;
+use Tiime\UniversalBusinessLanguage\DataType\Basic\AllowanceChargeAmount;
 use Tiime\UniversalBusinessLanguage\DataType\Basic\DueDate;
 use Tiime\UniversalBusinessLanguage\DataType\Basic\IssueDate;
 use Tiime\UniversalBusinessLanguage\DataType\Basic\TaxPointDate;
@@ -54,16 +74,7 @@ XML;
 
     public function testCanBeCreatedFromContent(): void
     {
-        //$this->loadXMLDocument($this->xmlValidContent);
-        //var_dump($this->document->documentElement);
-        $this->document = new \DOMDocument('1.0', 'UTF-8');
-        $this->document->preserveWhiteSpace = false;
-        $this->document->formatOutput = true;
-        if (!$this->document->loadXML($this->xmlValidContent)) {
-            $this->fail('Source is not valid');
-        }
-        var_dump($this->document->documentElement);
-
+        $this->loadXMLDocument($this->xmlValidContent);
         $ublObject = UniversalBusinessLanguage::fromXML($this->document);
         $this->assertInstanceOf(UniversalBusinessLanguage::class, $ublObject);
         $this->assertInstanceOf(SpecificationIdentifier::class, $ublObject->getCustomizationID());
@@ -79,33 +90,64 @@ XML;
         $this->assertEquals("4217:2323:2323", $ublObject->getAccountingCost());
         $this->assertEquals("abs1234", $ublObject->getBuyerReference());
         $this->assertInstanceOf(InvoicePeriod::class, $ublObject->getInvoicePeriod());
+        $this->assertInstanceOf(OrderReference::class, $ublObject->getOrderReference());
+        $this->assertInstanceOf(BillingReference::class, $ublObject->getBillingReferences());
+        $this->assertInstanceOf(DespatchDocumentReference::class, $ublObject->getDespatchDocumentReference());
+        $this->assertInstanceOf(ReceiptDocumentReference::class, $ublObject->getReceiptDocumentReference());
+        $this->assertInstanceOf(OriginatorDocumentReference::class, $ublObject->getOriginatorDocumentReference());
+        $this->assertInstanceOf(ContractDocumentReference::class, $ublObject->getContractDocumentReference());
+        $this->assertInstanceOf(AdditionalDocumentReference::class, $ublObject->getadditionalDocumentReferences());
+        $this->assertInstanceOf(ProjectReference::class, $ublObject->getProjectReference());
+        $this->assertInstanceOf(AccountingSupplierParty::class, $ublObject->getAccountingSupplierParty());
+        $this->assertInstanceOf(AccountingCustomerParty::class, $ublObject->getAccountingCustomerParty());
+        $this->assertInstanceOf(PayeeParty::class, $ublObject->getPayeeParty());
+        $this->assertInstanceOf(TaxRepresentativeParty::class, $ublObject->getTaxRepresentativeParty());
+        $this->assertInstanceOf(Delivery::class, $ublObject->getDelivery());
+        $this->assertInstanceOf(PaymentMeans::class,$ublObject->getPaymentMeans());
+        $this->assertInstanceOf(PaymentTerms::class, $ublObject->getPaymentTerms());
+        $this->assertIsArray($ublObject->getAllowances());
+        $this->assertCount(1, $ublObject->getAllowances());
+        foreach($ublObject->getAllowances() as $allowance) {
+            $this->assertInstanceOf(Allowance::class, $allowance);
+        }
+        $this->assertIsArray($ublObject->getTaxTotals());
+        $this->assertCount(1, $ublObject->getTaxTotals());
+        foreach($ublObject->getTaxTotals() as $taxTotal) {
+            $this->assertInstanceOf(TaxTotal::class, $taxTotal);
+        }
+        $this->assertInstanceOf(LegalMonetaryTotal::class, $ublObject->getLegalMonetaryTotal());
+        $this->assertIsArray($ublObject->getInvoiceLines());
+        $this->assertCount(1, $ublObject->getInvoiceLines());
+        foreach($ublObject->getInvoiceLines() as $invoiceLine) {
+            $this->assertInstanceOf(InvoiceLine::class, $invoiceLine);
+        }
     }
 
-    public function testCanBeCreatedFromNoLine(): void
+    public function testCannotBeCreatedFromNoLine(): void
     {
-        $currentElement = $this->loadXMLDocument(self::XML_VALID_NO_LINE);
-        $ublObject = ExternalReference::fromXML($this->xpath, $currentElement);
-        $this->assertNull($ublObject);
+        $this->expectException(\Exception::class);
+        $this->loadXMLDocument($this->xmlValidContent);
+        UniversalBusinessLanguage::fromXML($this->document);
     }
 
     public function testCannotBeCreatedFromNotEnoughLines(): void
     {
         $this->expectException(\Exception::class);
-        $currentElement = $this->loadXMLDocument(self::XML_INVALID_NOT_ENOUGH_URI);
-        ExternalReference::fromXML($this->xpath, $currentElement);
+        $this->loadXMLDocument(self::XML_INVALID_NOT_ENOUGH_URI);
+        UniversalBusinessLanguage::fromXML($this->document);
     }
 
     public function testCannotBeCreatedFromTooManyLines(): void
     {
         $this->expectException(\Exception::class);
-        $currentElement = $this->loadXMLDocument(self::XML_INVALID_TOO_MANY_LINES);
-        ExternalReference::fromXML($this->xpath, $currentElement);
+        $this->loadXMLDocument(self::XML_INVALID_TOO_MANY_LINES);
+        UniversalBusinessLanguage::fromXML($this->document);
     }
 
     public function testGenerateXml(): void
     {
-        $currentElement = $this->loadXMLDocument(self::XML_VALID_CONTENT);
-        $ublObject = ExternalReference::fromXML($this->xpath, $currentElement);
+        $this->loadXMLDocument($this->xmlValidContent);
+        $ublObject = UniversalBusinessLanguage::fromXML($this->document);
         $rootDestination = $this->generateEmptyRootDocument();
         $rootDestination->appendChild($ublObject->toXML($this->document));
         $generatedOutput = $this->formatXMLOutput();

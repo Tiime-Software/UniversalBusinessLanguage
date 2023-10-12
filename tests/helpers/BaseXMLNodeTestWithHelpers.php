@@ -25,6 +25,7 @@ class BaseXMLNodeTestWithHelpers extends TestCase
             $this->fail('Source is not valid');
         }
         $this->xpath = new \DOMXPath($this->document);
+        $this->xpath->registerNamespace("ubl", "urn:oasis:names:specification:ubl:schema:xsd:Invoice-2");
 
         return $this->document->documentElement;
     }
