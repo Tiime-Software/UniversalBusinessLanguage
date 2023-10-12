@@ -2,7 +2,7 @@
 
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Aggregate;
 
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\PartyName;
+use Tiime\UniversalBusinessLanguage\DataType\Aggregate\PayeePartyName;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\PayeePartyLegalEntity;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\PayeeParty;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\PayeePartyIdentification;
@@ -81,7 +81,7 @@ XML;
         $ublObject = PayeeParty::fromXML($this->xpath, $currentElement);
         $this->assertInstanceOf(PayeeParty::class, $ublObject);
         $this->assertInstanceOf(PayeePartyIdentification::class, $ublObject->getPartyIdentification());
-        $this->assertInstanceOf(PartyName::class, $ublObject->getPartyName());
+        $this->assertInstanceOf(PayeePartyName::class, $ublObject->getPartyName());
         $this->assertNull($ublObject->getPartyLegalEntity());
     }
 
