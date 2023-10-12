@@ -32,7 +32,6 @@
       </cac:PartyLegalEntity>
     </cac:Party>
   </cac:AccountingCustomerParty>
-
   <cac:TaxTotal>
     <cbc:TaxAmount currencyID="EUR">36.00</cbc:TaxAmount>
   </cac:TaxTotal>
