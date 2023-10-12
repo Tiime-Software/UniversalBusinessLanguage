@@ -165,7 +165,7 @@ class Charge
      */
     public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): array
     {
-        $chargeElements = $xpath->query(sprintf('./%s[cbc:ChargeIndicator[text() = \'true\']', self::XML_NODE), $currentElement);
+        $chargeElements = $xpath->query(sprintf('./%s[cbc:ChargeIndicator[text() = \'true\']]', self::XML_NODE), $currentElement);
 
         if (0 === $chargeElements->count()) {
             return [];
