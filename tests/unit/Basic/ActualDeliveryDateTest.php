@@ -24,11 +24,20 @@ XML;
 </Invoice>
 XML;
 
-    protected const XML_EMPTY_DATE = <<<XML
+    protected const XML_INVALID_EMPTY_DATE = <<<XML
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cbc:ActualDeliveryDate></cbc:ActualDeliveryDate>
 </Invoice>
 XML;
+
+    protected const XML_INVALID_TOO_MANY_LINES = <<<XML
+<Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
+  <cbc:ActualDeliveryDate>2023-01-02</cbc:ActualDeliveryDate>
+  <cbc:ActualDeliveryDate>2023-01-03</cbc:ActualDeliveryDate>
+</Invoice>
+
+XML;
+
 
     public function testCanBeCreatedFromFullContent(): void
     {
@@ -55,7 +64,14 @@ XML;
     public function testCannotBeCreatedFromEmpty(): void
     {
         $this->expectException(\Exception::class);
-        $currentElement = $this->loadXMLDocument(self::XML_EMPTY_DATE);
+        $currentElement = $this->loadXMLDocument(self::XML_INVALID_EMPTY_DATE);
+        ActualDeliveryDate::fromXML($this->xpath, $currentElement);
+    }
+
+    public function testCannotBeCreatedFromTooManyLines(): void
+    {
+        $this->expectException(\Exception::class);
+        $currentElement = $this->loadXMLDocument(self::XML_INVALID_TOO_MANY_LINES);
         ActualDeliveryDate::fromXML($this->xpath, $currentElement);
     }
 
