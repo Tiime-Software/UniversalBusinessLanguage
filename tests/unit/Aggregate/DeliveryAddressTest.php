@@ -44,10 +44,10 @@ XML;
 
     protected const XML_INVALID_MANY_LINES = <<<XML
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
-  <cac:DeliveryLocation>
-  </cac:DeliveryLocation>
-  <cac:DeliveryLocation>
-  </cac:DeliveryLocation>
+  <cac:Address>
+  </cac:Address>
+  <cac:Address>
+  </cac:Address>
 </Invoice>
 XML;
 
