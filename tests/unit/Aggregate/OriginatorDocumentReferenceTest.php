@@ -2,10 +2,8 @@
 
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Aggregate;
 
-use Tiime\EN16931\DataType\CountryAlpha2Code;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\OriginatorDocumentReference;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\OriginCountry;
 
 class OriginatorDocumentReferenceTest extends BaseXMLNodeTestWithHelpers
 {

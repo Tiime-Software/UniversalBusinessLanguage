@@ -35,7 +35,8 @@ XML;
   </cac:PaymentTerms>
   <cac:PaymentTerms>
     <cbc:Note>30 JOURS NETS</cbc:Note>
-  </cac:PaymentTerms></Invoice>
+  </cac:PaymentTerms>
+</Invoice>
 XML;
 
     public function testCanBeCreatedFromContent(): void

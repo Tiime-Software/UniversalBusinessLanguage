@@ -83,7 +83,6 @@ XML;
         $this->assertNull($ublObject->getCountrySubentity());
         $this->assertNull($ublObject->getAddressLine());
         $this->assertInstanceOf(Country::class, $ublObject->getCountry());
-
     }
 
     public function testCannotBeCreatedFromNoCountry(): void

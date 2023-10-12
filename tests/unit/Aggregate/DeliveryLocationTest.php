@@ -1,5 +1,6 @@
 <?php
 
+namespace Tiime\UniversalBusinessLanguage\Tests\unit\Aggregate;
 
 use Tiime\EN16931\DataType\Identifier\LocationIdentifier;
 use Tiime\EN16931\DataType\InternationalCodeDesignator;

@@ -1,12 +1,10 @@
 <?php
 
+namespace Tiime\UniversalBusinessLanguage\Tests\unit\Aggregate;
 
-use Tiime\EN16931\DataType\Identifier\LocationIdentifier;
-use Tiime\EN16931\DataType\InternationalCodeDesignator;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\AddressLine;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\Country;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\DeliveryAddress;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\DeliveryLocation;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
 class DeliveryAddressTest extends BaseXMLNodeTestWithHelpers

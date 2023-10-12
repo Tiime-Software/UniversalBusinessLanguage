@@ -1,5 +1,6 @@
 <?php
 
+namespace Tiime\UniversalBusinessLanguage\Tests\unit\Aggregate;
 
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\DeliveryParty;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\DeliveryPartyName;
