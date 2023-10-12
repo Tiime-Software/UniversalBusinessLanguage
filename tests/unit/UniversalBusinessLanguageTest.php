@@ -87,6 +87,7 @@ XML;
         $this->assertEquals("Please note our new phone number 33 44 55 660", $ublObject->getNote());
         $this->assertInstanceOf(TaxPointDate::class, $ublObject->getTaxPointDate());
         $this->assertInstanceOf(CurrencyCode::class, $ublObject->getDocumentCurrencyCode());
+        $this->assertInstanceOf(CurrencyCode::class, $ublObject->getTaxCurrencyCode());
         $this->assertEquals("4217:2323:2323", $ublObject->getAccountingCost());
         $this->assertEquals("abs1234", $ublObject->getBuyerReference());
         $this->assertInstanceOf(InvoicePeriod::class, $ublObject->getInvoicePeriod());
