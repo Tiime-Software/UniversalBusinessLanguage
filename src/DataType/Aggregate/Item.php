@@ -64,6 +64,7 @@ class Item
         $this->standardItemIdentification = null;
         $this->originCountry              = null;
         $this->commodityClassifications   = [];
+        $this->additionalProperties       = [];
         $this->classifiedTaxCategory      = $classifiedTaxCategory;
     }
 
