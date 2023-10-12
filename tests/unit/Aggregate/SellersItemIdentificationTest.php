@@ -34,7 +34,7 @@ XML;
     public function testCanBeCreatedFromContent(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_CONTENT);
-        $ublObject = SellersItemIdentification::fromXML($this->xpath, $currentElement);
+        $ublObject      = SellersItemIdentification::fromXML($this->xpath, $currentElement);
         $this->assertInstanceOf(SellersItemIdentification::class, $ublObject);
         $this->assertEquals('59878541259876', $ublObject->getSellersItemIdentifier());
     }
@@ -42,7 +42,7 @@ XML;
     public function testCanBeCreatedFromNoLine(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_NO_LINE);
-        $ublObject = SellersItemIdentification::fromXML($this->xpath, $currentElement);
+        $ublObject      = SellersItemIdentification::fromXML($this->xpath, $currentElement);
         $this->assertNull($ublObject);
     }
 
@@ -55,8 +55,8 @@ XML;
 
     public function testGenerateXml(): void
     {
-        $currentElement = $this->loadXMLDocument(self::XML_VALID_CONTENT);
-        $ublObject = SellersItemIdentification::fromXML($this->xpath, $currentElement);
+        $currentElement  = $this->loadXMLDocument(self::XML_VALID_CONTENT);
+        $ublObject       = SellersItemIdentification::fromXML($this->xpath, $currentElement);
         $rootDestination = $this->generateEmptyRootDocument();
         $rootDestination->appendChild($ublObject->toXML($this->document));
         $generatedOutput = $this->formatXMLOutput();

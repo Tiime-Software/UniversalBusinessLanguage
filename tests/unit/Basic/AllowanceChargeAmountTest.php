@@ -47,10 +47,10 @@ XML;
     public function testCanBeCreatedFromFullContent(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_CONTENT);
-        $ublObject = AllowanceChargeAmount::fromXML($this->xpath, $currentElement);
+        $ublObject      = AllowanceChargeAmount::fromXML($this->xpath, $currentElement);
         $this->assertInstanceOf(AllowanceChargeAmount::class, $ublObject);
         $this->assertEquals(36.01, $ublObject->getValue()->getFormattedValueRounded());
-        $this->assertEquals(CurrencyCode::tryFrom("EUR"), $ublObject->getCurrencyCode());
+        $this->assertEquals(CurrencyCode::tryFrom('EUR'), $ublObject->getCurrencyCode());
     }
 
     public function testCannotBeCreatedFromMissingCurrency(): void
@@ -76,21 +76,22 @@ XML;
 
     public function testCannotBeCreatedFromNoLine(): void
     {
-        $this->expectException(\TypeError::class);
+        $this->expectException(\Exception::class);
         $currentElement = $this->loadXMLDocument(self::XML_INVALID_NO_LINE);
         AllowanceChargeAmount::fromXML($this->xpath, $currentElement);
     }
+
     public function testCannotBeCreatedFromTooManyLines(): void
     {
-        $this->expectException(\TypeError::class);
+        $this->expectException(\Exception::class);
         $currentElement = $this->loadXMLDocument(self::XML_INVALID_TOO_MANY_LINES);
         AllowanceChargeAmount::fromXML($this->xpath, $currentElement);
     }
 
     public function testGenerateXml(): void
     {
-        $currentElement = $this->loadXMLDocument(self::XML_VALID_CONTENT);
-        $ublObject = AllowanceChargeAmount::fromXML($this->xpath, $currentElement);
+        $currentElement  = $this->loadXMLDocument(self::XML_VALID_CONTENT);
+        $ublObject       = AllowanceChargeAmount::fromXML($this->xpath, $currentElement);
         $rootDestination = $this->generateEmptyRootDocument();
         $rootDestination->appendChild($ublObject->toXML($this->document));
         $generatedOutput = $this->formatXMLOutput();

@@ -132,7 +132,7 @@ XML;
     public function testCanBeCreatedFromFullContent(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_FULL_CONTENT);
-        $ublObject = BuyerParty::fromXML($this->xpath, $currentElement);
+        $ublObject      = BuyerParty::fromXML($this->xpath, $currentElement);
         $this->assertInstanceOf(BuyerParty::class, $ublObject);
         $this->assertInstanceOf(EndpointIdentifier::class, $ublObject->getEndpointIdentifier());
         $this->assertInstanceOf(BuyerPartyIdentification::class, $ublObject->getPartyIdentification());
@@ -141,13 +141,12 @@ XML;
         $this->assertInstanceOf(PartyName::class, $ublObject->getPartyName());
         $this->assertInstanceOf(PostalAddress::class, $ublObject->getPostalAddress());
         $this->assertInstanceOf(Contact::class, $ublObject->getContact());
-
     }
 
     public function testCanBeCreatedFromMinimalContent(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_MINIMAL_CONTENT);
-        $ublObject = BuyerParty::fromXML($this->xpath, $currentElement);
+        $ublObject      = BuyerParty::fromXML($this->xpath, $currentElement);
         $this->assertInstanceOf(BuyerParty::class, $ublObject);
         $this->assertInstanceOf(EndpointIdentifier::class, $ublObject->getEndpointIdentifier());
         $this->assertNull($ublObject->getPartyIdentification());
@@ -181,8 +180,8 @@ XML;
 
     public function testGenerateXml(): void
     {
-        $currentElement = $this->loadXMLDocument(self::XML_VALID_FULL_CONTENT);
-        $ublObject = BuyerParty::fromXML($this->xpath, $currentElement);
+        $currentElement  = $this->loadXMLDocument(self::XML_VALID_FULL_CONTENT);
+        $ublObject       = BuyerParty::fromXML($this->xpath, $currentElement);
         $rootDestination = $this->generateEmptyRootDocument();
         $rootDestination->appendChild($ublObject->toXML($this->document));
         $generatedOutput = $this->formatXMLOutput();

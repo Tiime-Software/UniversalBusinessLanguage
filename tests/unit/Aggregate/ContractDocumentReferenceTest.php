@@ -2,10 +2,8 @@
 
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Aggregate;
 
-use Tiime\EN16931\DataType\CountryAlpha2Code;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\ContractDocumentReference;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\OriginCountry;
 
 class ContractDocumentReferenceTest extends BaseXMLNodeTestWithHelpers
 {
@@ -16,7 +14,6 @@ class ContractDocumentReferenceTest extends BaseXMLNodeTestWithHelpers
   </cac:ContractDocumentReference>
 </Invoice>
 XML;
-
 
     protected const XML_VALID_NO_LINE = <<<XML
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
@@ -30,7 +27,7 @@ XML;
 </Invoice>
 XML;
 
-    protected const XML_INVALID_MULTIPLE_IDS = <<<XML
+    protected const XML_INVALID_MANY_CONTENTS = <<<XML
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cac:ContractDocumentReference>
     <cbc:ID>123Contractref</cbc:ID>
@@ -39,7 +36,7 @@ XML;
 </Invoice>
 XML;
 
-    protected const XML_INVALID_MULTIPLE_LINES = <<<XML
+    protected const XML_INVALID_MANY_LINES = <<<XML
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cac:ContractDocumentReference>
     <cbc:ID>123Contractref</cbc:ID>
@@ -53,15 +50,15 @@ XML;
     public function testCanBeCreatedFromFullContent(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_CONTENT);
-        $ublObject = ContractDocumentReference::fromXML($this->xpath, $currentElement);
+        $ublObject      = ContractDocumentReference::fromXML($this->xpath, $currentElement);
         $this->assertInstanceOf(ContractDocumentReference::class, $ublObject);
-        $this->assertEquals("123Contractref", $ublObject->getIdentifier());
+        $this->assertEquals('123Contractref', $ublObject->getIdentifier());
     }
 
     public function testCanBeCreatedFromOmittedLine(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_NO_LINE);
-        $ublObject = ContractDocumentReference::fromXML($this->xpath, $currentElement);
+        $ublObject      = ContractDocumentReference::fromXML($this->xpath, $currentElement);
         $this->assertNull($ublObject);
     }
 
@@ -75,21 +72,21 @@ XML;
     public function testCannotBeCreatedFromMultipleIds(): void
     {
         $this->expectException(\Exception::class);
-        $currentElement = $this->loadXMLDocument(self::XML_INVALID_MULTIPLE_IDS);
+        $currentElement = $this->loadXMLDocument(self::XML_INVALID_MANY_CONTENTS);
         ContractDocumentReference::fromXML($this->xpath, $currentElement);
     }
 
     public function testCannotBeCreatedFromMultipleLines(): void
     {
         $this->expectException(\Exception::class);
-        $currentElement = $this->loadXMLDocument(self::XML_INVALID_MULTIPLE_LINES);
+        $currentElement = $this->loadXMLDocument(self::XML_INVALID_MANY_LINES);
         ContractDocumentReference::fromXML($this->xpath, $currentElement);
     }
 
     public function testGenerateXml(): void
     {
-        $currentElement = $this->loadXMLDocument(self::XML_VALID_CONTENT);
-        $ublObject = ContractDocumentReference::fromXML($this->xpath, $currentElement);
+        $currentElement  = $this->loadXMLDocument(self::XML_VALID_CONTENT);
+        $ublObject       = ContractDocumentReference::fromXML($this->xpath, $currentElement);
         $rootDestination = $this->generateEmptyRootDocument();
         $rootDestination->appendChild($ublObject->toXML($this->document));
         $generatedOutput = $this->formatXMLOutput();

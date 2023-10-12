@@ -4,8 +4,8 @@ namespace Tiime\UniversalBusinessLanguage\Tests\unit\Aggregate;
 
 use Tiime\EN16931\DataType\Identifier\ObjectIdentifier;
 use Tiime\EN16931\DataType\ObjectSchemeCode;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\Attachment;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\AdditionalDocumentReference;
+use Tiime\UniversalBusinessLanguage\DataType\Aggregate\Attachment;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
 class AdditionalDocumentReferenceTest extends BaseXMLNodeTestWithHelpers
@@ -62,23 +62,23 @@ XML;
     public function testCanBeCreatedFromFullContent(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_FULL_CONTENT);
-        $ublObjects = AdditionalDocumentReference::fromXML($this->xpath, $currentElement);
+        $ublObjects     = AdditionalDocumentReference::fromXML($this->xpath, $currentElement);
         $this->assertIsArray($ublObjects);
         $this->assertCount(1, $ublObjects);
         $ublObject = $ublObjects[0];
         $this->assertInstanceOf(AdditionalDocumentReference::class, $ublObject);
         $this->assertInstanceOf(ObjectIdentifier::class, $ublObject->getIdentifier());
-        $this->assertEquals("AB23456", $ublObject->getIdentifier()->value);
-        $this->assertEquals(ObjectSchemeCode::tryFrom("AUN"), $ublObject->getIdentifier()->scheme);
-        $this->assertEquals("130", $ublObject->getDocumentTypeCode());
-        $this->assertEquals("Time list", $ublObject->getDocumentDescription());
+        $this->assertEquals('AB23456', $ublObject->getIdentifier()->value);
+        $this->assertEquals(ObjectSchemeCode::tryFrom('AUN'), $ublObject->getIdentifier()->scheme);
+        $this->assertEquals('130', $ublObject->getDocumentTypeCode());
+        $this->assertEquals('Time list', $ublObject->getDocumentDescription());
         $this->assertInstanceOf(Attachment::class, $ublObject->getAttachment());
     }
 
     public function testCanBeCreatedFromMinimalContent(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_MINIMAL_CONTENT);
-        $ublObjects = AdditionalDocumentReference::fromXML($this->xpath, $currentElement);
+        $ublObjects     = AdditionalDocumentReference::fromXML($this->xpath, $currentElement);
         $this->assertIsArray($ublObjects);
         $this->assertCount(1, $ublObjects);
         $ublObject = $ublObjects[0];
@@ -92,7 +92,7 @@ XML;
     public function testCanBeCreatedFromNoLine(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_NO_LINE);
-        $ublObjects = AdditionalDocumentReference::fromXML($this->xpath, $currentElement);
+        $ublObjects     = AdditionalDocumentReference::fromXML($this->xpath, $currentElement);
         $this->assertIsArray($ublObjects);
         $this->assertCount(0, $ublObjects);
     }
@@ -107,17 +107,18 @@ XML;
     public function testCanBeCreatedFromManyLines(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_MANY_LINES);
-        $ublObjects = AdditionalDocumentReference::fromXML($this->xpath, $currentElement);
+        $ublObjects     = AdditionalDocumentReference::fromXML($this->xpath, $currentElement);
         $this->assertIsArray($ublObjects);
         $this->assertCount(2, $ublObjects);
     }
 
     public function testGenerateXml(): void
     {
-        $currentElement = $this->loadXMLDocument(self::XML_VALID_FULL_CONTENT);
-        $ublObjects = AdditionalDocumentReference::fromXML($this->xpath, $currentElement);
+        $currentElement  = $this->loadXMLDocument(self::XML_VALID_FULL_CONTENT);
+        $ublObjects      = AdditionalDocumentReference::fromXML($this->xpath, $currentElement);
         $rootDestination = $this->generateEmptyRootDocument();
-        foreach($ublObjects as $ublObject) {
+
+        foreach ($ublObjects as $ublObject) {
             $rootDestination->appendChild($ublObject->toXML($this->document));
         }
         $generatedOutput = $this->formatXMLOutput();

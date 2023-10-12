@@ -44,7 +44,7 @@ XML;
 </Invoice>
 XML;
 
-    protected const XML_INVALID_MULTIPLE_STREETNAME = <<<XML
+    protected const XML_INVALID_MANY_CONTENTS = <<<XML
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cac:PostalAddress>
     <cbc:StreetName>1, rue du fournisseur</cbc:StreetName>
@@ -56,17 +56,28 @@ XML;
 </Invoice>
 XML;
 
+    protected const XML_INVALID_MANY_LINES = <<<XML
+<Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
+  <cac:PostalAddress>
+    <cbc:StreetName>1, rue du fournisseur</cbc:StreetName>
+    <cbc:StreetName>Cour du fournisseur</cbc:StreetName>
+    <cac:Country>
+      <cbc:IdentificationCode>FR</cbc:IdentificationCode>
+    </cac:Country>
+  </cac:PostalAddress>
+</Invoice>
+XML;
 
     public function testCanBeCreatedFromFullContent(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_FULL_CONTENT);
-        $ublObject = PostalAddress::fromXML($this->xpath, $currentElement);
+        $ublObject      = PostalAddress::fromXML($this->xpath, $currentElement);
         $this->assertInstanceOf(PostalAddress::class, $ublObject);
-        $this->assertEquals("1, rue du fournisseur", $ublObject->getStreetName());
-        $this->assertEquals("Cour du fournisseur", $ublObject->getAdditionalStreetName());
-        $this->assertEquals("Quimper", $ublObject->getCityName());
-        $this->assertEquals("29000", $ublObject->getPostalZone());
-        $this->assertEquals("Bretagne", $ublObject->getCountrySubentity());
+        $this->assertEquals('1, rue du fournisseur', $ublObject->getStreetName());
+        $this->assertEquals('Cour du fournisseur', $ublObject->getAdditionalStreetName());
+        $this->assertEquals('Quimper', $ublObject->getCityName());
+        $this->assertEquals('29000', $ublObject->getPostalZone());
+        $this->assertEquals('Bretagne', $ublObject->getCountrySubentity());
         $this->assertInstanceOf(AddressLine::class, $ublObject->getAddressLine());
         $this->assertInstanceOf(Country::class, $ublObject->getCountry());
     }
@@ -74,7 +85,7 @@ XML;
     public function testCanBeCreatedFromMinimalContent(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_MINIMAL_CONTENT);
-        $ublObject = PostalAddress::fromXML($this->xpath, $currentElement);
+        $ublObject      = PostalAddress::fromXML($this->xpath, $currentElement);
         $this->assertInstanceOf(Country::class, $ublObject->getCountry());
         $this->assertNull($ublObject->getStreetName());
         $this->assertNull($ublObject->getAdditionalStreetName());
@@ -92,17 +103,24 @@ XML;
         PostalAddress::fromXML($this->xpath, $currentElement);
     }
 
-    public function testCannotBeCreatedFromMultipleStreetName(): void
+    public function testCannotBeCreatedFromManyContents(): void
     {
         $this->expectException(\Exception::class);
-        $currentElement = $this->loadXMLDocument(self::XML_INVALID_MULTIPLE_STREETNAME);
+        $currentElement = $this->loadXMLDocument(self::XML_INVALID_MANY_CONTENTS);
+        PostalAddress::fromXML($this->xpath, $currentElement);
+    }
+
+    public function testCannotBeCreatedFromManyLines(): void
+    {
+        $this->expectException(\Exception::class);
+        $currentElement = $this->loadXMLDocument(self::XML_INVALID_MANY_LINES);
         PostalAddress::fromXML($this->xpath, $currentElement);
     }
 
     public function testGenerateXml(): void
     {
-        $currentElement = $this->loadXMLDocument(self::XML_VALID_FULL_CONTENT);
-        $ublObject = PostalAddress::fromXML($this->xpath, $currentElement);
+        $currentElement  = $this->loadXMLDocument(self::XML_VALID_FULL_CONTENT);
+        $ublObject       = PostalAddress::fromXML($this->xpath, $currentElement);
         $rootDestination = $this->generateEmptyRootDocument();
         $rootDestination->appendChild($ublObject->toXML($this->document));
         $generatedOutput = $this->formatXMLOutput();

@@ -60,24 +60,24 @@ XML;
     public function testCanBeCreatedFromFullContent(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_FULL_CONTENT);
-        $ublObject = SubtotalTaxCategory::fromXML($this->xpath, $currentElement);
+        $ublObject      = SubtotalTaxCategory::fromXML($this->xpath, $currentElement);
         $this->assertInstanceOf(SubtotalTaxCategory::class, $ublObject);
         $this->assertEquals(VatCategory::tryFrom('S'), $ublObject->getVatCategory());
         $this->assertEquals(20.2, $ublObject->getPercent()->getFormattedValueRounded());
-        $this->assertEquals(VatExoneration::tryFrom("VATEX-EU-79-C"), $ublObject->getTaxExemptionReasonCode());
-        $this->assertEquals("Exempted", $ublObject->getTaxExemptionReason());
+        $this->assertEquals(VatExoneration::tryFrom('VATEX-EU-79-C'), $ublObject->getTaxExemptionReasonCode());
+        $this->assertEquals('Exempted', $ublObject->getTaxExemptionReason());
         $this->assertInstanceOf(TaxScheme::class, $ublObject->getTaxScheme());
     }
 
     public function testCanBeCreatedFromMinimalContent(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_MINIMAL_CONTENT);
-        $ublObject = SubtotalTaxCategory::fromXML($this->xpath, $currentElement);
+        $ublObject      = SubtotalTaxCategory::fromXML($this->xpath, $currentElement);
         $this->assertInstanceOf(SubtotalTaxCategory::class, $ublObject);
         $this->assertEquals(VatCategory::tryFrom('S'), $ublObject->getVatCategory());
-        $this->assertEquals(null, $ublObject->getPercent());
-        $this->assertEquals(null, $ublObject->getTaxExemptionReasonCode());
-        $this->assertEquals(null, $ublObject->getTaxExemptionReason());
+        $this->assertNull($ublObject->getPercent());
+        $this->assertNull($ublObject->getTaxExemptionReasonCode());
+        $this->assertNull($ublObject->getTaxExemptionReason());
         $this->assertInstanceOf(TaxScheme::class, $ublObject->getTaxScheme());
     }
 
@@ -97,8 +97,8 @@ XML;
 
     public function testGenerateXml(): void
     {
-        $currentElement = $this->loadXMLDocument(self::XML_VALID_FULL_CONTENT);
-        $ublObject = SubtotalTaxCategory::fromXML($this->xpath, $currentElement);
+        $currentElement  = $this->loadXMLDocument(self::XML_VALID_FULL_CONTENT);
+        $ublObject       = SubtotalTaxCategory::fromXML($this->xpath, $currentElement);
         $rootDestination = $this->generateEmptyRootDocument();
         $rootDestination->appendChild($ublObject->toXML($this->document));
         $generatedOutput = $this->formatXMLOutput();

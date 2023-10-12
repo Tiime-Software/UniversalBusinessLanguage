@@ -35,10 +35,10 @@ XML;
     public function testCanBeCreatedFromFullContent(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_CONTENT);
-        $ublObject = LineExtensionAmount::fromXML($this->xpath, $currentElement);
+        $ublObject      = LineExtensionAmount::fromXML($this->xpath, $currentElement);
         $this->assertInstanceOf(LineExtensionAmount::class, $ublObject);
         $this->assertEquals(36, $ublObject->getValue()->getFormattedValueRounded());
-        $this->assertEquals(CurrencyCode::tryFrom("EUR"), $ublObject->getCurrencyCode());
+        $this->assertEquals(CurrencyCode::tryFrom('EUR'), $ublObject->getCurrencyCode());
     }
 
     public function testCannotBeCreatedFromInvalidAmount(): void
@@ -64,8 +64,8 @@ XML;
 
     public function testGenerateXml(): void
     {
-        $currentElement = $this->loadXMLDocument(self::XML_VALID_CONTENT);
-        $ublObject = LineExtensionAmount::fromXML($this->xpath, $currentElement);
+        $currentElement  = $this->loadXMLDocument(self::XML_VALID_CONTENT);
+        $ublObject       = LineExtensionAmount::fromXML($this->xpath, $currentElement);
         $rootDestination = $this->generateEmptyRootDocument();
         $rootDestination->appendChild($ublObject->toXML($this->document));
         $generatedOutput = $this->formatXMLOutput();

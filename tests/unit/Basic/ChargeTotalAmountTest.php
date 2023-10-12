@@ -28,16 +28,16 @@ XML;
     public function testCanBeCreatedFromContent(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_CONTENT);
-        $ublObject = ChargeTotalAmount::fromXML($this->xpath, $currentElement);
+        $ublObject      = ChargeTotalAmount::fromXML($this->xpath, $currentElement);
         $this->assertInstanceOf(ChargeTotalAmount::class, $ublObject);
         $this->assertEquals(20, $ublObject->getValue()->getFormattedValueRounded());
-        $this->assertEquals(CurrencyCode::tryFrom("EUR"), $ublObject->getCurrencyCode());
+        $this->assertEquals(CurrencyCode::tryFrom('EUR'), $ublObject->getCurrencyCode());
     }
 
     public function testCanBeCreatedFromEmpty(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_NO_LINE);
-        $ublObject = ChargeTotalAmount::fromXML($this->xpath, $currentElement);
+        $ublObject      = ChargeTotalAmount::fromXML($this->xpath, $currentElement);
         $this->assertNull($ublObject);
     }
 
@@ -50,8 +50,8 @@ XML;
 
     public function testGenerateXml(): void
     {
-        $currentElement = $this->loadXMLDocument(self::XML_VALID_CONTENT);
-        $ublObject = ChargeTotalAmount::fromXML($this->xpath, $currentElement);
+        $currentElement  = $this->loadXMLDocument(self::XML_VALID_CONTENT);
+        $ublObject       = ChargeTotalAmount::fromXML($this->xpath, $currentElement);
         $rootDestination = $this->generateEmptyRootDocument();
         $rootDestination->appendChild($ublObject->toXML($this->document));
         $generatedOutput = $this->formatXMLOutput();

@@ -41,7 +41,7 @@ XML;
 </Invoice>
 XML;
 
-    protected const XML_INVALID_MANY_ENTRIES = <<<XML
+    protected const XML_INVALID_MANY_CONTENTS = <<<XML
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cac:AllowanceCharge>
     <cbc:ChargeIndicator>false</cbc:ChargeIndicator>
@@ -67,9 +67,9 @@ XML;
     public function testCanBeCreatedFromFullContent(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_FULL_CONTENT);
-        $ublObject = PriceAllowanceCharge::fromXML($this->xpath, $currentElement);
+        $ublObject      = PriceAllowanceCharge::fromXML($this->xpath, $currentElement);
         $this->assertInstanceOf(PriceAllowanceCharge::class, $ublObject);
-        $this->assertEquals("false", $ublObject->getChargeIndicator());
+        $this->assertEquals('false', $ublObject->getChargeIndicator());
         $this->assertInstanceOf(AllowanceChargeAmount::class, $ublObject->getAmount());
         $this->assertInstanceOf(BaseAmount::class, $ublObject->getBaseAmount());
     }
@@ -77,9 +77,9 @@ XML;
     public function testCanBeCreatedFromMinimalContent(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_MINIMAL_CONTENT);
-        $ublObject = PriceAllowanceCharge::fromXML($this->xpath, $currentElement);
+        $ublObject      = PriceAllowanceCharge::fromXML($this->xpath, $currentElement);
         $this->assertInstanceOf(PriceAllowanceCharge::class, $ublObject);
-        $this->assertEquals("false", $ublObject->getChargeIndicator());
+        $this->assertEquals('false', $ublObject->getChargeIndicator());
         $this->assertInstanceOf(AllowanceChargeAmount::class, $ublObject->getAmount());
         $this->assertNull($ublObject->getBaseAmount());
     }
@@ -87,7 +87,7 @@ XML;
     public function testCanBeCreatedFromNoLine(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_NO_LINE);
-        $ublObject = PriceAllowanceCharge::fromXML($this->xpath, $currentElement);
+        $ublObject      = PriceAllowanceCharge::fromXML($this->xpath, $currentElement);
         $this->assertNull($ublObject);
     }
 
@@ -98,7 +98,14 @@ XML;
         PriceAllowanceCharge::fromXML($this->xpath, $currentElement);
     }
 
-    public function testCannotBeCreatedFromManyEntries(): void
+    public function testCannotBeCreatedFromManyContents(): void
+    {
+        $this->expectException(\Exception::class);
+        $currentElement = $this->loadXMLDocument(self::XML_INVALID_MANY_CONTENTS);
+        PriceAllowanceCharge::fromXML($this->xpath, $currentElement);
+    }
+
+    public function testCanBeCreatedFromManyLines(): void
     {
         $this->expectException(\Exception::class);
         $currentElement = $this->loadXMLDocument(self::XML_INVALID_MANY_LINES);
@@ -107,8 +114,8 @@ XML;
 
     public function testGenerateXml(): void
     {
-        $currentElement = $this->loadXMLDocument(self::XML_VALID_FULL_CONTENT);
-        $ublObject = PriceAllowanceCharge::fromXML($this->xpath, $currentElement);
+        $currentElement  = $this->loadXMLDocument(self::XML_VALID_FULL_CONTENT);
+        $ublObject       = PriceAllowanceCharge::fromXML($this->xpath, $currentElement);
         $rootDestination = $this->generateEmptyRootDocument();
         $rootDestination->appendChild($ublObject->toXML($this->document));
         $generatedOutput = $this->formatXMLOutput();

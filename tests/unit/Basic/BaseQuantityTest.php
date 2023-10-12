@@ -2,7 +2,6 @@
 
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Basic;
 
-use Tiime\EN16931\DataType\CurrencyCode;
 use Tiime\EN16931\DataType\UnitOfMeasurement;
 use Tiime\UniversalBusinessLanguage\DataType\Basic\BaseQuantity;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
@@ -35,16 +34,16 @@ XML;
     public function testCanBeCreatedFromFullContent(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_FULL_CONTENT);
-        $ublObject = BaseQuantity::fromXML($this->xpath, $currentElement);
+        $ublObject      = BaseQuantity::fromXML($this->xpath, $currentElement);
         $this->assertInstanceOf(BaseQuantity::class, $ublObject);
         $this->assertEquals(5, $ublObject->getQuantity()->getFormattedValueRounded());
-        $this->assertEquals(UnitOfMeasurement::tryFrom("C62"), $ublObject->getUnitCode());
+        $this->assertEquals(UnitOfMeasurement::tryFrom('C62'), $ublObject->getUnitCode());
     }
 
     public function testCanBeCreatedFromMinimalContent(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_MINIMAL_CONTENT);
-        $ublObject = BaseQuantity::fromXML($this->xpath, $currentElement);
+        $ublObject      = BaseQuantity::fromXML($this->xpath, $currentElement);
         $this->assertInstanceOf(BaseQuantity::class, $ublObject);
         $this->assertEquals(5, $ublObject->getQuantity()->getFormattedValueRounded());
         $this->assertNull($ublObject->getUnitCode());
@@ -53,7 +52,7 @@ XML;
     public function testCanBeCreatedFromEmpty(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_NO_LINE);
-        $ublObject = BaseQuantity::fromXML($this->xpath, $currentElement);
+        $ublObject      = BaseQuantity::fromXML($this->xpath, $currentElement);
         $this->assertNull($ublObject);
     }
 
@@ -66,8 +65,8 @@ XML;
 
     public function testGenerateXml(): void
     {
-        $currentElement = $this->loadXMLDocument(self::XML_VALID_FULL_CONTENT);
-        $ublObject = BaseQuantity::fromXML($this->xpath, $currentElement);
+        $currentElement  = $this->loadXMLDocument(self::XML_VALID_FULL_CONTENT);
+        $ublObject       = BaseQuantity::fromXML($this->xpath, $currentElement);
         $rootDestination = $this->generateEmptyRootDocument();
         $rootDestination->appendChild($ublObject->toXML($this->document));
         $generatedOutput = $this->formatXMLOutput();

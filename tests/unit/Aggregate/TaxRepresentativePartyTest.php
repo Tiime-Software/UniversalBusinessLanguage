@@ -2,11 +2,11 @@
 
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Aggregate;
 
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\TaxRepresentativePartyName;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\PostalAddress;
+use Tiime\UniversalBusinessLanguage\DataType\Aggregate\TaxRepresentativeParty;
+use Tiime\UniversalBusinessLanguage\DataType\Aggregate\TaxRepresentativePartyName;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\TaxRepresentativePartyTaxScheme;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\TaxRepresentativeParty;
 
 class TaxRepresentativePartyTest extends BaseXMLNodeTestWithHelpers
 {
@@ -47,7 +47,7 @@ XML;
     public function testCanBeCreatedFromFullContent(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_CONTENT);
-        $ublObject = TaxRepresentativeParty::fromXML($this->xpath, $currentElement);
+        $ublObject      = TaxRepresentativeParty::fromXML($this->xpath, $currentElement);
         $this->assertInstanceOf(TaxRepresentativeParty::class, $ublObject);
         $this->assertInstanceOf(TaxRepresentativePartyName::class, $ublObject->getPartyName());
         $this->assertInstanceOf(PostalAddress::class, $ublObject->getPostalAddress());
@@ -57,14 +57,14 @@ XML;
     public function testCanBeCreatedFromNoLine(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_NO_LINE);
-        $ublObject = TaxRepresentativeParty::fromXML($this->xpath, $currentElement);
+        $ublObject      = TaxRepresentativeParty::fromXML($this->xpath, $currentElement);
         $this->assertNull($ublObject);
     }
 
     public function testGenerateXml(): void
     {
-        $currentElement = $this->loadXMLDocument(self::XML_VALID_CONTENT);
-        $ublObject = TaxRepresentativeParty::fromXML($this->xpath, $currentElement);
+        $currentElement  = $this->loadXMLDocument(self::XML_VALID_CONTENT);
+        $ublObject       = TaxRepresentativeParty::fromXML($this->xpath, $currentElement);
         $rootDestination = $this->generateEmptyRootDocument();
         $rootDestination->appendChild($ublObject->toXML($this->document));
         $generatedOutput = $this->formatXMLOutput();

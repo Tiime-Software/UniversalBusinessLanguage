@@ -10,41 +10,41 @@ class BaseXMLNodeTestWithHelpers extends TestCase
 
     protected ?\DOMXPath $xpath = null;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
-        unset($this->document);
-        unset($this->xpath);
+        unset($this->document, $this->xpath);
     }
 
     protected function loadXMLDocument(string $xmlSource): \DOMElement
     {
-        $this->document = new \DOMDocument('1.0', 'UTF-8');
+        $this->document                     = new \DOMDocument('1.0', 'UTF-8');
         $this->document->preserveWhiteSpace = false;
-        $this->document->formatOutput = true;
+        $this->document->formatOutput       = true;
+
         if (!$this->document->loadXML($xmlSource)) {
             $this->fail('Source is not valid');
         }
         $this->xpath = new \DOMXPath($this->document);
-        $this->xpath->registerNamespace("ubl", "urn:oasis:names:specification:ubl:schema:xsd:Invoice-2");
+        $this->xpath->registerNamespace('ubl', 'urn:oasis:names:specification:ubl:schema:xsd:Invoice-2');
 
         return $this->document->documentElement;
     }
 
     protected function formatXMLOutput(): string
     {
-        $tmpDocument = new \DOMDocument('1.0', 'UTF-8');
+        $tmpDocument                     = new \DOMDocument('1.0', 'UTF-8');
         $tmpDocument->preserveWhiteSpace = false;
-        $tmpDocument->formatOutput = true;
+        $tmpDocument->formatOutput       = true;
         $tmpDocument->loadXML($this->document->saveXml());
 
-        return $tmpDocument->saveXml($tmpDocument->documentElement, LIBXML_NOEMPTYTAG);
+        return $tmpDocument->saveXml($tmpDocument->documentElement, \LIBXML_NOEMPTYTAG);
     }
 
     protected function generateEmptyRootDocument(): \DOMElement
     {
         $this->document = new \DOMDocument('1.0', 'UTF-8');
 
-        $universalBusinessLanguage = $this->document->createElement("Invoice");
+        $universalBusinessLanguage = $this->document->createElement('Invoice');
         $universalBusinessLanguage->setAttribute(
             'xmlns',
             'urn:oasis:names:specification:ubl:schema:xsd:Invoice-2'

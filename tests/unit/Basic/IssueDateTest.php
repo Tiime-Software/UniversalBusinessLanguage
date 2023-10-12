@@ -33,7 +33,7 @@ XML;
     public function testCanBeCreatedFromFullContent(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_FULL_CONTENT);
-        $ublObject = IssueDate::fromXML($this->xpath, $currentElement);
+        $ublObject      = IssueDate::fromXML($this->xpath, $currentElement);
         $this->assertInstanceOf(IssueDate::class, $ublObject);
         $this->assertEquals($ublObject->getDateTimeString(), new \DateTime('2023-01-02'));
     }
@@ -61,8 +61,8 @@ XML;
 
     public function testGenerateXml(): void
     {
-        $currentElement = $this->loadXMLDocument(self::XML_VALID_FULL_CONTENT);
-        $ublObject = IssueDate::fromXML($this->xpath, $currentElement);
+        $currentElement  = $this->loadXMLDocument(self::XML_VALID_FULL_CONTENT);
+        $ublObject       = IssueDate::fromXML($this->xpath, $currentElement);
         $rootDestination = $this->generateEmptyRootDocument();
         $rootDestination->appendChild($ublObject->toXML($this->document));
         $generatedOutput = $this->formatXMLOutput();

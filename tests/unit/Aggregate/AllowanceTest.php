@@ -103,14 +103,14 @@ XML;
     public function testCanBeCreatedFromFullContent(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_FULL_CONTENT);
-        $ublObjects = Allowance::fromXML($this->xpath, $currentElement);
+        $ublObjects     = Allowance::fromXML($this->xpath, $currentElement);
         $this->assertIsArray($ublObjects);
         $this->assertCount(1, $ublObjects);
         $this->assertInstanceOf(Allowance::class, $ublObjects[0]);
-        $this->assertEquals("false", $ublObjects[0]->getChargeIndicator());
+        $this->assertEquals('false', $ublObjects[0]->getChargeIndicator());
         $this->assertInstanceOf(AllowanceReasonCode::class, $ublObjects[0]->getAllowanceReasonCode());
-        $this->assertEquals("Discount", $ublObjects[0]->getAllowanceReason());
-        $this->assertEquals("20.00", $ublObjects[0]->getMultiplierFactorNumeric());
+        $this->assertEquals('Discount', $ublObjects[0]->getAllowanceReason());
+        $this->assertEquals('20.00', $ublObjects[0]->getMultiplierFactorNumeric());
         $this->assertInstanceOf(AllowanceChargeAmount::class, $ublObjects[0]->getAmount());
         $this->assertInstanceOf(BaseAmount::class, $ublObjects[0]->getBaseAmount());
         $this->assertInstanceOf(TaxCategory::class, $ublObjects[0]->getTaxCategory());
@@ -119,11 +119,11 @@ XML;
     public function testCanBeCreatedFromMinimalContent(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_MINIMAL_CONTENT);
-        $ublObjects = Allowance::fromXML($this->xpath, $currentElement);
+        $ublObjects     = Allowance::fromXML($this->xpath, $currentElement);
         $this->assertIsArray($ublObjects);
         $this->assertCount(1, $ublObjects);
         $this->assertInstanceOf(Allowance::class, $ublObjects[0]);
-        $this->assertEquals("false", $ublObjects[0]->getChargeIndicator());
+        $this->assertEquals('false', $ublObjects[0]->getChargeIndicator());
         $this->assertNull($ublObjects[0]->getAllowanceReasonCode());
         $this->assertNull($ublObjects[0]->getAllowanceReason());
         $this->assertNull($ublObjects[0]->getMultiplierFactorNumeric());
@@ -135,7 +135,7 @@ XML;
     public function testCanBeCreatedFromNoLine(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_NO_LINE);
-        $ublObjects = Allowance::fromXML($this->xpath, $currentElement);
+        $ublObjects     = Allowance::fromXML($this->xpath, $currentElement);
         $this->assertIsArray($ublObjects);
         $this->assertCount(0, $ublObjects);
     }
@@ -150,17 +150,18 @@ XML;
     public function testCanBeCreatedFromManyEntries(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_MANY_LINES);
-        $ublObjects = Allowance::fromXML($this->xpath, $currentElement);
+        $ublObjects     = Allowance::fromXML($this->xpath, $currentElement);
         $this->assertIsArray($ublObjects);
         $this->assertCount(2, $ublObjects);
     }
 
     public function testGenerateXml(): void
     {
-        $currentElement = $this->loadXMLDocument(self::XML_VALID_FULL_CONTENT);
-        $ublObjects = Allowance::fromXML($this->xpath, $currentElement);
+        $currentElement  = $this->loadXMLDocument(self::XML_VALID_FULL_CONTENT);
+        $ublObjects      = Allowance::fromXML($this->xpath, $currentElement);
         $rootDestination = $this->generateEmptyRootDocument();
-        foreach($ublObjects as $ublObject) {
+
+        foreach ($ublObjects as $ublObject) {
             $rootDestination->appendChild($ublObject->toXML($this->document));
         }
         $generatedOutput = $this->formatXMLOutput();

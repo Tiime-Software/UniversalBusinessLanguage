@@ -46,13 +46,12 @@ XML;
 </Invoice>
 XML;
 
-
     protected const XML_VALID_NO_LINE = <<<XML
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
 </Invoice>
 XML;
 
-    protected const XML_INVALID_MULTIPLE_CONTENTS = <<<XML
+    protected const XML_INVALID_MANY_CONTENTS = <<<XML
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cac:PaymentMeans>
     <cbc:PaymentMeansCode>30</cbc:PaymentMeansCode>
@@ -60,7 +59,7 @@ XML;
   </cac:PaymentMeans>
 </Invoice>
 XML;
-    protected const XML_VALID_MULTIPLE_LINES = <<<XML
+    protected const XML_VALID_MANY_LINES = <<<XML
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cac:PaymentMeans>
     <cbc:PaymentMeansCode>30</cbc:PaymentMeansCode>
@@ -74,7 +73,7 @@ XML;
     public function testCanBeCreatedFromFullContent(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_FULL_CONTENT);
-        $ublObjects = PaymentMeans::fromXML($this->xpath, $currentElement);
+        $ublObjects     = PaymentMeans::fromXML($this->xpath, $currentElement);
         $this->assertIsArray($ublObjects);
         $this->assertCount(1, $ublObjects);
         $ublObject = $ublObjects[0];
@@ -88,7 +87,7 @@ XML;
     public function testCanBeCreatedFromMinimalContent(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_MINIMAL_CONTENT);
-        $ublObjects = PaymentMeans::fromXML($this->xpath, $currentElement);
+        $ublObjects     = PaymentMeans::fromXML($this->xpath, $currentElement);
         $this->assertIsArray($ublObjects);
         $this->assertCount(1, $ublObjects);
         $ublObject = $ublObjects[0];
@@ -102,35 +101,37 @@ XML;
     public function testCanBeCreatedFromNoLine(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_NO_LINE);
-        $ublObjects = PaymentMeans::fromXML($this->xpath, $currentElement);
+        $ublObjects     = PaymentMeans::fromXML($this->xpath, $currentElement);
         $this->assertIsArray($ublObjects);
         $this->assertCount(0, $ublObjects);
     }
 
-    public function testCannotBeCreatedFromMultipleContents(): void
+    public function testCannotBeCreatedFromManyContents(): void
     {
         $this->expectException(\Exception::class);
-        $currentElement = $this->loadXMLDocument(self::XML_INVALID_MULTIPLE_CONTENTS);
+        $currentElement = $this->loadXMLDocument(self::XML_INVALID_MANY_CONTENTS);
         PaymentMeans::fromXML($this->xpath, $currentElement);
     }
 
-    public function testCanBeCreatedFromMultipleLines(): void
+    public function testCanBeCreatedFromManyLines(): void
     {
-        $currentElement = $this->loadXMLDocument(self::XML_VALID_MULTIPLE_LINES);
-        $ublObjects = PaymentMeans::fromXML($this->xpath, $currentElement);
+        $currentElement = $this->loadXMLDocument(self::XML_VALID_MANY_LINES);
+        $ublObjects     = PaymentMeans::fromXML($this->xpath, $currentElement);
         $this->assertIsArray($ublObjects);
         $this->assertCount(2, $ublObjects);
-        foreach($ublObjects as $ublObject) {
+
+        foreach ($ublObjects as $ublObject) {
             $this->assertInstanceOf(PaymentMeans::class, $ublObject);
         }
     }
 
     public function testGenerateXml(): void
     {
-        $currentElement = $this->loadXMLDocument(self::XML_VALID_FULL_CONTENT);
-        $ublObjects = PaymentMeans::fromXML($this->xpath, $currentElement);
+        $currentElement  = $this->loadXMLDocument(self::XML_VALID_FULL_CONTENT);
+        $ublObjects      = PaymentMeans::fromXML($this->xpath, $currentElement);
         $rootDestination = $this->generateEmptyRootDocument();
-        foreach($ublObjects as $ublObject) {
+
+        foreach ($ublObjects as $ublObject) {
             $rootDestination->appendChild($ublObject->toXML($this->document));
         }
         $generatedOutput = $this->formatXMLOutput();

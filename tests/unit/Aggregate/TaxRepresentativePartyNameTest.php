@@ -2,8 +2,8 @@
 
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Aggregate;
 
-use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\TaxRepresentativePartyName;
+use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
 class TaxRepresentativePartyNameTest extends BaseXMLNodeTestWithHelpers
 {
@@ -36,13 +36,12 @@ XML;
 </Invoice>
 XML;
 
-
     public function testCanBeCreatedFromFullContent(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_CONTENT);
-        $ublObject = TaxRepresentativePartyName::fromXML($this->xpath, $currentElement);
+        $ublObject      = TaxRepresentativePartyName::fromXML($this->xpath, $currentElement);
         $this->assertInstanceOf(TaxRepresentativePartyName::class, $ublObject);
-        $this->assertEquals("SELLER TAX REP", $ublObject->getName());
+        $this->assertEquals('SELLER TAX REP', $ublObject->getName());
     }
 
     public function testCannotBeCreatedFromNoLine(): void
@@ -68,8 +67,8 @@ XML;
 
     public function testGenerateXml(): void
     {
-        $currentElement = $this->loadXMLDocument(self::XML_VALID_CONTENT);
-        $ublObject = TaxRepresentativePartyName::fromXML($this->xpath, $currentElement);
+        $currentElement  = $this->loadXMLDocument(self::XML_VALID_CONTENT);
+        $ublObject       = TaxRepresentativePartyName::fromXML($this->xpath, $currentElement);
         $rootDestination = $this->generateEmptyRootDocument();
         $rootDestination->appendChild($ublObject->toXML($this->document));
         $generatedOutput = $this->formatXMLOutput();

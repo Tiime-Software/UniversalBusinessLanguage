@@ -27,13 +27,12 @@ XML;
 </Invoice>
 XML;
 
-
     protected const XML_VALID_NO_LINE = <<<XML
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
 </Invoice>
 XML;
 
-    protected const XML_INVALID_MULTIPLE_CONTENTS = <<<XML
+    protected const XML_INVALID_MANY_CONTENTS = <<<XML
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cac:PaymentMandate>
     <cbc:ID>123456</cbc:ID>
@@ -41,7 +40,8 @@ XML;
   </cac:PaymentMandate>
 </Invoice>
 XML;
-    protected const XML_INVALID_MULTIPLE_LINES = <<<XML
+
+    protected const XML_INVALID_MANY_LINES = <<<XML
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cac:PaymentMandate>
     <cbc:ID>123456</cbc:ID>
@@ -55,7 +55,7 @@ XML;
     public function testCanBeCreatedFromFullContent(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_FULL_CONTENT);
-        $ublObject = PaymentMandate::fromXML($this->xpath, $currentElement);
+        $ublObject      = PaymentMandate::fromXML($this->xpath, $currentElement);
         $this->assertInstanceOf(PaymentMandate::class, $ublObject);
         $this->assertInstanceOf(MandateReferenceIdentifier::class, $ublObject->getIdentifier());
         $this->assertInstanceOf(PayerFinancialAccount::class, $ublObject->getPayerFinancialAccount());
@@ -64,7 +64,7 @@ XML;
     public function testCanBeCreatedFromMinimalContent(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_MINIMAL_CONTENT);
-        $ublObject = PaymentMandate::fromXML($this->xpath, $currentElement);
+        $ublObject      = PaymentMandate::fromXML($this->xpath, $currentElement);
         $this->assertInstanceOf(PaymentMandate::class, $ublObject);
         $this->assertNull($ublObject->getIdentifier());
         $this->assertNull($ublObject->getPayerFinancialAccount());
@@ -73,28 +73,28 @@ XML;
     public function testCanBeCreatedFromNoLine(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_NO_LINE);
-        $ublObject = PaymentMandate::fromXML($this->xpath, $currentElement);
+        $ublObject      = PaymentMandate::fromXML($this->xpath, $currentElement);
         $this->assertNull($ublObject);
     }
 
-    public function testCannotBeCreatedFromMultipleContents(): void
+    public function testCannotBeCreatedFromManyContents(): void
     {
         $this->expectException(\Exception::class);
-        $currentElement = $this->loadXMLDocument(self::XML_INVALID_MULTIPLE_CONTENTS);
+        $currentElement = $this->loadXMLDocument(self::XML_INVALID_MANY_CONTENTS);
         PaymentMandate::fromXML($this->xpath, $currentElement);
     }
 
-    public function testCannotBeCreatedFromMultipleLines(): void
+    public function testCannotBeCreatedFromManyLines(): void
     {
         $this->expectException(\Exception::class);
-        $currentElement = $this->loadXMLDocument(self::XML_INVALID_MULTIPLE_LINES);
+        $currentElement = $this->loadXMLDocument(self::XML_INVALID_MANY_LINES);
         PaymentMandate::fromXML($this->xpath, $currentElement);
     }
 
     public function testGenerateXml(): void
     {
-        $currentElement = $this->loadXMLDocument(self::XML_VALID_FULL_CONTENT);
-        $ublObject = PaymentMandate::fromXML($this->xpath, $currentElement);
+        $currentElement  = $this->loadXMLDocument(self::XML_VALID_FULL_CONTENT);
+        $ublObject       = PaymentMandate::fromXML($this->xpath, $currentElement);
         $rootDestination = $this->generateEmptyRootDocument();
         $rootDestination->appendChild($ublObject->toXML($this->document));
         $generatedOutput = $this->formatXMLOutput();

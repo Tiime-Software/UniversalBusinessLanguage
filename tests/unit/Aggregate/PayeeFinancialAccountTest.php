@@ -29,7 +29,6 @@ XML;
 </Invoice>
 XML;
 
-
     protected const XML_VALID_NO_LINE = <<<XML
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
 </Invoice>
@@ -57,28 +56,27 @@ XML;
     public function testCanBeCreatedFromFullContent(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_FULL_CONTENT);
-        $ublObject = PayeeFinancialAccount::fromXML($this->xpath, $currentElement);
+        $ublObject      = PayeeFinancialAccount::fromXML($this->xpath, $currentElement);
         $this->assertInstanceOf(PayeeFinancialAccount::class, $ublObject);
         $this->assertInstanceOf(PaymentAccountIdentifier::class, $ublObject->getPaymentAccountIdentifier());
-        $this->assertEquals("Payment Account", $ublObject->getPaymentAccountName());
+        $this->assertEquals('Payment Account', $ublObject->getPaymentAccountName());
         $this->assertInstanceOf(FinancialInstitutionBranch::class, $ublObject->getFinancialInstitutionBranch());
     }
 
     public function testCanBeCreatedFromMinimalContent(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_MINIMAL_CONTENT);
-        $ublObject = PayeeFinancialAccount::fromXML($this->xpath, $currentElement);
+        $ublObject      = PayeeFinancialAccount::fromXML($this->xpath, $currentElement);
         $this->assertInstanceOf(PayeeFinancialAccount::class, $ublObject);
         $this->assertInstanceOf(PaymentAccountIdentifier::class, $ublObject->getPaymentAccountIdentifier());
         $this->assertNull($ublObject->getPaymentAccountName());
         $this->assertNull($ublObject->getFinancialInstitutionBranch());
-
     }
 
     public function testCanBeCreatedFromNoLine(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_NO_LINE);
-        $ublObject = PayeeFinancialAccount::fromXML($this->xpath, $currentElement);
+        $ublObject      = PayeeFinancialAccount::fromXML($this->xpath, $currentElement);
         $this->assertNull($ublObject);
     }
 
@@ -98,8 +96,8 @@ XML;
 
     public function testGenerateXml(): void
     {
-        $currentElement = $this->loadXMLDocument(self::XML_VALID_FULL_CONTENT);
-        $ublObject = PayeeFinancialAccount::fromXML($this->xpath, $currentElement);
+        $currentElement  = $this->loadXMLDocument(self::XML_VALID_FULL_CONTENT);
+        $ublObject       = PayeeFinancialAccount::fromXML($this->xpath, $currentElement);
         $rootDestination = $this->generateEmptyRootDocument();
         $rootDestination->appendChild($ublObject->toXML($this->document));
         $generatedOutput = $this->formatXMLOutput();

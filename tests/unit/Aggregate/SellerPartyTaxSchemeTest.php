@@ -51,7 +51,7 @@ XML;
     public function testCanBeCreatedFromContent(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_CONTENT);
-        $ublObjects = SellerPartyTaxScheme::fromXML($this->xpath, $currentElement);
+        $ublObjects     = SellerPartyTaxScheme::fromXML($this->xpath, $currentElement);
         $this->assertIsArray($ublObjects);
         $this->assertCount(1, $ublObjects);
         $this->assertInstanceOf(SellerPartyTaxScheme::class, $ublObjects[0]);
@@ -62,7 +62,7 @@ XML;
     public function testCanBeCreatedFromNoLine(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_NO_LINE);
-        $ublObjects = SellerPartyTaxScheme::fromXML($this->xpath, $currentElement);
+        $ublObjects     = SellerPartyTaxScheme::fromXML($this->xpath, $currentElement);
         $this->assertIsArray($ublObjects);
         $this->assertCount(0, $ublObjects);
     }
@@ -76,10 +76,11 @@ XML;
 
     public function testGenerateXml(): void
     {
-        $currentElement = $this->loadXMLDocument(self::XML_VALID_CONTENT);
-        $ublObjects = SellerPartyTaxScheme::fromXML($this->xpath, $currentElement);
+        $currentElement  = $this->loadXMLDocument(self::XML_VALID_CONTENT);
+        $ublObjects      = SellerPartyTaxScheme::fromXML($this->xpath, $currentElement);
         $rootDestination = $this->generateEmptyRootDocument();
-        foreach($ublObjects as $ublObject) {
+
+        foreach ($ublObjects as $ublObject) {
             $rootDestination->appendChild($ublObject->toXML($this->document));
         }
         $generatedOutput = $this->formatXMLOutput();

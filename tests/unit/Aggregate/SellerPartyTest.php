@@ -2,15 +2,11 @@
 
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Aggregate;
 
-use Tiime\EN16931\DataType\VatCategory;
-use Tiime\EN16931\DataType\VatExoneration;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\Contact;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\PartyName;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\PostalAddress;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\SellerParty;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\SellerPartyIdentification;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\SubtotalTaxCategory;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\TaxScheme;
 use Tiime\UniversalBusinessLanguage\DataType\Basic\EndpointIdentifier;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
@@ -90,12 +86,13 @@ XML;
     public function testCanBeCreatedFromFullContent(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_FULL_CONTENT);
-        $ublObject = SellerParty::fromXML($this->xpath, $currentElement);
+        $ublObject      = SellerParty::fromXML($this->xpath, $currentElement);
         $this->assertInstanceOf(SellerParty::class, $ublObject);
         $this->assertInstanceOf(EndpointIdentifier::class, $ublObject->getEndpointIdentifier());
         $this->assertIsArray($ublObject->getPartyIdentifications());
         $identifiers = $ublObject->getPartyIdentifications();
-        foreach($identifiers as $identifier) {
+
+        foreach ($identifiers as $identifier) {
             $this->assertInstanceOf(SellerPartyIdentification::class, $identifier);
         }
         $this->assertInstanceOf(PartyName::class, $ublObject->getPartyName());
@@ -106,18 +103,18 @@ XML;
     public function testCanBeCreatedFromMinimalContent(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_MINIMAL_CONTENT);
-        $ublObject = SellerParty::fromXML($this->xpath, $currentElement);
+        $ublObject      = SellerParty::fromXML($this->xpath, $currentElement);
         $this->assertInstanceOf(SellerParty::class, $ublObject);
         $this->assertInstanceOf(EndpointIdentifier::class, $ublObject->getEndpointIdentifier());
         $this->assertIsArray($ublObject->getPartyIdentifications());
         $identifiers = $ublObject->getPartyIdentifications();
-        foreach($identifiers as $identifier) {
+
+        foreach ($identifiers as $identifier) {
             $this->assertInstanceOf(SellerPartyIdentification::class, $identifier);
         }
         $this->assertNull($ublObject->getPartyName());
         $this->assertInstanceOf(PostalAddress::class, $ublObject->getPostalAddress());
         $this->assertNull($ublObject->getContact());
-
     }
 
     public function testCannotBeCreatedFromNoLine(): void
@@ -136,8 +133,8 @@ XML;
 
     public function testGenerateXml(): void
     {
-        $currentElement = $this->loadXMLDocument(self::XML_VALID_FULL_CONTENT);
-        $ublObject = SellerParty::fromXML($this->xpath, $currentElement);
+        $currentElement  = $this->loadXMLDocument(self::XML_VALID_FULL_CONTENT);
+        $ublObject       = SellerParty::fromXML($this->xpath, $currentElement);
         $rootDestination = $this->generateEmptyRootDocument();
         $rootDestination->appendChild($ublObject->toXML($this->document));
         $generatedOutput = $this->formatXMLOutput();

@@ -2,7 +2,6 @@
 
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Aggregate;
 
-use Tiime\EN16931\DataType\Identifier\LegalRegistrationIdentifier;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\ReceiptDocumentReference;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
@@ -43,15 +42,15 @@ XML;
     public function testCanBeCreatedFromContent(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_CONTENT);
-        $ublObject = ReceiptDocumentReference::fromXML($this->xpath, $currentElement);
+        $ublObject      = ReceiptDocumentReference::fromXML($this->xpath, $currentElement);
         $this->assertInstanceOf(ReceiptDocumentReference::class, $ublObject);
-        $this->assertEquals("RECEIV-ADV002", $ublObject->getIdentifier());
+        $this->assertEquals('RECEIV-ADV002', $ublObject->getIdentifier());
     }
 
     public function testCannotBeCreatedFromNoLine(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_NO_LINE);
-        $ublDocument = ReceiptDocumentReference::fromXML($this->xpath, $currentElement);
+        $ublDocument    = ReceiptDocumentReference::fromXML($this->xpath, $currentElement);
         $this->assertNull($ublDocument);
     }
 
@@ -71,8 +70,8 @@ XML;
 
     public function testGenerateXml(): void
     {
-        $currentElement = $this->loadXMLDocument(self::XML_VALID_CONTENT);
-        $ublObject = ReceiptDocumentReference::fromXML($this->xpath, $currentElement);
+        $currentElement  = $this->loadXMLDocument(self::XML_VALID_CONTENT);
+        $ublObject       = ReceiptDocumentReference::fromXML($this->xpath, $currentElement);
         $rootDestination = $this->generateEmptyRootDocument();
         $rootDestination->appendChild($ublObject->toXML($this->document));
         $generatedOutput = $this->formatXMLOutput();

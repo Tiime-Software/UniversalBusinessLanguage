@@ -27,7 +27,6 @@ XML;
 </Invoice>
 XML;
 
-
     protected const XML_INVALID_TOO_MANY_ID = <<<XML
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cac:ProjectReference>
@@ -36,7 +35,7 @@ XML;
   </cac:ProjectReference>
 </Invoice>
 XML;
-    protected const XML_INVALID_TOO_MANY_LINES = <<<XML
+    protected const XML_INVALID_MANY_LINES = <<<XML
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cac:ProjectReference>
     <cbc:ID>PROJET2547</cbc:ID>
@@ -50,15 +49,15 @@ XML;
     public function testCanBeCreatedFromContent(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_CONTENT);
-        $ublObject = ProjectReference::fromXML($this->xpath, $currentElement);
+        $ublObject      = ProjectReference::fromXML($this->xpath, $currentElement);
         $this->assertInstanceOf(ProjectReference::class, $ublObject);
-        $this->assertEquals("PROJET2547", $ublObject->getIdentifier());
+        $this->assertEquals('PROJET2547', $ublObject->getIdentifier());
     }
 
     public function testCannotBeCreatedFromNoLine(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_NO_LINE);
-        $ublDocument = ProjectReference::fromXML($this->xpath, $currentElement);
+        $ublDocument    = ProjectReference::fromXML($this->xpath, $currentElement);
         $this->assertNull($ublDocument);
     }
 
@@ -79,14 +78,14 @@ XML;
     public function testCannotBeCreatedFromTooManyLines(): void
     {
         $this->expectException(\Exception::class);
-        $currentElement = $this->loadXMLDocument(self::XML_INVALID_TOO_MANY_LINES);
+        $currentElement = $this->loadXMLDocument(self::XML_INVALID_MANY_LINES);
         ProjectReference::fromXML($this->xpath, $currentElement);
     }
 
     public function testGenerateXml(): void
     {
-        $currentElement = $this->loadXMLDocument(self::XML_VALID_CONTENT);
-        $ublObject = ProjectReference::fromXML($this->xpath, $currentElement);
+        $currentElement  = $this->loadXMLDocument(self::XML_VALID_CONTENT);
+        $ublObject       = ProjectReference::fromXML($this->xpath, $currentElement);
         $rootDestination = $this->generateEmptyRootDocument();
         $rootDestination->appendChild($ublObject->toXML($this->document));
         $generatedOutput = $this->formatXMLOutput();

@@ -4,10 +4,10 @@ namespace Tiime\UniversalBusinessLanguage\Tests\unit\Aggregate;
 
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\SubtotalTaxCategory;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\TaxSubtotal;
+use Tiime\UniversalBusinessLanguage\DataType\Aggregate\TaxTotal;
 use Tiime\UniversalBusinessLanguage\DataType\Basic\TaxableAmount;
 use Tiime\UniversalBusinessLanguage\DataType\Basic\TaxAmount;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\TaxTotal;
 
 class TaxSubtotalTest extends BaseXMLNodeTestWithHelpers
 {
@@ -35,7 +35,7 @@ XML;
     public function testCanBeCreatedFromFullContent(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_CONTENT);
-        $ublObjects = TaxSubtotal::fromXML($this->xpath, $currentElement);
+        $ublObjects     = TaxSubtotal::fromXML($this->xpath, $currentElement);
         $this->assertIsArray($ublObjects);
         $this->assertCount(1, $ublObjects);
 
@@ -54,10 +54,11 @@ XML;
 
     public function testGenerateXml(): void
     {
-        $currentElement = $this->loadXMLDocument(self::XML_VALID_CONTENT);
-        $ublObjects = TaxSubtotal::fromXML($this->xpath, $currentElement);
+        $currentElement  = $this->loadXMLDocument(self::XML_VALID_CONTENT);
+        $ublObjects      = TaxSubtotal::fromXML($this->xpath, $currentElement);
         $rootDestination = $this->generateEmptyRootDocument();
-        foreach($ublObjects as $ublObject) {
+
+        foreach ($ublObjects as $ublObject) {
             $rootDestination->appendChild($ublObject->toXML($this->document));
         }
         $generatedOutput = $this->formatXMLOutput();

@@ -6,11 +6,8 @@ use Tiime\UniversalBusinessLanguage\DataType\Aggregate\AdditionalItemProperty;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\BuyersItemIdentification;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\ClassifiedTaxCategory;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\CommodityClassification;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\OriginCountry;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\PartyName;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\PayeePartyLegalEntity;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\Item;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\PayeePartyIdentification;
+use Tiime\UniversalBusinessLanguage\DataType\Aggregate\OriginCountry;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\SellersItemIdentification;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\StandardItemIdentification;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
@@ -71,7 +68,7 @@ XML;
 </Invoice>
 XML;
 
-    protected const XML_INVALID_TOO_MANY_LINES = <<<XML
+    protected const XML_INVALID_MANY_LINES = <<<XML
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cac:Item>
     <cbc:Name>Item name 1</cbc:Name>
@@ -97,23 +94,25 @@ XML;
     public function testCanBeCreatedFromFullContent(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_FULL_CONTENT);
-        $ublObject = Item::fromXML($this->xpath, $currentElement);
+        $ublObject      = Item::fromXML($this->xpath, $currentElement);
         $this->assertInstanceOf(Item::class, $ublObject);
-        $this->assertEquals("Long description of the item on the invoice line", $ublObject->getDescription());
-        $this->assertEquals("Item name", $ublObject->getName());
+        $this->assertEquals('Long description of the item on the invoice line', $ublObject->getDescription());
+        $this->assertEquals('Item name', $ublObject->getName());
         $this->assertInstanceOf(BuyersItemIdentification::class, $ublObject->getBuyersItemIdentification());
         $this->assertInstanceOf(SellersItemIdentification::class, $ublObject->getSellersItemIdentification());
         $this->assertInstanceOf(StandardItemIdentification::class, $ublObject->getStandardItemIdentification());
         $this->assertInstanceOf(OriginCountry::class, $ublObject->getOriginCountry());
         $this->assertIsArray($ublObject->getCommodityClassifications());
         $this->assertCount(1, $ublObject->getCommodityClassifications());
-        foreach($ublObject->getCommodityClassifications() as $commodityClassification) {
+
+        foreach ($ublObject->getCommodityClassifications() as $commodityClassification) {
             $this->assertInstanceOf(CommodityClassification::class, $commodityClassification);
         }
         $this->assertInstanceOf(ClassifiedTaxCategory::class, $ublObject->getClassifiedTaxCategory());
         $this->assertIsArray($ublObject->getAdditionalProperties());
         $this->assertCount(1, $ublObject->getAdditionalProperties());
-        foreach($ublObject->getAdditionalProperties() as $additionalProperty) {
+
+        foreach ($ublObject->getAdditionalProperties() as $additionalProperty) {
             $this->assertInstanceOf(AdditionalItemProperty::class, $additionalProperty);
         }
     }
@@ -121,10 +120,10 @@ XML;
     public function testCanBeCreatedFromMinimalContent(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_MINIMAL_CONTENT);
-        $ublObject = Item::fromXML($this->xpath, $currentElement);
+        $ublObject      = Item::fromXML($this->xpath, $currentElement);
         $this->assertInstanceOf(Item::class, $ublObject);
         $this->assertNull($ublObject->getDescription());
-        $this->assertEquals("Item name", $ublObject->getName());
+        $this->assertEquals('Item name', $ublObject->getName());
         $this->assertNull($ublObject->getBuyersItemIdentification());
         $this->assertNull($ublObject->getSellersItemIdentification());
         $this->assertNull($ublObject->getStandardItemIdentification());
@@ -146,14 +145,14 @@ XML;
     public function testCannotBeCreatedFromTooManyTaxTotals(): void
     {
         $this->expectException(\Exception::class);
-        $currentElement = $this->loadXMLDocument(self::XML_INVALID_TOO_MANY_LINES);
+        $currentElement = $this->loadXMLDocument(self::XML_INVALID_MANY_LINES);
         Item::fromXML($this->xpath, $currentElement);
     }
 
     public function testGenerateXml(): void
     {
-        $currentElement = $this->loadXMLDocument(self::XML_VALID_FULL_CONTENT);
-        $ublObject = Item::fromXML($this->xpath, $currentElement);
+        $currentElement  = $this->loadXMLDocument(self::XML_VALID_FULL_CONTENT);
+        $ublObject       = Item::fromXML($this->xpath, $currentElement);
         $rootDestination = $this->generateEmptyRootDocument();
         $rootDestination->appendChild($ublObject->toXML($this->document));
         $generatedOutput = $this->formatXMLOutput();

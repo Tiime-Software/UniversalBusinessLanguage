@@ -42,7 +42,7 @@ XML;
 </Invoice>
 XML;
 
-    protected const XML_INVALID_TOO_MANY_LINES = <<<XML
+    protected const XML_INVALID_MANY_LINES = <<<XML
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cac:DeliveryLocation>
   </cac:DeliveryLocation>
@@ -54,13 +54,13 @@ XML;
     public function testCanBeCreatedFromFullContent(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_FULL_CONTENT);
-        $ublObject = DeliveryAddress::fromXML($this->xpath, $currentElement);
+        $ublObject      = DeliveryAddress::fromXML($this->xpath, $currentElement);
         $this->assertInstanceOf(DeliveryAddress::class, $ublObject);
-        $this->assertEquals("Delivery Street 1", $ublObject->getStreetName());
-        $this->assertEquals("Delivery Street 2", $ublObject->getAdditionalStreetName());
-        $this->assertEquals("Malmö", $ublObject->getCityName());
-        $this->assertEquals("86756", $ublObject->getPostalZone());
-        $this->assertEquals("South Region", $ublObject->getCountrySubentity());
+        $this->assertEquals('Delivery Street 1', $ublObject->getStreetName());
+        $this->assertEquals('Delivery Street 2', $ublObject->getAdditionalStreetName());
+        $this->assertEquals('Malmö', $ublObject->getCityName());
+        $this->assertEquals('86756', $ublObject->getPostalZone());
+        $this->assertEquals('South Region', $ublObject->getCountrySubentity());
         $this->assertInstanceOf(AddressLine::class, $ublObject->getAddressLine());
         $this->assertInstanceOf(Country::class, $ublObject->getCountry());
     }
@@ -68,7 +68,7 @@ XML;
     public function testCanBeCreatedFromMinimalContent(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_MINIMAL_CONTENT);
-        $ublObject = DeliveryAddress::fromXML($this->xpath, $currentElement);
+        $ublObject      = DeliveryAddress::fromXML($this->xpath, $currentElement);
         $this->assertInstanceOf(DeliveryAddress::class, $ublObject);
         $this->assertNull($ublObject->getStreetName());
         $this->assertNull($ublObject->getAdditionalStreetName());
@@ -82,21 +82,21 @@ XML;
     public function testCanBeCreatedFromNoLine(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_NO_LINE);
-        $ublObject = DeliveryAddress::fromXML($this->xpath, $currentElement);
+        $ublObject      = DeliveryAddress::fromXML($this->xpath, $currentElement);
         $this->assertNull($ublObject);
     }
 
     public function testCannotBeCreatedFromTooManyLines(): void
     {
         $this->expectException(\Exception::class);
-        $currentElement = $this->loadXMLDocument(self::XML_INVALID_TOO_MANY_LINES);
+        $currentElement = $this->loadXMLDocument(self::XML_INVALID_MANY_LINES);
         DeliveryAddress::fromXML($this->xpath, $currentElement);
     }
 
     public function testGenerateXml(): void
     {
-        $currentElement = $this->loadXMLDocument(self::XML_VALID_FULL_CONTENT);
-        $ublObject = DeliveryAddress::fromXML($this->xpath, $currentElement);
+        $currentElement  = $this->loadXMLDocument(self::XML_VALID_FULL_CONTENT);
+        $ublObject       = DeliveryAddress::fromXML($this->xpath, $currentElement);
         $rootDestination = $this->generateEmptyRootDocument();
         $rootDestination->appendChild($ublObject->toXML($this->document));
         $generatedOutput = $this->formatXMLOutput();

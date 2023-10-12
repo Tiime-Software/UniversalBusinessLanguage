@@ -2,8 +2,8 @@
 
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Aggregate;
 
-use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\TaxScheme;
+use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
 class TaxSchemeTest extends BaseXMLNodeTestWithHelpers
 {
@@ -36,13 +36,12 @@ XML;
 </Invoice>
 XML;
 
-
     public function testCanBeCreatedFromFullContent(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_CONTENT);
-        $ublObject = TaxScheme::fromXML($this->xpath, $currentElement);
+        $ublObject      = TaxScheme::fromXML($this->xpath, $currentElement);
         $this->assertInstanceOf(TaxScheme::class, $ublObject);
-        $this->assertEquals("VAT", $ublObject->getIdentifier());
+        $this->assertEquals('VAT', $ublObject->getIdentifier());
     }
 
     public function testCannotBeCreatedFromNoLine(): void
@@ -68,8 +67,8 @@ XML;
 
     public function testGenerateXml(): void
     {
-        $currentElement = $this->loadXMLDocument(self::XML_VALID_CONTENT);
-        $ublObject = TaxScheme::fromXML($this->xpath, $currentElement);
+        $currentElement  = $this->loadXMLDocument(self::XML_VALID_CONTENT);
+        $ublObject       = TaxScheme::fromXML($this->xpath, $currentElement);
         $rootDestination = $this->generateEmptyRootDocument();
         $rootDestination->appendChild($ublObject->toXML($this->document));
         $generatedOutput = $this->formatXMLOutput();

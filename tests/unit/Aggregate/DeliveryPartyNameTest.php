@@ -2,7 +2,6 @@
 
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Aggregate;
 
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\DeliveryParty;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\DeliveryPartyName;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
@@ -28,7 +27,7 @@ XML;
 </Invoice>
 XML;
 
-    protected const XML_INVALID_TOO_MANY_LINES = <<<XML
+    protected const XML_INVALID_MANY_LINES = <<<XML
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cac:DeliveryName>
   </cac:DeliveryName>
@@ -40,9 +39,9 @@ XML;
     public function testCanBeCreatedFromContent(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_CONTENT);
-        $ublObject = DeliveryPartyName::fromXML($this->xpath, $currentElement);
+        $ublObject      = DeliveryPartyName::fromXML($this->xpath, $currentElement);
         $this->assertInstanceOf(DeliveryPartyName::class, $ublObject);
-        $this->assertEquals("Deliver name", $ublObject->getName());
+        $this->assertEquals('Deliver name', $ublObject->getName());
     }
 
     public function testCanBeCreatedFromNoLine(): void
@@ -62,14 +61,14 @@ XML;
     public function testCannotBeCreatedFromTooManyLines(): void
     {
         $this->expectException(\Exception::class);
-        $currentElement = $this->loadXMLDocument(self::XML_INVALID_TOO_MANY_LINES);
+        $currentElement = $this->loadXMLDocument(self::XML_INVALID_MANY_LINES);
         DeliveryPartyName::fromXML($this->xpath, $currentElement);
     }
 
     public function testGenerateXml(): void
     {
-        $currentElement = $this->loadXMLDocument(self::XML_VALID_CONTENT);
-        $ublObject = DeliveryPartyName::fromXML($this->xpath, $currentElement);
+        $currentElement  = $this->loadXMLDocument(self::XML_VALID_CONTENT);
+        $ublObject       = DeliveryPartyName::fromXML($this->xpath, $currentElement);
         $rootDestination = $this->generateEmptyRootDocument();
         $rootDestination->appendChild($ublObject->toXML($this->document));
         $generatedOutput = $this->formatXMLOutput();

@@ -3,9 +3,9 @@
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Aggregate;
 
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\TaxSubtotal;
+use Tiime\UniversalBusinessLanguage\DataType\Aggregate\TaxTotal;
 use Tiime\UniversalBusinessLanguage\DataType\Basic\TaxAmount;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\TaxTotal;
 
 class TaxTotalTest extends BaseXMLNodeTestWithHelpers
 {
@@ -61,7 +61,7 @@ XML;
     public function testCanBeCreatedFromFullContent(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_FULL_CONTENT);
-        $ublObjects = TaxTotal::fromXML($this->xpath, $currentElement);
+        $ublObjects     = TaxTotal::fromXML($this->xpath, $currentElement);
         $this->assertIsArray($ublObjects);
         $this->assertCount(2, $ublObjects);
 
@@ -69,8 +69,8 @@ XML;
         $this->assertInstanceOf(TaxAmount::class, $ublObjects[0]->getTaxAmount());
         $this->assertIsArray($ublObjects[0]->getTaxSubtotals());
         $this->assertCount(1, $ublObjects[0]->getTaxSubtotals());
-        foreach($ublObjects[0]->getTaxSubtotals() as $elem)
-        {
+
+        foreach ($ublObjects[0]->getTaxSubtotals() as $elem) {
             $this->assertInstanceOf(TaxSubtotal::class, $elem);
         }
 
@@ -82,7 +82,7 @@ XML;
     public function testCanBeCreatedFromMinimalContent(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_MINIMAL_CONTENT);
-        $ublObjects = TaxTotal::fromXML($this->xpath, $currentElement);
+        $ublObjects     = TaxTotal::fromXML($this->xpath, $currentElement);
         $this->assertIsArray($ublObjects);
         $this->assertCount(1, $ublObjects);
 
@@ -108,10 +108,11 @@ XML;
 
     public function testGenerateXml(): void
     {
-        $currentElement = $this->loadXMLDocument(self::XML_VALID_FULL_CONTENT);
-        $ublObjects = TaxTotal::fromXML($this->xpath, $currentElement);
+        $currentElement  = $this->loadXMLDocument(self::XML_VALID_FULL_CONTENT);
+        $ublObjects      = TaxTotal::fromXML($this->xpath, $currentElement);
         $rootDestination = $this->generateEmptyRootDocument();
-        foreach($ublObjects as $ublObject) {
+
+        foreach ($ublObjects as $ublObject) {
             $rootDestination->appendChild($ublObject->toXML($this->document));
         }
         $generatedOutput = $this->formatXMLOutput();

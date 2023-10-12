@@ -3,7 +3,6 @@
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Basic;
 
 use Tiime\EN16931\DataType\ElectronicAddressScheme;
-use Tiime\EN16931\DataType\PaymentMeansCode;
 use Tiime\UniversalBusinessLanguage\DataType\Basic\EndpointIdentifier;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
@@ -33,14 +32,13 @@ XML;
 </Invoice>
 XML;
 
-
     public function testCanBeCreatedFromContent(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_CONTENT);
-        $ublObject = EndpointIdentifier::fromXML($this->xpath, $currentElement);
+        $ublObject      = EndpointIdentifier::fromXML($this->xpath, $currentElement);
         $this->assertInstanceOf(EndpointIdentifier::class, $ublObject);
         $this->assertEquals(ElectronicAddressScheme::tryFrom('EM'), $ublObject->scheme);
-        $this->assertEquals("VendeurCanal1.00017@100000009.ppf", $ublObject->value);
+        $this->assertEquals('VendeurCanal1.00017@100000009.ppf', $ublObject->value);
     }
 
     public function testCannotBeCreatedFromInvalidSchemeID(): void
@@ -66,8 +64,8 @@ XML;
 
     public function testGenerateXml(): void
     {
-        $currentElement = $this->loadXMLDocument(self::XML_VALID_CONTENT);
-        $ublObject = EndpointIdentifier::fromXML($this->xpath, $currentElement);
+        $currentElement  = $this->loadXMLDocument(self::XML_VALID_CONTENT);
+        $ublObject       = EndpointIdentifier::fromXML($this->xpath, $currentElement);
         $rootDestination = $this->generateEmptyRootDocument();
         $rootDestination->appendChild($ublObject->toXML($this->document));
         $generatedOutput = $this->formatXMLOutput();
