@@ -74,6 +74,10 @@ class PriceAllowanceCharge
             return null;
         }
 
+        if ($priceAllowanceElements->count() > 1) {
+            throw new \Exception('Malformed');
+        }
+
         /** @var \DOMElement $priceAllowanceElement */
         $priceAllowanceElement = $priceAllowanceElements->item(0);
 

@@ -175,13 +175,13 @@ class Allowance
 
         /** @var \DOMElement $allowanceElement */
         foreach ($allowanceElements as $allowanceElement) {
-            $allowanceReasonCodeElements = $xpath->query('./cbc:allowanceChargeReasonCode', $allowanceElement);
+            $allowanceReasonCodeElements = $xpath->query('./cbc:AllowanceChargeReasonCode', $allowanceElement);
 
             if ($allowanceReasonCodeElements->count() > 1) {
                 throw new \Exception('Malformed');
             }
 
-            $allowanceReasonElements = $xpath->query('./cbc:allowanceChargeReason', $allowanceElement);
+            $allowanceReasonElements = $xpath->query('./cbc:AllowanceChargeReason', $allowanceElement);
 
             if ($allowanceReasonElements->count() > 1) {
                 throw new \Exception('Malformed');
