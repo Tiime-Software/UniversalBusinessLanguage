@@ -68,20 +68,20 @@ class PriceAllowanceCharge
 
     public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): ?self
     {
-        $priceAllowanceElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
+        $priceAllowanceChargeElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
 
-        if (0 === $priceAllowanceElements->count()) {
+        if (0 === $priceAllowanceChargeElements->count()) {
             return null;
         }
 
-        if ($priceAllowanceElements->count() > 1) {
+        if ($priceAllowanceChargeElements->count() > 1) {
             throw new \Exception('Malformed');
         }
 
-        /** @var \DOMElement $priceAllowanceElement */
-        $priceAllowanceElement = $priceAllowanceElements->item(0);
+        /** @var \DOMElement $priceAllowanceChargeElement */
+        $priceAllowanceChargeElement = $priceAllowanceChargeElements->item(0);
 
-        $chargeIndicatorElements = $xpath->query('./cbc:ChargeIndicator', $priceAllowanceElement);
+        $chargeIndicatorElements = $xpath->query('./cbc:ChargeIndicator', $priceAllowanceChargeElement);
 
         if (1 !== $chargeIndicatorElements->count()) {
             throw new \Exception('Malformed');
@@ -93,8 +93,8 @@ class PriceAllowanceCharge
             throw new \Exception('Malformed');
         }
 
-        $amount     = AllowanceChargeAmount::fromXML($xpath, $priceAllowanceElement);
-        $baseAmount = BaseAmount::fromXML($xpath, $priceAllowanceElement);
+        $amount     = AllowanceChargeAmount::fromXML($xpath, $priceAllowanceChargeElement);
+        $baseAmount = BaseAmount::fromXML($xpath, $priceAllowanceChargeElement);
 
         $priceAllowanceCharge = new self($amount);
 
