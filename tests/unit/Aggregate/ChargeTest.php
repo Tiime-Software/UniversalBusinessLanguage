@@ -1,6 +1,5 @@
 <?php
 
-
 use Tiime\EN16931\DataType\ChargeReasonCode;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\Charge;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\TaxCategory;
@@ -154,7 +153,8 @@ XML;
         $ublObjects     = Charge::fromXML($this->xpath, $currentElement);
         $this->assertIsArray($ublObjects);
         $this->assertCount(2, $ublObjects);
-        foreach($ublObjects as $ublObject) {
+
+        foreach ($ublObjects as $ublObject) {
             $this->assertInstanceOf(Charge::class, $ublObject);
         }
     }

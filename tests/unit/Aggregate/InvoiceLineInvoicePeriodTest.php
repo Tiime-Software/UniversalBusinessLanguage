@@ -2,41 +2,26 @@
 
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Aggregate;
 
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\PartyName;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\PayeeParty;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\PayeePartyIdentification;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\PayeePartyLegalEntity;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\PayeePartyName;
+use Tiime\UniversalBusinessLanguage\DataType\Aggregate\InvoiceLineInvoicePeriod;
+use Tiime\UniversalBusinessLanguage\DataType\Basic\EndDate;
+use Tiime\UniversalBusinessLanguage\DataType\Basic\StartDate;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
-class PayeePartyTest extends BaseXMLNodeTestWithHelpers
+class InvoiceLineInvoicePeriodTest extends BaseXMLNodeTestWithHelpers
 {
     protected const XML_VALID_FULL_CONTENT = <<<XML
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
-  <cac:PayeeParty>
-    <cac:PartyIdentification>
-      <cbc:ID schemeID="SEPA">FR932874294</cbc:ID>
-    </cac:PartyIdentification>
-    <cac:PartyName>
-      <cbc:Name>Payee Name Ltd</cbc:Name>
-    </cac:PartyName>
-    <cac:PartyLegalEntity>
-      <cbc:CompanyID schemeID="0002">FR932874294</cbc:CompanyID>
-    </cac:PartyLegalEntity>
-  </cac:PayeeParty>
+  <cac:InvoicePeriod>
+    <cbc:StartDate>2017-10-05</cbc:StartDate>
+    <cbc:EndDate>2017-10-15</cbc:EndDate>
+  </cac:InvoicePeriod>
 </Invoice>
 XML;
 
     protected const XML_VALID_MINIMAL_CONTENT = <<<XML
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
-  <cac:PayeeParty>
-    <cac:PartyIdentification>
-      <cbc:ID>FR932874294</cbc:ID>
-    </cac:PartyIdentification>
-    <cac:PartyName>
-      <cbc:Name>Payee Name Ltd</cbc:Name>
-    </cac:PartyName>
-  </cac:PayeeParty>
+  <cac:InvoicePeriod>
+  </cac:InvoicePeriod>
 </Invoice>
 XML;
 
@@ -45,65 +30,72 @@ XML;
 </Invoice>
 XML;
 
+    protected const XML_INVALID_MANY_CONTENTS = <<<XML
+<Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
+  <cac:InvoicePeriod>
+    <cbc:StartDate>2017-10-05</cbc:StartDate>
+    <cbc:StartDate>2017-10-05</cbc:StartDate>
+    <cbc:EndDate>2017-10-15</cbc:EndDate>
+  </cac:InvoicePeriod>
+</Invoice>
+XML;
+
     protected const XML_INVALID_MANY_LINES = <<<XML
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
-  <cac:PayeeParty>
-    <cac:PartyIdentification>
-      <cbc:ID>FR932874294</cbc:ID>
-    </cac:PartyIdentification>
-    <cac:PartyName>
-      <cbc:Name>Payee Name Ltd</cbc:Name>
-    </cac:PartyName>
-  </cac:PayeeParty>
-  <cac:PayeeParty>
-    <cac:PartyIdentification>
-      <cbc:ID>FR932874294</cbc:ID>
-    </cac:PartyIdentification>
-    <cac:PartyName>
-      <cbc:Name>Payee Name Ltd</cbc:Name>
-    </cac:PartyName>
-  </cac:PayeeParty>
+  <cac:InvoicePeriod>
+    <cbc:StartDate>2017-10-05</cbc:StartDate>
+    <cbc:EndDate>2017-10-15</cbc:EndDate>
+  </cac:InvoicePeriod>
+  <cac:InvoicePeriod>
+    <cbc:StartDate>2017-10-05</cbc:StartDate>
+    <cbc:EndDate>2017-10-15</cbc:EndDate>
+  </cac:InvoicePeriod>
 </Invoice>
 XML;
 
     public function testCanBeCreatedFromFullContent(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_FULL_CONTENT);
-        $ublObject      = PayeeParty::fromXML($this->xpath, $currentElement);
-        $this->assertInstanceOf(PayeeParty::class, $ublObject);
-        $this->assertInstanceOf(PayeePartyIdentification::class, $ublObject->getPartyIdentification());
-        $this->assertInstanceOf(PartyName::class, $ublObject->getPartyName());
-        $this->assertInstanceOf(PayeePartyLegalEntity::class, $ublObject->getPartyLegalEntity());
+        $ublObject      = InvoiceLineInvoicePeriod::fromXML($this->xpath, $currentElement);
+        $this->assertInstanceOf(InvoiceLineInvoicePeriod::class, $ublObject);
+        $this->assertInstanceOf(StartDate::class, $ublObject->getStartDate());
+        $this->assertInstanceOf(EndDate::class, $ublObject->getEndDate());
     }
 
     public function testCanBeCreatedFromMinimalContent(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_MINIMAL_CONTENT);
-        $ublObject      = PayeeParty::fromXML($this->xpath, $currentElement);
-        $this->assertInstanceOf(PayeeParty::class, $ublObject);
-        $this->assertInstanceOf(PayeePartyIdentification::class, $ublObject->getPartyIdentification());
-        $this->assertInstanceOf(PayeePartyName::class, $ublObject->getPartyName());
-        $this->assertNull($ublObject->getPartyLegalEntity());
+        $ublObject      = InvoiceLineInvoicePeriod::fromXML($this->xpath, $currentElement);
+        $this->assertInstanceOf(InvoiceLineInvoicePeriod::class, $ublObject);
+        $this->assertNull($ublObject->getStartDate());
+        $this->assertNull($ublObject->getEndDate());
     }
 
     public function testCanBeCreatedFromNoLine(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_NO_LINE);
-        $ublObject      = PayeeParty::fromXML($this->xpath, $currentElement);
+        $ublObject      = InvoiceLineInvoicePeriod::fromXML($this->xpath, $currentElement);
         $this->assertNull($ublObject);
+    }
+
+    public function testCannotBeCreatedFromManyContents(): void
+    {
+        $this->expectException(\Exception::class);
+        $currentElement = $this->loadXMLDocument(self::XML_INVALID_MANY_CONTENTS);
+        InvoiceLineInvoicePeriod::fromXML($this->xpath, $currentElement);
     }
 
     public function testCannotBeCreatedFromManyLines(): void
     {
         $this->expectException(\Exception::class);
         $currentElement = $this->loadXMLDocument(self::XML_INVALID_MANY_LINES);
-        PayeeParty::fromXML($this->xpath, $currentElement);
+        InvoiceLineInvoicePeriod::fromXML($this->xpath, $currentElement);
     }
 
     public function testGenerateXml(): void
     {
         $currentElement  = $this->loadXMLDocument(self::XML_VALID_FULL_CONTENT);
-        $ublObject       = PayeeParty::fromXML($this->xpath, $currentElement);
+        $ublObject       = InvoiceLineInvoicePeriod::fromXML($this->xpath, $currentElement);
         $rootDestination = $this->generateEmptyRootDocument();
         $rootDestination->appendChild($ublObject->toXML($this->document));
         $generatedOutput = $this->formatXMLOutput();

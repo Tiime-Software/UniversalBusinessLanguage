@@ -1,6 +1,5 @@
 <?php
 
-
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\AdditionalItemProperty;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
@@ -25,7 +24,6 @@ XML;
 </Invoice>
 XML;
 
-
     protected const XML_VALID_NO_LINE = <<<XML
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
 </Invoice>
@@ -47,7 +45,7 @@ XML;
     public function testCanBeCreatedFromContent(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_CONTENT);
-        $ublObjects      = AdditionalItemProperty::fromXML($this->xpath, $currentElement);
+        $ublObjects     = AdditionalItemProperty::fromXML($this->xpath, $currentElement);
         $this->assertIsArray($ublObjects);
         $this->assertCount(1, $ublObjects);
         $ublObject = $ublObjects[0];
@@ -59,7 +57,7 @@ XML;
     public function testCanBeCreatedFromNoLine(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_NO_LINE);
-        $ublObjects = AdditionalItemProperty::fromXML($this->xpath, $currentElement);
+        $ublObjects     = AdditionalItemProperty::fromXML($this->xpath, $currentElement);
         $this->assertIsArray($ublObjects);
         $this->assertCount(0, $ublObjects);
     }
@@ -67,7 +65,7 @@ XML;
     public function testCanBeCreatedFromManyLines(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_MANY_LINES);
-        $ublObjects = AdditionalItemProperty::fromXML($this->xpath, $currentElement);
+        $ublObjects     = AdditionalItemProperty::fromXML($this->xpath, $currentElement);
         $this->assertIsArray($ublObjects);
         $this->assertCount(2, $ublObjects);
     }
@@ -75,9 +73,10 @@ XML;
     public function testGenerateXml(): void
     {
         $currentElement  = $this->loadXMLDocument(self::XML_VALID_CONTENT);
-        $ublObjects       = AdditionalItemProperty::fromXML($this->xpath, $currentElement);
+        $ublObjects      = AdditionalItemProperty::fromXML($this->xpath, $currentElement);
         $rootDestination = $this->generateEmptyRootDocument();
-        foreach($ublObjects as $ublObject) {
+
+        foreach ($ublObjects as $ublObject) {
             $rootDestination->appendChild($ublObject->toXML($this->document));
         }
         $generatedOutput = $this->formatXMLOutput();

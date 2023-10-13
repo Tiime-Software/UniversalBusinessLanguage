@@ -2,102 +2,96 @@
 
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Aggregate;
 
-use Tiime\EN16931\DataType\Identifier\VatIdentifier;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\BuyerPartyTaxScheme;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\TaxScheme;
+use Tiime\EN16931\DataType\CountryAlpha2Code;
+use Tiime\UniversalBusinessLanguage\DataType\Aggregate\Country;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
-class BuyerPartyTaxSchemeTest extends BaseXMLNodeTestWithHelpers
+class CountryTest extends BaseXMLNodeTestWithHelpers
 {
     protected const XML_VALID_CONTENT = <<<XML
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
-  <cac:PartyTaxScheme>
-    <cbc:CompanyID>SE8765456787</cbc:CompanyID>
-    <cac:TaxScheme>
-      <cbc:ID>VAT</cbc:ID>
-    </cac:TaxScheme>
-  </cac:PartyTaxScheme>
+  <cac:Country>
+    <cbc:IdentificationCode>FR</cbc:IdentificationCode>
+  </cac:Country>
 </Invoice>
 XML;
 
-    protected const XML_VALID_NO_LINE = <<<XML
+    protected const XML_INVALID_NO_CONTENT = <<<XML
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
+  <cac:Country>
+  </cac:Country>
 </Invoice>
 XML;
 
-    protected const XML_INVALID_NOT_ENOUGH_DATA = <<<XML
+    protected const XML_INVALID_WRONG_CONTENT = <<<XML
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
-  <cac:PartyTaxScheme>
-    <cac:TaxScheme>
-      <cbc:ID>VAT</cbc:ID>
-    </cac:TaxScheme>
-  </cac:PartyTaxScheme>
+  <cac:Country>
+    <cbc:IdentificationCode>ZZ01</cbc:IdentificationCode>
+  </cac:Country>
 </Invoice>
 XML;
 
     protected const XML_INVALID_MANY_CONTENTS = <<<XML
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
-  <cac:PartyTaxScheme>
-    <cbc:CompanyID>SE8765456787</cbc:CompanyID>
-    <cbc:CompanyID>SE8765456787</cbc:CompanyID>
-    <cac:TaxScheme>
-      <cbc:ID>VAT</cbc:ID>
-    </cac:TaxScheme>
-  </cac:PartyTaxScheme>
+  <cac:Country>
+    <cbc:IdentificationCode>FR</cbc:IdentificationCode>
+    <cbc:IdentificationCode>FR</cbc:IdentificationCode>
+  </cac:Country>
 </Invoice>
 XML;
 
     protected const XML_INVALID_MANY_LINES = <<<XML
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
-  <cac:PartyTaxScheme>
-    <cbc:CompanyID>SE8765456787</cbc:CompanyID>
-    <cac:TaxScheme>
-      <cbc:ID>VAT</cbc:ID>
-    </cac:TaxScheme>
-  </cac:PartyTaxScheme>
-  <cac:PartyTaxScheme>
-    <cbc:CompanyID>SE8765456788</cbc:CompanyID>
-    <cac:TaxScheme>
-      <cbc:ID>VAT</cbc:ID>
-    </cac:TaxScheme>
-  </cac:PartyTaxScheme>
+  <cac:Country>
+    <cbc:IdentificationCode>FR</cbc:IdentificationCode>
+  </cac:Country>
+  <cac:Country>
+    <cbc:IdentificationCode>DE</cbc:IdentificationCode>
+  </cac:Country>
 </Invoice>
 XML;
 
     public function testCanBeCreatedFromContent(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_CONTENT);
-        $ublObject      = BuyerPartyTaxScheme::fromXML($this->xpath, $currentElement);
-        $this->assertInstanceOf(BuyerPartyTaxScheme::class, $ublObject);
-        $this->assertInstanceOf(TaxScheme::class, $ublObject->getTaxScheme());
-        $this->assertInstanceOf(VatIdentifier::class, $ublObject->getCompanyIdentifier());
+        $ublObject      = Country::fromXML($this->xpath, $currentElement);
+        $this->assertInstanceOf(Country::class, $ublObject);
+        $this->assertInstanceOf(CountryAlpha2Code::class, $ublObject->getIdentificationCode());
+        $this->assertEquals(CountryAlpha2Code::tryFrom('FR'), $ublObject->getIdentificationCode());
     }
 
-    public function testCanBeCreatedFromNoLine(): void
-    {
-        $currentElement = $this->loadXMLDocument(self::XML_VALID_NO_LINE);
-        $ublObject      = BuyerPartyTaxScheme::fromXML($this->xpath, $currentElement);
-        $this->assertNull($ublObject);
-    }
-
-    public function testCannotBeCreatedFromNotEnoughData(): void
+    public function testCannotBeCreatedFromNoContent(): void
     {
         $this->expectException(\Exception::class);
-        $currentElement = $this->loadXMLDocument(self::XML_INVALID_NOT_ENOUGH_DATA);
-        BuyerPartyTaxScheme::fromXML($this->xpath, $currentElement);
+        $currentElement = $this->loadXMLDocument(self::XML_INVALID_NO_CONTENT);
+        Country::fromXML($this->xpath, $currentElement);
     }
 
-    public function testCannotBeCreatedFromManyEntries(): void
+    public function testCannotBeCreatedFromWrongContent(): void
+    {
+        $this->expectException(\Exception::class);
+        $currentElement = $this->loadXMLDocument(self::XML_INVALID_WRONG_CONTENT);
+        Country::fromXML($this->xpath, $currentElement);
+    }
+
+    public function testCannotBeCreatedFromManyContents(): void
+    {
+        $this->expectException(\Exception::class);
+        $currentElement = $this->loadXMLDocument(self::XML_INVALID_MANY_CONTENTS);
+        Country::fromXML($this->xpath, $currentElement);
+    }
+
+    public function testCannotBeCreatedFromManyLines(): void
     {
         $this->expectException(\Exception::class);
         $currentElement = $this->loadXMLDocument(self::XML_INVALID_MANY_LINES);
-        BuyerPartyTaxScheme::fromXML($this->xpath, $currentElement);
+        Country::fromXML($this->xpath, $currentElement);
     }
 
     public function testGenerateXml(): void
     {
         $currentElement  = $this->loadXMLDocument(self::XML_VALID_CONTENT);
-        $ublObject       = BuyerPartyTaxScheme::fromXML($this->xpath, $currentElement);
+        $ublObject       = Country::fromXML($this->xpath, $currentElement);
         $rootDestination = $this->generateEmptyRootDocument();
         $rootDestination->appendChild($ublObject->toXML($this->document));
         $generatedOutput = $this->formatXMLOutput();

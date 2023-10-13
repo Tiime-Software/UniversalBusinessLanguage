@@ -83,7 +83,7 @@ XML;
         $ublObject      = BuyerPartyLegalEntity::fromXML($this->xpath, $currentElement);
         $this->assertInstanceOf(BuyerPartyLegalEntity::class, $ublObject);
         $this->assertInstanceOf(LegalRegistrationIdentifier::class, $ublObject->getIdentifier());
-        $this->assertEquals("Buyer Full Name AS", $ublObject->getRegistrationName());
+        $this->assertEquals('Buyer Full Name AS', $ublObject->getRegistrationName());
     }
 
     public function testCanBeCreatedFromMinimalContent(): void
@@ -92,7 +92,7 @@ XML;
         $ublObject      = BuyerPartyLegalEntity::fromXML($this->xpath, $currentElement);
         $this->assertInstanceOf(BuyerPartyLegalEntity::class, $ublObject);
         $this->assertNull($ublObject->getIdentifier());
-        $this->assertEquals("Buyer Full Name AS", $ublObject->getRegistrationName());
+        $this->assertEquals('Buyer Full Name AS', $ublObject->getRegistrationName());
     }
 
     public function testCannotBeCreatedFromNoLine(): void
@@ -129,7 +129,6 @@ XML;
         $currentElement = $this->loadXMLDocument(self::XML_INVALID_MANY_CONTENTS_2);
         BuyerPartyLegalEntity::fromXML($this->xpath, $currentElement);
     }
-
 
     public function testCannotBeCreatedFromManyEntries(): void
     {

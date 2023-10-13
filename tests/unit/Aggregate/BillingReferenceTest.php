@@ -52,7 +52,7 @@ XML;
     public function testCanBeCreatedFromFullContent(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_FULL_CONTENT);
-        $ublObjects      = BillingReference::fromXML($this->xpath, $currentElement);
+        $ublObjects     = BillingReference::fromXML($this->xpath, $currentElement);
         $this->assertIsArray($ublObjects);
         $this->assertCount(1, $ublObjects);
         $ublObject = $ublObjects[0];
@@ -63,7 +63,7 @@ XML;
     public function testCanBeCreatedFromMinimalContent(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_MINIMAL_CONTENT);
-        $ublObjects      = BillingReference::fromXML($this->xpath, $currentElement);
+        $ublObjects     = BillingReference::fromXML($this->xpath, $currentElement);
         $this->assertIsArray($ublObjects);
         $this->assertCount(1, $ublObjects);
         $ublObject = $ublObjects[0];
@@ -74,7 +74,7 @@ XML;
     public function testCanBeCreatedFromNoLine(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_NO_LINE);
-        $ublObjects      = BillingReference::fromXML($this->xpath, $currentElement);
+        $ublObjects     = BillingReference::fromXML($this->xpath, $currentElement);
         $this->assertIsArray($ublObjects);
         $this->assertCount(0, $ublObjects);
     }
@@ -82,10 +82,11 @@ XML;
     public function testCanBeCreatedFromManyLines(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_MANY_LINES);
-        $ublObjects = BillingReference::fromXML($this->xpath, $currentElement);
+        $ublObjects     = BillingReference::fromXML($this->xpath, $currentElement);
         $this->assertIsArray($ublObjects);
         $this->assertCount(2, $ublObjects);
-        foreach($ublObjects as $ublObject) {
+
+        foreach ($ublObjects as $ublObject) {
             $this->assertInstanceOf(BillingReference::class, $ublObject);
         }
     }
@@ -93,9 +94,10 @@ XML;
     public function testGenerateXml(): void
     {
         $currentElement  = $this->loadXMLDocument(self::XML_VALID_FULL_CONTENT);
-        $ublObjects       = BillingReference::fromXML($this->xpath, $currentElement);
+        $ublObjects      = BillingReference::fromXML($this->xpath, $currentElement);
         $rootDestination = $this->generateEmptyRootDocument();
-        foreach($ublObjects as $ublObject) {
+
+        foreach ($ublObjects as $ublObject) {
             $rootDestination->appendChild($ublObject->toXML($this->document));
         }
         $generatedOutput = $this->formatXMLOutput();

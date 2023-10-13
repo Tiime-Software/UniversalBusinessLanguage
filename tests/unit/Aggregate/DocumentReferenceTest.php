@@ -1,6 +1,5 @@
 <?php
 
-
 use Tiime\EN16931\DataType\Identifier\ObjectIdentifier;
 use Tiime\EN16931\DataType\ObjectSchemeCode;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\DocumentReference;
@@ -62,7 +61,7 @@ XML;
         $this->assertInstanceOf(ObjectIdentifier::class, $ublObject->getIdentifier());
         $this->assertEquals('AB12345', $ublObject->getIdentifier()->value);
         $this->assertEquals(ObjectSchemeCode::tryFrom('ABZ'), $ublObject->getIdentifier()->scheme);
-        $this->assertEquals("130", $ublObject->getDocumentTypeCode());
+        $this->assertEquals('130', $ublObject->getDocumentTypeCode());
     }
 
     public function testCanBeCreatedFromMinimalContent(): void
@@ -72,14 +71,14 @@ XML;
         $this->assertInstanceOf(DocumentReference::class, $ublObject);
         $this->assertInstanceOf(ObjectIdentifier::class, $ublObject->getIdentifier());
         $this->assertEquals('AB12345', $ublObject->getIdentifier()->value);
-        $this->assertEquals(null, $ublObject->getIdentifier()->scheme);
-        $this->assertEquals("130", $ublObject->getDocumentTypeCode());
+        $this->assertNull($ublObject->getIdentifier()->scheme);
+        $this->assertEquals('130', $ublObject->getDocumentTypeCode());
     }
 
     public function testCanBeCreatedFromNoLine(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_NO_LINE);
-        $ublObject = DocumentReference::fromXML($this->xpath, $currentElement);
+        $ublObject      = DocumentReference::fromXML($this->xpath, $currentElement);
         $this->assertNull($ublObject);
     }
 
