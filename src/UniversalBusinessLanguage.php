@@ -892,11 +892,28 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
         $delivery                     = Delivery::fromXML($xpath, $universalBusinessLanguageElement);
         $paymentMeans                 = PaymentMeans::fromXML($xpath, $universalBusinessLanguageElement);
         $paymentTerms                 = PaymentTerms::fromXML($xpath, $universalBusinessLanguageElement);
-        $allowances                   = Allowance::fromXML($xpath, $universalBusinessLanguageElement);
-        $charges                      = Charge::fromXML($xpath, $universalBusinessLanguageElement);
-        $taxTotals                    = TaxTotal::fromXML($xpath, $universalBusinessLanguageElement);
-        $legalMonetaryTotal           = LegalMonetaryTotal::fromXML($xpath, $universalBusinessLanguageElement);
-        $invoiceLines                 = InvoiceLine::fromXML($xpath, $universalBusinessLanguageElement);
+
+        $allowanceChargeElements = $xpath->query('./cbc:AllowanceCharge', $universalBusinessLanguageElement);
+
+        /** @var \DOMElement $allowanceChargeElement */
+        foreach ($allowanceChargeElements as $allowanceChargeElement) {
+            $chargeIndicatorElements = $xpath->query('./cbc:ChargeIndicator', $allowanceChargeElement);
+
+            if (1 !== $chargeIndicatorElements->count()) {
+                throw new \Exception('Malformed');
+            }
+            $chargeIndicator = (string) $chargeIndicatorElements->item(0)->nodeValue;
+
+            if ('true' !== $chargeIndicator || 'false' !== $chargeIndicator) {
+                throw new \Exception('Wrong charge indicator');
+            }
+        }
+
+        $allowances         = Allowance::fromXML($xpath, $universalBusinessLanguageElement);
+        $charges            = Charge::fromXML($xpath, $universalBusinessLanguageElement);
+        $taxTotals          = TaxTotal::fromXML($xpath, $universalBusinessLanguageElement);
+        $legalMonetaryTotal = LegalMonetaryTotal::fromXML($xpath, $universalBusinessLanguageElement);
+        $invoiceLines       = InvoiceLine::fromXML($xpath, $universalBusinessLanguageElement);
 
         if ($taxCurrencyCodeElements->count() > 1) {
             throw new \Exception('Malformed');
