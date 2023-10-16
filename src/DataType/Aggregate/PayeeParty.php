@@ -11,15 +11,21 @@ class PayeeParty
 
     private ?PayeePartyIdentification $partyIdentification;
 
+    private ?PayeePartyBACIdentification $partyBACIdentification;
+
     private PayeePartyName $partyName;
 
     private ?PayeePartyLegalEntity $partyLegalEntity;
 
-    public function __construct(PayeePartyName $partyName)
+    public function __construct(PayeePartyName $partyName, ?PayeePartyIdentification $partyIdentification, ?PayeePartyBACIdentification $partyBACIdentification)
     {
-        $this->partyIdentification = null;
-        $this->partyName           = $partyName;
-        $this->partyLegalEntity    = null;
+        if ($partyIdentification instanceof PayeePartyIdentification && $partyBACIdentification instanceof PayeePartyBACIdentification) {
+            throw new \Exception('Malformed');
+        }
+        $this->partyIdentification    = $partyIdentification;
+        $this->partyBACIdentification = $partyBACIdentification;
+        $this->partyName              = $partyName;
+        $this->partyLegalEntity       = null;
     }
 
     public function getPartyIdentification(): ?PayeePartyIdentification
@@ -27,11 +33,9 @@ class PayeeParty
         return $this->partyIdentification;
     }
 
-    public function setPartyIdentification(?PayeePartyIdentification $partyIdentification): static
+    public function getPartyBACIdentification(): ?PayeePartyBACIdentification
     {
-        $this->partyIdentification = $partyIdentification;
-
-        return $this;
+        return $this->partyBACIdentification;
     }
 
     public function getPartyName(): PayeePartyName
@@ -59,6 +63,10 @@ class PayeeParty
             $currentNode->appendChild($this->partyIdentification->toXML($document));
         }
 
+        if ($this->partyBACIdentification instanceof PayeePartyBACIdentification) {
+            $currentNode->appendChild($this->partyBACIdentification->toXML($document));
+        }
+
         $currentNode->appendChild($this->partyName->toXML($document));
 
         if ($this->partyLegalEntity instanceof PayeePartyLegalEntity) {
@@ -83,15 +91,12 @@ class PayeeParty
         /** @var \DOMElement $partyElement */
         $partyElement = $partyElements->item(0);
 
-        $partyIdentification = PayeePartyIdentification::fromXML($xpath, $partyElement);
-        $partyName           = PayeePartyName::fromXML($xpath, $partyElement);
-        $partyLegalEntity    = PayeePartyLegalEntity::fromXML($xpath, $partyElement);
+        $partyIdentification    = PayeePartyIdentification::fromXML($xpath, $partyElement);
+        $partyBACIdentification = PayeePartyBACIdentification::fromXML($xpath, $partyElement);
+        $partyName              = PayeePartyName::fromXML($xpath, $partyElement);
+        $partyLegalEntity       = PayeePartyLegalEntity::fromXML($xpath, $partyElement);
 
-        $party = new self($partyName);
-
-        if ($partyIdentification instanceof PayeePartyIdentification) {
-            $party->setPartyIdentification($partyIdentification);
-        }
+        $party = new self($partyName, $partyIdentification, $partyBACIdentification);
 
         if ($partyLegalEntity instanceof PayeePartyLegalEntity) {
             $party->setPartyLegalEntity($partyLegalEntity);
