@@ -70,12 +70,12 @@ XML;
         $this->assertCount(1, $ublObjects);
         $ublObject = $ublObjects[0];
         $this->assertInstanceOf(InvoiceLineAllowance::class, $ublObject);
-        $this->assertEquals("false", $ublObject->getChargeIndicator());
-        $this->assertEquals("Discount", $ublObject->getAllowanceReason());
+        $this->assertEquals('false', $ublObject->getChargeIndicator());
+        $this->assertEquals('Discount', $ublObject->getAllowanceReason());
         $this->assertInstanceOf(AllowanceReasonCode::class, $ublObject->getAllowanceReasonCode());
-        $this->assertEquals(AllowanceReasonCode::tryFrom("95"), $ublObject->getAllowanceReasonCode());
+        $this->assertEquals(AllowanceReasonCode::tryFrom('95'), $ublObject->getAllowanceReasonCode());
         $this->assertInstanceOf(Percentage::class, $ublObject->getMultiplierFactorNumeric());
-        $this->assertEquals("20.00", $ublObject->getMultiplierFactorNumeric()->getFormattedValueRounded());
+        $this->assertEquals('20.00', $ublObject->getMultiplierFactorNumeric()->getFormattedValueRounded());
         $this->assertInstanceOf(AllowanceChargeAmount::class, $ublObject->getAmount());
         $this->assertInstanceOf(BaseAmount::class, $ublObject->getBaseAmount());
     }
@@ -93,7 +93,7 @@ XML;
     public function testCanBeCreatedFromNoLine(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_NO_LINE);
-        $ublObjects = InvoiceLineAllowance::fromXML($this->xpath, $currentElement);
+        $ublObjects     = InvoiceLineAllowance::fromXML($this->xpath, $currentElement);
         $this->assertIsArray($ublObjects);
         $this->assertCount(0, $ublObjects);
     }
@@ -118,6 +118,7 @@ XML;
         $currentElement  = $this->loadXMLDocument(self::XML_VALID_FULL_CONTENT);
         $ublObjects      = InvoiceLineAllowance::fromXML($this->xpath, $currentElement);
         $rootDestination = $this->generateEmptyRootDocument();
+
         foreach ($ublObjects as $ublObject) {
             $rootDestination->appendChild($ublObject->toXML($this->document));
         }

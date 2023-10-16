@@ -2,7 +2,6 @@
 
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Aggregate;
 
-use Tiime\EN16931\DataType\AllowanceReasonCode;
 use Tiime\EN16931\DataType\ChargeReasonCode;
 use Tiime\EN16931\SemanticDataType\Percentage;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\InvoiceLine;
@@ -71,12 +70,12 @@ XML;
         $this->assertCount(1, $ublObjects);
         $ublObject = $ublObjects[0];
         $this->assertInstanceOf(InvoiceLineCharge::class, $ublObject);
-        $this->assertEquals("true", $ublObject->getChargeIndicator());
-        $this->assertEquals("Google Ads", $ublObject->getChargeReason());
+        $this->assertEquals('true', $ublObject->getChargeIndicator());
+        $this->assertEquals('Google Ads', $ublObject->getChargeReason());
         $this->assertInstanceOf(ChargeReasonCode::class, $ublObject->getChargeReasonCode());
-        $this->assertEquals(ChargeReasonCode::tryFrom("AA"), $ublObject->getChargeReasonCode());
+        $this->assertEquals(ChargeReasonCode::tryFrom('AA'), $ublObject->getChargeReasonCode());
         $this->assertInstanceOf(Percentage::class, $ublObject->getMultiplierFactorNumeric());
-        $this->assertEquals("20.00", $ublObject->getMultiplierFactorNumeric()->getFormattedValueRounded());
+        $this->assertEquals('20.00', $ublObject->getMultiplierFactorNumeric()->getFormattedValueRounded());
         $this->assertInstanceOf(AllowanceChargeAmount::class, $ublObject->getAmount());
         $this->assertInstanceOf(BaseAmount::class, $ublObject->getBaseAmount());
     }
@@ -89,7 +88,7 @@ XML;
         $this->assertCount(1, $ublObjects);
         $ublObject = $ublObjects[0];
         $this->assertInstanceOf(InvoiceLineCharge::class, $ublObject);
-        $this->assertEquals("true", $ublObject->getChargeIndicator());
+        $this->assertEquals('true', $ublObject->getChargeIndicator());
         $this->assertNull($ublObject->getChargeReason());
         $this->assertNull($ublObject->getChargeReasonCode());
         $this->assertNull($ublObject->getMultiplierFactorNumeric());
@@ -100,7 +99,7 @@ XML;
     public function testCanBeCreatedFromNoLine(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_NO_LINE);
-        $ublObjects = InvoiceLineCharge::fromXML($this->xpath, $currentElement);
+        $ublObjects     = InvoiceLineCharge::fromXML($this->xpath, $currentElement);
         $this->assertIsArray($ublObjects);
         $this->assertCount(0, $ublObjects);
     }
@@ -125,6 +124,7 @@ XML;
         $currentElement  = $this->loadXMLDocument(self::XML_VALID_FULL_CONTENT);
         $ublObjects      = InvoiceLineCharge::fromXML($this->xpath, $currentElement);
         $rootDestination = $this->generateEmptyRootDocument();
+
         foreach ($ublObjects as $ublObject) {
             $rootDestination->appendChild($ublObject->toXML($this->document));
         }
