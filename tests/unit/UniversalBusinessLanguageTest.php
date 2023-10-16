@@ -34,32 +34,7 @@ use Tiime\UniversalBusinessLanguage\UniversalBusinessLanguage;
 
 class UniversalBusinessLanguageTest extends BaseXMLNodeTestWithHelpers
 {
-    protected const XML_VALID_CONTENT = <<<XML
-XML;
     protected string $xmlValidContent = '';
-
-    protected const XML_VALID_NO_LINE = <<<XML
-<Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
-</Invoice>
-XML;
-
-    protected const XML_INVALID_NOT_ENOUGH_URI = <<<XML
-<Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
-  <cac:ExternalReference>
-  </cac:ExternalReference>
-</Invoice>
-XML;
-
-    protected const XML_INVALID_TOO_MANY_LINES = <<<XML
-<Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
-  <cac:ExternalReference>
-    <cbc:URI>http://www.example.com/index1.html</cbc:URI>
-  </cac:ExternalReference>
-  <cac:ExternalReference>
-    <cbc:URI>http://www.example.com/index2.html</cbc:URI>
-  </cac:ExternalReference>
-</Invoice>
-XML;
 
     protected function setUp(): void
     {
@@ -126,34 +101,13 @@ XML;
         }
     }
 
-    public function testCannotBeCreatedFromNoLine(): void
-    {
-        $this->expectException(\Exception::class);
-        $this->loadXMLDocument($this->xmlValidContent);
-        UniversalBusinessLanguage::fromXML($this->document);
-    }
-
-    public function testCannotBeCreatedFromNotEnoughLines(): void
-    {
-        $this->expectException(\Exception::class);
-        $this->loadXMLDocument(self::XML_INVALID_NOT_ENOUGH_URI);
-        UniversalBusinessLanguage::fromXML($this->document);
-    }
-
-    public function testCannotBeCreatedFromTooManyLines(): void
-    {
-        $this->expectException(\Exception::class);
-        $this->loadXMLDocument(self::XML_INVALID_TOO_MANY_LINES);
-        UniversalBusinessLanguage::fromXML($this->document);
-    }
-
     public function testGenerateXml(): void
     {
         $this->loadXMLDocument($this->xmlValidContent);
         $ublObject       = UniversalBusinessLanguage::fromXML($this->document);
         $rootDestination = $this->generateEmptyRootDocument();
-        $rootDestination->appendChild($ublObject->toXML($this->document));
+        $rootDestination->appendChild($ublObject->toXML());
         $generatedOutput = $this->formatXMLOutput();
-        $this->assertEquals(self::XML_VALID_CONTENT, $generatedOutput);
+        $this->assertEquals($this->xmlValidContent, $generatedOutput);
     }
 }

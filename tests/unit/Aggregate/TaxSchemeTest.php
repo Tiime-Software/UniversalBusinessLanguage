@@ -20,7 +20,14 @@ XML;
 </Invoice>
 XML;
 
-    protected const XML_INVALID_TOO_MANY_IDENTIFIERS = <<<XML
+    protected const XML_INVALID_NO_CONTENT = <<<XML
+<Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
+  <cac:TaxScheme>
+  </cac:TaxScheme>
+</Invoice>
+XML;
+
+    protected const XML_INVALID_MANY_CONTENTS = <<<XML
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cac:TaxScheme>
     <cbc:ID>VAT</cbc:ID>
@@ -29,9 +36,13 @@ XML;
 </Invoice>
 XML;
 
-    protected const XML_INVALID_NOT_ENOUGH_IDENTIFIER = <<<XML
+    protected const XML_INVALID_MANY_LINES = <<<XML
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cac:TaxScheme>
+    <cbc:ID>VAT</cbc:ID>
+  </cac:TaxScheme>
+  <cac:TaxScheme>
+    <cbc:ID>VAT</cbc:ID>
   </cac:TaxScheme>
 </Invoice>
 XML;
@@ -51,17 +62,24 @@ XML;
         TaxScheme::fromXML($this->xpath, $currentElement);
     }
 
-    public function testCannotBeCreatedFromTooManyIdentifiers(): void
-    {
-        $this->expectException(\Exception::class);
-        $currentElement = $this->loadXMLDocument(self::XML_INVALID_TOO_MANY_IDENTIFIERS);
-        TaxScheme::fromXML($this->xpath, $currentElement);
-    }
-
     public function testCannotBeCreatedFromNotEnoughIdentifier(): void
     {
         $this->expectException(\Exception::class);
-        $currentElement = $this->loadXMLDocument(self::XML_INVALID_NOT_ENOUGH_IDENTIFIER);
+        $currentElement = $this->loadXMLDocument(self::XML_INVALID_NO_CONTENT);
+        TaxScheme::fromXML($this->xpath, $currentElement);
+    }
+
+    public function testCannotBeCreatedFromManyContents(): void
+    {
+        $this->expectException(\Exception::class);
+        $currentElement = $this->loadXMLDocument(self::XML_INVALID_MANY_CONTENTS);
+        TaxScheme::fromXML($this->xpath, $currentElement);
+    }
+
+    public function testCannotBeCreatedFromManyLines(): void
+    {
+        $this->expectException(\Exception::class);
+        $currentElement = $this->loadXMLDocument(self::XML_INVALID_MANY_LINES);
         TaxScheme::fromXML($this->xpath, $currentElement);
     }
 

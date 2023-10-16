@@ -20,7 +20,7 @@ XML;
 </Invoice>
 XML;
 
-    protected const XML_INVALID_TOO_MANY_NAMES = <<<XML
+    protected const XML_INVALID_MANY_CONTENTS = <<<XML
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cac:PartyName>
     <cbc:Name>SELLER TAX REP</cbc:Name>
@@ -29,12 +29,25 @@ XML;
 </Invoice>
 XML;
 
-    protected const XML_INVALID_NOT_ENOUGH_NAME = <<<XML
+    protected const XML_INVALID_NO_CONTENT = <<<XML
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cac:PartyName>
   </cac:PartyName>
 </Invoice>
 XML;
+
+    protected const XML_INVALID_MANY_LINES = <<<XML
+<Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
+  <cac:PartyName>
+    <cbc:Name>SELLER TAX REP</cbc:Name>
+  </cac:PartyName>
+  <cac:PartyName>
+    <cbc:Name>SELLER TAX REP</cbc:Name>
+  </cac:PartyName>
+</Invoice>
+
+XML;
+
 
     public function testCanBeCreatedFromFullContent(): void
     {
@@ -51,17 +64,24 @@ XML;
         TaxRepresentativePartyName::fromXML($this->xpath, $currentElement);
     }
 
-    public function testCannotBeCreatedFromTooManyIdentifiers(): void
+    public function testCannotBeCreatedFromNoContent(): void
     {
         $this->expectException(\Exception::class);
-        $currentElement = $this->loadXMLDocument(self::XML_INVALID_TOO_MANY_NAMES);
+        $currentElement = $this->loadXMLDocument(self::XML_INVALID_NO_CONTENT);
         TaxRepresentativePartyName::fromXML($this->xpath, $currentElement);
     }
 
-    public function testCannotBeCreatedFromNotEnoughIdentifier(): void
+    public function testCannotBeCreatedFromManyContents(): void
     {
         $this->expectException(\Exception::class);
-        $currentElement = $this->loadXMLDocument(self::XML_INVALID_NOT_ENOUGH_NAME);
+        $currentElement = $this->loadXMLDocument(self::XML_INVALID_MANY_CONTENTS);
+        TaxRepresentativePartyName::fromXML($this->xpath, $currentElement);
+    }
+
+    public function testCannotBeCreatedFromManyLines(): void
+    {
+        $this->expectException(\Exception::class);
+        $currentElement = $this->loadXMLDocument(self::XML_INVALID_MANY_LINES);
         TaxRepresentativePartyName::fromXML($this->xpath, $currentElement);
     }
 

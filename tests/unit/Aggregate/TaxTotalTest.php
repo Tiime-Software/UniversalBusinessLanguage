@@ -44,7 +44,7 @@ XML;
 </Invoice>
 XML;
 
-    protected const XML_INVALID_TOO_MANY_TAXTOTALS = <<<XML
+    protected const XML_INVALID_MANY_LINES = <<<XML
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cac:TaxTotal>
     <cbc:TaxAmount currencyID="EUR">36.00</cbc:TaxAmount>
@@ -64,7 +64,6 @@ XML;
         $ublObjects     = TaxTotal::fromXML($this->xpath, $currentElement);
         $this->assertIsArray($ublObjects);
         $this->assertCount(2, $ublObjects);
-
         $this->assertInstanceOf(TaxTotal::class, $ublObjects[0]);
         $this->assertInstanceOf(TaxAmount::class, $ublObjects[0]->getTaxAmount());
         $this->assertIsArray($ublObjects[0]->getTaxSubtotals());
@@ -85,7 +84,6 @@ XML;
         $ublObjects     = TaxTotal::fromXML($this->xpath, $currentElement);
         $this->assertIsArray($ublObjects);
         $this->assertCount(1, $ublObjects);
-
         $this->assertInstanceOf(TaxTotal::class, $ublObjects[0]);
         $this->assertInstanceOf(TaxAmount::class, $ublObjects[0]->getTaxAmount());
         $this->assertIsArray($ublObjects[0]->getTaxSubtotals());
@@ -99,10 +97,10 @@ XML;
         TaxTotal::fromXML($this->xpath, $currentElement);
     }
 
-    public function testCannotBeCreatedFromTooManyTaxTotals(): void
+    public function testCannotBeCreatedFromManyLines(): void
     {
         $this->expectException(\Exception::class);
-        $currentElement = $this->loadXMLDocument(self::XML_INVALID_TOO_MANY_TAXTOTALS);
+        $currentElement = $this->loadXMLDocument(self::XML_INVALID_MANY_LINES);
         TaxTotal::fromXML($this->xpath, $currentElement);
     }
 

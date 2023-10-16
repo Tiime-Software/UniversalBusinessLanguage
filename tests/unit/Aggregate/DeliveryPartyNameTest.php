@@ -58,7 +58,7 @@ XML;
         DeliveryPartyName::fromXML($this->xpath, $currentElement);
     }
 
-    public function testCannotBeCreatedFromTooManyLines(): void
+    public function testCannotBeCreatedFromManyLines(): void
     {
         $this->expectException(\Exception::class);
         $currentElement = $this->loadXMLDocument(self::XML_INVALID_MANY_LINES);

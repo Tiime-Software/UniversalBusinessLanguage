@@ -20,13 +20,13 @@ XML;
 </Invoice>
 XML;
 
-    protected const XML_INVALID_AMOUNT = <<<XML
+    protected const XML_INVALID_WRONG_CONTENT = <<<XML
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cbc:Amount currencyID="ER">36.0.0</cbc:Amount>
 </Invoice>
 XML;
 
-    protected const XML_INVALID_EMPTY_AMOUNT = <<<XML
+    protected const XML_INVALID_NO_CONTENT = <<<XML
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cbc:Amount></cbc:Amount>
 </Invoice>
@@ -37,14 +37,14 @@ XML;
 </Invoice>
 XML;
 
-    protected const XML_INVALID_TOO_MANY_LINES = <<<XML
+    protected const XML_INVALID_MANY_LINES = <<<XML
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cbc:Amount currencyID="EUR">36.01</cbc:Amount>
   <cbc:Amount currencyID="EUR">36.01</cbc:Amount>
 </Invoice>
 XML;
 
-    public function testCanBeCreatedFromFullContent(): void
+    public function testCanBeCreatedFromContent(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_CONTENT);
         $ublObject      = AllowanceChargeAmount::fromXML($this->xpath, $currentElement);
@@ -60,17 +60,17 @@ XML;
         AllowanceChargeAmount::fromXML($this->xpath, $currentElement);
     }
 
-    public function testCannotBeCreatedFromInvalid(): void
+    public function testCannotBeCreatedFromWrongContent(): void
     {
         $this->expectException(\TypeError::class);
-        $currentElement = $this->loadXMLDocument(self::XML_INVALID_AMOUNT);
+        $currentElement = $this->loadXMLDocument(self::XML_INVALID_WRONG_CONTENT);
         AllowanceChargeAmount::fromXML($this->xpath, $currentElement);
     }
 
-    public function testCannotBeCreatedFromEmpty(): void
+    public function testCannotBeCreatedFromNoContent(): void
     {
         $this->expectException(\TypeError::class);
-        $currentElement = $this->loadXMLDocument(self::XML_INVALID_EMPTY_AMOUNT);
+        $currentElement = $this->loadXMLDocument(self::XML_INVALID_NO_CONTENT);
         AllowanceChargeAmount::fromXML($this->xpath, $currentElement);
     }
 
@@ -81,10 +81,10 @@ XML;
         AllowanceChargeAmount::fromXML($this->xpath, $currentElement);
     }
 
-    public function testCannotBeCreatedFromTooManyLines(): void
+    public function testCannotBeCreatedFromManyLines(): void
     {
         $this->expectException(\Exception::class);
-        $currentElement = $this->loadXMLDocument(self::XML_INVALID_TOO_MANY_LINES);
+        $currentElement = $this->loadXMLDocument(self::XML_INVALID_MANY_LINES);
         AllowanceChargeAmount::fromXML($this->xpath, $currentElement);
     }
 

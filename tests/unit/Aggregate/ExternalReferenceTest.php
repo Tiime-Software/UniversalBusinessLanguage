@@ -53,14 +53,14 @@ XML;
         $this->assertNull($ublObject);
     }
 
-    public function testCannotBeCreatedFromNotEnoughLines(): void
+    public function testCannotBeCreatedFromNoContent(): void
     {
         $this->expectException(\Exception::class);
         $currentElement = $this->loadXMLDocument(self::XML_INVALID_NO_CONTENT);
         ExternalReference::fromXML($this->xpath, $currentElement);
     }
 
-    public function testCannotBeCreatedFromTooManyLines(): void
+    public function testCannotBeCreatedFromManyLines(): void
     {
         $this->expectException(\Exception::class);
         $currentElement = $this->loadXMLDocument(self::XML_INVALID_MANY_LINES);

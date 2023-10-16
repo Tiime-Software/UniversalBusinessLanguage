@@ -31,7 +31,7 @@ XML;
 </Invoice>
 XML;
 
-    protected const XML_INVALID_TOO_MANY_ID = <<<XML
+    protected const XML_INVALID_MANY_CONTENTS = <<<XML
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cac:OrderReference>
     <cbc:ID>98776</cbc:ID>
@@ -39,7 +39,7 @@ XML;
   </cac:OrderReference>
 </Invoice>
 XML;
-    protected const XML_INVALID_TOO_MANY_LINES = <<<XML
+    protected const XML_INVALID_MANY_LINES = <<<XML
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cac:OrderReference>
     <cbc:ID>98776</cbc:ID>
@@ -68,24 +68,24 @@ XML;
         $this->assertNull($ublObject->getSalesOrderIdentifier());
     }
 
-    public function testCannotBeCreatedFromNoLine(): void
+    public function testCanBeCreatedFromNoLine(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_NO_LINE);
         $ublDocument    = OrderReference::fromXML($this->xpath, $currentElement);
         $this->assertNull($ublDocument);
     }
 
-    public function testCannotBeCreatedFromTooManyId(): void
+    public function testCannotBeCreatedFromManyContents(): void
     {
         $this->expectException(\Exception::class);
-        $currentElement = $this->loadXMLDocument(self::XML_INVALID_TOO_MANY_ID);
+        $currentElement = $this->loadXMLDocument(self::XML_INVALID_MANY_CONTENTS);
         OrderReference::fromXML($this->xpath, $currentElement);
     }
 
-    public function testCannotBeCreatedFromTooManyLines(): void
+    public function testCannotBeCreatedFromManyLines(): void
     {
         $this->expectException(\Exception::class);
-        $currentElement = $this->loadXMLDocument(self::XML_INVALID_TOO_MANY_LINES);
+        $currentElement = $this->loadXMLDocument(self::XML_INVALID_MANY_LINES);
         OrderReference::fromXML($this->xpath, $currentElement);
     }
 

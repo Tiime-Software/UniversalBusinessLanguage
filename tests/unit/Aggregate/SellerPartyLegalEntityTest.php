@@ -26,7 +26,7 @@ XML;
 </Invoice>
 XML;
 
-    protected const XML_INVALID_TOO_MANY_COMPANY_ID = <<<XML
+    protected const XML_INVALID_MANY_CONTENTS = <<<XML
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cac:PartyLegalEntity>
     <cbc:RegistrationName>Full Formal Seller Name LTD.</cbc:RegistrationName>
@@ -42,7 +42,7 @@ XML;
 </Invoice>
 XML;
 
-    protected const XML_INVALID_TOO_MANY_LINES = <<<XML
+    protected const XML_INVALID_MANY_LINES = <<<XML
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cac:PartyLegalEntity>
     <cbc:RegistrationName>Full Formal Seller Name LTD.</cbc:RegistrationName>
@@ -80,17 +80,17 @@ XML;
         SellerPartyLegalEntity::fromXML($this->xpath, $currentElement);
     }
 
-    public function testCannotBeCreatedFromTooManyCompanyId(): void
+    public function testCannotBeCreatedFromManyContents(): void
     {
         $this->expectException(\Exception::class);
-        $currentElement = $this->loadXMLDocument(self::XML_INVALID_TOO_MANY_COMPANY_ID);
+        $currentElement = $this->loadXMLDocument(self::XML_INVALID_MANY_CONTENTS);
         SellerPartyLegalEntity::fromXML($this->xpath, $currentElement);
     }
 
-    public function testCannotBeCreatedFromTooManyLines(): void
+    public function testCannotBeCreatedFromManyLines(): void
     {
         $this->expectException(\Exception::class);
-        $currentElement = $this->loadXMLDocument(self::XML_INVALID_TOO_MANY_LINES);
+        $currentElement = $this->loadXMLDocument(self::XML_INVALID_MANY_LINES);
         SellerPartyLegalEntity::fromXML($this->xpath, $currentElement);
     }
 
