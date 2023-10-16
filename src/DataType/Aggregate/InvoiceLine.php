@@ -300,6 +300,23 @@ class InvoiceLine
             $invoicePeriod       = InvoiceLineInvoicePeriod::fromXML($xpath, $invoiceLineElement);
             $orderLineReference  = OrderLineReference::fromXML($xpath, $invoiceLineElement);
             $documentReference   = DocumentReference::fromXML($xpath, $invoiceLineElement);
+
+            $allowanceChargeElements = $xpath->query('./cac:AllowanceCharge', $invoiceLineElement);
+
+            /** @var \DOMElement $allowanceChargeElement */
+            foreach ($allowanceChargeElements as $allowanceChargeElement) {
+                $chargeIndicatorElements = $xpath->query('./cbc:ChargeIndicator', $allowanceChargeElement);
+
+                if (1 !== $chargeIndicatorElements->count()) {
+                    throw new \Exception('Malformed');
+                }
+                $chargeIndicator = (string) $chargeIndicatorElements->item(0)->nodeValue;
+
+                if ('true' !== $chargeIndicator && 'false' !== $chargeIndicator) {
+                    throw new \Exception('Wrong charge indicator');
+                }
+            }
+
             $allowances          = InvoiceLineAllowance::fromXML($xpath, $invoiceLineElement);
             $charges             = InvoiceLineCharge::fromXML($xpath, $invoiceLineElement);
             $item                = Item::fromXML($xpath, $invoiceLineElement);

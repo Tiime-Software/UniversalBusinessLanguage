@@ -893,7 +893,7 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
         $paymentMeans                 = PaymentMeans::fromXML($xpath, $universalBusinessLanguageElement);
         $paymentTerms                 = PaymentTerms::fromXML($xpath, $universalBusinessLanguageElement);
 
-        $allowanceChargeElements = $xpath->query('./cbc:AllowanceCharge', $universalBusinessLanguageElement);
+        $allowanceChargeElements = $xpath->query('./cac:AllowanceCharge', $universalBusinessLanguageElement);
 
         /** @var \DOMElement $allowanceChargeElement */
         foreach ($allowanceChargeElements as $allowanceChargeElement) {
@@ -904,7 +904,7 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
             }
             $chargeIndicator = (string) $chargeIndicatorElements->item(0)->nodeValue;
 
-            if ('true' !== $chargeIndicator || 'false' !== $chargeIndicator) {
+            if ('true' !== $chargeIndicator && 'false' !== $chargeIndicator) {
                 throw new \Exception('Wrong charge indicator');
             }
         }

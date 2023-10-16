@@ -90,7 +90,7 @@ class PriceAllowanceCharge
         $chargeIndicator = (string) $chargeIndicatorElements->item(0)->nodeValue;
 
         if ('false' !== $chargeIndicator) {
-            throw new \Exception('Malformed');
+            throw new \Exception('Wrong charge indicator');
         }
 
         $amount     = AllowanceChargeAmount::fromXML($xpath, $priceAllowanceChargeElement);
