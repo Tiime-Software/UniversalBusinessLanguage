@@ -2,7 +2,6 @@
 
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Aggregate;
 
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\Contact;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\LegalMonetaryTotal;
 use Tiime\UniversalBusinessLanguage\DataType\Basic\AllowanceTotalAmount;
 use Tiime\UniversalBusinessLanguage\DataType\Basic\ChargeTotalAmount;
