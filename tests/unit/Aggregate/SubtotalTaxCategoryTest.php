@@ -40,7 +40,55 @@ XML;
 </Invoice>
 XML;
 
-    protected const XML_INVALID_TOO_MANY_TAX_CATEGORY = <<<XML
+    protected const XML_INVALID_MANY_CONTENTS = <<<XML
+<Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
+  <cac:TaxCategory>
+    <cbc:ID>S</cbc:ID>
+    <cbc:ID>S</cbc:ID>
+    <cac:TaxScheme>
+      <cbc:ID>VAT</cbc:ID>
+    </cac:TaxScheme>
+  </cac:TaxCategory>
+</Invoice>
+XML;
+
+    protected const XML_INVALID_WRONG_PERCENT = <<<XML
+<Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
+  <cac:TaxCategory>
+    <cbc:ID>S</cbc:ID>
+    <cbc:Percent>20.20.1</cbc:Percent>
+    <cac:TaxScheme>
+      <cbc:ID>VAT</cbc:ID>
+    </cac:TaxScheme>
+  </cac:TaxCategory>
+</Invoice>
+XML;
+
+    protected const XML_INVALID_WRONG_REASON_CODE = <<<XML
+<Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
+  <cac:TaxCategory>
+    <cbc:ID>S</cbc:ID>
+    <cbc:TaxExemptionReasonCode>VATEX-EU-6546579-C</cbc:TaxExemptionReasonCode>
+    <cac:TaxScheme>
+      <cbc:ID>VAT</cbc:ID>
+    </cac:TaxScheme>
+  </cac:TaxCategory>
+</Invoice>
+XML;
+
+    protected const XML_INVALID_WRONG_VAT_CODE = <<<XML
+<Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
+  <cac:TaxCategory>
+    <cbc:ID>654654</cbc:ID>
+    <cac:TaxScheme>
+      <cbc:ID>VAT</cbc:ID>
+    </cac:TaxScheme>
+  </cac:TaxCategory>
+</Invoice>
+XML;
+
+
+    protected const XML_INVALID_MANY_LINES = <<<XML
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cac:TaxCategory>
     <cbc:ID>S</cbc:ID>
@@ -88,10 +136,31 @@ XML;
         SubtotalTaxCategory::fromXML($this->xpath, $currentElement);
     }
 
-    public function testCannotBeCreatedFromTooManyTaxTotals(): void
+    public function testCannotBeCreatedFromManyLines(): void
     {
         $this->expectException(\Exception::class);
-        $currentElement = $this->loadXMLDocument(self::XML_INVALID_TOO_MANY_TAX_CATEGORY);
+        $currentElement = $this->loadXMLDocument(self::XML_INVALID_MANY_LINES);
+        SubtotalTaxCategory::fromXML($this->xpath, $currentElement);
+    }
+
+    public function testCannotBeCreatedFromWrongPercent(): void
+    {
+        $this->expectException(\Exception::class);
+        $currentElement = $this->loadXMLDocument(self::XML_INVALID_WRONG_PERCENT);
+        SubtotalTaxCategory::fromXML($this->xpath, $currentElement);
+    }
+
+    public function testCannotBeCreatedFromWrongReasonCode(): void
+    {
+        $this->expectException(\Exception::class);
+        $currentElement = $this->loadXMLDocument(self::XML_INVALID_WRONG_REASON_CODE);
+        SubtotalTaxCategory::fromXML($this->xpath, $currentElement);
+    }
+
+    public function testCannotBeCreatedFromWrongVatCode(): void
+    {
+        $this->expectException(\Exception::class);
+        $currentElement = $this->loadXMLDocument(self::XML_INVALID_WRONG_VAT_CODE);
         SubtotalTaxCategory::fromXML($this->xpath, $currentElement);
     }
 

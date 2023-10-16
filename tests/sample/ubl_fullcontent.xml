@@ -249,13 +249,13 @@
   </cac:TaxTotal>
   <cac:LegalMonetaryTotal>
     <cbc:LineExtensionAmount currencyID="EUR">3800.0</cbc:LineExtensionAmount>
-    <cbc:TaxExclusiveAmount currency="EUR">3600.0</cbc:TaxExclusiveAmount>
-    <cbc:TaxInclusiveAmount currency="EUR">4500.0</cbc:TaxInclusiveAmount>
-    <cbc:AllowanceTotalAmount currency="EUR">200.0</cbc:AllowanceTotalAmount>
-    <cbc:ChargeTotalAmount currency="EUR">0.0</cbc:ChargeTotalAmount>
-    <cbc:PrepaidAmount currency="EUR">1000.0</cbc:PrepaidAmount>
-    <cbc:PayableRoundingAmount currency="EUR">0.0</cbc:PayableRoundingAmount>
-    <cbc:PayableAmount currency="EUR">3500.0</cbc:PayableAmount>
+    <cbc:TaxExclusiveAmount currencyID="EUR">3600.0</cbc:TaxExclusiveAmount>
+    <cbc:TaxInclusiveAmount currencyID="EUR">4500.0</cbc:TaxInclusiveAmount>
+    <cbc:AllowanceTotalAmount currencyID="EUR">200.0</cbc:AllowanceTotalAmount>
+    <cbc:ChargeTotalAmount currencyID="EUR">0.0</cbc:ChargeTotalAmount>
+    <cbc:PrepaidAmount currencyID="EUR">1000.0</cbc:PrepaidAmount>
+    <cbc:PayableRoundingAmount currencyID="EUR">0.0</cbc:PayableRoundingAmount>
+    <cbc:PayableAmount currencyID="EUR">3500.0</cbc:PayableAmount>
   </cac:LegalMonetaryTotal>
   <cac:InvoiceLine>
     <cbc:ID>15</cbc:ID>
