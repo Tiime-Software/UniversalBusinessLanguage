@@ -226,7 +226,7 @@ XML;
         $this->assertInstanceOf(Price::class, $ublObject->getPrice());
     }
 
-    public function testCanBeCreatedFromNoLine(): void
+    public function testCannotBeCreatedFromNoLine(): void
     {
         $this->expectException(\Exception::class);
         $currentElement = $this->loadXMLDocument(self::XML_INVALID_NO_LINE);
