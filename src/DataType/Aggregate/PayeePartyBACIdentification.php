@@ -33,7 +33,7 @@ class PayeePartyBACIdentification
 
     public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): ?self
     {
-        $partyIdentificationElements = $xpath->query(sprintf('./%s[cbc:ID[@schemeID=\'SEPA\']]', self::XML_NODE), $currentElement);
+        $partyIdentificationElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
 
         if (0 === $partyIdentificationElements->count()) {
             return null;
@@ -52,6 +52,18 @@ class PayeePartyBACIdentification
             throw new \Exception('Malformed');
         }
 
-        return new self((string) $identifierElements->item(0)->nodeValue);
+        /** @var \DOMElement $identifierElement */
+        $identifierElement = $identifierElements->item(0);
+
+        if (!$identifierElement->hasAttribute('schemeID')) {
+            return null;
+        }
+        $scheme = $identifierElement->getAttribute('schemeID');
+
+        if ('SEPA' !== $scheme) {
+            return null;
+        }
+
+        return new self((string) $identifierElement->nodeValue);
     }
 }
