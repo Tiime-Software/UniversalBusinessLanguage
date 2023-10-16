@@ -7,6 +7,7 @@ use Tiime\UniversalBusinessLanguage\DataType\Aggregate\PartyName;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\PostalAddress;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\SellerParty;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\SellerPartyIdentification;
+use Tiime\UniversalBusinessLanguage\DataType\Aggregate\SellerPartyLegalEntity;
 use Tiime\UniversalBusinessLanguage\DataType\Basic\EndpointIdentifier;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
@@ -97,6 +98,9 @@ XML;
         }
         $this->assertInstanceOf(PartyName::class, $ublObject->getPartyName());
         $this->assertInstanceOf(PostalAddress::class, $ublObject->getPostalAddress());
+        $this->assertIsArray($ublObject->getPartyTaxSchemes());
+        $this->assertCount(1, $ublObject->getPartyTaxSchemes());
+        $this->assertInstanceOf(SellerPartyLegalEntity::class, $ublObject->getPartyLegalEntity());
         $this->assertInstanceOf(Contact::class, $ublObject->getContact());
     }
 
@@ -114,6 +118,9 @@ XML;
         }
         $this->assertNull($ublObject->getPartyName());
         $this->assertInstanceOf(PostalAddress::class, $ublObject->getPostalAddress());
+        $this->assertIsArray($ublObject->getPartyTaxSchemes());
+        $this->assertCount(0, $ublObject->getPartyTaxSchemes());
+        $this->assertInstanceOf(SellerPartyLegalEntity::class, $ublObject->getPartyLegalEntity());
         $this->assertNull($ublObject->getContact());
     }
 
