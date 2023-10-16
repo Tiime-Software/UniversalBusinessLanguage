@@ -17,7 +17,10 @@ class PayeeParty
 
     private ?PayeePartyLegalEntity $partyLegalEntity;
 
-    public function __construct(PayeePartyName $partyName, ?PayeePartyIdentification $partyIdentification, ?PayeePartyBACIdentification $partyBACIdentification)
+    public function __construct(
+        PayeePartyName $partyName,
+        ?PayeePartyIdentification $partyIdentification = null,
+        ?PayeePartyBACIdentification $partyBACIdentification = null)
     {
         if ($partyIdentification instanceof PayeePartyIdentification && $partyBACIdentification instanceof PayeePartyBACIdentification) {
             throw new \Exception('Malformed');
@@ -91,8 +94,8 @@ class PayeeParty
         /** @var \DOMElement $partyElement */
         $partyElement = $partyElements->item(0);
 
-        $partyIdentification    = PayeePartyIdentification::fromXML($xpath, $partyElement);
         $partyBACIdentification = PayeePartyBACIdentification::fromXML($xpath, $partyElement);
+        $partyIdentification    = PayeePartyIdentification::fromXML($xpath, $partyElement);
         $partyName              = PayeePartyName::fromXML($xpath, $partyElement);
         $partyLegalEntity       = PayeePartyLegalEntity::fromXML($xpath, $partyElement);
 
