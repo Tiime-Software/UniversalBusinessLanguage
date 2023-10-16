@@ -48,7 +48,6 @@ XML;
 
 XML;
 
-
     public function testCanBeCreatedFromFullContent(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_CONTENT);
