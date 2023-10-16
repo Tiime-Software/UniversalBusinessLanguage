@@ -317,10 +317,10 @@ class InvoiceLine
                 }
             }
 
-            $allowances          = InvoiceLineAllowance::fromXML($xpath, $invoiceLineElement);
-            $charges             = InvoiceLineCharge::fromXML($xpath, $invoiceLineElement);
-            $item                = Item::fromXML($xpath, $invoiceLineElement);
-            $price               = Price::fromXML($xpath, $invoiceLineElement);
+            $allowances = InvoiceLineAllowance::fromXML($xpath, $invoiceLineElement);
+            $charges    = InvoiceLineCharge::fromXML($xpath, $invoiceLineElement);
+            $item       = Item::fromXML($xpath, $invoiceLineElement);
+            $price      = Price::fromXML($xpath, $invoiceLineElement);
 
             $invoiceLine = new self(
                 new InvoiceLineIdentifier($invoiceLineIdentifier),
