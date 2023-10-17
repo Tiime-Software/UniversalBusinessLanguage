@@ -44,6 +44,7 @@ return (new PhpCsFixer\Config())
             'php_unit_test_case_static_method_calls' => ['call_type' => 'this'],
             'single_line_throw'                      => false,
             'mb_str_functions'                       => true,
+            'nullable_type_declaration_for_default_null_value' => true,
         ]
     )
     ->setRiskyAllowed(true)
