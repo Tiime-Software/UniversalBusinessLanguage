@@ -19,8 +19,8 @@ class PayeeParty
 
     public function __construct(
         PayeePartyName $partyName,
-        ?PayeePartyIdentification $partyIdentification = null,
-        ?PayeePartyBACIdentification $partyBACIdentification = null)
+        PayeePartyIdentification $partyIdentification = null,
+        PayeePartyBACIdentification $partyBACIdentification = null)
     {
         if ($partyIdentification instanceof PayeePartyIdentification && $partyBACIdentification instanceof PayeePartyBACIdentification) {
             throw new \Exception('Malformed');
