@@ -2,6 +2,7 @@
 
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Aggregate;
 
+use Tiime\EN16931\DataType\Identifier\InvoiceLineIdentifier;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\DocumentReference;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\InvoiceLine;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\InvoiceLineAllowance;
@@ -183,6 +184,8 @@ XML;
         $this->assertCount(1, $ublObjects);
         $ublObject = $ublObjects[0];
         $this->assertInstanceOf(InvoiceLine::class, $ublObject);
+        $this->assertInstanceOf(InvoiceLineIdentifier::class, $ublObject->getInvoiceLineIdentifier());
+        $this->assertEquals("New article number 12345", $ublObject->getNote());
         $this->assertInstanceOf(InvoicedQuantity::class, $ublObject->getInvoicedQuantity());
         $this->assertInstanceOf(LineExtensionAmount::class, $ublObject->getLineExtensionAmount());
         $this->assertEquals('1287:65464', $ublObject->getAccountingCost());
@@ -213,6 +216,8 @@ XML;
         $this->assertCount(1, $ublObjects);
         $ublObject = $ublObjects[0];
         $this->assertInstanceOf(InvoiceLine::class, $ublObject);
+        $this->assertInstanceOf(InvoiceLineIdentifier::class, $ublObject->getInvoiceLineIdentifier());
+        $this->assertNull($ublObject->getNote());
         $this->assertInstanceOf(InvoicedQuantity::class, $ublObject->getInvoicedQuantity());
         $this->assertInstanceOf(LineExtensionAmount::class, $ublObject->getLineExtensionAmount());
         $this->assertNull($ublObject->getInvoicePeriod());
