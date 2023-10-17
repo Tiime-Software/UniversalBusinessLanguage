@@ -34,12 +34,14 @@ class PayeePartyIdentification
             $buyerIdentifier->setAttribute('schemeID', $this->buyerIdentifier->scheme->value);
         }
 
+        $currentNode->appendChild($buyerIdentifier);
+
         return $currentNode;
     }
 
     public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): ?self
     {
-        $partyIdentificationElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
+        $partyIdentificationElements = $xpath->query(sprintf('./%s[cbc:ID[@schemeID!=\'SEPA\']]', self::XML_NODE), $currentElement);
 
         if (0 === $partyIdentificationElements->count()) {
             return null;
