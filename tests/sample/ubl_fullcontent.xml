@@ -301,7 +301,7 @@
         <cbc:ItemClassificationCode listID="STI" listVersionID="0.1">9873242</cbc:ItemClassificationCode>
       </cac:CommodityClassification>
       <cac:ClassifiedTaxCategory>
-        <cbc:ID>5</cbc:ID>
+        <cbc:ID>S</cbc:ID>
         <cbc:Percent>25</cbc:Percent>
         <cac:TaxScheme>
           <cbc:ID>VAT</cbc:ID>

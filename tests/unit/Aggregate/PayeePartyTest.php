@@ -3,6 +3,7 @@
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Aggregate;
 
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\PayeeParty;
+use Tiime\UniversalBusinessLanguage\DataType\Aggregate\PayeePartyBACIdentification;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\PayeePartyIdentification;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\PayeePartyLegalEntity;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\PayeePartyName;
@@ -61,7 +62,8 @@ XML;
         $currentElement = $this->loadXMLDocument(self::XML_VALID_FULL_CONTENT);
         $ublObject      = PayeeParty::fromXML($this->xpath, $currentElement);
         $this->assertInstanceOf(PayeeParty::class, $ublObject);
-        $this->assertInstanceOf(PayeePartyIdentification::class, $ublObject->getPartyIdentification());
+        $this->assertNull($ublObject->getPartyIdentification());
+        $this->assertInstanceOf(PayeePartyBACIdentification::class, $ublObject->getPartyBACIdentification());
         $this->assertInstanceOf(PayeePartyName::class, $ublObject->getPartyName());
         $this->assertInstanceOf(PayeePartyLegalEntity::class, $ublObject->getPartyLegalEntity());
     }
@@ -72,6 +74,7 @@ XML;
         $ublObject      = PayeeParty::fromXML($this->xpath, $currentElement);
         $this->assertInstanceOf(PayeeParty::class, $ublObject);
         $this->assertNull($ublObject->getPartyIdentification());
+        $this->assertNull($ublObject->getPartyBACIdentification());
         $this->assertInstanceOf(PayeePartyName::class, $ublObject->getPartyName());
         $this->assertNull($ublObject->getPartyLegalEntity());
     }

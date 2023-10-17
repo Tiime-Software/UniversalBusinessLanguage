@@ -51,9 +51,11 @@ XML;
 </Invoice>
 XML;
 
-    protected const XML_INVALID_NO_CONTENT = <<<XML
+    protected const XML_INVALID_MISSING_CONTENT = <<<XML
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cac:AllowanceCharge>
+    <cbc:ChargeIndicator>false</cbc:ChargeIndicator>
+    <cbc:Amount currencyID="EUR">200.00</cbc:Amount>
   </cac:AllowanceCharge>
 </Invoice>
 XML;
@@ -139,10 +141,10 @@ XML;
         $this->assertCount(0, $ublObjects);
     }
 
-    public function testCannotBeCreatedFromNoContent(): void
+    public function testCannotBeCreatedFromMissingContent(): void
     {
         $this->expectException(\Exception::class);
-        $currentElement = $this->loadXMLDocument(self::XML_INVALID_NO_CONTENT);
+        $currentElement = $this->loadXMLDocument(self::XML_INVALID_MISSING_CONTENT);
         Allowance::fromXML($this->xpath, $currentElement);
     }
 

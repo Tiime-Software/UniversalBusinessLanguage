@@ -49,7 +49,7 @@ XML;
 </Invoice>
 XML;
 
-    protected const XML_INVALID_NOT_ENOUGH_DATA = <<<XML
+    protected const XML_INVALID_MISSING_CONTENT = <<<XML
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cac:AllowanceCharge>
     <cbc:ChargeIndicator>true</cbc:ChargeIndicator>
@@ -143,7 +143,7 @@ XML;
     public function testCannotBeCreatedFromNotEnoughData(): void
     {
         $this->expectException(\Exception::class);
-        $currentElement = $this->loadXMLDocument(self::XML_INVALID_NOT_ENOUGH_DATA);
+        $currentElement = $this->loadXMLDocument(self::XML_INVALID_MISSING_CONTENT);
         Charge::fromXML($this->xpath, $currentElement);
     }
 
