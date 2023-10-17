@@ -35,6 +35,7 @@ use Tiime\UniversalBusinessLanguage\UniversalBusinessLanguage;
 class UniversalBusinessLanguageTest extends BaseXMLNodeTestWithHelpers
 {
     protected string $xmlValidContent = '';
+    protected string $xmlValidNoDefaultNamespace = '';
 
     protected function setUp(): void
     {
@@ -43,6 +44,12 @@ class UniversalBusinessLanguageTest extends BaseXMLNodeTestWithHelpers
 
         if ('' === $this->xmlValidContent) {
             $this->fail('cant load valid full sample');
+        }
+
+        $this->xmlValidNoDefaultNamespace = file_get_contents(__DIR__ . '/../sample/ubl_no_default_namespace.xml');
+
+        if ('' === $this->xmlValidNoDefaultNamespace) {
+            $this->fail('cant load valid no default namespace sample');
         }
     }
 
@@ -114,6 +121,13 @@ class UniversalBusinessLanguageTest extends BaseXMLNodeTestWithHelpers
         foreach ($ublObject->getInvoiceLines() as $invoiceLine) {
             $this->assertInstanceOf(InvoiceLine::class, $invoiceLine);
         }
+    }
+
+    public function testCanBeCreatedFromNoDefaultNamespace(): void
+    {
+        $this->loadXMLDocument($this->xmlValidNoDefaultNamespace);
+        $ublObject = UniversalBusinessLanguage::fromXML($this->document);
+        $this->assertInstanceOf(UniversalBusinessLanguage::class, $ublObject);
     }
 
     public function testGenerateXml(): void
