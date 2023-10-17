@@ -66,19 +66,34 @@ class UniversalBusinessLanguageTest extends BaseXMLNodeTestWithHelpers
         $this->assertEquals('abs1234', $ublObject->getBuyerReference());
         $this->assertInstanceOf(InvoicePeriod::class, $ublObject->getInvoicePeriod());
         $this->assertInstanceOf(OrderReference::class, $ublObject->getOrderReference());
-        $this->assertInstanceOf(BillingReference::class, $ublObject->getBillingReferences());
+        $this->assertIsArray($ublObject->getBillingReferences());
+        $this->assertCount(1, $ublObject->getBillingReferences());
+
+        foreach ($ublObject->getBillingReferences() as $billingReference) {
+            $this->assertInstanceOf(BillingReference::class, $billingReference);
+        }
         $this->assertInstanceOf(DespatchDocumentReference::class, $ublObject->getDespatchDocumentReference());
         $this->assertInstanceOf(ReceiptDocumentReference::class, $ublObject->getReceiptDocumentReference());
         $this->assertInstanceOf(OriginatorDocumentReference::class, $ublObject->getOriginatorDocumentReference());
         $this->assertInstanceOf(ContractDocumentReference::class, $ublObject->getContractDocumentReference());
-        $this->assertInstanceOf(AdditionalDocumentReference::class, $ublObject->getadditionalDocumentReferences());
+        $this->assertIsArray($ublObject->getBillingReferences());
+        $this->assertCount(1, $ublObject->getAdditionalDocumentReferences());
+
+        foreach ($ublObject->getAdditionalDocumentReferences() as $additionalDocumentReference) {
+            $this->assertInstanceOf(AdditionalDocumentReference::class, $additionalDocumentReference);
+        }
         $this->assertInstanceOf(ProjectReference::class, $ublObject->getProjectReference());
         $this->assertInstanceOf(AccountingSupplierParty::class, $ublObject->getAccountingSupplierParty());
         $this->assertInstanceOf(AccountingCustomerParty::class, $ublObject->getAccountingCustomerParty());
         $this->assertInstanceOf(PayeeParty::class, $ublObject->getPayeeParty());
         $this->assertInstanceOf(TaxRepresentativeParty::class, $ublObject->getTaxRepresentativeParty());
         $this->assertInstanceOf(Delivery::class, $ublObject->getDelivery());
-        $this->assertInstanceOf(PaymentMeans::class, $ublObject->getPaymentMeans());
+        $this->assertIsArray($ublObject->getPaymentMeans());
+        $this->assertCount(1, $ublObject->getPaymentMeans());
+
+        foreach ($ublObject->getPaymentMeans() as $paymentMean) {
+            $this->assertInstanceOf(PaymentMeans::class, $paymentMean);
+        }
         $this->assertInstanceOf(PaymentTerms::class, $ublObject->getPaymentTerms());
         $this->assertIsArray($ublObject->getAllowances());
         $this->assertCount(1, $ublObject->getAllowances());
@@ -105,8 +120,7 @@ class UniversalBusinessLanguageTest extends BaseXMLNodeTestWithHelpers
     {
         $this->loadXMLDocument($this->xmlValidContent);
         $ublObject       = UniversalBusinessLanguage::fromXML($this->document);
-        $rootDestination = $this->generateEmptyRootDocument();
-        $rootDestination->appendChild($ublObject->toXML());
+        $this->document  = $ublObject->toXML();
         $generatedOutput = $this->formatXMLOutput();
         $this->assertEquals($this->xmlValidContent, $generatedOutput);
     }

@@ -501,7 +501,7 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
     /**
      * @return array|AdditionalDocumentReference[]
      */
-    public function getadditionalDocumentReferences(): array
+    public function getAdditionalDocumentReferences(): array
     {
         return $this->additionalDocumentReferences;
     }
@@ -687,7 +687,7 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
 
         $universalBusinessLanguage = $document->createElement(self::XML_NODE);
         $universalBusinessLanguage->setAttribute(
-            'xmlns',
+            'xmlns:ubl',
             'urn:oasis:names:specification:ubl:schema:xsd:Invoice-2'
         );
         $universalBusinessLanguage->setAttribute(

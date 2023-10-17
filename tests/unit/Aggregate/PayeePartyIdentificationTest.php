@@ -2,7 +2,6 @@
 
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Aggregate;
 
-use Tiime\EN16931\DataType\Identifier\PayeeIdentifier;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\PayeePartyIdentification;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
@@ -50,7 +49,6 @@ XML;
         $ublObject      = PayeePartyIdentification::fromXML($this->xpath, $currentElement);
         $this->assertInstanceOf(PayeePartyIdentification::class, $ublObject);
     }
-
 
     public function testCannotBeCreatedFromBadSchemeId(): void
     {

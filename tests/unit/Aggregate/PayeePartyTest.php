@@ -4,7 +4,6 @@ namespace Tiime\UniversalBusinessLanguage\Tests\unit\Aggregate;
 
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\PayeeParty;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\PayeePartyBACIdentification;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\PayeePartyIdentification;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\PayeePartyLegalEntity;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\PayeePartyName;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;

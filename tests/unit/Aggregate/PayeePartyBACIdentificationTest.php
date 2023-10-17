@@ -2,9 +2,7 @@
 
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Aggregate;
 
-use Tiime\EN16931\DataType\Identifier\PayeeIdentifier;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\PayeePartyBACIdentification;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\PayeePartyIdentification;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
 class PayeePartyBACIdentificationTest extends BaseXMLNodeTestWithHelpers
@@ -42,7 +40,7 @@ XML;
         $currentElement = $this->loadXMLDocument(self::XML_VALID_CONTENT);
         $ublObject      = PayeePartyBACIdentification::fromXML($this->xpath, $currentElement);
         $this->assertInstanceOf(PayeePartyBACIdentification::class, $ublObject);
-        $this->assertEquals("FR932874294", $ublObject->getBankAssignedCreditorIdentifier());
+        $this->assertEquals('FR932874294', $ublObject->getBankAssignedCreditorIdentifier());
     }
 
     public function testCannotBeCreatedFromManyContents(): void

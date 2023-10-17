@@ -185,7 +185,7 @@ XML;
         $ublObject = $ublObjects[0];
         $this->assertInstanceOf(InvoiceLine::class, $ublObject);
         $this->assertInstanceOf(InvoiceLineIdentifier::class, $ublObject->getInvoiceLineIdentifier());
-        $this->assertEquals("New article number 12345", $ublObject->getNote());
+        $this->assertEquals('New article number 12345', $ublObject->getNote());
         $this->assertInstanceOf(InvoicedQuantity::class, $ublObject->getInvoicedQuantity());
         $this->assertInstanceOf(LineExtensionAmount::class, $ublObject->getLineExtensionAmount());
         $this->assertEquals('1287:65464', $ublObject->getAccountingCost());
