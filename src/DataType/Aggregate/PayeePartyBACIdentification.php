@@ -28,6 +28,8 @@ class PayeePartyBACIdentification
         $bankAssignedCreditorIdentifier = $document->createElement('cbc:ID', $this->bankAssignedCreditorIdentifier);
         $bankAssignedCreditorIdentifier->setAttribute('schemeID', 'SEPA');
 
+        $currentNode->appendChild($bankAssignedCreditorIdentifier);
+
         return $currentNode;
     }
 
