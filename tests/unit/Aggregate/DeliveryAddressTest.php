@@ -12,9 +12,6 @@ class DeliveryAddressTest extends BaseXMLNodeTestWithHelpers
     protected const XML_VALID_FULL_CONTENT = <<<XML
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cac:Address>
-    <cac:Country>
-      <cbc:IdentificationCode>SE</cbc:IdentificationCode>
-    </cac:Country>
     <cbc:StreetName>Delivery Street 1</cbc:StreetName>
     <cbc:AdditionalStreetName>Delivery Street 2</cbc:AdditionalStreetName>
     <cbc:CityName>Malmö</cbc:CityName>
@@ -23,6 +20,9 @@ class DeliveryAddressTest extends BaseXMLNodeTestWithHelpers
     <cac:AddressLine>
       <cbc:Line>C54</cbc:Line>
     </cac:AddressLine>
+    <cac:Country>
+      <cbc:IdentificationCode>SE</cbc:IdentificationCode>
+    </cac:Country>
   </cac:Address>
 </Invoice>
 XML;

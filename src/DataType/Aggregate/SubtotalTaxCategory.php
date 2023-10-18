@@ -95,6 +95,12 @@ class SubtotalTaxCategory
 
         $currentNode->appendChild($document->createElement('cbc:ID', $this->identifier->value));
 
+        if ($this->percent instanceof Percentage) {
+            $currentNode->appendChild(
+                $document->createElement('cbc:Percent', $this->percent->getFormattedValueRounded())
+            );
+        }
+
         if ($this->taxExemptionReasonCode instanceof VatExoneration) {
             $currentNode->appendChild(
                 $document->createElement('cbc:TaxExemptionReasonCode', $this->taxExemptionReasonCode->value)
@@ -104,12 +110,6 @@ class SubtotalTaxCategory
         if (\is_string($this->taxExemptionReason)) {
             $currentNode->appendChild(
                 $document->createElement('cbc:TaxExemptionReason', $this->taxExemptionReason)
-            );
-        }
-
-        if ($this->percent instanceof Percentage) {
-            $currentNode->appendChild(
-                $document->createElement('cbc:Percent', $this->percent->getFormattedValueRounded())
             );
         }
 

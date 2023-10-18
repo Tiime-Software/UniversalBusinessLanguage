@@ -14,9 +14,9 @@ class SubtotalTaxCategoryTest extends BaseXMLNodeTestWithHelpers
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cac:TaxCategory>
     <cbc:ID>S</cbc:ID>
+    <cbc:Percent>20.20</cbc:Percent>
     <cbc:TaxExemptionReasonCode>VATEX-EU-79-C</cbc:TaxExemptionReasonCode>
     <cbc:TaxExemptionReason>Exempted</cbc:TaxExemptionReason>
-    <cbc:Percent>20.20</cbc:Percent>
     <cac:TaxScheme>
       <cbc:ID>VAT</cbc:ID>
     </cac:TaxScheme>

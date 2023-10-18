@@ -21,23 +21,10 @@ class BuyerPartyTest extends BaseXMLNodeTestWithHelpers
     <cac:PartyIdentification>
       <cbc:ID schemeID="0088">SE8765456787</cbc:ID>
     </cac:PartyIdentification>
-    <cac:PartyLegalEntity>
-      <cbc:RegistrationName>Buyer Full Name AS</cbc:RegistrationName>
-      <cbc:CompanyID schemeID="0007">5560104525</cbc:CompanyID>
-    </cac:PartyLegalEntity>
-    <cac:PartyTaxScheme>
-      <cbc:CompanyID>SE8765456787</cbc:CompanyID>
-      <cac:TaxScheme>
-        <cbc:ID>VAT</cbc:ID>
-      </cac:TaxScheme>
-    </cac:PartyTaxScheme>
     <cac:PartyName>
       <cbc:Name>Buyer Trading Name</cbc:Name>
     </cac:PartyName>
     <cac:PostalAddress>
-      <cac:Country>
-        <cbc:IdentificationCode>SE</cbc:IdentificationCode>
-      </cac:Country>
       <cbc:StreetName>Hovudgatan 32</cbc:StreetName>
       <cbc:AdditionalStreetName>Po box 43</cbc:AdditionalStreetName>
       <cbc:CityName>Stockholm</cbc:CityName>
@@ -46,7 +33,20 @@ class BuyerPartyTest extends BaseXMLNodeTestWithHelpers
       <cac:AddressLine>
         <cbc:Line>Building F2</cbc:Line>
       </cac:AddressLine>
+      <cac:Country>
+        <cbc:IdentificationCode>SE</cbc:IdentificationCode>
+      </cac:Country>
     </cac:PostalAddress>
+    <cac:PartyTaxScheme>
+      <cbc:CompanyID>SE8765456787</cbc:CompanyID>
+      <cac:TaxScheme>
+        <cbc:ID>VAT</cbc:ID>
+      </cac:TaxScheme>
+    </cac:PartyTaxScheme>
+    <cac:PartyLegalEntity>
+      <cbc:RegistrationName>Buyer Full Name AS</cbc:RegistrationName>
+      <cbc:CompanyID schemeID="0007">5560104525</cbc:CompanyID>
+    </cac:PartyLegalEntity>
     <cac:Contact>
       <cbc:Name>Jens Jensen</cbc:Name>
       <cbc:Telephone>876 654 321</cbc:Telephone>

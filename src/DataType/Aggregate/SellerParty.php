@@ -156,17 +156,17 @@ class SellerParty
             $currentNode->appendChild($sellerPartyIdentification->toXML($document));
         }
 
-        $currentNode->appendChild($this->partyLegalEntity->toXML($document));
-
-        foreach ($this->partyTaxSchemes as $partyTaxScheme) {
-            $currentNode->appendChild($partyTaxScheme->toXML($document));
-        }
-
         if ($this->partyName instanceof PartyName) {
             $currentNode->appendChild($this->partyName->toXML($document));
         }
 
         $currentNode->appendChild($this->postalAddress->toXML($document));
+
+        foreach ($this->partyTaxSchemes as $partyTaxScheme) {
+            $currentNode->appendChild($partyTaxScheme->toXML($document));
+        }
+
+        $currentNode->appendChild($this->partyLegalEntity->toXML($document));
 
         if ($this->contact instanceof Contact) {
             $currentNode->appendChild($this->contact->toXML($document));

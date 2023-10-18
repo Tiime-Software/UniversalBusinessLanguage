@@ -34,7 +34,7 @@ use Tiime\UniversalBusinessLanguage\UniversalBusinessLanguage;
 
 class UniversalBusinessLanguageTest extends BaseXMLNodeTestWithHelpers
 {
-    protected string $xmlValidContent = '';
+    protected string $xmlValidContent            = '';
     protected string $xmlValidNoDefaultNamespace = '';
 
     protected function setUp(): void

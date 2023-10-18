@@ -20,24 +20,10 @@ class SellerPartyTest extends BaseXMLNodeTestWithHelpers
     <cac:PartyIdentification>
       <cbc:ID schemeID="0009">10000000900017</cbc:ID>
     </cac:PartyIdentification>
-    <cac:PartyLegalEntity>
-      <cbc:RegistrationName>LE FOURNISSEUR</cbc:RegistrationName>
-      <cbc:CompanyLegalForm>SARL au capital de 50 000 EUR</cbc:CompanyLegalForm>
-      <cbc:CompanyID schemeID="0002">100000009</cbc:CompanyID>
-    </cac:PartyLegalEntity>
-    <cac:PartyTaxScheme>
-      <cbc:CompanyID>FR88100000009</cbc:CompanyID>
-      <cac:TaxScheme>
-        <cbc:ID>VAT</cbc:ID>
-      </cac:TaxScheme>
-    </cac:PartyTaxScheme>
     <cac:PartyName>
       <cbc:Name>SELLER TRADE NAME</cbc:Name>
     </cac:PartyName>
     <cac:PostalAddress>
-      <cac:Country>
-        <cbc:IdentificationCode>FR</cbc:IdentificationCode>
-      </cac:Country>
       <cbc:StreetName>1, rue du fournisseur</cbc:StreetName>
       <cbc:AdditionalStreetName>Cour du fournisseur</cbc:AdditionalStreetName>
       <cbc:CityName>Quimper</cbc:CityName>
@@ -46,7 +32,21 @@ class SellerPartyTest extends BaseXMLNodeTestWithHelpers
       <cac:AddressLine>
         <cbc:Line>BATIMENT DU FOURNISSEUR</cbc:Line>
       </cac:AddressLine>
+      <cac:Country>
+        <cbc:IdentificationCode>FR</cbc:IdentificationCode>
+      </cac:Country>
     </cac:PostalAddress>
+    <cac:PartyTaxScheme>
+      <cbc:CompanyID>FR88100000009</cbc:CompanyID>
+      <cac:TaxScheme>
+        <cbc:ID>VAT</cbc:ID>
+      </cac:TaxScheme>
+    </cac:PartyTaxScheme>
+    <cac:PartyLegalEntity>
+      <cbc:RegistrationName>LE FOURNISSEUR</cbc:RegistrationName>
+      <cbc:CompanyID schemeID="0002">100000009</cbc:CompanyID>
+      <cbc:CompanyLegalForm>SARL au capital de 50 000 EUR</cbc:CompanyLegalForm>
+    </cac:PartyLegalEntity>
     <cac:Contact>
       <cbc:Name>Contact Fournisseur</cbc:Name>
       <cbc:Telephone>01 02 03 04 05</cbc:Telephone>

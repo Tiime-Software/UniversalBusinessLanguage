@@ -14,24 +14,10 @@ class AccountingSupplierPartyTest extends BaseXMLNodeTestWithHelpers
       <cac:PartyIdentification>
         <cbc:ID schemeID="0088">5060012349998</cbc:ID>
       </cac:PartyIdentification>
-      <cac:PartyLegalEntity>
-        <cbc:RegistrationName>Full Formal Seller Name LTD.</cbc:RegistrationName>
-        <cbc:CompanyLegalForm>Share capital</cbc:CompanyLegalForm>
-        <cbc:CompanyID schemeID="0002">987654321</cbc:CompanyID>
-      </cac:PartyLegalEntity>
-      <cac:PartyTaxScheme>
-        <cbc:CompanyID>NO999888777</cbc:CompanyID>
-        <cac:TaxScheme>
-          <cbc:ID>VAT</cbc:ID>
-        </cac:TaxScheme>
-      </cac:PartyTaxScheme>
       <cac:PartyName>
         <cbc:Name>Seller Business Name AS</cbc:Name>
       </cac:PartyName>
       <cac:PostalAddress>
-        <cac:Country>
-          <cbc:IdentificationCode>GB</cbc:IdentificationCode>
-        </cac:Country>
         <cbc:StreetName>Main Street 1</cbc:StreetName>
         <cbc:AdditionalStreetName>Po Box 351</cbc:AdditionalStreetName>
         <cbc:CityName>London</cbc:CityName>
@@ -40,7 +26,21 @@ class AccountingSupplierPartyTest extends BaseXMLNodeTestWithHelpers
         <cac:AddressLine>
           <cbc:Line>Building 23</cbc:Line>
         </cac:AddressLine>
+        <cac:Country>
+          <cbc:IdentificationCode>GB</cbc:IdentificationCode>
+        </cac:Country>
       </cac:PostalAddress>
+      <cac:PartyTaxScheme>
+        <cbc:CompanyID>NO999888777</cbc:CompanyID>
+        <cac:TaxScheme>
+          <cbc:ID>VAT</cbc:ID>
+        </cac:TaxScheme>
+      </cac:PartyTaxScheme>
+      <cac:PartyLegalEntity>
+        <cbc:RegistrationName>Full Formal Seller Name LTD.</cbc:RegistrationName>
+        <cbc:CompanyID schemeID="0002">987654321</cbc:CompanyID>
+        <cbc:CompanyLegalForm>Share capital</cbc:CompanyLegalForm>
+      </cac:PartyLegalEntity>
       <cac:Contact>
         <cbc:Name>xyz123</cbc:Name>
         <cbc:Telephone>887 654 321</cbc:Telephone>

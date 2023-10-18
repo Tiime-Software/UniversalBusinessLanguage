@@ -13,9 +13,9 @@ class InvoicePeriodTest extends BaseXMLNodeTestWithHelpers
     protected const XML_VALID_FULL_CONTENT = <<<XML
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cac:InvoicePeriod>
-    <cbc:DescriptionCode>35</cbc:DescriptionCode>
     <cbc:StartDate>2017-10-05</cbc:StartDate>
     <cbc:EndDate>2017-10-15</cbc:EndDate>
+    <cbc:DescriptionCode>35</cbc:DescriptionCode>
   </cac:InvoicePeriod>
 </Invoice>
 XML;

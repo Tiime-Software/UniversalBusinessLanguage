@@ -12,9 +12,6 @@ class PostalAddressTest extends BaseXMLNodeTestWithHelpers
     protected const XML_VALID_FULL_CONTENT = <<<XML
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cac:PostalAddress>
-    <cac:Country>
-      <cbc:IdentificationCode>FR</cbc:IdentificationCode>
-    </cac:Country>
     <cbc:StreetName>1, rue du fournisseur</cbc:StreetName>
     <cbc:AdditionalStreetName>Cour du fournisseur</cbc:AdditionalStreetName>
     <cbc:CityName>Quimper</cbc:CityName>
@@ -23,6 +20,9 @@ class PostalAddressTest extends BaseXMLNodeTestWithHelpers
     <cac:AddressLine>
       <cbc:Line>BATIMENT DU FOURNISSEUR</cbc:Line>
     </cac:AddressLine>
+    <cac:Country>
+      <cbc:IdentificationCode>FR</cbc:IdentificationCode>
+    </cac:Country>
   </cac:PostalAddress>
 </Invoice>
 XML;

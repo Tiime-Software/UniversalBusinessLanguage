@@ -15,9 +15,6 @@ class DeliveryLocationTest extends BaseXMLNodeTestWithHelpers
   <cac:DeliveryLocation>
     <cbc:ID schemeID="0088">83745498753497</cbc:ID>
     <cac:Address>
-      <cac:Country>
-        <cbc:IdentificationCode>SE</cbc:IdentificationCode>
-      </cac:Country>
       <cbc:StreetName>Delivery Street 1</cbc:StreetName>
       <cbc:AdditionalStreetName>Delivery Street 2</cbc:AdditionalStreetName>
       <cbc:CityName>Malmö</cbc:CityName>
@@ -26,6 +23,9 @@ class DeliveryLocationTest extends BaseXMLNodeTestWithHelpers
       <cac:AddressLine>
         <cbc:Line>C54</cbc:Line>
       </cac:AddressLine>
+      <cac:Country>
+        <cbc:IdentificationCode>SE</cbc:IdentificationCode>
+      </cac:Country>
     </cac:Address>
   </cac:DeliveryLocation>
 </Invoice>

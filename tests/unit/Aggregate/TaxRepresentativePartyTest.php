@@ -17,9 +17,6 @@ class TaxRepresentativePartyTest extends BaseXMLNodeTestWithHelpers
       <cbc:Name>SELLER TAX REP</cbc:Name>
     </cac:PartyName>
     <cac:PostalAddress>
-      <cac:Country>
-        <cbc:IdentificationCode>FR</cbc:IdentificationCode>
-      </cac:Country>
       <cbc:StreetName>1, rue du représentant fiscal</cbc:StreetName>
       <cbc:AdditionalStreetName>Venelle du représentant fiscal</cbc:AdditionalStreetName>
       <cbc:CityName>PARIS</cbc:CityName>
@@ -28,6 +25,9 @@ class TaxRepresentativePartyTest extends BaseXMLNodeTestWithHelpers
       <cac:AddressLine>
         <cbc:Line>Ruelle du représentant fiscal</cbc:Line>
       </cac:AddressLine>
+      <cac:Country>
+        <cbc:IdentificationCode>FR</cbc:IdentificationCode>
+      </cac:Country>
     </cac:PostalAddress>
     <cac:PartyTaxScheme>
       <cbc:CompanyID>FR32400000006</cbc:CompanyID>
