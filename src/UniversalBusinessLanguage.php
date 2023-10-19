@@ -262,7 +262,6 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
         $this->invoiceTypeCode         = $invoiceTypeCode;
         $this->documentCurrencyCode    = $documentCurrencyCode;
         $this->customizationIdentifier = $customizationIdentifier;
-
         $this->profileIdentifier       = $profileIdentifier;
         $this->accountingSupplierParty = $accountingSupplierParty;
         $this->accountingCustomerParty = $accountingCustomerParty;

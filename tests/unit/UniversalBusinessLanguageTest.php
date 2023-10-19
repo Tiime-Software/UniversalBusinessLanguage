@@ -136,6 +136,6 @@ class UniversalBusinessLanguageTest extends BaseXMLNodeTestWithHelpers
         $ublObject       = UniversalBusinessLanguage::fromXML($this->document);
         $this->document  = $ublObject->toXML();
         $generatedOutput = $this->formatXMLOutput();
-        $this->assertEquals($this->xmlValidContent, $generatedOutput);
+        $this->assertStringEqualsStringIgnoringLineEndings($this->xmlValidContent, $generatedOutput);
     }
 }

@@ -89,6 +89,6 @@ XML;
         $rootDestination = $this->generateEmptyRootDocument();
         $rootDestination->appendChild($ublObject->toXML($this->document));
         $generatedOutput = $this->formatXMLOutput();
-        $this->assertEquals(self::XML_VALID_CONTENT, $generatedOutput);
+        $this->assertStringEqualsStringIgnoringLineEndings(self::XML_VALID_CONTENT, $generatedOutput);
     }
 }
