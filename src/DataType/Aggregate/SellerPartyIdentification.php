@@ -19,7 +19,7 @@ class SellerPartyIdentification
         $this->sellerIdentifier = $sellerIdentifier;
     }
 
-    public function getBuyerIdentifier(): SellerIdentifier
+    public function getSellerIdentifier(): SellerIdentifier
     {
         return $this->sellerIdentifier;
     }
