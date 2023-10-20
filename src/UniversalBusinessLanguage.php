@@ -135,6 +135,12 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
     private SpecificationIdentifier $customizationIdentifier;
 
     /**
+     * Pas de BT
+     * 0..1, n'apparait pas dans les specs ni Peppol mais dans la norme UBL 2.1 à 2.3.
+     */
+    private ?string $ublVersionIdentifier;
+
+    /**
      * BG-3.
      *
      * @var array<int, BillingReference>
@@ -284,6 +290,7 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
         $this->paymentTerms                 = null;
         $this->allowances                   = [];
         $this->charges                      = [];
+        $this->ublVersionIdentifier         = null;
     }
 
     public function getIdentifier(): InvoiceIdentifier
@@ -345,6 +352,18 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
     public function getCustomizationID(): SpecificationIdentifier
     {
         return $this->customizationIdentifier;
+    }
+
+    public function getUblVersionIdentifier(): ?string
+    {
+        return $this->ublVersionIdentifier;
+    }
+
+    public function setUblVersionIdentifier(string $ublVersionIdentifier): static
+    {
+        $this->ublVersionIdentifier = $ublVersionIdentifier;
+
+        return $this;
     }
 
     public function getBuyerReference(): ?string
@@ -501,7 +520,7 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
     /**
      * @return array|AdditionalDocumentReference[]
      */
-    public function getadditionalDocumentReferences(): array
+    public function getAdditionalDocumentReferences(): array
     {
         return $this->additionalDocumentReferences;
     }
@@ -687,7 +706,7 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
 
         $universalBusinessLanguage = $document->createElement(self::XML_NODE);
         $universalBusinessLanguage->setAttribute(
-            'xmlns',
+            'xmlns:ubl',
             'urn:oasis:names:specification:ubl:schema:xsd:Invoice-2'
         );
         $universalBusinessLanguage->setAttribute(
@@ -701,76 +720,77 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
 
         $root = $document->appendChild($universalBusinessLanguage);
 
-        $root->appendChild($document->createElement('cbc:UBLVersionID', '2.1'));
-        $root->appendChild($document->createElement('cbc:ID', $this->identifier->value));
-        $root->appendChild($this->issueDate->toXML($document));
-        $root->appendChild($document->createElement('cbc:InvoiceTypeCode', $this->invoiceTypeCode->value));
-        $root->appendChild($document->createElement('cbc:DocumentCurrencyCode', $this->documentCurrencyCode->value));
+        if (\is_string($this->ublVersionIdentifier)) {
+            $root->appendChild($document->createElement('cbc:UBLVersionID', $this->ublVersionIdentifier));
+        }
         $root->appendChild($document->createElement('cbc:CustomizationID', $this->customizationIdentifier->value));
         $root->appendChild($document->createElement('cbc:ProfileID', $this->profileIdentifier));
-        $root->appendChild($this->accountingSupplierParty->toXML($document));
-        $root->appendChild($this->accountingCustomerParty->toXML($document));
-        $root->appendChild($this->legalMonetaryTotal->toXML($document));
+        $root->appendChild($document->createElement('cbc:ID', $this->identifier->value));
+        $root->appendChild($this->issueDate->toXML($document));
 
-        if ($this->taxCurrencyCode instanceof CurrencyCode) {
-            $root->appendChild($document->createElement('cbc:TaxCurrencyCode', $this->taxCurrencyCode->value));
+        if ($this->dueDate instanceof DueDate) {
+            $root->appendChild($this->dueDate->toXML($document));
+        }
+        $root->appendChild($document->createElement('cbc:InvoiceTypeCode', $this->invoiceTypeCode->value));
+
+        if (\is_string($this->note)) {
+            $root->appendChild($document->createElement('cbc:Note', $this->note));
         }
 
         if ($this->taxPointDate instanceof TaxPointDate) {
             $root->appendChild($this->taxPointDate->toXML($document));
         }
+        $root->appendChild($document->createElement('cbc:DocumentCurrencyCode', $this->documentCurrencyCode->value));
 
-        if ($this->invoicePeriod instanceof InvoicePeriod) {
-            $root->appendChild($this->invoicePeriod->toXML($document));
-        }
-
-        if ($this->dueDate instanceof DueDate) {
-            $root->appendChild($this->dueDate->toXML($document));
-        }
-
-        if (\is_string($this->buyerReference)) {
-            $root->appendChild($document->createElement('cbc:BuyerReference', $this->buyerReference));
-        }
-
-        if ($this->projectReference instanceof ProjectReference) {
-            $root->appendChild($this->projectReference->toXML($document));
-        }
-
-        if ($this->contractDocumentReference instanceof ContractDocumentReference) {
-            $root->appendChild($this->contractDocumentReference->toXML($document));
-        }
-
-        if ($this->orderReference instanceof OrderReference) {
-            $root->appendChild($this->orderReference->toXML($document));
-        }
-
-        if ($this->receiptDocumentReference instanceof ReceiptDocumentReference) {
-            $root->appendChild($this->receiptDocumentReference->toXML($document));
-        }
-
-        if ($this->despatchDocumentReference instanceof DespatchDocumentReference) {
-            $root->appendChild($this->despatchDocumentReference->toXML($document));
-        }
-
-        if ($this->originatorDocumentReference instanceof OriginatorDocumentReference) {
-            $root->appendChild($this->originatorDocumentReference->toXML($document));
+        if ($this->taxCurrencyCode instanceof CurrencyCode) {
+            $root->appendChild($document->createElement('cbc:TaxCurrencyCode', $this->taxCurrencyCode->value));
         }
 
         if (\is_string($this->accountingCost)) {
             $root->appendChild($document->createElement('cbc:AccountingCost', $this->accountingCost));
         }
 
-        if (\is_string($this->note)) {
-            $root->appendChild($document->createElement('cbc:Note', $this->note));
+        if (\is_string($this->buyerReference)) {
+            $root->appendChild($document->createElement('cbc:BuyerReference', $this->buyerReference));
+        }
+
+        if ($this->invoicePeriod instanceof InvoicePeriod) {
+            $root->appendChild($this->invoicePeriod->toXML($document));
+        }
+
+        if ($this->orderReference instanceof OrderReference) {
+            $root->appendChild($this->orderReference->toXML($document));
         }
 
         foreach ($this->billingReferences as $billingReference) {
             $root->appendChild($billingReference->toXML($document));
         }
 
+        if ($this->despatchDocumentReference instanceof DespatchDocumentReference) {
+            $root->appendChild($this->despatchDocumentReference->toXML($document));
+        }
+
+        if ($this->receiptDocumentReference instanceof ReceiptDocumentReference) {
+            $root->appendChild($this->receiptDocumentReference->toXML($document));
+        }
+
+        if ($this->originatorDocumentReference instanceof OriginatorDocumentReference) {
+            $root->appendChild($this->originatorDocumentReference->toXML($document));
+        }
+
+        if ($this->contractDocumentReference instanceof ContractDocumentReference) {
+            $root->appendChild($this->contractDocumentReference->toXML($document));
+        }
+
         foreach ($this->additionalDocumentReferences as $additionalDocumentReference) {
             $root->appendChild($additionalDocumentReference->toXML($document));
         }
+
+        if ($this->projectReference instanceof ProjectReference) {
+            $root->appendChild($this->projectReference->toXML($document));
+        }
+        $root->appendChild($this->accountingSupplierParty->toXML($document));
+        $root->appendChild($this->accountingCustomerParty->toXML($document));
 
         if ($this->payeeParty instanceof PayeeParty) {
             $root->appendChild($this->payeeParty->toXML($document));
@@ -803,6 +823,7 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
         foreach ($this->taxTotals as $taxTotal) {
             $root->appendChild($taxTotal->toXML($document));
         }
+        $root->appendChild($this->legalMonetaryTotal->toXML($document));
 
         foreach ($this->invoiceLines as $invoiceLine) {
             $root->appendChild($invoiceLine->toXML($document));
@@ -814,6 +835,7 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
     public static function fromXML(\DOMDocument $document): self
     {
         $xpath = new \DOMXPath($document);
+        $xpath->registerNamespace('ubl', 'urn:oasis:names:specification:ubl:schema:xsd:Invoice-2');
 
         $universalBusinessLanguageElements = $xpath->query(sprintf('//%s', self::XML_NODE));
 
@@ -892,6 +914,7 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
         $delivery                     = Delivery::fromXML($xpath, $universalBusinessLanguageElement);
         $paymentMeans                 = PaymentMeans::fromXML($xpath, $universalBusinessLanguageElement);
         $paymentTerms                 = PaymentTerms::fromXML($xpath, $universalBusinessLanguageElement);
+        $ublVersionIdentifierElements = $xpath->query('./cbc:UBLVersionID', $universalBusinessLanguageElement);
 
         $allowanceChargeElements = $xpath->query('./cac:AllowanceCharge', $universalBusinessLanguageElement);
 
@@ -928,6 +951,10 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
         }
 
         if ($noteElements->count() > 1) {
+            throw new \Exception('Malformed');
+        }
+
+        if ($ublVersionIdentifierElements->count() > 1) {
             throw new \Exception('Malformed');
         }
 
@@ -1041,6 +1068,10 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
 
         if (\count($charges) > 0) {
             $universalBusinessLanguage->setCharges($charges);
+        }
+
+        if (1 === $ublVersionIdentifierElements->count()) {
+            $universalBusinessLanguage->setUblVersionIdentifier($ublVersionIdentifierElements->item(0)->nodeValue);
         }
 
         return $universalBusinessLanguage;

@@ -66,10 +66,6 @@ class SellerPartyLegalEntity
 
         $currentNode->appendChild($document->createElement('cbc:RegistrationName', $this->registrationName));
 
-        if (\is_string($this->companyLegalForm)) {
-            $currentNode->appendChild($document->createElement('cbc:CompanyLegalForm', $this->companyLegalForm));
-        }
-
         if ($this->companyIdentifier instanceof LegalRegistrationIdentifier) {
             $companyIdentifierElement = $document->createElement('cbc:CompanyID', $this->companyIdentifier->value);
 
@@ -78,6 +74,10 @@ class SellerPartyLegalEntity
             }
 
             $currentNode->appendChild($companyIdentifierElement);
+        }
+
+        if (\is_string($this->companyLegalForm)) {
+            $currentNode->appendChild($document->createElement('cbc:CompanyLegalForm', $this->companyLegalForm));
         }
 
         return $currentNode;

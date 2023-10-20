@@ -124,17 +124,17 @@ class BuyerParty
             $currentNode->appendChild($this->partyIdentification->toXML($document));
         }
 
-        $currentNode->appendChild($this->partyLegalEntity->toXML($document));
-
-        if ($this->partyTaxScheme instanceof BuyerPartyTaxScheme) {
-            $currentNode->appendChild($this->partyTaxScheme->toXML($document));
-        }
-
         if ($this->partyName instanceof PartyName) {
             $currentNode->appendChild($this->partyName->toXML($document));
         }
 
         $currentNode->appendChild($this->postalAddress->toXML($document));
+
+        if ($this->partyTaxScheme instanceof BuyerPartyTaxScheme) {
+            $currentNode->appendChild($this->partyTaxScheme->toXML($document));
+        }
+
+        $currentNode->appendChild($this->partyLegalEntity->toXML($document));
 
         if ($this->contact instanceof Contact) {
             $currentNode->appendChild($this->contact->toXML($document));

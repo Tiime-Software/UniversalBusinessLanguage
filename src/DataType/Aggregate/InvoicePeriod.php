@@ -75,16 +75,16 @@ class InvoicePeriod
     {
         $currentNode = $document->createElement(self::XML_NODE);
 
-        if ($this->descriptionCode instanceof DateCode2005) {
-            $currentNode->appendChild($document->createElement('cbc:DescriptionCode', $this->descriptionCode->value));
-        }
-
         if ($this->startDate instanceof StartDate) {
             $currentNode->appendChild($this->startDate->toXML($document));
         }
 
         if ($this->endDate instanceof EndDate) {
             $currentNode->appendChild($this->endDate->toXML($document));
+        }
+
+        if ($this->descriptionCode instanceof DateCode2005) {
+            $currentNode->appendChild($document->createElement('cbc:DescriptionCode', $this->descriptionCode->value));
         }
 
         return $currentNode;

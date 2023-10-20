@@ -136,8 +136,6 @@ class PostalAddress
     {
         $currentNode = $document->createElement(self::XML_NODE);
 
-        $currentNode->appendChild($this->country->toXML($document));
-
         if (\is_string($this->streetName)) {
             $currentNode->appendChild($document->createElement('cbc:StreetName', $this->streetName));
         }
@@ -161,6 +159,8 @@ class PostalAddress
         if ($this->addressLine instanceof AddressLine) {
             $currentNode->appendChild($this->addressLine->toXML($document));
         }
+
+        $currentNode->appendChild($this->country->toXML($document));
 
         return $currentNode;
     }
