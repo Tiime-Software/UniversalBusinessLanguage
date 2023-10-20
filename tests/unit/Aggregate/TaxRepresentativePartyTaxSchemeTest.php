@@ -3,7 +3,6 @@
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Aggregate;
 
 use Tiime\EN16931\DataType\Identifier\VatIdentifier;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\SubtotalTaxCategory;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\TaxRepresentativePartyTaxScheme;
 use Tiime\UniversalBusinessLanguage\DataType\Aggregate\TaxScheme;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
