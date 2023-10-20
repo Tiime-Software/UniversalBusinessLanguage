@@ -60,7 +60,12 @@ XML;
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cac:PostalAddress>
     <cbc:StreetName>1, rue du fournisseur</cbc:StreetName>
-    <cbc:StreetName>Cour du fournisseur</cbc:StreetName>
+    <cac:Country>
+      <cbc:IdentificationCode>FR</cbc:IdentificationCode>
+    </cac:Country>
+  </cac:PostalAddress>
+  <cac:PostalAddress>
+    <cbc:StreetName>1, rue du fournisseur</cbc:StreetName>
     <cac:Country>
       <cbc:IdentificationCode>FR</cbc:IdentificationCode>
     </cac:Country>

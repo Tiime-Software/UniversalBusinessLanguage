@@ -7,6 +7,7 @@ use Tiime\UniversalBusinessLanguage\DataType\Basic\AllowanceTotalAmount;
 use Tiime\UniversalBusinessLanguage\DataType\Basic\ChargeTotalAmount;
 use Tiime\UniversalBusinessLanguage\DataType\Basic\LineExtensionAmount;
 use Tiime\UniversalBusinessLanguage\DataType\Basic\PayableAmount;
+use Tiime\UniversalBusinessLanguage\DataType\Basic\PayableRoundingAmount;
 use Tiime\UniversalBusinessLanguage\DataType\Basic\PrepaidAmount;
 use Tiime\UniversalBusinessLanguage\DataType\Basic\TaxExclusiveAmount;
 use Tiime\UniversalBusinessLanguage\DataType\Basic\TaxInclusiveAmount;

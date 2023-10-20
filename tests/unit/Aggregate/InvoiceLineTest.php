@@ -44,6 +44,14 @@ class InvoiceLineTest extends BaseXMLNodeTestWithHelpers
       <cbc:Amount currencyID="EUR">200.00</cbc:Amount>
       <cbc:BaseAmount currencyID="EUR">1000.00</cbc:BaseAmount>
     </cac:AllowanceCharge>
+    <cac:AllowanceCharge>
+      <cbc:ChargeIndicator>true</cbc:ChargeIndicator>
+      <cbc:AllowanceChargeReasonCode>AA</cbc:AllowanceChargeReasonCode>
+      <cbc:AllowanceChargeReason>Google Ads</cbc:AllowanceChargeReason>
+      <cbc:MultiplierFactorNumeric>20.00</cbc:MultiplierFactorNumeric>
+      <cbc:Amount currencyID="EUR">200.00</cbc:Amount>
+      <cbc:BaseAmount currencyID="EUR">1000.00</cbc:BaseAmount>
+    </cac:AllowanceCharge>
     <cac:Item>
       <cbc:Description>Long description of the item on the invoice line</cbc:Description>
       <cbc:Name>Item name</cbc:Name>
@@ -199,7 +207,7 @@ XML;
             $this->assertInstanceOf(InvoiceLineAllowance::class, $allowance);
         }
         $this->assertIsArray($ublObject->getCharges());
-        $this->assertCount(0, $ublObject->getCharges());
+        $this->assertCount(1, $ublObject->getCharges());
 
         foreach ($ublObject->getCharges() as $charge) {
             $this->assertInstanceOf(InvoiceLineCharge::class, $charge);
