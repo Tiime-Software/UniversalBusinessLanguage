@@ -56,14 +56,14 @@ XML;
     {
         $this->expectException(\Exception::class);
         $currentElement = $this->loadXMLDocument(self::XML_INVALID_NO_LINE);
-        SubtotalTaxCategory::fromXML($this->xpath, $currentElement);
+        TaxRepresentativePartyTaxScheme::fromXML($this->xpath, $currentElement);
     }
 
     public function testCannotBeCreatedFromManyLines(): void
     {
         $this->expectException(\Exception::class);
         $currentElement = $this->loadXMLDocument(self::XML_INVALID_TOO_MANY_LINES);
-        SubtotalTaxCategory::fromXML($this->xpath, $currentElement);
+        TaxRepresentativePartyTaxScheme::fromXML($this->xpath, $currentElement);
     }
 
     public function testGenerateXml(): void

@@ -89,6 +89,7 @@ XML;
         $this->assertInstanceOf(ChargeTotalAmount::class, $ublObject->getChargeTotalAmount());
         $this->assertInstanceOf(AllowanceTotalAmount::class, $ublObject->getAllowanceTotalAmount());
         $this->assertInstanceOf(PayableAmount::class, $ublObject->getPayableAmount());
+        $this->assertInstanceOf(PayableRoundingAmount::class, $ublObject->getPayableRoundingAmount());
         $this->assertInstanceOf(PrepaidAmount::class, $ublObject->getPrepaidAmount());
         $this->assertInstanceOf(LineExtensionAmount::class, $ublObject->getLineExtensionAmount());
         $this->assertInstanceOf(TaxExclusiveAmount::class, $ublObject->getTaxExclusiveAmount());
