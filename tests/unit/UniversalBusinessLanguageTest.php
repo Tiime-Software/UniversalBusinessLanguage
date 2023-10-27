@@ -143,8 +143,8 @@ class UniversalBusinessLanguageTest extends BaseXMLNodeTestWithHelpers
     public function testXmlXsd(): void
     {
         $this->loadXMLDocument($this->xmlValidContent);
+        $xsdErrors = UniversalBusinessLanguageUtils::validateXSD($this->document);
 
-        $xsdResult = UniversalBusinessLanguageUtils::validateXSD($this->document);
-        $this->assertTrue($xsdResult);
+        $this->assertCount(0, $xsdErrors);
     }
 }
