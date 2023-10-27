@@ -31,6 +31,7 @@ use Tiime\UniversalBusinessLanguage\DataType\Basic\IssueDate;
 use Tiime\UniversalBusinessLanguage\DataType\Basic\TaxPointDate;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 use Tiime\UniversalBusinessLanguage\UniversalBusinessLanguage;
+use Tiime\UniversalBusinessLanguage\Utils\UniversalBusinessLanguageUtils;
 
 class UniversalBusinessLanguageTest extends BaseXMLNodeTestWithHelpers
 {
@@ -137,5 +138,13 @@ class UniversalBusinessLanguageTest extends BaseXMLNodeTestWithHelpers
         $this->document  = $ublObject->toXML();
         $generatedOutput = $this->formatXMLOutput();
         $this->assertStringEqualsStringIgnoringLineEndings($this->xmlValidContent, $generatedOutput);
+    }
+
+    public function testXmlXsd(): void
+    {
+        $this->loadXMLDocument($this->xmlValidContent);
+        $xsdErrors = UniversalBusinessLanguageUtils::validateXSD($this->document);
+
+        $this->assertCount(0, $xsdErrors);
     }
 }
