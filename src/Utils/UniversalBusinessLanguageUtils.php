@@ -16,7 +16,7 @@ class UniversalBusinessLanguageUtils
 
         if (!$xml->schemaValidate(self::XSD_PATH)) {
             $errors = libxml_get_errors();
-            libxml_use_internal_errors(false);
+            libxml_clear_errors();
 
             return $errors;
         }
