@@ -2,9 +2,9 @@
 
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Aggregate;
 
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\TaxSubtotal;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\TaxTotal;
-use Tiime\UniversalBusinessLanguage\DataType\Basic\TaxAmount;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\TaxSubtotal;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\TaxTotal;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Basic\TaxAmount;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
 class TaxTotalTest extends BaseXMLNodeTestWithHelpers

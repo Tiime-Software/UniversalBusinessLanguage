@@ -3,7 +3,7 @@
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Basic;
 
 use Tiime\EN16931\DataType\CurrencyCode;
-use Tiime\UniversalBusinessLanguage\DataType\Basic\BaseAmount;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Basic\BaseAmount;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
 class BaseAmountTest extends BaseXMLNodeTestWithHelpers

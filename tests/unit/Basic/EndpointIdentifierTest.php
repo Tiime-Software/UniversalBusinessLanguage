@@ -3,7 +3,7 @@
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Basic;
 
 use Tiime\EN16931\DataType\ElectronicAddressScheme;
-use Tiime\UniversalBusinessLanguage\DataType\Basic\EndpointIdentifier;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Basic\EndpointIdentifier;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
 class EndpointIdentifierTest extends BaseXMLNodeTestWithHelpers

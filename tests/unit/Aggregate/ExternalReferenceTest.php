@@ -2,7 +2,7 @@
 
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Aggregate;
 
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\ExternalReference;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\ExternalReference;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
 class ExternalReferenceTest extends BaseXMLNodeTestWithHelpers

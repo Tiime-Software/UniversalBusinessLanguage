@@ -3,7 +3,7 @@
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Basic;
 
 use Tiime\EN16931\DataType\CurrencyCode;
-use Tiime\UniversalBusinessLanguage\DataType\Basic\LineExtensionAmount;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Basic\LineExtensionAmount;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
 class LineExtensionAmountTest extends BaseXMLNodeTestWithHelpers

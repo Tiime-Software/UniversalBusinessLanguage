@@ -2,7 +2,7 @@
 
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Basic;
 
-use Tiime\UniversalBusinessLanguage\DataType\Basic\TaxPointDate;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Basic\TaxPointDate;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
 class TaxPointDateTest extends BaseXMLNodeTestWithHelpers

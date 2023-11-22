@@ -3,8 +3,8 @@
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Aggregate;
 
 use Tiime\EN16931\DataType\VatCategory;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\TaxCategory;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\TaxScheme;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\TaxCategory;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\TaxScheme;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
 class TaxCategoryTest extends BaseXMLNodeTestWithHelpers

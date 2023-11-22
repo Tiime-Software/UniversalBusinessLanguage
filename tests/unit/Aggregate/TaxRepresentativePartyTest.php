@@ -2,10 +2,10 @@
 
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Aggregate;
 
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\PostalAddress;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\TaxRepresentativeParty;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\TaxRepresentativePartyName;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\TaxRepresentativePartyTaxScheme;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\PostalAddress;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\TaxRepresentativeParty;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\TaxRepresentativePartyName;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\TaxRepresentativePartyTaxScheme;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
 class TaxRepresentativePartyTest extends BaseXMLNodeTestWithHelpers

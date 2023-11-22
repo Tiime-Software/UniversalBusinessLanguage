@@ -2,7 +2,7 @@
 
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Aggregate;
 
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\PaymentTerms;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\PaymentTerms;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
 class PaymentTermsTest extends BaseXMLNodeTestWithHelpers

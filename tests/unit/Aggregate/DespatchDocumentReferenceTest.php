@@ -2,7 +2,7 @@
 
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Aggregate;
 
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\DespatchDocumentReference;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\DespatchDocumentReference;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
 class DespatchDocumentReferenceTest extends BaseXMLNodeTestWithHelpers

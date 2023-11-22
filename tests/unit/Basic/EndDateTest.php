@@ -2,7 +2,7 @@
 
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Basic;
 
-use Tiime\UniversalBusinessLanguage\DataType\Basic\EndDate;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Basic\EndDate;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
 class EndDateTest extends BaseXMLNodeTestWithHelpers

@@ -3,16 +3,16 @@
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Aggregate;
 
 use Tiime\EN16931\DataType\Identifier\InvoiceLineIdentifier;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\DocumentReference;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\InvoiceLine;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\InvoiceLineAllowance;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\InvoiceLineCharge;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\InvoiceLineInvoicePeriod;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\Item;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\OrderLineReference;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\Price;
-use Tiime\UniversalBusinessLanguage\DataType\Basic\InvoicedQuantity;
-use Tiime\UniversalBusinessLanguage\DataType\Basic\LineExtensionAmount;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\DocumentReference;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\InvoiceLine;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\InvoiceLineAllowance;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\InvoiceLineCharge;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\InvoiceLineInvoicePeriod;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\Item;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\OrderLineReference;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\Price;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Basic\InvoicedQuantity;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Basic\LineExtensionAmount;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
 class InvoiceLineTest extends BaseXMLNodeTestWithHelpers

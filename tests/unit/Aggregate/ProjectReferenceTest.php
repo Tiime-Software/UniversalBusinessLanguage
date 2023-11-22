@@ -2,7 +2,7 @@
 
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Aggregate;
 
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\ProjectReference;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\ProjectReference;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
 class ProjectReferenceTest extends BaseXMLNodeTestWithHelpers

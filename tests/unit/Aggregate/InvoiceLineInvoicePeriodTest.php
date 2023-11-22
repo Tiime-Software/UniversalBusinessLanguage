@@ -2,9 +2,9 @@
 
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Aggregate;
 
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\InvoiceLineInvoicePeriod;
-use Tiime\UniversalBusinessLanguage\DataType\Basic\EndDate;
-use Tiime\UniversalBusinessLanguage\DataType\Basic\StartDate;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\InvoiceLineInvoicePeriod;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Basic\EndDate;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Basic\StartDate;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
 class InvoiceLineInvoicePeriodTest extends BaseXMLNodeTestWithHelpers

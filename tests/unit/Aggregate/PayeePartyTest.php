@@ -2,10 +2,10 @@
 
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Aggregate;
 
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\PayeeParty;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\PayeePartyBACIdentification;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\PayeePartyLegalEntity;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\PayeePartyName;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\PayeeParty;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\PayeePartyBACIdentification;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\PayeePartyLegalEntity;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\PayeePartyName;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
 class PayeePartyTest extends BaseXMLNodeTestWithHelpers

@@ -2,14 +2,14 @@
 
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Aggregate;
 
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\AdditionalItemProperty;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\BuyersItemIdentification;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\ClassifiedTaxCategory;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\CommodityClassification;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\Item;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\OriginCountry;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\SellersItemIdentification;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\StandardItemIdentification;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\AdditionalItemProperty;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\BuyersItemIdentification;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\ClassifiedTaxCategory;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\CommodityClassification;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\Item;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\OriginCountry;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\SellersItemIdentification;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\StandardItemIdentification;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
 class ItemTest extends BaseXMLNodeTestWithHelpers

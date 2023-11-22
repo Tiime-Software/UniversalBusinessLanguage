@@ -3,7 +3,7 @@
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Aggregate;
 
 use Tiime\EN16931\DataType\Identifier\PaymentServiceProviderIdentifier;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\FinancialInstitutionBranch;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\FinancialInstitutionBranch;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
 class FinancialInstitutionBranchTest extends BaseXMLNodeTestWithHelpers

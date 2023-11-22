@@ -3,8 +3,8 @@
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Aggregate;
 
 use Tiime\EN16931\DataType\Identifier\MandateReferenceIdentifier;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\PayerFinancialAccount;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\PaymentMandate;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\PayerFinancialAccount;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\PaymentMandate;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
 class PaymentMandateTest extends BaseXMLNodeTestWithHelpers

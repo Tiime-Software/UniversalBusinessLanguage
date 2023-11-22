@@ -2,15 +2,15 @@
 
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Aggregate;
 
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\LegalMonetaryTotal;
-use Tiime\UniversalBusinessLanguage\DataType\Basic\AllowanceTotalAmount;
-use Tiime\UniversalBusinessLanguage\DataType\Basic\ChargeTotalAmount;
-use Tiime\UniversalBusinessLanguage\DataType\Basic\LineExtensionAmount;
-use Tiime\UniversalBusinessLanguage\DataType\Basic\PayableAmount;
-use Tiime\UniversalBusinessLanguage\DataType\Basic\PayableRoundingAmount;
-use Tiime\UniversalBusinessLanguage\DataType\Basic\PrepaidAmount;
-use Tiime\UniversalBusinessLanguage\DataType\Basic\TaxExclusiveAmount;
-use Tiime\UniversalBusinessLanguage\DataType\Basic\TaxInclusiveAmount;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\LegalMonetaryTotal;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Basic\AllowanceTotalAmount;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Basic\ChargeTotalAmount;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Basic\LineExtensionAmount;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Basic\PayableAmount;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Basic\PayableRoundingAmount;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Basic\PrepaidAmount;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Basic\TaxExclusiveAmount;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Basic\TaxInclusiveAmount;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
 class LegalMonetaryTotalTest extends BaseXMLNodeTestWithHelpers

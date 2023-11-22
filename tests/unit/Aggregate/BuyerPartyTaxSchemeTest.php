@@ -3,8 +3,8 @@
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Aggregate;
 
 use Tiime\EN16931\DataType\Identifier\VatIdentifier;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\BuyerPartyTaxScheme;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\TaxScheme;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\BuyerPartyTaxScheme;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\TaxScheme;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
 class BuyerPartyTaxSchemeTest extends BaseXMLNodeTestWithHelpers

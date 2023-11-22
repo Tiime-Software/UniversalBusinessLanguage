@@ -3,9 +3,9 @@
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Aggregate;
 
 use Tiime\EN16931\DataType\DateCode2005;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\InvoicePeriod;
-use Tiime\UniversalBusinessLanguage\DataType\Basic\EndDate;
-use Tiime\UniversalBusinessLanguage\DataType\Basic\StartDate;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\InvoicePeriod;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Basic\EndDate;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Basic\StartDate;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
 class InvoicePeriodTest extends BaseXMLNodeTestWithHelpers

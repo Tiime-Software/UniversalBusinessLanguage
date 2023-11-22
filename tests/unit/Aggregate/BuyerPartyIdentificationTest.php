@@ -1,6 +1,6 @@
 <?php
 
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\BuyerPartyIdentification;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\BuyerPartyIdentification;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
 class BuyerPartyIdentificationTest extends BaseXMLNodeTestWithHelpers

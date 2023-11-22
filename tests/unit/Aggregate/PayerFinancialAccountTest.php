@@ -3,7 +3,7 @@
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Aggregate;
 
 use Tiime\EN16931\DataType\Identifier\DebitedAccountIdentifier;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\PayerFinancialAccount;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\PayerFinancialAccount;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
 class PayerFinancialAccountTest extends BaseXMLNodeTestWithHelpers

@@ -4,8 +4,8 @@ namespace Tiime\UniversalBusinessLanguage\Tests\unit\Aggregate;
 
 use Tiime\EN16931\DataType\Identifier\ObjectIdentifier;
 use Tiime\EN16931\DataType\ObjectSchemeCode;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\AdditionalDocumentReference;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\Attachment;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\AdditionalDocumentReference;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\Attachment;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
 class AdditionalDocumentReferenceTest extends BaseXMLNodeTestWithHelpers

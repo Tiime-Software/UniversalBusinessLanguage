@@ -1,6 +1,6 @@
 <?php
 
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\AdditionalItemProperty;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\AdditionalItemProperty;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
 class AdditionnalItemPropertyTest extends BaseXMLNodeTestWithHelpers

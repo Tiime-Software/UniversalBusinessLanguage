@@ -2,7 +2,7 @@
 
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Basic;
 
-use Tiime\UniversalBusinessLanguage\DataType\Basic\StartDate;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Basic\StartDate;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
 class StartDateTest extends BaseXMLNodeTestWithHelpers

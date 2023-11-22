@@ -2,7 +2,7 @@
 
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Aggregate;
 
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\ReceiptDocumentReference;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\ReceiptDocumentReference;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
 class ReceiptDocumentReferenceTest extends BaseXMLNodeTestWithHelpers

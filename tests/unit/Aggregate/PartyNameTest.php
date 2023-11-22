@@ -2,7 +2,7 @@
 
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Aggregate;
 
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\PartyName;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\PartyName;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
 class PartyNameTest extends BaseXMLNodeTestWithHelpers

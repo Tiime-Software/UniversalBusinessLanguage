@@ -2,7 +2,7 @@
 
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Aggregate;
 
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\PayeePartyIdentification;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\PayeePartyIdentification;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
 class PayeePartyIdentificationTest extends BaseXMLNodeTestWithHelpers

@@ -2,7 +2,7 @@
 
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Basic;
 
-use Tiime\UniversalBusinessLanguage\DataType\Basic\ActualDeliveryDate;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Basic\ActualDeliveryDate;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
 class ActualDeliveryDateTest extends BaseXMLNodeTestWithHelpers

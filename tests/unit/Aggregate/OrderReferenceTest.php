@@ -4,7 +4,7 @@ namespace Tiime\UniversalBusinessLanguage\Tests\unit\Aggregate;
 
 use Tiime\EN16931\DataType\Reference\PurchaseOrderReference;
 use Tiime\EN16931\DataType\Reference\SalesOrderReference;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\OrderReference;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\OrderReference;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
 class OrderReferenceTest extends BaseXMLNodeTestWithHelpers

@@ -2,11 +2,11 @@
 
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Aggregate;
 
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\CardAccount;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\PayeeFinancialAccount;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\PaymentMandate;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\PaymentMeans;
-use Tiime\UniversalBusinessLanguage\DataType\Basic\PaymentMeansNamedCode;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\CardAccount;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\PayeeFinancialAccount;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\PaymentMandate;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\PaymentMeans;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Basic\PaymentMeansNamedCode;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
 class PaymentMeansTest extends BaseXMLNodeTestWithHelpers

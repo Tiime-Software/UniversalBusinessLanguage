@@ -1,10 +1,10 @@
 <?php
 
 use Tiime\EN16931\DataType\ChargeReasonCode;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\Charge;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\TaxCategory;
-use Tiime\UniversalBusinessLanguage\DataType\Basic\AllowanceChargeAmount;
-use Tiime\UniversalBusinessLanguage\DataType\Basic\BaseAmount;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\Charge;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\TaxCategory;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Basic\AllowanceChargeAmount;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Basic\BaseAmount;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
 class ChargeTest extends BaseXMLNodeTestWithHelpers

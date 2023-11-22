@@ -3,8 +3,8 @@
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Aggregate;
 
 use Tiime\EN16931\DataType\Reference\PrecedingInvoiceReference;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\InvoiceDocumentReference;
-use Tiime\UniversalBusinessLanguage\DataType\Basic\InvoiceDocumentReferenceIssueDate;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\InvoiceDocumentReference;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Basic\InvoiceDocumentReferenceIssueDate;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
 class InvoiceDocumentReferenceTest extends BaseXMLNodeTestWithHelpers

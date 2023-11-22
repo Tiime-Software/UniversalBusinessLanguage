@@ -3,7 +3,7 @@
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Aggregate;
 
 use Tiime\EN16931\DataType\Identifier\LegalRegistrationIdentifier;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\PayeePartyLegalEntity;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\PayeePartyLegalEntity;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
 class PayeePartyLegalEntityTest extends BaseXMLNodeTestWithHelpers

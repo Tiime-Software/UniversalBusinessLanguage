@@ -2,7 +2,7 @@
 
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Basic;
 
-use Tiime\UniversalBusinessLanguage\DataType\Basic\DueDate;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Basic\DueDate;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
 class DueDateTest extends BaseXMLNodeTestWithHelpers

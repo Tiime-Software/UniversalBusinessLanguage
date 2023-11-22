@@ -2,9 +2,9 @@
 
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Aggregate;
 
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\PriceAllowanceCharge;
-use Tiime\UniversalBusinessLanguage\DataType\Basic\AllowanceChargeAmount;
-use Tiime\UniversalBusinessLanguage\DataType\Basic\BaseAmount;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\PriceAllowanceCharge;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Basic\AllowanceChargeAmount;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Basic\BaseAmount;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
 class PriceAllowanceChargeTest extends BaseXMLNodeTestWithHelpers

@@ -2,8 +2,8 @@
 
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Aggregate;
 
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\BillingReference;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\InvoiceDocumentReference;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\BillingReference;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\InvoiceDocumentReference;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
 class BillingReferenceTest extends BaseXMLNodeTestWithHelpers

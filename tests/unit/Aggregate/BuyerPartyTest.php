@@ -2,14 +2,14 @@
 
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Aggregate;
 
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\BuyerParty;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\BuyerPartyIdentification;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\BuyerPartyLegalEntity;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\BuyerPartyTaxScheme;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\Contact;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\PartyName;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\PostalAddress;
-use Tiime\UniversalBusinessLanguage\DataType\Basic\EndpointIdentifier;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\BuyerParty;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\BuyerPartyIdentification;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\BuyerPartyLegalEntity;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\BuyerPartyTaxScheme;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\Contact;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\PartyName;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\PostalAddress;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Basic\EndpointIdentifier;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
 class BuyerPartyTest extends BaseXMLNodeTestWithHelpers

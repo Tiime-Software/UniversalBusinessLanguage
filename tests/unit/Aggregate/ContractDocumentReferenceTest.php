@@ -2,7 +2,7 @@
 
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Aggregate;
 
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\ContractDocumentReference;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\ContractDocumentReference;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
 class ContractDocumentReferenceTest extends BaseXMLNodeTestWithHelpers

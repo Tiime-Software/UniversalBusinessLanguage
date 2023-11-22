@@ -1,7 +1,7 @@
 <?php
 
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\AccountingSupplierParty;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\SellerParty;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\AccountingSupplierParty;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\SellerParty;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
 class AccountingSupplierPartyTest extends BaseXMLNodeTestWithHelpers

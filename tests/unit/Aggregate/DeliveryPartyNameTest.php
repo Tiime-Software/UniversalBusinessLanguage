@@ -2,7 +2,7 @@
 
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Aggregate;
 
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\DeliveryPartyName;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\DeliveryPartyName;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
 class DeliveryPartyNameTest extends BaseXMLNodeTestWithHelpers

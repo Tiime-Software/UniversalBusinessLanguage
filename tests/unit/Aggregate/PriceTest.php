@@ -2,10 +2,10 @@
 
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Aggregate;
 
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\Price;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\PriceAllowanceCharge;
-use Tiime\UniversalBusinessLanguage\DataType\Basic\BaseQuantity;
-use Tiime\UniversalBusinessLanguage\DataType\Basic\PriceAmount;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\Price;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\PriceAllowanceCharge;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Basic\BaseQuantity;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Basic\PriceAmount;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
 class PriceTest extends BaseXMLNodeTestWithHelpers

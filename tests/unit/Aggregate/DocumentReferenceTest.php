@@ -2,7 +2,7 @@
 
 use Tiime\EN16931\DataType\Identifier\ObjectIdentifier;
 use Tiime\EN16931\DataType\ObjectSchemeCode;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\DocumentReference;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\DocumentReference;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
 class DocumentReferenceTest extends BaseXMLNodeTestWithHelpers

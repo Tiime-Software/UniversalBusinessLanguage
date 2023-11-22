@@ -2,7 +2,7 @@
 
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Aggregate;
 
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\TaxScheme;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\TaxScheme;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
 class TaxSchemeTest extends BaseXMLNodeTestWithHelpers

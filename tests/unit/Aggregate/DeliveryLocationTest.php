@@ -4,8 +4,8 @@ namespace Tiime\UniversalBusinessLanguage\Tests\unit\Aggregate;
 
 use Tiime\EN16931\DataType\Identifier\LocationIdentifier;
 use Tiime\EN16931\DataType\InternationalCodeDesignator;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\DeliveryAddress;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\DeliveryLocation;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\DeliveryAddress;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\DeliveryLocation;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
 class DeliveryLocationTest extends BaseXMLNodeTestWithHelpers

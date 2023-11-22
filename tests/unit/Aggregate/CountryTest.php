@@ -3,7 +3,7 @@
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Aggregate;
 
 use Tiime\EN16931\DataType\CountryAlpha2Code;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\Country;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\Country;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
 class CountryTest extends BaseXMLNodeTestWithHelpers

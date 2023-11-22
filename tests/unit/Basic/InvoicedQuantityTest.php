@@ -3,7 +3,7 @@
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Basic;
 
 use Tiime\EN16931\DataType\UnitOfMeasurement;
-use Tiime\UniversalBusinessLanguage\DataType\Basic\InvoicedQuantity;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Basic\InvoicedQuantity;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
 class InvoicedQuantityTest extends BaseXMLNodeTestWithHelpers

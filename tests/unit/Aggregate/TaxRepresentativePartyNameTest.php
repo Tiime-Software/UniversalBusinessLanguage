@@ -2,7 +2,7 @@
 
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Aggregate;
 
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\TaxRepresentativePartyName;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\TaxRepresentativePartyName;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
 class TaxRepresentativePartyNameTest extends BaseXMLNodeTestWithHelpers

@@ -3,7 +3,7 @@
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Aggregate;
 
 use Tiime\EN16931\DataType\ItemTypeCode;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\CommodityClassification;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\CommodityClassification;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
 class CommodityClassificationTest extends BaseXMLNodeTestWithHelpers

@@ -2,10 +2,10 @@
 
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Aggregate;
 
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\Delivery;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\DeliveryLocation;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\DeliveryParty;
-use Tiime\UniversalBusinessLanguage\DataType\Basic\ActualDeliveryDate;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\Delivery;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\DeliveryLocation;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\DeliveryParty;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Basic\ActualDeliveryDate;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
 class DeliveryTest extends BaseXMLNodeTestWithHelpers

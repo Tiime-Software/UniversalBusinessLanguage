@@ -2,7 +2,7 @@
 
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Aggregate;
 
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\OriginatorDocumentReference;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\OriginatorDocumentReference;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
 class OriginatorDocumentReferenceTest extends BaseXMLNodeTestWithHelpers

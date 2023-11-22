@@ -3,7 +3,7 @@
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Aggregate;
 
 use Tiime\EN16931\DataType\Identifier\StandardItemIdentifier;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\StandardItemIdentification;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\StandardItemIdentification;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
 class StandardItemIdentificationTest extends BaseXMLNodeTestWithHelpers

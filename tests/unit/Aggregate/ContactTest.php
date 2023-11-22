@@ -2,7 +2,7 @@
 
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Aggregate;
 
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\Contact;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\Contact;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
 class ContactTest extends BaseXMLNodeTestWithHelpers

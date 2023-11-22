@@ -2,7 +2,7 @@
 
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Aggregate;
 
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\CardAccount;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\CardAccount;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
 class CardAccountTest extends BaseXMLNodeTestWithHelpers

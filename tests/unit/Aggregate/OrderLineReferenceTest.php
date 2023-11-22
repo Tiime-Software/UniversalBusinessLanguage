@@ -1,8 +1,8 @@
 <?php
 
 use Tiime\EN16931\DataType\Reference\PurchaseOrderLineReference;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\InvoiceLine;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\OrderLineReference;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\InvoiceLine;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\OrderLineReference;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
 class OrderLineReferenceTest extends BaseXMLNodeTestWithHelpers

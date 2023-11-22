@@ -2,9 +2,9 @@
 
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Aggregate;
 
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\AddressLine;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\Country;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\PostalAddress;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\AddressLine;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\Country;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\PostalAddress;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
 class PostalAddressTest extends BaseXMLNodeTestWithHelpers

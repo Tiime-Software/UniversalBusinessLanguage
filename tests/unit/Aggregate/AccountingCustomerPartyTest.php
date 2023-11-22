@@ -1,7 +1,7 @@
 <?php
 
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\AccountingCustomerParty;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\BuyerParty;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\AccountingCustomerParty;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\BuyerParty;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
 class AccountingCustomerPartyTest extends BaseXMLNodeTestWithHelpers

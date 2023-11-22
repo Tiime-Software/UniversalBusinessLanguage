@@ -4,8 +4,8 @@ namespace Tiime\UniversalBusinessLanguage\Tests\unit\Aggregate;
 
 use Tiime\EN16931\DataType\BinaryObject;
 use Tiime\EN16931\DataType\MimeCode;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\Attachment;
-use Tiime\UniversalBusinessLanguage\DataType\Aggregate\ExternalReference;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\Attachment;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\ExternalReference;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
 class AttachmentTest extends BaseXMLNodeTestWithHelpers
