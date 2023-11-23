@@ -116,7 +116,7 @@ XML;
     {
         $currentElement  = $this->loadXMLDocument(self::XML_VALID_FULL_CONTENT);
         $ublObjects      = AdditionalDocumentReference::fromXML($this->xpath, $currentElement);
-        $rootDestination = $this->generateEmptyRootDocument();
+        $rootDestination = $this->generateEmptyInvoiceRootDocument();
 
         foreach ($ublObjects as $ublObject) {
             $rootDestination->appendChild($ublObject->toXML($this->document));

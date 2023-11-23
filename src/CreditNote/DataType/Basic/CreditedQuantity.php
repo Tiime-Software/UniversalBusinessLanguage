@@ -7,9 +7,9 @@ namespace Tiime\UniversalBusinessLanguage\CreditNote\DataType\Basic;
 use Tiime\EN16931\DataType\UnitOfMeasurement;
 use Tiime\EN16931\SemanticDataType\Quantity;
 
-class InvoicedQuantity
+class CreditedQuantity
 {
-    protected const XML_NODE = 'cbc:InvoicedQuantity';
+    protected const XML_NODE = 'cbc:CreditedQuantity';
 
     /**
      * BT-129.

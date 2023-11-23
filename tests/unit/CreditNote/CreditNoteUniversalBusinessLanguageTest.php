@@ -14,7 +14,7 @@ use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate\BillingReferen
 use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate\ContractDocumentReference;
 use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate\Delivery;
 use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate\DespatchDocumentReference;
-use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate\InvoiceLine;
+use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate\CreditNoteLine;
 use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate\InvoicePeriod;
 use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate\LegalMonetaryTotal;
 use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate\OrderReference;
@@ -26,9 +26,10 @@ use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate\ProjectReferen
 use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate\ReceiptDocumentReference;
 use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate\TaxRepresentativeParty;
 use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate\TaxTotal;
-use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Basic\DueDate;
+use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Basic\PaymentDueDate;
 use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Basic\IssueDate;
 use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Basic\TaxPointDate;
+use Tiime\UniversalBusinessLanguage\CreditNote\DataType\CreditNoteTypeCode;
 use Tiime\UniversalBusinessLanguage\CreditNote\UniversalBusinessLanguage;
 use Tiime\UniversalBusinessLanguage\CreditNote\Utils\UniversalBusinessLanguageUtils;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
@@ -41,7 +42,7 @@ class CreditNoteUniversalBusinessLanguageTest extends BaseXMLNodeTestWithHelpers
     protected function setUp(): void
     {
         parent::setUp();
-        $this->xmlValidContent = file_get_contents(__DIR__ . '/../../sample/ubl_fullcontent.xml');
+        $this->xmlValidContent = file_get_contents(__DIR__ . '/../../sample/ubl_creditnote_fullcontent.xml');
 
         if ('' === $this->xmlValidContent) {
             $this->fail('cant load valid full sample');
@@ -64,8 +65,7 @@ class CreditNoteUniversalBusinessLanguageTest extends BaseXMLNodeTestWithHelpers
         $this->assertEquals('urn:fdc:peppol.eu:2017:poacc:billing:01:1.0', $ublObject->getProfileIdentifier());
         $this->assertInstanceOf(InvoiceIdentifier::class, $ublObject->getIdentifier());
         $this->assertInstanceOf(IssueDate::class, $ublObject->getIssueDate());
-        $this->assertInstanceOf(DueDate::class, $ublObject->getDueDate());
-        $this->assertInstanceOf(InvoiceTypeCode::class, $ublObject->getInvoiceTypeCode());
+        $this->assertInstanceOf(CreditNoteTypeCode::class, $ublObject->getCreditNoteTypeCode());
         $this->assertEquals('Please note our new phone number 33 44 55 66', $ublObject->getNote());
         $this->assertInstanceOf(TaxPointDate::class, $ublObject->getTaxPointDate());
         $this->assertInstanceOf(CurrencyCode::class, $ublObject->getDocumentCurrencyCode());
@@ -90,7 +90,6 @@ class CreditNoteUniversalBusinessLanguageTest extends BaseXMLNodeTestWithHelpers
         foreach ($ublObject->getAdditionalDocumentReferences() as $additionalDocumentReference) {
             $this->assertInstanceOf(AdditionalDocumentReference::class, $additionalDocumentReference);
         }
-        $this->assertInstanceOf(ProjectReference::class, $ublObject->getProjectReference());
         $this->assertInstanceOf(AccountingSupplierParty::class, $ublObject->getAccountingSupplierParty());
         $this->assertInstanceOf(AccountingCustomerParty::class, $ublObject->getAccountingCustomerParty());
         $this->assertInstanceOf(PayeeParty::class, $ublObject->getPayeeParty());
@@ -116,19 +115,12 @@ class CreditNoteUniversalBusinessLanguageTest extends BaseXMLNodeTestWithHelpers
             $this->assertInstanceOf(TaxTotal::class, $taxTotal);
         }
         $this->assertInstanceOf(LegalMonetaryTotal::class, $ublObject->getLegalMonetaryTotal());
-        $this->assertIsArray($ublObject->getInvoiceLines());
-        $this->assertCount(1, $ublObject->getInvoiceLines());
+        $this->assertIsArray($ublObject->getCreditNoteLines());
+        $this->assertCount(1, $ublObject->getCreditNoteLines());
 
-        foreach ($ublObject->getInvoiceLines() as $invoiceLine) {
-            $this->assertInstanceOf(InvoiceLine::class, $invoiceLine);
+        foreach ($ublObject->getCreditNoteLines() as $invoiceLine) {
+            $this->assertInstanceOf(CreditNoteLine::class, $invoiceLine);
         }
-    }
-
-    public function testCanBeCreatedFromNoDefaultNamespace(): void
-    {
-        $this->loadXMLDocument($this->xmlValidNoDefaultNamespace);
-        $ublObject = UniversalBusinessLanguage::fromXML($this->document);
-        $this->assertInstanceOf(UniversalBusinessLanguage::class, $ublObject);
     }
 
     public function testGenerateXml(): void

@@ -8,33 +8,33 @@ use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 class CreditNoteActualDeliveryDateTest extends BaseXMLNodeTestWithHelpers
 {
     protected const XML_VALID_FULL_CONTENT = <<<XML
-<Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
+<CreditNote xmlns="urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cbc:ActualDeliveryDate>2023-01-02</cbc:ActualDeliveryDate>
-</Invoice>
+</CreditNote>
 XML;
 
     protected const XML_VALID_MINIMAL_CONTENT = <<<XML
-<Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
-</Invoice>
+<CreditNote xmlns="urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
+</CreditNote>
 XML;
 
     protected const XML_INVALID_WRONG_DATE = <<<XML
-<Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
+<CreditNote xmlns="urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cbc:ActualDeliveryDate>201</cbc:ActualDeliveryDate>
-</Invoice>
+</CreditNote>
 XML;
 
     protected const XML_INVALID_NO_CONTENT = <<<XML
-<Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
+<CreditNote xmlns="urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cbc:ActualDeliveryDate></cbc:ActualDeliveryDate>
-</Invoice>
+</CreditNote>
 XML;
 
     protected const XML_INVALID_MANY_LINES = <<<XML
-<Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
+<CreditNote xmlns="urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cbc:ActualDeliveryDate>2023-01-02</cbc:ActualDeliveryDate>
   <cbc:ActualDeliveryDate>2023-01-03</cbc:ActualDeliveryDate>
-</Invoice>
+</CreditNote>
 XML;
 
     public function testCanBeCreatedFromFullContent(): void
@@ -77,7 +77,7 @@ XML;
     {
         $currentElement  = $this->loadXMLDocument(self::XML_VALID_FULL_CONTENT);
         $ublObject       = ActualDeliveryDate::fromXML($this->xpath, $currentElement);
-        $rootDestination = $this->generateEmptyRootDocument();
+        $rootDestination = $this->generateEmptyCreditNoteRootDocument();
         $rootDestination->appendChild($ublObject->toXML($this->document));
         $generatedOutput = $this->formatXMLOutput();
         $this->assertStringEqualsStringIgnoringLineEndings(self::XML_VALID_FULL_CONTENT, $generatedOutput);

@@ -7,7 +7,6 @@ namespace Tiime\UniversalBusinessLanguage\CreditNote;
 use Tiime\EN16931\DataType\CurrencyCode;
 use Tiime\EN16931\DataType\Identifier\InvoiceIdentifier;
 use Tiime\EN16931\DataType\Identifier\SpecificationIdentifier;
-use Tiime\EN16931\DataType\InvoiceTypeCode;
 use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate\AccountingCustomerParty;
 use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate\AccountingSupplierParty;
 use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate\AdditionalDocumentReference;
@@ -15,9 +14,9 @@ use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate\Allowance;
 use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate\BillingReference;
 use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate\Charge;
 use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate\ContractDocumentReference;
+use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate\CreditNoteLine;
 use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate\Delivery;
 use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate\DespatchDocumentReference;
-use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate\InvoiceLine;
 use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate\InvoicePeriod;
 use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate\LegalMonetaryTotal;
 use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate\OrderReference;
@@ -25,17 +24,17 @@ use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate\OriginatorDocu
 use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate\PayeeParty;
 use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate\PaymentMeans;
 use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate\PaymentTerms;
-use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate\ProjectReference;
 use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate\ReceiptDocumentReference;
 use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate\TaxRepresentativeParty;
 use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate\TaxTotal;
-use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Basic\DueDate;
 use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Basic\IssueDate;
+use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Basic\PaymentDueDate;
 use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Basic\TaxPointDate;
+use Tiime\UniversalBusinessLanguage\CreditNote\DataType\CreditNoteTypeCode;
 
 class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
 {
-    private const XML_NODE = 'ubl:Invoice';
+    private const XML_NODE = 'ubl:CreditNote';
 
     /**
      * BT-1.
@@ -50,7 +49,7 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
     /**
      * BT-3.
      */
-    private InvoiceTypeCode $invoiceTypeCode;
+    private CreditNoteTypeCode $creditNoteTypeCode;
 
     /**
      * BT-5.
@@ -75,17 +74,12 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
     /**
      * BT-9-00.
      */
-    private ?DueDate $dueDate;
+    private ?PaymentDueDate $dueDate;
 
     /**
      * BT-10.
      */
     private ?string $buyerReference;
-
-    /**
-     * BT-11-00.
-     */
-    private ?ProjectReference $projectReference;
 
     /**
      * BT-12-00.
@@ -216,17 +210,17 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
     /**
      * BG-25.
      *
-     * @var InvoiceLine
+     * @var CreditNoteLine
      */
-    private array $invoiceLines;
+    private array $creditNoteLines;
 
     /**
-     * @param InvoiceLine $invoiceLines
+     * @param CreditNoteLine $invoiceLines
      */
     public function __construct(
         InvoiceIdentifier $identifier,
         IssueDate $issueDate,
-        InvoiceTypeCode $invoiceTypeCode,
+        CreditNoteTypeCode $creditNoteTypeCode,
         CurrencyCode $documentCurrencyCode,
         SpecificationIdentifier $customizationIdentifier,
         string $profileIdentifier,
@@ -251,15 +245,15 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
         }
 
         foreach ($invoiceLines as $invoiceLine) {
-            if (!$invoiceLine instanceof InvoiceLine) {
+            if (!$invoiceLine instanceof CreditNoteLine) {
                 throw new \TypeError();
             }
         }
 
-        $this->invoiceLines            = $invoiceLines;
+        $this->creditNoteLines         = $invoiceLines;
         $this->identifier              = $identifier;
         $this->issueDate               = $issueDate;
-        $this->invoiceTypeCode         = $invoiceTypeCode;
+        $this->creditNoteTypeCode      = $creditNoteTypeCode;
         $this->documentCurrencyCode    = $documentCurrencyCode;
         $this->customizationIdentifier = $customizationIdentifier;
         $this->profileIdentifier       = $profileIdentifier;
@@ -273,7 +267,6 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
         $this->invoicePeriod                = null;
         $this->dueDate                      = null;
         $this->buyerReference               = null;
-        $this->projectReference             = null;
         $this->contractDocumentReference    = null;
         $this->orderReference               = null;
         $this->receiptDocumentReference     = null;
@@ -303,9 +296,9 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
         return $this->issueDate;
     }
 
-    public function getInvoiceTypeCode(): InvoiceTypeCode
+    public function getCreditNoteTypeCode(): CreditNoteTypeCode
     {
-        return $this->invoiceTypeCode;
+        return $this->creditNoteTypeCode;
     }
 
     public function getDocumentCurrencyCode(): CurrencyCode
@@ -337,12 +330,12 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
         return $this;
     }
 
-    public function getDueDate(): ?DueDate
+    public function getDueDate(): ?PaymentDueDate
     {
         return $this->dueDate;
     }
 
-    public function setDueDate(?DueDate $dueDate): static
+    public function setDueDate(?PaymentDueDate $dueDate): static
     {
         $this->dueDate = $dueDate;
 
@@ -374,18 +367,6 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
     public function setBuyerReference(?string $buyerReference): static
     {
         $this->buyerReference = $buyerReference;
-
-        return $this;
-    }
-
-    public function getProjectReference(): ?ProjectReference
-    {
-        return $this->projectReference;
-    }
-
-    public function setProjectReference(?ProjectReference $projectReference): static
-    {
-        $this->projectReference = $projectReference;
 
         return $this;
     }
@@ -693,11 +674,11 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
     }
 
     /**
-     * @return InvoiceLine[]
+     * @return CreditNoteLine[]
      */
-    public function getInvoiceLines(): array
+    public function getCreditNoteLines(): array
     {
-        return $this->invoiceLines;
+        return $this->creditNoteLines;
     }
 
     public function toXML(): \DOMDocument
@@ -707,7 +688,7 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
         $universalBusinessLanguage = $document->createElement(self::XML_NODE);
         $universalBusinessLanguage->setAttribute(
             'xmlns:ubl',
-            'urn:oasis:names:specification:ubl:schema:xsd:Invoice-2'
+            'urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2'
         );
         $universalBusinessLanguage->setAttribute(
             'xmlns:cac',
@@ -728,18 +709,15 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
         $root->appendChild($document->createElement('cbc:ID', $this->identifier->value));
         $root->appendChild($this->issueDate->toXML($document));
 
-        if ($this->dueDate instanceof DueDate) {
-            $root->appendChild($this->dueDate->toXML($document));
+        if ($this->taxPointDate instanceof TaxPointDate) {
+            $root->appendChild($this->taxPointDate->toXML($document));
         }
-        $root->appendChild($document->createElement('cbc:InvoiceTypeCode', $this->invoiceTypeCode->value));
+        $root->appendChild($document->createElement('cbc:CreditNoteTypeCode', $this->creditNoteTypeCode->value));
 
         if (\is_string($this->note)) {
             $root->appendChild($document->createElement('cbc:Note', $this->note));
         }
 
-        if ($this->taxPointDate instanceof TaxPointDate) {
-            $root->appendChild($this->taxPointDate->toXML($document));
-        }
         $root->appendChild($document->createElement('cbc:DocumentCurrencyCode', $this->documentCurrencyCode->value));
 
         if ($this->taxCurrencyCode instanceof CurrencyCode) {
@@ -774,10 +752,6 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
             $root->appendChild($this->receiptDocumentReference->toXML($document));
         }
 
-        if ($this->originatorDocumentReference instanceof OriginatorDocumentReference) {
-            $root->appendChild($this->originatorDocumentReference->toXML($document));
-        }
-
         if ($this->contractDocumentReference instanceof ContractDocumentReference) {
             $root->appendChild($this->contractDocumentReference->toXML($document));
         }
@@ -786,9 +760,10 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
             $root->appendChild($additionalDocumentReference->toXML($document));
         }
 
-        if ($this->projectReference instanceof ProjectReference) {
-            $root->appendChild($this->projectReference->toXML($document));
+        if ($this->originatorDocumentReference instanceof OriginatorDocumentReference) {
+            $root->appendChild($this->originatorDocumentReference->toXML($document));
         }
+
         $root->appendChild($this->accountingSupplierParty->toXML($document));
         $root->appendChild($this->accountingCustomerParty->toXML($document));
 
@@ -825,7 +800,7 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
         }
         $root->appendChild($this->legalMonetaryTotal->toXML($document));
 
-        foreach ($this->invoiceLines as $invoiceLine) {
+        foreach ($this->creditNoteLines as $invoiceLine) {
             $root->appendChild($invoiceLine->toXML($document));
         }
 
@@ -835,7 +810,7 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
     public static function fromXML(\DOMDocument $document): self
     {
         $xpath = new \DOMXPath($document);
-        $xpath->registerNamespace('ubl', 'urn:oasis:names:specification:ubl:schema:xsd:Invoice-2');
+        $xpath->registerNamespace('ubl', 'urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2');
 
         $universalBusinessLanguageElements = $xpath->query(sprintf('//%s', self::XML_NODE));
 
@@ -856,12 +831,12 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
 
         $issueDate = IssueDate::fromXML($xpath, $universalBusinessLanguageElement);
 
-        $invoiceTypeCodeElements = $xpath->query('./cbc:InvoiceTypeCode', $universalBusinessLanguageElement);
+        $creditNoteTypeCodeElements = $xpath->query('./cbc:CreditNoteTypeCode', $universalBusinessLanguageElement);
 
-        if (1 !== $invoiceTypeCodeElements->count()) {
+        if (1 !== $creditNoteTypeCodeElements->count()) {
             throw new \Exception('Malformed');
         }
-        $invoiceTypeCode = InvoiceTypeCode::tryFrom((string) $invoiceTypeCodeElements->item(0)->nodeValue);
+        $invoiceTypeCode = CreditNoteTypeCode::tryFrom((string) $creditNoteTypeCodeElements->item(0)->nodeValue);
 
         if (null === $invoiceTypeCode) {
             throw new \Exception('Wrong type code');
@@ -895,9 +870,8 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
         $taxCurrencyCodeElements      = $xpath->query('./cbc:TaxCurrencyCode', $universalBusinessLanguageElement);
         $taxPointDate                 = TaxPointDate::fromXML($xpath, $universalBusinessLanguageElement);
         $invoicePeriod                = InvoicePeriod::fromXML($xpath, $universalBusinessLanguageElement);
-        $dueDate                      = DueDate::fromXML($xpath, $universalBusinessLanguageElement);
+        $dueDate                      = PaymentDueDate::fromXML($xpath, $universalBusinessLanguageElement);
         $buyerReferenceElements       = $xpath->query('./cbc:BuyerReference', $universalBusinessLanguageElement);
-        $projectReference             = ProjectReference::fromXML($xpath, $universalBusinessLanguageElement);
         $contractDocumentReference    = ContractDocumentReference::fromXML($xpath, $universalBusinessLanguageElement);
         $orderReference               = OrderReference::fromXML($xpath, $universalBusinessLanguageElement);
         $receiptDocumentReference     = ReceiptDocumentReference::fromXML($xpath, $universalBusinessLanguageElement);
@@ -936,7 +910,7 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
         $charges            = Charge::fromXML($xpath, $universalBusinessLanguageElement);
         $taxTotals          = TaxTotal::fromXML($xpath, $universalBusinessLanguageElement);
         $legalMonetaryTotal = LegalMonetaryTotal::fromXML($xpath, $universalBusinessLanguageElement);
-        $invoiceLines       = InvoiceLine::fromXML($xpath, $universalBusinessLanguageElement);
+        $invoiceLines       = CreditNoteLine::fromXML($xpath, $universalBusinessLanguageElement);
 
         if ($taxCurrencyCodeElements->count() > 1) {
             throw new \Exception('Malformed');
@@ -994,7 +968,7 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
             $universalBusinessLanguage->setInvoicePeriod($invoicePeriod);
         }
 
-        if ($dueDate instanceof DueDate) {
+        if ($dueDate instanceof PaymentDueDate) {
             $universalBusinessLanguage->setDueDate($dueDate);
         }
 
@@ -1004,10 +978,6 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
 
         if (1 === $noteElements->count()) {
             $universalBusinessLanguage->setNote($noteElements->item(0)->nodeValue);
-        }
-
-        if ($projectReference instanceof ProjectReference) {
-            $universalBusinessLanguage->setProjectReference($projectReference);
         }
 
         if ($contractDocumentReference instanceof ContractDocumentReference) {

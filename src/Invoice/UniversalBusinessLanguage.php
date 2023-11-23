@@ -7,7 +7,6 @@ namespace Tiime\UniversalBusinessLanguage\Invoice;
 use Tiime\EN16931\DataType\CurrencyCode;
 use Tiime\EN16931\DataType\Identifier\InvoiceIdentifier;
 use Tiime\EN16931\DataType\Identifier\SpecificationIdentifier;
-use Tiime\EN16931\DataType\InvoiceTypeCode;
 use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\AccountingCustomerParty;
 use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\AccountingSupplierParty;
 use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\AdditionalDocumentReference;
@@ -32,6 +31,7 @@ use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\TaxTotal;
 use Tiime\UniversalBusinessLanguage\Invoice\DataType\Basic\DueDate;
 use Tiime\UniversalBusinessLanguage\Invoice\DataType\Basic\IssueDate;
 use Tiime\UniversalBusinessLanguage\Invoice\DataType\Basic\TaxPointDate;
+use Tiime\UniversalBusinessLanguage\Invoice\DataType\InvoiceTypeCode;
 
 class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
 {

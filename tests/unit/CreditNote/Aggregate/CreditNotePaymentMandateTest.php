@@ -10,46 +10,46 @@ use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 class CreditNotePaymentMandateTest extends BaseXMLNodeTestWithHelpers
 {
     protected const XML_VALID_FULL_CONTENT = <<<XML
-<Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
+<CreditNote xmlns="urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cac:PaymentMandate>
     <cbc:ID>123456</cbc:ID>
     <cac:PayerFinancialAccount>
       <cbc:ID>12345676543</cbc:ID>
     </cac:PayerFinancialAccount>
   </cac:PaymentMandate>
-</Invoice>
+</CreditNote>
 XML;
 
     protected const XML_VALID_MINIMAL_CONTENT = <<<XML
-<Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
+<CreditNote xmlns="urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cac:PaymentMandate>
   </cac:PaymentMandate>
-</Invoice>
+</CreditNote>
 XML;
 
     protected const XML_VALID_NO_LINE = <<<XML
-<Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
-</Invoice>
+<CreditNote xmlns="urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
+</CreditNote>
 XML;
 
     protected const XML_INVALID_MANY_CONTENTS = <<<XML
-<Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
+<CreditNote xmlns="urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cac:PaymentMandate>
     <cbc:ID>123456</cbc:ID>
     <cbc:ID>123456</cbc:ID>
   </cac:PaymentMandate>
-</Invoice>
+</CreditNote>
 XML;
 
     protected const XML_INVALID_MANY_LINES = <<<XML
-<Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
+<CreditNote xmlns="urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cac:PaymentMandate>
     <cbc:ID>123456</cbc:ID>
   </cac:PaymentMandate>
   <cac:PaymentMandate>
     <cbc:ID>123456</cbc:ID>
   </cac:PaymentMandate>
-</Invoice>
+</CreditNote>
 XML;
 
     public function testCanBeCreatedFromFullContent(): void
@@ -95,7 +95,7 @@ XML;
     {
         $currentElement  = $this->loadXMLDocument(self::XML_VALID_FULL_CONTENT);
         $ublObject       = PaymentMandate::fromXML($this->xpath, $currentElement);
-        $rootDestination = $this->generateEmptyRootDocument();
+        $rootDestination = $this->generateEmptyCreditNoteRootDocument();
         $rootDestination->appendChild($ublObject->toXML($this->document));
         $generatedOutput = $this->formatXMLOutput();
         $this->assertStringEqualsStringIgnoringLineEndings(self::XML_VALID_FULL_CONTENT, $generatedOutput);

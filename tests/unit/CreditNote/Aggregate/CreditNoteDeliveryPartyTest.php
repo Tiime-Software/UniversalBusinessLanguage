@@ -9,34 +9,34 @@ use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 class CreditNoteDeliveryPartyTest extends BaseXMLNodeTestWithHelpers
 {
     protected const XML_VALID_CONTENT = <<<XML
-<Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
+<CreditNote xmlns="urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cac:DeliveryParty>
     <cac:PartyName>
       <cbc:Name>Deliver name</cbc:Name>
     </cac:PartyName>
   </cac:DeliveryParty>
-</Invoice>
+</CreditNote>
 XML;
 
     protected const XML_INVALID_NO_CONTENT = <<<XML
-<Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
+<CreditNote xmlns="urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cac:DeliveryParty>
   </cac:DeliveryParty>
-</Invoice>
+</CreditNote>
 XML;
 
     protected const XML_VALID_NO_LINE = <<<XML
-<Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
-</Invoice>
+<CreditNote xmlns="urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
+</CreditNote>
 XML;
 
     protected const XML_INVALID_MANY_LINES = <<<XML
-<Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
+<CreditNote xmlns="urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cac:DeliveryParty>
   </cac:DeliveryParty>
   <cac:DeliveryParty>
   </cac:DeliveryParty>
-</Invoice>
+</CreditNote>
 XML;
 
     public function testCanBeCreatedFromContent(): void
@@ -72,7 +72,7 @@ XML;
     {
         $currentElement  = $this->loadXMLDocument(self::XML_VALID_CONTENT);
         $ublObject       = DeliveryParty::fromXML($this->xpath, $currentElement);
-        $rootDestination = $this->generateEmptyRootDocument();
+        $rootDestination = $this->generateEmptyCreditNoteRootDocument();
         $rootDestination->appendChild($ublObject->toXML($this->document));
         $generatedOutput = $this->formatXMLOutput();
         $this->assertStringEqualsStringIgnoringLineEndings(self::XML_VALID_CONTENT, $generatedOutput);

@@ -2,6 +2,7 @@
 
 namespace Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate;
 
+use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Basic\PaymentDueDate;
 use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Basic\PaymentMeansNamedCode;
 
 /**
@@ -33,6 +34,8 @@ class PaymentMeans
 
     private ?PaymentMandate $paymentMandate;
 
+    private ?PaymentDueDate $paymentDueDate;
+
     public function __construct(PaymentMeansNamedCode $paymentMeansCode)
     {
         $this->paymentMeansCode      = $paymentMeansCode;
@@ -40,6 +43,7 @@ class PaymentMeans
         $this->cardAccount           = null;
         $this->payeeFinancialAccount = null;
         $this->paymentMandate        = null;
+        $this->paymentDueDate        = null;
     }
 
     public function getPaymentMeansCode(): PaymentMeansNamedCode
@@ -95,11 +99,27 @@ class PaymentMeans
         return $this;
     }
 
+    public function getPaymentDueDate(): ?PaymentDueDate
+    {
+        return $this->paymentDueDate;
+    }
+
+    public function setPaymentDueDate(?PaymentDueDate $paymentDueDate): static
+    {
+        $this->paymentDueDate = $paymentDueDate;
+
+        return $this;
+    }
+
     public function toXML(\DOMDocument $document): \DOMElement
     {
         $currentNode = $document->createElement(self::XML_NODE);
 
         $currentNode->appendChild($this->paymentMeansCode->toXML($document));
+
+        if ($this->paymentDueDate instanceof PaymentDueDate) {
+            $currentNode->appendChild($this->paymentDueDate->toXML($document));
+        }
 
         if (\is_string($this->paymentIdentifier)) {
             $currentNode->appendChild($document->createElement('cbc:PaymentID', $this->paymentIdentifier));
@@ -140,6 +160,7 @@ class PaymentMeans
             $cardAccount               = CardAccount::fromXML($xpath, $paymentMeansElement);
             $payeeFinancialAccount     = PayeeFinancialAccount::fromXML($xpath, $paymentMeansElement);
             $paymentMandate            = PaymentMandate::fromXML($xpath, $paymentMeansElement);
+            $paymentDueDate            = PaymentDueDate::fromXML($xpath, $paymentMeansElement);
 
             if ($paymentIdentifierElements->count() > 1) {
                 throw new \Exception('Malformed');
@@ -161,6 +182,10 @@ class PaymentMeans
 
             if ($paymentMandate instanceof PaymentMandate) {
                 $paymentMean->setPaymentMandate($paymentMandate);
+            }
+
+            if ($paymentDueDate instanceof PaymentDueDate) {
+                $paymentMean->setPaymentDueDate($paymentDueDate);
             }
 
             $paymentMeans[] = $paymentMean;

@@ -9,27 +9,27 @@ use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 class CreditNoteTaxableAmountTest extends BaseXMLNodeTestWithHelpers
 {
     protected const XML_VALID_CONTENT = <<<XML
-<Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
+<CreditNote xmlns="urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cbc:TaxableAmount currencyID="EUR">36.01</cbc:TaxableAmount>
-</Invoice>
+</CreditNote>
 XML;
 
     protected const XML_INVALID_MISSING_CURRENCY = <<<XML
-<Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
+<CreditNote xmlns="urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cbc:TaxableAmount>36.01</cbc:TaxableAmount>
-</Invoice>
+</CreditNote>
 XML;
 
     protected const XML_INVALID_AMOUNT = <<<XML
-<Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
+<CreditNote xmlns="urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cbc:TaxableAmount currencyID="ER">36.0.0</cbc:TaxableAmount>
-</Invoice>
+</CreditNote>
 XML;
 
     protected const XML_EMPTY_AMOUNT = <<<XML
-<Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
+<CreditNote xmlns="urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cbc:TaxableAmount></cbc:TaxableAmount>
-</Invoice>
+</CreditNote>
 XML;
 
     public function testCanBeCreatedFromFullContent(): void
@@ -66,7 +66,7 @@ XML;
     {
         $currentElement  = $this->loadXMLDocument(self::XML_VALID_CONTENT);
         $ublObject       = TaxableAmount::fromXML($this->xpath, $currentElement);
-        $rootDestination = $this->generateEmptyRootDocument();
+        $rootDestination = $this->generateEmptyCreditNoteRootDocument();
         $rootDestination->appendChild($ublObject->toXML($this->document));
         $generatedOutput = $this->formatXMLOutput();
         $this->assertStringEqualsStringIgnoringLineEndings(self::XML_VALID_CONTENT, $generatedOutput);

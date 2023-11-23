@@ -9,9 +9,9 @@ use Tiime\UniversalBusinessLanguage\CreditNote\Utils\UniversalBusinessLanguageUt
 /**
  * BT-9.
  */
-class DueDate
+class PaymentDueDate
 {
-    protected const XML_NODE = 'cbc:DueDate';
+    protected const XML_NODE = 'cbc:PaymentDueDate';
 
     private \DateTimeInterface $dateTimeString;
 

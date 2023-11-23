@@ -10,7 +10,7 @@ use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 class CreditNotePostalAddressTest extends BaseXMLNodeTestWithHelpers
 {
     protected const XML_VALID_FULL_CONTENT = <<<XML
-<Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
+<CreditNote xmlns="urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cac:PostalAddress>
     <cbc:StreetName>1, rue du fournisseur</cbc:StreetName>
     <cbc:AdditionalStreetName>Cour du fournisseur</cbc:AdditionalStreetName>
@@ -24,28 +24,28 @@ class CreditNotePostalAddressTest extends BaseXMLNodeTestWithHelpers
       <cbc:IdentificationCode>FR</cbc:IdentificationCode>
     </cac:Country>
   </cac:PostalAddress>
-</Invoice>
+</CreditNote>
 XML;
 
     protected const XML_VALID_MINIMAL_CONTENT = <<<XML
-<Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
+<CreditNote xmlns="urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cac:PostalAddress>
     <cac:Country>
       <cbc:IdentificationCode>FR</cbc:IdentificationCode>
     </cac:Country>
   </cac:PostalAddress>
-</Invoice>
+</CreditNote>
 XML;
 
     protected const XML_INVALID_NO_COUNTRY = <<<XML
-<Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
+<CreditNote xmlns="urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cac:PostalAddress>
   </cac:PostalAddress>
-</Invoice>
+</CreditNote>
 XML;
 
     protected const XML_INVALID_MANY_CONTENTS = <<<XML
-<Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
+<CreditNote xmlns="urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cac:PostalAddress>
     <cbc:StreetName>1, rue du fournisseur</cbc:StreetName>
     <cbc:StreetName>Cour du fournisseur</cbc:StreetName>
@@ -53,11 +53,11 @@ XML;
       <cbc:IdentificationCode>FR</cbc:IdentificationCode>
     </cac:Country>
   </cac:PostalAddress>
-</Invoice>
+</CreditNote>
 XML;
 
     protected const XML_INVALID_MANY_LINES = <<<XML
-<Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
+<CreditNote xmlns="urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cac:PostalAddress>
     <cbc:StreetName>1, rue du fournisseur</cbc:StreetName>
     <cac:Country>
@@ -70,7 +70,7 @@ XML;
       <cbc:IdentificationCode>FR</cbc:IdentificationCode>
     </cac:Country>
   </cac:PostalAddress>
-</Invoice>
+</CreditNote>
 XML;
 
     public function testCanBeCreatedFromFullContent(): void
@@ -126,7 +126,7 @@ XML;
     {
         $currentElement  = $this->loadXMLDocument(self::XML_VALID_FULL_CONTENT);
         $ublObject       = PostalAddress::fromXML($this->xpath, $currentElement);
-        $rootDestination = $this->generateEmptyRootDocument();
+        $rootDestination = $this->generateEmptyCreditNoteRootDocument();
         $rootDestination->appendChild($ublObject->toXML($this->document));
         $generatedOutput = $this->formatXMLOutput();
         $this->assertStringEqualsStringIgnoringLineEndings(self::XML_VALID_FULL_CONTENT, $generatedOutput);

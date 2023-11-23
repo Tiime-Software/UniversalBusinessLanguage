@@ -9,33 +9,33 @@ use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 class CreditNoteBillingReferenceTest extends BaseXMLNodeTestWithHelpers
 {
     protected const XML_VALID_FULL_CONTENT = <<<XML
-<Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
+<CreditNote xmlns="urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cac:BillingReference>
     <cac:InvoiceDocumentReference>
       <cbc:ID>inv123</cbc:ID>
       <cbc:IssueDate>2017-09-15</cbc:IssueDate>
     </cac:InvoiceDocumentReference>
   </cac:BillingReference>
-</Invoice>
+</CreditNote>
 XML;
 
     protected const XML_VALID_MINIMAL_CONTENT = <<<XML
-<Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
+<CreditNote xmlns="urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cac:BillingReference>
     <cac:InvoiceDocumentReference>
       <cbc:ID>inv123</cbc:ID>
     </cac:InvoiceDocumentReference>
   </cac:BillingReference>
-</Invoice>
+</CreditNote>
 XML;
 
     protected const XML_VALID_NO_LINE = <<<XML
-<Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
-</Invoice>
+<CreditNote xmlns="urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
+</CreditNote>
 XML;
 
     protected const XML_VALID_MANY_LINES = <<<XML
-<Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
+<CreditNote xmlns="urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
     <cac:BillingReference>
     <cac:InvoiceDocumentReference>
       <cbc:ID>inv123</cbc:ID>
@@ -46,7 +46,7 @@ XML;
       <cbc:ID>inv456</cbc:ID>
     </cac:InvoiceDocumentReference>
   </cac:BillingReference>
-</Invoice>
+</CreditNote>
 XML;
 
     public function testCanBeCreatedFromFullContent(): void
@@ -95,7 +95,7 @@ XML;
     {
         $currentElement  = $this->loadXMLDocument(self::XML_VALID_FULL_CONTENT);
         $ublObjects      = BillingReference::fromXML($this->xpath, $currentElement);
-        $rootDestination = $this->generateEmptyRootDocument();
+        $rootDestination = $this->generateEmptyCreditNoteRootDocument();
 
         foreach ($ublObjects as $ublObject) {
             $rootDestination->appendChild($ublObject->toXML($this->document));

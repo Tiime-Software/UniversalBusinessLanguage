@@ -87,7 +87,7 @@ XML;
     {
         $currentElement  = $this->loadXMLDocument(self::XML_VALID_CONTENT);
         $ublObject       = ContractDocumentReference::fromXML($this->xpath, $currentElement);
-        $rootDestination = $this->generateEmptyRootDocument();
+        $rootDestination = $this->generateEmptyInvoiceRootDocument();
         $rootDestination->appendChild($ublObject->toXML($this->document));
         $generatedOutput = $this->formatXMLOutput();
         $this->assertStringEqualsStringIgnoringLineEndings(self::XML_VALID_CONTENT, $generatedOutput);

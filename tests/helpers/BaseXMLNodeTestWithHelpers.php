@@ -40,7 +40,7 @@ class BaseXMLNodeTestWithHelpers extends TestCase
         return $tmpDocument->saveXml($tmpDocument->documentElement, \LIBXML_NOEMPTYTAG);
     }
 
-    protected function generateEmptyRootDocument(): \DOMElement
+    protected function generateEmptyInvoiceRootDocument(): \DOMElement
     {
         $this->document = new \DOMDocument('1.0', 'UTF-8');
 
@@ -48,6 +48,30 @@ class BaseXMLNodeTestWithHelpers extends TestCase
         $universalBusinessLanguage->setAttribute(
             'xmlns',
             'urn:oasis:names:specification:ubl:schema:xsd:Invoice-2'
+        );
+        $universalBusinessLanguage->setAttribute(
+            'xmlns:cac',
+            'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+        );
+        $universalBusinessLanguage->setAttribute(
+            'xmlns:cbc',
+            'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+        );
+        $this->document->appendChild($universalBusinessLanguage);
+
+        $this->xpath = new \DOMXPath($this->document);
+
+        return $this->document->documentElement;
+    }
+
+    protected function generateEmptyCreditNoteRootDocument(): \DOMElement
+    {
+        $this->document = new \DOMDocument('1.0', 'UTF-8');
+
+        $universalBusinessLanguage = $this->document->createElement('CreditNote');
+        $universalBusinessLanguage->setAttribute(
+            'xmlns',
+            'urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2'
         );
         $universalBusinessLanguage->setAttribute(
             'xmlns:cac',

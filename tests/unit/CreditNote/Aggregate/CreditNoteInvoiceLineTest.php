@@ -4,25 +4,25 @@ namespace Tiime\UniversalBusinessLanguage\Tests\unit\CreditNote\Aggregate;
 
 use Tiime\EN16931\DataType\Identifier\InvoiceLineIdentifier;
 use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate\DocumentReference;
-use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate\InvoiceLine;
+use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate\CreditNoteLine;
 use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate\InvoiceLineAllowance;
 use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate\InvoiceLineCharge;
 use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate\InvoiceLineInvoicePeriod;
 use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate\Item;
 use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate\OrderLineReference;
 use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate\Price;
-use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Basic\InvoicedQuantity;
+use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Basic\CreditedQuantity;
 use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Basic\LineExtensionAmount;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
 class CreditNoteInvoiceLineTest extends BaseXMLNodeTestWithHelpers
 {
     protected const XML_VALID_FULL_CONTENT = <<<XML
-<Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
-  <cac:InvoiceLine>
+<CreditNote xmlns="urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
+  <cac:CreditNoteLine>
     <cbc:ID>15</cbc:ID>
     <cbc:Note>New article number 12345</cbc:Note>
-    <cbc:InvoicedQuantity unitCode="C62">100.0000</cbc:InvoicedQuantity>
+    <cbc:CreditedQuantity unitCode="C62">100.0000</cbc:CreditedQuantity>
     <cbc:LineExtensionAmount currencyID="EUR">2145.00</cbc:LineExtensionAmount>
     <cbc:AccountingCost>1287:65464</cbc:AccountingCost>
     <cac:InvoicePeriod>
@@ -91,15 +91,15 @@ class CreditNoteInvoiceLineTest extends BaseXMLNodeTestWithHelpers
         <cbc:BaseAmount currencyID="EUR">123.45</cbc:BaseAmount>
       </cac:AllowanceCharge>
     </cac:Price>
-  </cac:InvoiceLine>
-</Invoice>
+  </cac:CreditNoteLine>
+</CreditNote>
 XML;
 
     protected const XML_VALID_MINIMAL_CONTENT = <<<XML
-<Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
-  <cac:InvoiceLine>
+<CreditNote xmlns="urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
+  <cac:CreditNoteLine>
     <cbc:ID>15</cbc:ID>
-    <cbc:InvoicedQuantity unitCode="C62">100</cbc:InvoicedQuantity>
+    <cbc:CreditedQuantity unitCode="C62">100</cbc:CreditedQuantity>
     <cbc:LineExtensionAmount currencyID="EUR">2145.00</cbc:LineExtensionAmount>
     <cac:Item>
       <cbc:Name>Item name</cbc:Name>
@@ -113,21 +113,21 @@ XML;
     <cac:Price>
       <cbc:PriceAmount currencyID="EUR">23.45</cbc:PriceAmount>
     </cac:Price>
-  </cac:InvoiceLine>
-</Invoice>
+  </cac:CreditNoteLine>
+</CreditNote>
 XML;
 
     protected const XML_INVALID_NO_LINE = <<<XML
-<Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
-</Invoice>
+<CreditNote xmlns="urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
+</CreditNote>
 XML;
 
     protected const XML_INVALID_MANY_CONTENTS = <<<XML
-<Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
-  <cac:InvoiceLine>
+<CreditNote xmlns="urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
+  <cac:CreditNoteLine>
     <cbc:ID>15</cbc:ID>
     <cbc:ID>15</cbc:ID>
-    <cbc:InvoicedQuantity unitCode="C62">100</cbc:InvoicedQuantity>
+    <cbc:CreditedQuantity unitCode="C62">100</cbc:CreditedQuantity>
     <cbc:LineExtensionAmount currencyID="EUR">2145.00</cbc:LineExtensionAmount>
     <cac:Item>
       <cbc:Name>Item name</cbc:Name>
@@ -141,15 +141,15 @@ XML;
     <cac:Price>
       <cbc:PriceAmount currencyID="EUR">23.45</cbc:PriceAmount>
     </cac:Price>
-  </cac:InvoiceLine>
-</Invoice>
+  </cac:CreditNoteLine>
+</CreditNote>
 XML;
 
     protected const XML_VALID_MANY_LINES = <<<XML
-<Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
-  <cac:InvoiceLine>
+<CreditNote xmlns="urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
+  <cac:CreditNoteLine>
     <cbc:ID>15</cbc:ID>
-    <cbc:InvoicedQuantity unitCode="C62">100</cbc:InvoicedQuantity>
+    <cbc:CreditedQuantity unitCode="C62">100</cbc:CreditedQuantity>
     <cbc:LineExtensionAmount currencyID="EUR">2145.00</cbc:LineExtensionAmount>
     <cac:Item>
       <cbc:Name>Item name</cbc:Name>
@@ -163,10 +163,10 @@ XML;
     <cac:Price>
       <cbc:PriceAmount currencyID="EUR">23.45</cbc:PriceAmount>
     </cac:Price>
-  </cac:InvoiceLine>
-  <cac:InvoiceLine>
+  </cac:CreditNoteLine>
+  <cac:CreditNoteLine>
     <cbc:ID>15</cbc:ID>
-    <cbc:InvoicedQuantity unitCode="C62">100</cbc:InvoicedQuantity>
+    <cbc:CreditedQuantity unitCode="C62">100</cbc:CreditedQuantity>
     <cbc:LineExtensionAmount currencyID="EUR">2145.00</cbc:LineExtensionAmount>
     <cac:Item>
       <cbc:Name>Item name</cbc:Name>
@@ -180,21 +180,21 @@ XML;
     <cac:Price>
       <cbc:PriceAmount currencyID="EUR">23.45</cbc:PriceAmount>
     </cac:Price>
-  </cac:InvoiceLine>
-</Invoice>
+  </cac:CreditNoteLine>
+</CreditNote>
 XML;
 
     public function testCanBeCreatedFromFullContent(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_FULL_CONTENT);
-        $ublObjects     = InvoiceLine::fromXML($this->xpath, $currentElement);
+        $ublObjects     = CreditNoteLine::fromXML($this->xpath, $currentElement);
         $this->assertIsArray($ublObjects);
         $this->assertCount(1, $ublObjects);
         $ublObject = $ublObjects[0];
-        $this->assertInstanceOf(InvoiceLine::class, $ublObject);
+        $this->assertInstanceOf(CreditNoteLine::class, $ublObject);
         $this->assertInstanceOf(InvoiceLineIdentifier::class, $ublObject->getInvoiceLineIdentifier());
         $this->assertEquals('New article number 12345', $ublObject->getNote());
-        $this->assertInstanceOf(InvoicedQuantity::class, $ublObject->getInvoicedQuantity());
+        $this->assertInstanceOf(CreditedQuantity::class, $ublObject->getCreditedQuantity());
         $this->assertInstanceOf(LineExtensionAmount::class, $ublObject->getLineExtensionAmount());
         $this->assertEquals('1287:65464', $ublObject->getAccountingCost());
         $this->assertInstanceOf(InvoiceLineInvoicePeriod::class, $ublObject->getInvoicePeriod());
@@ -219,14 +219,14 @@ XML;
     public function testCanBeCreatedFromMinimalContent(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_MINIMAL_CONTENT);
-        $ublObjects     = InvoiceLine::fromXML($this->xpath, $currentElement);
+        $ublObjects     = CreditNoteLine::fromXML($this->xpath, $currentElement);
         $this->assertIsArray($ublObjects);
         $this->assertCount(1, $ublObjects);
         $ublObject = $ublObjects[0];
-        $this->assertInstanceOf(InvoiceLine::class, $ublObject);
+        $this->assertInstanceOf(CreditNoteLine::class, $ublObject);
         $this->assertInstanceOf(InvoiceLineIdentifier::class, $ublObject->getInvoiceLineIdentifier());
         $this->assertNull($ublObject->getNote());
-        $this->assertInstanceOf(InvoicedQuantity::class, $ublObject->getInvoicedQuantity());
+        $this->assertInstanceOf(CreditedQuantity::class, $ublObject->getCreditedQuantity());
         $this->assertInstanceOf(LineExtensionAmount::class, $ublObject->getLineExtensionAmount());
         $this->assertNull($ublObject->getInvoicePeriod());
         $this->assertNull($ublObject->getOrderLineReference());
@@ -243,20 +243,20 @@ XML;
     {
         $this->expectException(\Exception::class);
         $currentElement = $this->loadXMLDocument(self::XML_INVALID_NO_LINE);
-        InvoiceLine::fromXML($this->xpath, $currentElement);
+        CreditNoteLine::fromXML($this->xpath, $currentElement);
     }
 
     public function testCannotBeCreatedFromManyContents(): void
     {
         $this->expectException(\Exception::class);
         $currentElement = $this->loadXMLDocument(self::XML_INVALID_MANY_CONTENTS);
-        InvoiceLine::fromXML($this->xpath, $currentElement);
+        CreditNoteLine::fromXML($this->xpath, $currentElement);
     }
 
     public function testCanBeCreatedFromManyLines(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_MANY_LINES);
-        $ublObjects     = InvoiceLine::fromXML($this->xpath, $currentElement);
+        $ublObjects     = CreditNoteLine::fromXML($this->xpath, $currentElement);
         $this->assertIsArray($ublObjects);
         $this->assertCount(2, $ublObjects);
     }
@@ -264,8 +264,8 @@ XML;
     public function testGenerateXml(): void
     {
         $currentElement  = $this->loadXMLDocument(self::XML_VALID_FULL_CONTENT);
-        $ublObjects      = InvoiceLine::fromXML($this->xpath, $currentElement);
-        $rootDestination = $this->generateEmptyRootDocument();
+        $ublObjects      = CreditNoteLine::fromXML($this->xpath, $currentElement);
+        $rootDestination = $this->generateEmptyCreditNoteRootDocument();
 
         foreach ($ublObjects as $ublObject) {
             $rootDestination->appendChild($ublObject->toXML($this->document));

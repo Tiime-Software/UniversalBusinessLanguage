@@ -5,15 +5,15 @@ declare(strict_types=1);
 namespace Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate;
 
 use Tiime\EN16931\DataType\Identifier\InvoiceLineIdentifier;
-use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Basic\InvoicedQuantity;
+use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Basic\CreditedQuantity;
 use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Basic\LineExtensionAmount;
 
 /**
  * BG-25.
  */
-class InvoiceLine
+class CreditNoteLine
 {
-    protected const XML_NODE = 'cac:InvoiceLine';
+    protected const XML_NODE = 'cac:CreditNoteLine';
 
     /**
      * BT-126.
@@ -28,7 +28,7 @@ class InvoiceLine
     /**
      * BT-129 & BT-130.
      */
-    private InvoicedQuantity $invoicedQuantity;
+    private CreditedQuantity $creditedQuantity;
 
     /**
      * BT-131.
@@ -77,14 +77,14 @@ class InvoiceLine
 
     public function __construct(
         InvoiceLineIdentifier $invoiceLineIdentifier,
-        InvoicedQuantity $invoicedQuantity,
+        CreditedQuantity $invoicedQuantity,
         LineExtensionAmount $lineExtensionAmount,
         Item $item,
         Price $price
     ) {
         $this->invoiceLineIdentifier = $invoiceLineIdentifier;
         $this->note                  = null;
-        $this->invoicedQuantity      = $invoicedQuantity;
+        $this->creditedQuantity      = $invoicedQuantity;
         $this->lineExtensionAmount   = $lineExtensionAmount;
         $this->accountingCost        = null;
         $this->invoicePeriod         = null;
@@ -113,9 +113,9 @@ class InvoiceLine
         return $this;
     }
 
-    public function getInvoicedQuantity(): InvoicedQuantity
+    public function getCreditedQuantity(): CreditedQuantity
     {
-        return $this->invoicedQuantity;
+        return $this->creditedQuantity;
     }
 
     public function getLineExtensionAmount(): LineExtensionAmount
@@ -239,7 +239,7 @@ class InvoiceLine
             $currentNode->appendChild($document->createElement('cbc:Note', $this->note));
         }
 
-        $currentNode->appendChild($this->invoicedQuantity->toXML($document));
+        $currentNode->appendChild($this->creditedQuantity->toXML($document));
         $currentNode->appendChild($this->lineExtensionAmount->toXML($document));
 
         if (\is_string($this->accountingCost)) {
@@ -273,7 +273,7 @@ class InvoiceLine
     }
 
     /**
-     * @return non-empty-array<int, InvoiceLine>
+     * @return non-empty-array<int, CreditNoteLine>
      */
     public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): array
     {
@@ -295,7 +295,7 @@ class InvoiceLine
 
             $invoiceLineIdentifier = (string) $invoiceLineIdentifierElements->item(0)->nodeValue;
 
-            $invoicedQuantity    = InvoicedQuantity::fromXML($xpath, $invoiceLineElement);
+            $invoicedQuantity    = CreditedQuantity::fromXML($xpath, $invoiceLineElement);
             $lineExtensionAmount = LineExtensionAmount::fromXML($xpath, $invoiceLineElement);
             $invoicePeriod       = InvoiceLineInvoicePeriod::fromXML($xpath, $invoiceLineElement);
             $orderLineReference  = OrderLineReference::fromXML($xpath, $invoiceLineElement);
