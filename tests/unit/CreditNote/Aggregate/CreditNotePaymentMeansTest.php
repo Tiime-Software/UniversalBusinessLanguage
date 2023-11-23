@@ -15,7 +15,7 @@ class CreditNotePaymentMeansTest extends BaseXMLNodeTestWithHelpers
     protected const XML_VALID_FULL_CONTENT = <<<XML
 <CreditNote xmlns="urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cac:PaymentMeans>
-    <cbc:PaymentMeansCode name="Credit transfer">30</cbc:PaymentMeansCode>    
+    <cbc:PaymentMeansCode name="Credit transfer">30</cbc:PaymentMeansCode>
     <cbc:PaymentDueDate>2017-11-01</cbc:PaymentDueDate>
     <cbc:PaymentID>632948234234234</cbc:PaymentID>
     <cac:CardAccount>
