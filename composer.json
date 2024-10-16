@@ -3,10 +3,10 @@
     "type": "library",
     "license": "MIT",
     "require": {
-        "php": "^8.1",
+        "php": ">=8.3",
         "ext-dom": "*",
         "ext-libxml": "*",
-        "tiime/en-16931": "^0.9.0",
+        "tiime/en-16931": "dev-main",
         "twig/twig": "^3.7"
     },
     "require-dev": {
@@ -35,6 +35,6 @@
         "fix-cs-test": "vendor/bin/php-cs-fixer fix tests",
         "phpstan": "vendor/bin/phpstan analyse -l 9 src tests"
     },
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "prefer-stable": true
 }
