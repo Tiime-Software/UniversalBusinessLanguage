@@ -2,8 +2,8 @@
 
 namespace Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate;
 
+use Tiime\EN16931\Codelist\InternationalCodeDesignator;
 use Tiime\EN16931\DataType\Identifier\LocationIdentifier;
-use Tiime\EN16931\DataType\InternationalCodeDesignator;
 
 class DeliveryLocation
 {
@@ -72,7 +72,7 @@ class DeliveryLocation
 
     public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): ?self
     {
-        $deliveryLocationElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
+        $deliveryLocationElements = $xpath->query(\sprintf('./%s', self::XML_NODE), $currentElement);
 
         if (0 === $deliveryLocationElements->count()) {
             return null;

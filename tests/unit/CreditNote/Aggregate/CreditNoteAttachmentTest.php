@@ -2,8 +2,8 @@
 
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\CreditNote\Aggregate;
 
+use Tiime\EN16931\Codelist\MimeCode;
 use Tiime\EN16931\DataType\BinaryObject;
-use Tiime\EN16931\DataType\MimeCode;
 use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate\Attachment;
 use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate\ExternalReference;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;

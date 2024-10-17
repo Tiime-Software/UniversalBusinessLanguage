@@ -1,6 +1,6 @@
 <?php
 
-namespace Tiime\UniversalBusinessLanguage\CreditNote;
+namespace Tiime\UniversalBusinessLanguage;
 
 interface UniversalBusinessLanguageInterface
 {

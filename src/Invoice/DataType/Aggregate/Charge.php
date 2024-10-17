@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate;
 
-use Tiime\EN16931\DataType\ChargeReasonCode;
 use Tiime\EN16931\SemanticDataType\Percentage;
 use Tiime\UniversalBusinessLanguage\Invoice\DataType\Basic\AllowanceChargeAmount;
 use Tiime\UniversalBusinessLanguage\Invoice\DataType\Basic\BaseAmount;
@@ -165,7 +164,7 @@ class Charge
      */
     public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): array
     {
-        $chargeElements = $xpath->query(sprintf('./%s[cbc:ChargeIndicator[text() = \'true\']]', self::XML_NODE), $currentElement);
+        $chargeElements = $xpath->query(\sprintf('./%s[cbc:ChargeIndicator[text() = \'true\']]', self::XML_NODE), $currentElement);
 
         if (0 === $chargeElements->count()) {
             return [];

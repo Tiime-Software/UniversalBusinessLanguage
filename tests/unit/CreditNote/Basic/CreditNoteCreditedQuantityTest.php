@@ -2,7 +2,7 @@
 
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\CreditNote\Basic;
 
-use Tiime\EN16931\DataType\UnitOfMeasurement;
+use Tiime\EN16931\Codelist\UnitOfMeasureCode as UnitOfMeasurement;
 use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Basic\CreditedQuantity;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 

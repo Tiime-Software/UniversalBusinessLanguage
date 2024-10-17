@@ -2,7 +2,7 @@
 
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Invoice\Basic;
 
-use Tiime\EN16931\DataType\ElectronicAddressScheme;
+use Tiime\EN16931\Codelist\ElectronicAddressSchemeCode as ElectronicAddressScheme;
 use Tiime\UniversalBusinessLanguage\Invoice\DataType\Basic\EndpointIdentifier;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 

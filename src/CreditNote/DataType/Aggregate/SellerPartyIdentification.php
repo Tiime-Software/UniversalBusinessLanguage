@@ -2,8 +2,8 @@
 
 namespace Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate;
 
+use Tiime\EN16931\Codelist\InternationalCodeDesignator;
 use Tiime\EN16931\DataType\Identifier\SellerIdentifier;
-use Tiime\EN16931\DataType\InternationalCodeDesignator;
 
 /**
  * BT-29.
@@ -41,7 +41,7 @@ class SellerPartyIdentification
 
     public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): array
     {
-        $partyIdentificationElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
+        $partyIdentificationElements = $xpath->query(\sprintf('./%s', self::XML_NODE), $currentElement);
 
         if (0 === $partyIdentificationElements->count()) {
             return [];

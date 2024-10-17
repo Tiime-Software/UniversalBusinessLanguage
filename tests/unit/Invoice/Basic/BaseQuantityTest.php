@@ -2,7 +2,7 @@
 
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Invoice\Basic;
 
-use Tiime\EN16931\DataType\UnitOfMeasurement;
+use Tiime\EN16931\Codelist\UnitOfMeasureCode as UnitOfMeasurement;
 use Tiime\UniversalBusinessLanguage\Invoice\DataType\Basic\BaseQuantity;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tiime\UniversalBusinessLanguage\Invoice\DataType\Basic;
 
-use Tiime\EN16931\DataType\UnitOfMeasurement;
+use Tiime\EN16931\Codelist\UnitOfMeasureCode as UnitOfMeasurement;
 use Tiime\EN16931\SemanticDataType\Quantity;
 
 /**
@@ -54,7 +54,7 @@ class BaseQuantity
 
     public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): ?self
     {
-        $baseQuantityElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
+        $baseQuantityElements = $xpath->query(\sprintf('./%s', self::XML_NODE), $currentElement);
 
         if (0 === $baseQuantityElements->count()) {
             return null;

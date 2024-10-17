@@ -2,7 +2,7 @@
 
 namespace Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate;
 
-use Tiime\EN16931\DataType\CountryAlpha2Code;
+use Tiime\EN16931\Codelist\CountryAlpha2Code;
 
 class Country
 {
@@ -34,7 +34,7 @@ class Country
 
     public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): self
     {
-        $countryElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
+        $countryElements = $xpath->query(\sprintf('./%s', self::XML_NODE), $currentElement);
 
         if (1 !== $countryElements->count()) {
             throw new \Exception('Malformed');

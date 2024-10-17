@@ -2,7 +2,6 @@
 
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Invoice\Aggregate;
 
-use Tiime\EN16931\DataType\ChargeReasonCode;
 use Tiime\EN16931\SemanticDataType\Percentage;
 use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\InvoiceLine;
 use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\InvoiceLineCharge;

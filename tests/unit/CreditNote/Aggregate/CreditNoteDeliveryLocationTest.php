@@ -2,8 +2,8 @@
 
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\CreditNote\Aggregate;
 
+use Tiime\EN16931\Codelist\InternationalCodeDesignator;
 use Tiime\EN16931\DataType\Identifier\LocationIdentifier;
-use Tiime\EN16931\DataType\InternationalCodeDesignator;
 use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate\DeliveryAddress;
 use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate\DeliveryLocation;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;

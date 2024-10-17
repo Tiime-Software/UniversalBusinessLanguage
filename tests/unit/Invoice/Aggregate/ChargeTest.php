@@ -1,6 +1,5 @@
 <?php
 
-use Tiime\EN16931\DataType\ChargeReasonCode;
 use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\Charge;
 use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\TaxCategory;
 use Tiime\UniversalBusinessLanguage\Invoice\DataType\Basic\AllowanceChargeAmount;
@@ -142,7 +141,7 @@ XML;
 
     public function testCannotBeCreatedFromNotEnoughData(): void
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(Exception::class);
         $currentElement = $this->loadXMLDocument(self::XML_INVALID_MISSING_CONTENT);
         Charge::fromXML($this->xpath, $currentElement);
     }

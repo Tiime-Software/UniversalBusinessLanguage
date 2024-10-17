@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tiime\UniversalBusinessLanguage\Invoice;
 
-use Tiime\EN16931\DataType\CurrencyCode;
+use Tiime\EN16931\Codelist\CurrencyCodeISO4217 as CurrencyCode;
 use Tiime\EN16931\DataType\Identifier\InvoiceIdentifier;
 use Tiime\EN16931\DataType\Identifier\SpecificationIdentifier;
 use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\AccountingCustomerParty;
@@ -32,6 +32,7 @@ use Tiime\UniversalBusinessLanguage\Invoice\DataType\Basic\DueDate;
 use Tiime\UniversalBusinessLanguage\Invoice\DataType\Basic\IssueDate;
 use Tiime\UniversalBusinessLanguage\Invoice\DataType\Basic\TaxPointDate;
 use Tiime\UniversalBusinessLanguage\Invoice\DataType\InvoiceTypeCode;
+use Tiime\UniversalBusinessLanguage\UniversalBusinessLanguageInterface;
 
 class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
 {
@@ -234,7 +235,7 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
         AccountingCustomerParty $accountingCustomerParty,
         array $taxTotals,
         LegalMonetaryTotal $legalMonetaryTotal,
-        array $invoiceLines
+        array $invoiceLines,
     ) {
         if (0 === \count($taxTotals) || \count($taxTotals) > 2) {
             throw new \Exception('Malformed');
@@ -837,7 +838,7 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
         $xpath = new \DOMXPath($document);
         $xpath->registerNamespace('ubl', 'urn:oasis:names:specification:ubl:schema:xsd:Invoice-2');
 
-        $universalBusinessLanguageElements = $xpath->query(sprintf('//%s', self::XML_NODE));
+        $universalBusinessLanguageElements = $xpath->query(\sprintf('//%s', self::XML_NODE));
 
         if (!$universalBusinessLanguageElements || 1 !== $universalBusinessLanguageElements->count()) {
             throw new \Exception('Malformed');

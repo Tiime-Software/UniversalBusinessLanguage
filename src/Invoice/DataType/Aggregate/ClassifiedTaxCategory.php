@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate;
 
-use Tiime\EN16931\DataType\VatCategory;
+use Tiime\EN16931\Codelist\DutyTaxFeeCategoryCodeUNTDID5305 as VatCategory;
 use Tiime\EN16931\SemanticDataType\Percentage;
 
 /**
@@ -72,7 +72,7 @@ class ClassifiedTaxCategory
 
     public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): self
     {
-        $classifiedTaxCategoryElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
+        $classifiedTaxCategoryElements = $xpath->query(\sprintf('./%s', self::XML_NODE), $currentElement);
 
         if (1 !== $classifiedTaxCategoryElements->count()) {
             throw new \Exception('Malformed');

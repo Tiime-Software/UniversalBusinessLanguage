@@ -2,7 +2,7 @@
 
 namespace Tiime\UniversalBusinessLanguage\Invoice\DataType\Basic;
 
-use Tiime\EN16931\DataType\ElectronicAddressScheme;
+use Tiime\EN16931\Codelist\ElectronicAddressSchemeCode as ElectronicAddressScheme;
 use Tiime\EN16931\DataType\Identifier\ElectronicAddressIdentifier;
 
 /**
@@ -28,7 +28,7 @@ class EndpointIdentifier extends ElectronicAddressIdentifier
 
     public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): self
     {
-        $endpointIdentifierElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
+        $endpointIdentifierElements = $xpath->query(\sprintf('./%s', self::XML_NODE), $currentElement);
 
         if (1 !== $endpointIdentifierElements->count()) {
             throw new \Exception('Malformed');

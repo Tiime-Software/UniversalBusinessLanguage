@@ -2,8 +2,8 @@
 
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\CreditNote\Aggregate;
 
-use Tiime\EN16931\DataType\VatCategory;
-use Tiime\EN16931\DataType\VatExoneration;
+use Tiime\EN16931\Codelist\DutyTaxFeeCategoryCodeUNTDID5305 as VatCategory;
+use Tiime\EN16931\Codelist\VatExemptionReasonCode;
 use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate\SubtotalTaxCategory;
 use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate\TaxScheme;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
@@ -111,7 +111,7 @@ XML;
         $this->assertInstanceOf(SubtotalTaxCategory::class, $ublObject);
         $this->assertEquals(VatCategory::tryFrom('S'), $ublObject->getVatCategory());
         $this->assertEquals(20.2, $ublObject->getPercent()->getFormattedValueRounded());
-        $this->assertEquals(VatExoneration::tryFrom('VATEX-EU-79-C'), $ublObject->getTaxExemptionReasonCode());
+        $this->assertEquals(VatExemptionReasonCode::tryFrom('VATEX-EU-79-C'), $ublObject->getTaxExemptionReasonCode());
         $this->assertEquals('Exempted', $ublObject->getTaxExemptionReason());
         $this->assertInstanceOf(TaxScheme::class, $ublObject->getTaxScheme());
     }
