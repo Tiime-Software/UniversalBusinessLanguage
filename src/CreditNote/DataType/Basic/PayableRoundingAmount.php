@@ -2,7 +2,7 @@
 
 namespace Tiime\UniversalBusinessLanguage\CreditNote\DataType\Basic;
 
-use Tiime\EN16931\DataType\CurrencyCode;
+use Tiime\EN16931\Codelist\CurrencyCodeISO4217 as CurrencyCode;
 use Tiime\EN16931\SemanticDataType\Amount;
 
 /**
@@ -43,7 +43,7 @@ class PayableRoundingAmount
 
     public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): ?self
     {
-        $payableRoundingAmountElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
+        $payableRoundingAmountElements = $xpath->query(\sprintf('./%s', self::XML_NODE), $currentElement);
 
         if (0 === $payableRoundingAmountElements->count()) {
             return null;

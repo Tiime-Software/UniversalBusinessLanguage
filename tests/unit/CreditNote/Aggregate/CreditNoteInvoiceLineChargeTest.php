@@ -2,13 +2,13 @@
 
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\CreditNote\Aggregate;
 
-use Tiime\EN16931\DataType\ChargeReasonCode;
 use Tiime\EN16931\SemanticDataType\Percentage;
 use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate\CreditNoteLine;
 use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate\InvoiceLineCharge;
 use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Basic\AllowanceChargeAmount;
 use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Basic\BaseAmount;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
+use Tiime\EN16931\Codelist\ChargeReasonCodeUNTDID7161 as ChargeReasonCode;
 
 class CreditNoteInvoiceLineChargeTest extends BaseXMLNodeTestWithHelpers
 {

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate;
 
-use Tiime\EN16931\DataType\ChargeReasonCode;
+use Tiime\EN16931\Codelist\ChargeReasonCodeUNTDID7161 as ChargeReasonCode;
 use Tiime\EN16931\SemanticDataType\Percentage;
 use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Basic\AllowanceChargeAmount;
 use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Basic\BaseAmount;
@@ -155,7 +155,7 @@ class InvoiceLineCharge
      */
     public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): array
     {
-        $chargeElements = $xpath->query(sprintf('./%s[cbc:ChargeIndicator[text() = \'true\']]', self::XML_NODE), $currentElement);
+        $chargeElements = $xpath->query(\sprintf('./%s[cbc:ChargeIndicator[text() = \'true\']]', self::XML_NODE), $currentElement);
 
         if (0 === $chargeElements->count()) {
             return [];

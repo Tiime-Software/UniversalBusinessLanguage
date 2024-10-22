@@ -1,7 +1,7 @@
 <?php
 
+use Tiime\EN16931\Codelist\ReferenceQualifierCodeUNTDID1153 as ReferenceQualifierCode;
 use Tiime\EN16931\DataType\Identifier\ObjectIdentifier;
-use Tiime\EN16931\DataType\ObjectSchemeCode;
 use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\DocumentReference;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
@@ -60,7 +60,7 @@ XML;
         $this->assertInstanceOf(DocumentReference::class, $ublObject);
         $this->assertInstanceOf(ObjectIdentifier::class, $ublObject->getIdentifier());
         $this->assertEquals('AB12345', $ublObject->getIdentifier()->value);
-        $this->assertEquals(ObjectSchemeCode::tryFrom('ABZ'), $ublObject->getIdentifier()->scheme);
+        $this->assertEquals(ReferenceQualifierCode::tryFrom('ABZ'), $ublObject->getIdentifier()->scheme);
         $this->assertEquals('130', $ublObject->getDocumentTypeCode());
     }
 
@@ -84,14 +84,14 @@ XML;
 
     public function testCannotBeCreatedFromManyLines(): void
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(Exception::class);
         $currentElement = $this->loadXMLDocument(self::XML_INVALID_MANY_LINES);
         DocumentReference::fromXML($this->xpath, $currentElement);
     }
 
     public function testCannotBeCreatedFromManyContents(): void
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(Exception::class);
         $currentElement = $this->loadXMLDocument(self::XML_INVALID_MANY_CONTENTS);
         DocumentReference::fromXML($this->xpath, $currentElement);
     }

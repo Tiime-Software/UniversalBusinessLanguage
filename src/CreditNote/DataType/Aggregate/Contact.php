@@ -88,7 +88,7 @@ class Contact
 
     public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): ?self
     {
-        $contactElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
+        $contactElements = $xpath->query(\sprintf('./%s', self::XML_NODE), $currentElement);
 
         if (0 === $contactElements->count()) {
             return null;

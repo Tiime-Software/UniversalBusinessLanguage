@@ -32,7 +32,7 @@ class AccountingSupplierParty
 
     public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): self
     {
-        $accountingSupplierPartyElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
+        $accountingSupplierPartyElements = $xpath->query(\sprintf('./%s', self::XML_NODE), $currentElement);
 
         if (1 !== $accountingSupplierPartyElements->count()) {
             throw new \Exception('Malformed');

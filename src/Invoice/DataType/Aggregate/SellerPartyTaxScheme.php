@@ -45,7 +45,7 @@ class SellerPartyTaxScheme
      */
     public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): array
     {
-        $partyTaxSchemeElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
+        $partyTaxSchemeElements = $xpath->query(\sprintf('./%s', self::XML_NODE), $currentElement);
 
         if (0 === $partyTaxSchemeElements->count()) {
             return [];

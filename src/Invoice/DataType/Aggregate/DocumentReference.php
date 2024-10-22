@@ -2,8 +2,8 @@
 
 namespace Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate;
 
+use Tiime\EN16931\Codelist\ReferenceQualifierCodeUNTDID1153 as ReferenceQualifierCode;
 use Tiime\EN16931\DataType\Identifier\ObjectIdentifier;
-use Tiime\EN16931\DataType\ObjectSchemeCode;
 
 class DocumentReference
 {
@@ -41,7 +41,7 @@ class DocumentReference
 
         $identifierElement = $document->createElement('cbc:ID', $this->identifier->value);
 
-        if ($this->identifier->scheme instanceof ObjectSchemeCode) {
+        if ($this->identifier->scheme instanceof ReferenceQualifierCode) {
             $identifierElement->setAttribute('schemeID', (string) $this->identifier->scheme->value);
         }
 
@@ -54,7 +54,7 @@ class DocumentReference
 
     public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): ?self
     {
-        $documentReferenceElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
+        $documentReferenceElements = $xpath->query(\sprintf('./%s', self::XML_NODE), $currentElement);
 
         if (0 === $documentReferenceElements->count()) {
             return null;
@@ -84,9 +84,9 @@ class DocumentReference
         $scheme = null;
 
         if ($identifierElement->hasAttribute('schemeID')) {
-            $scheme = ObjectSchemeCode::tryFrom($identifierElement->getAttribute('schemeID'));
+            $scheme = ReferenceQualifierCode::tryFrom($identifierElement->getAttribute('schemeID'));
 
-            if (!$scheme instanceof ObjectSchemeCode) {
+            if (!$scheme instanceof ReferenceQualifierCode) {
                 throw new \Exception('Wrong schemeID');
             }
         }

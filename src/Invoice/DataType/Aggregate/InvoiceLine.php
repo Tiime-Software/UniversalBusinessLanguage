@@ -80,7 +80,7 @@ class InvoiceLine
         InvoicedQuantity $invoicedQuantity,
         LineExtensionAmount $lineExtensionAmount,
         Item $item,
-        Price $price
+        Price $price,
     ) {
         $this->invoiceLineIdentifier = $invoiceLineIdentifier;
         $this->note                  = null;
@@ -277,7 +277,7 @@ class InvoiceLine
      */
     public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): array
     {
-        $invoiceLineElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
+        $invoiceLineElements = $xpath->query(\sprintf('./%s', self::XML_NODE), $currentElement);
 
         if (0 === $invoiceLineElements->count()) {
             throw new \Exception('Malformed');

@@ -32,7 +32,7 @@ class ContractDocumentReference
 
     public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): ?self
     {
-        $contractDocumentReferenceElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
+        $contractDocumentReferenceElements = $xpath->query(\sprintf('./%s', self::XML_NODE), $currentElement);
 
         if (0 === $contractDocumentReferenceElements->count()) {
             return null;

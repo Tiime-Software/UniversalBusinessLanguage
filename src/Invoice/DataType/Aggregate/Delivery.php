@@ -84,7 +84,7 @@ class Delivery
 
     public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): ?self
     {
-        $deliveryElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
+        $deliveryElements = $xpath->query(\sprintf('./%s', self::XML_NODE), $currentElement);
 
         if (0 === $deliveryElements->count()) {
             return null;

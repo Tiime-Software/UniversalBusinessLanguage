@@ -64,7 +64,7 @@ class TaxSubtotal
      */
     public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): array
     {
-        $taxSubtotalElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
+        $taxSubtotalElements = $xpath->query(\sprintf('./%s', self::XML_NODE), $currentElement);
 
         $taxSubtotals = [];
 

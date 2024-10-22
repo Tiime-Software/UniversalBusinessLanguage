@@ -32,7 +32,7 @@ class ReceiptDocumentReference
 
     public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): ?self
     {
-        $receiptDocumentReferenceElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
+        $receiptDocumentReferenceElements = $xpath->query(\sprintf('./%s', self::XML_NODE), $currentElement);
 
         if (0 === $receiptDocumentReferenceElements->count()) {
             return null;

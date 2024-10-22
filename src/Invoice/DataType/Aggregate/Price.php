@@ -75,7 +75,7 @@ class Price
 
     public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): self
     {
-        $priceElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
+        $priceElements = $xpath->query(\sprintf('./%s', self::XML_NODE), $currentElement);
 
         if (1 !== $priceElements->count()) {
             throw new \Exception('Malformed');

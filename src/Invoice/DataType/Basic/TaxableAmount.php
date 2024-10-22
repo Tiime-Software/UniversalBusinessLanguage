@@ -2,7 +2,7 @@
 
 namespace Tiime\UniversalBusinessLanguage\Invoice\DataType\Basic;
 
-use Tiime\EN16931\DataType\CurrencyCode;
+use Tiime\EN16931\Codelist\CurrencyCodeISO4217 as CurrencyCode;
 use Tiime\EN16931\SemanticDataType\Amount;
 
 /**
@@ -43,7 +43,7 @@ class TaxableAmount
 
     public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): self
     {
-        $taxableAmountElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
+        $taxableAmountElements = $xpath->query(\sprintf('./%s', self::XML_NODE), $currentElement);
 
         if (1 !== $taxableAmountElements->count()) {
             throw new \Exception('Malformed');

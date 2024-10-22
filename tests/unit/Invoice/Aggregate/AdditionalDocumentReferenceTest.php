@@ -2,8 +2,8 @@
 
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Invoice\Aggregate;
 
+use Tiime\EN16931\Codelist\ReferenceQualifierCodeUNTDID1153 as ReferenceQualifierCode;
 use Tiime\EN16931\DataType\Identifier\ObjectIdentifier;
-use Tiime\EN16931\DataType\ObjectSchemeCode;
 use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\AdditionalDocumentReference;
 use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\Attachment;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
@@ -69,7 +69,7 @@ XML;
         $this->assertInstanceOf(AdditionalDocumentReference::class, $ublObject);
         $this->assertInstanceOf(ObjectIdentifier::class, $ublObject->getIdentifier());
         $this->assertEquals('AB23456', $ublObject->getIdentifier()->value);
-        $this->assertEquals(ObjectSchemeCode::tryFrom('AUN'), $ublObject->getIdentifier()->scheme);
+        $this->assertEquals(ReferenceQualifierCode::tryFrom('AUN'), $ublObject->getIdentifier()->scheme);
         $this->assertEquals('130', $ublObject->getDocumentTypeCode());
         $this->assertEquals('Time list', $ublObject->getDocumentDescription());
         $this->assertInstanceOf(Attachment::class, $ublObject->getAttachment());

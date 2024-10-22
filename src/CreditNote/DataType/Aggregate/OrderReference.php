@@ -59,7 +59,7 @@ class OrderReference
 
     public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): ?self
     {
-        $orderReferenceElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
+        $orderReferenceElements = $xpath->query(\sprintf('./%s', self::XML_NODE), $currentElement);
 
         if (0 === $orderReferenceElements->count()) {
             return null;

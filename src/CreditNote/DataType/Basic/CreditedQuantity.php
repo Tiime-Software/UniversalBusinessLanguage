@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tiime\UniversalBusinessLanguage\CreditNote\DataType\Basic;
 
-use Tiime\EN16931\DataType\UnitOfMeasurement;
+use Tiime\EN16931\Codelist\UnitOfMeasureCode as UnitOfMeasurement;
 use Tiime\EN16931\SemanticDataType\Quantity;
 
 class CreditedQuantity
@@ -47,7 +47,7 @@ class CreditedQuantity
 
     public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): self
     {
-        $invoicedQuantityElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
+        $invoicedQuantityElements = $xpath->query(\sprintf('./%s', self::XML_NODE), $currentElement);
 
         if (1 !== $invoicedQuantityElements->count()) {
             throw new \Exception('Malformed');

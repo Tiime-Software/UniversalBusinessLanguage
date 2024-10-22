@@ -2,7 +2,7 @@
 
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\CreditNote\Aggregate;
 
-use Tiime\EN16931\DataType\AllowanceReasonCode;
+use Tiime\EN16931\Codelist\AllowanceReasonCodeUNTDID5189 as AllowanceReasonCode;
 use Tiime\EN16931\SemanticDataType\Percentage;
 use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate\CreditNoteLine;
 use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate\InvoiceLineAllowance;

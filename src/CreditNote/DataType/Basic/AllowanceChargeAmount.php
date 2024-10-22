@@ -2,7 +2,7 @@
 
 namespace Tiime\UniversalBusinessLanguage\CreditNote\DataType\Basic;
 
-use Tiime\EN16931\DataType\CurrencyCode;
+use Tiime\EN16931\Codelist\CurrencyCodeISO4217 as CurrencyCode;
 use Tiime\EN16931\SemanticDataType\Amount;
 
 /**
@@ -43,7 +43,7 @@ class AllowanceChargeAmount
 
     public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): self
     {
-        $allowanceAmountElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
+        $allowanceAmountElements = $xpath->query(\sprintf('./%s', self::XML_NODE), $currentElement);
 
         if (1 !== $allowanceAmountElements->count()) {
             throw new \Exception('Malformed');

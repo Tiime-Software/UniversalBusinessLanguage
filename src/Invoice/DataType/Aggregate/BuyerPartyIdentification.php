@@ -2,8 +2,8 @@
 
 namespace Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate;
 
+use Tiime\EN16931\Codelist\InternationalCodeDesignator;
 use Tiime\EN16931\DataType\Identifier\BuyerIdentifier;
-use Tiime\EN16931\DataType\InternationalCodeDesignator;
 
 /**
  * BT-46.
@@ -41,7 +41,7 @@ class BuyerPartyIdentification
 
     public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): ?self
     {
-        $partyIdentificationElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
+        $partyIdentificationElements = $xpath->query(\sprintf('./%s', self::XML_NODE), $currentElement);
 
         if (0 === $partyIdentificationElements->count()) {
             return null;

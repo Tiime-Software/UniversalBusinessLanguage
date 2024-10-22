@@ -2,7 +2,7 @@
 
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Invoice\Aggregate;
 
-use Tiime\EN16931\DataType\AllowanceReasonCode;
+use Tiime\EN16931\Codelist\AllowanceReasonCodeUNTDID5189 as AllowanceReasonCode;
 use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\Allowance;
 use Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate\TaxCategory;
 use Tiime\UniversalBusinessLanguage\Invoice\DataType\Basic\AllowanceChargeAmount;

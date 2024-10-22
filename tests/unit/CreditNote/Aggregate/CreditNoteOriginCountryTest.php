@@ -2,7 +2,7 @@
 
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\CreditNote\Aggregate;
 
-use Tiime\EN16931\DataType\CountryAlpha2Code;
+use Tiime\EN16931\Codelist\CountryAlpha2Code;
 use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate\OriginCountry;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 

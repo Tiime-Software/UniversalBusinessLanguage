@@ -2,8 +2,8 @@
 
 namespace Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate;
 
+use Tiime\EN16931\Codelist\InternationalCodeDesignator;
 use Tiime\EN16931\DataType\Identifier\PayeeIdentifier;
-use Tiime\EN16931\DataType\InternationalCodeDesignator;
 
 class PayeePartyIdentification
 {
@@ -41,7 +41,7 @@ class PayeePartyIdentification
 
     public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): ?self
     {
-        $partyIdentificationElements = $xpath->query(sprintf('./%s[cbc:ID[@schemeID!=\'SEPA\']]', self::XML_NODE), $currentElement);
+        $partyIdentificationElements = $xpath->query(\sprintf('./%s[cbc:ID[@schemeID!=\'SEPA\']]', self::XML_NODE), $currentElement);
 
         if (0 === $partyIdentificationElements->count()) {
             return null;

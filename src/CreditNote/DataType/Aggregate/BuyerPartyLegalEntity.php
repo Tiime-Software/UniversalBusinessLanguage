@@ -2,8 +2,8 @@
 
 namespace Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate;
 
+use Tiime\EN16931\Codelist\InternationalCodeDesignator;
 use Tiime\EN16931\DataType\Identifier\LegalRegistrationIdentifier;
-use Tiime\EN16931\DataType\InternationalCodeDesignator;
 
 class BuyerPartyLegalEntity
 {
@@ -63,7 +63,7 @@ class BuyerPartyLegalEntity
 
     public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): self
     {
-        $buyerPartyLegalEntityElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
+        $buyerPartyLegalEntityElements = $xpath->query(\sprintf('./%s', self::XML_NODE), $currentElement);
 
         if (1 !== $buyerPartyLegalEntityElements->count()) {
             throw new \Exception('Malformed');

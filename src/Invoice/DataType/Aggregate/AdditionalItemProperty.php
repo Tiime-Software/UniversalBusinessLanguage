@@ -50,7 +50,7 @@ class AdditionalItemProperty
      */
     public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): array
     {
-        $additionalItemPropertyElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
+        $additionalItemPropertyElements = $xpath->query(\sprintf('./%s', self::XML_NODE), $currentElement);
 
         if (0 === $additionalItemPropertyElements->count()) {
             return [];

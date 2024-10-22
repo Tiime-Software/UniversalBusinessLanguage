@@ -125,7 +125,7 @@ class PaymentMeans
      */
     public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): array
     {
-        $paymentMeansElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
+        $paymentMeansElements = $xpath->query(\sprintf('./%s', self::XML_NODE), $currentElement);
 
         if (0 === $paymentMeansElements->count()) {
             return [];

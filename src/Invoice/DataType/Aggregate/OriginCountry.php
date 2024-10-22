@@ -2,7 +2,7 @@
 
 namespace Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate;
 
-use Tiime\EN16931\DataType\CountryAlpha2Code;
+use Tiime\EN16931\Codelist\CountryAlpha2Code;
 
 class OriginCountry
 {
@@ -34,7 +34,7 @@ class OriginCountry
 
     public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): ?self
     {
-        $originCountryElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
+        $originCountryElements = $xpath->query(\sprintf('./%s', self::XML_NODE), $currentElement);
 
         if (0 === $originCountryElements->count()) {
             return null;

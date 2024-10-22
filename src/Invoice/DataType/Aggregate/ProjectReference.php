@@ -32,7 +32,7 @@ class ProjectReference
 
     public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): ?self
     {
-        $projectReferenceElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
+        $projectReferenceElements = $xpath->query(\sprintf('./%s', self::XML_NODE), $currentElement);
 
         if (0 === $projectReferenceElements->count()) {
             return null;

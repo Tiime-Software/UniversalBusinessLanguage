@@ -2,8 +2,8 @@
 
 namespace Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate;
 
+use Tiime\EN16931\Codelist\InternationalCodeDesignator;
 use Tiime\EN16931\DataType\Identifier\LegalRegistrationIdentifier;
-use Tiime\EN16931\DataType\InternationalCodeDesignator;
 
 class PayeePartyLegalEntity
 {
@@ -41,7 +41,7 @@ class PayeePartyLegalEntity
 
     public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): ?self
     {
-        $payeePartyLegalEntityElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
+        $payeePartyLegalEntityElements = $xpath->query(\sprintf('./%s', self::XML_NODE), $currentElement);
 
         if (0 === $payeePartyLegalEntityElements->count()) {
             return null;

@@ -2,7 +2,7 @@
 
 namespace Tiime\UniversalBusinessLanguage\CreditNote\DataType\Basic;
 
-use Tiime\EN16931\DataType\PaymentMeansCode;
+use Tiime\EN16931\Codelist\PaymentMeansCodeUNTDID4461 as PaymentMeansCode;
 
 class PaymentMeansNamedCode
 {
@@ -54,7 +54,7 @@ class PaymentMeansNamedCode
 
     public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): self
     {
-        $paymentMeansCodeElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
+        $paymentMeansCodeElements = $xpath->query(\sprintf('./%s', self::XML_NODE), $currentElement);
 
         if (1 !== $paymentMeansCodeElements->count()) {
             throw new \Exception('Malformed');

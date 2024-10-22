@@ -29,7 +29,7 @@ class DeliveryParty
 
     public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): ?self
     {
-        $partyElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
+        $partyElements = $xpath->query(\sprintf('./%s', self::XML_NODE), $currentElement);
 
         if (0 === $partyElements->count()) {
             return null;

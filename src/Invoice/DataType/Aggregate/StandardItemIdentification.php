@@ -2,8 +2,8 @@
 
 namespace Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate;
 
+use Tiime\EN16931\Codelist\InternationalCodeDesignator;
 use Tiime\EN16931\DataType\Identifier\StandardItemIdentifier;
-use Tiime\EN16931\DataType\InternationalCodeDesignator;
 
 class StandardItemIdentification
 {
@@ -41,7 +41,7 @@ class StandardItemIdentification
 
     public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): ?self
     {
-        $standardItemIdentificationElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
+        $standardItemIdentificationElements = $xpath->query(\sprintf('./%s', self::XML_NODE), $currentElement);
 
         if (0 === $standardItemIdentificationElements->count()) {
             return null;

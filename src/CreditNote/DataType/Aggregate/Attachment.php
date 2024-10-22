@@ -2,8 +2,8 @@
 
 namespace Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate;
 
+use Tiime\EN16931\Codelist\MimeCode;
 use Tiime\EN16931\DataType\BinaryObject;
-use Tiime\EN16931\DataType\MimeCode;
 
 class Attachment
 {
@@ -67,7 +67,7 @@ class Attachment
 
     public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): ?self
     {
-        $attachmentElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
+        $attachmentElements = $xpath->query(\sprintf('./%s', self::XML_NODE), $currentElement);
 
         if (0 === $attachmentElements->count()) {
             return null;

@@ -2,7 +2,7 @@
 
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\CreditNote\Aggregate;
 
-use Tiime\EN16931\DataType\VatCategory;
+use Tiime\EN16931\Codelist\DutyTaxFeeCategoryCodeUNTDID5305 as VatCategory;
 use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate\TaxCategory;
 use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate\TaxScheme;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;

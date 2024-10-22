@@ -2,19 +2,18 @@
 
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\CreditNote;
 
-use Tiime\EN16931\DataType\CurrencyCode;
+use Tiime\EN16931\Codelist\CurrencyCodeISO4217 as CurrencyCode;
 use Tiime\EN16931\DataType\Identifier\InvoiceIdentifier;
 use Tiime\EN16931\DataType\Identifier\SpecificationIdentifier;
-use Tiime\EN16931\DataType\InvoiceTypeCode;
 use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate\AccountingCustomerParty;
 use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate\AccountingSupplierParty;
 use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate\AdditionalDocumentReference;
 use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate\Allowance;
 use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate\BillingReference;
 use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate\ContractDocumentReference;
+use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate\CreditNoteLine;
 use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate\Delivery;
 use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate\DespatchDocumentReference;
-use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate\CreditNoteLine;
 use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate\InvoicePeriod;
 use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate\LegalMonetaryTotal;
 use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate\OrderReference;
@@ -22,11 +21,9 @@ use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate\OriginatorDocu
 use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate\PayeeParty;
 use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate\PaymentMeans;
 use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate\PaymentTerms;
-use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate\ProjectReference;
 use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate\ReceiptDocumentReference;
 use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate\TaxRepresentativeParty;
 use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate\TaxTotal;
-use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Basic\PaymentDueDate;
 use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Basic\IssueDate;
 use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Basic\TaxPointDate;
 use Tiime\UniversalBusinessLanguage\CreditNote\DataType\CreditNoteTypeCode;

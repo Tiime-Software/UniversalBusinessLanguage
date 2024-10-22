@@ -2,7 +2,7 @@
 
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Invoice\Basic;
 
-use Tiime\EN16931\DataType\PaymentMeansCode;
+use Tiime\EN16931\Codelist\PaymentMeansCodeUNTDID4461 as PaymentMeansCode;
 use Tiime\UniversalBusinessLanguage\Invoice\DataType\Basic\PaymentMeansNamedCode;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 

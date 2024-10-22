@@ -32,7 +32,7 @@ class TaxRepresentativePartyName
 
     public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): self
     {
-        $taxRepresentativePartyNameElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
+        $taxRepresentativePartyNameElements = $xpath->query(\sprintf('./%s', self::XML_NODE), $currentElement);
 
         if (1 !== $taxRepresentativePartyNameElements->count()) {
             throw new \Exception('Malformed');

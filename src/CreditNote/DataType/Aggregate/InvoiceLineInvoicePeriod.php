@@ -69,7 +69,7 @@ class InvoiceLineInvoicePeriod
 
     public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): ?self
     {
-        $invoicePeriodElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
+        $invoicePeriodElements = $xpath->query(\sprintf('./%s', self::XML_NODE), $currentElement);
 
         if (0 === $invoicePeriodElements->count()) {
             return null;

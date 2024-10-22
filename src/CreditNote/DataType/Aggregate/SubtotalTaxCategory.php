@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate;
 
-use Tiime\EN16931\DataType\VatCategory;
-use Tiime\EN16931\DataType\VatExoneration;
+use Tiime\EN16931\Codelist\DutyTaxFeeCategoryCodeUNTDID5305 as VatCategory;
+use Tiime\EN16931\Codelist\VatExemptionReasonCode;
 use Tiime\EN16931\SemanticDataType\Percentage;
 
 class SubtotalTaxCategory
@@ -25,7 +25,7 @@ class SubtotalTaxCategory
     /**
      * BT-121.
      */
-    private ?VatExoneration $taxExemptionReasonCode;
+    private ?VatExemptionReasonCode $taxExemptionReasonCode;
 
     /**
      * BT-120.
@@ -48,12 +48,12 @@ class SubtotalTaxCategory
         return $this->identifier;
     }
 
-    public function getTaxExemptionReasonCode(): ?VatExoneration
+    public function getTaxExemptionReasonCode(): ?VatExemptionReasonCode
     {
         return $this->taxExemptionReasonCode;
     }
 
-    public function setTaxExemptionReasonCode(?VatExoneration $taxExemptionReasonCode): static
+    public function setTaxExemptionReasonCode(?VatExemptionReasonCode $taxExemptionReasonCode): static
     {
         $this->taxExemptionReasonCode = $taxExemptionReasonCode;
 
@@ -101,7 +101,7 @@ class SubtotalTaxCategory
             );
         }
 
-        if ($this->taxExemptionReasonCode instanceof VatExoneration) {
+        if ($this->taxExemptionReasonCode instanceof VatExemptionReasonCode) {
             $currentNode->appendChild(
                 $document->createElement('cbc:TaxExemptionReasonCode', $this->taxExemptionReasonCode->value)
             );
@@ -120,7 +120,7 @@ class SubtotalTaxCategory
 
     public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): self
     {
-        $taxCategoryElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
+        $taxCategoryElements = $xpath->query(\sprintf('./%s', self::XML_NODE), $currentElement);
 
         if (1 !== $taxCategoryElements->count()) {
             throw new \Exception('Malformed');
@@ -156,7 +156,7 @@ class SubtotalTaxCategory
         }
 
         if (1 === $taxExemptionReasonCodeElements->count()) {
-            $taxExemptionReasonCode = VatExoneration::tryFrom((string) $taxExemptionReasonCodeElements->item(0)->nodeValue);
+            $taxExemptionReasonCode = VatExemptionReasonCode::tryFrom((string) $taxExemptionReasonCodeElements->item(0)->nodeValue);
 
             if (null === $taxExemptionReasonCode) {
                 throw new \Exception('Wrong exemption reason code');
