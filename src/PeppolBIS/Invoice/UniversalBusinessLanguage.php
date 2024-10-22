@@ -32,7 +32,7 @@ use Tiime\UniversalBusinessLanguage\PeppolBIS\Invoice\DataType\Basic\DueDate;
 use Tiime\UniversalBusinessLanguage\PeppolBIS\Invoice\DataType\Basic\IssueDate;
 use Tiime\UniversalBusinessLanguage\PeppolBIS\Invoice\DataType\Basic\TaxPointDate;
 use Tiime\UniversalBusinessLanguage\PeppolBIS\Invoice\DataType\InvoiceTypeCode;
-use Tiime\UniversalBusinessLanguage\PeppolBIS\UniversalBusinessLanguageInterface;
+use Tiime\UniversalBusinessLanguage\UniversalBusinessLanguageInterface;
 
 class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
 {

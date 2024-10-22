@@ -31,7 +31,7 @@ use Tiime\UniversalBusinessLanguage\PeppolBIS\CreditNote\DataType\Basic\IssueDat
 use Tiime\UniversalBusinessLanguage\PeppolBIS\CreditNote\DataType\Basic\PaymentDueDate;
 use Tiime\UniversalBusinessLanguage\PeppolBIS\CreditNote\DataType\Basic\TaxPointDate;
 use Tiime\UniversalBusinessLanguage\PeppolBIS\CreditNote\DataType\CreditNoteTypeCode;
-use Tiime\UniversalBusinessLanguage\PeppolBIS\UniversalBusinessLanguageInterface;
+use Tiime\UniversalBusinessLanguage\UniversalBusinessLanguageInterface;
 
 class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
 {

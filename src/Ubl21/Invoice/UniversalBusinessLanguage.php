@@ -32,7 +32,7 @@ use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Basic\DueDate;
 use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Basic\IssueDate;
 use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Basic\TaxPointDate;
 use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\InvoiceTypeCode;
-use Tiime\UniversalBusinessLanguage\Ubl21\UniversalBusinessLanguageInterface;
+use Tiime\UniversalBusinessLanguage\UniversalBusinessLanguageInterface;
 
 class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
 {

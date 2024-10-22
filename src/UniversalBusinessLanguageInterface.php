@@ -1,6 +1,6 @@
 <?php
 
-namespace Tiime\UniversalBusinessLanguage\PeppolBIS;
+namespace Tiime\UniversalBusinessLanguage;
 
 interface UniversalBusinessLanguageInterface
 {
