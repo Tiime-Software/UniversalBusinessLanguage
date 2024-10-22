@@ -36,7 +36,7 @@ class OrderLineReference
 
     public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): ?self
     {
-        $orderLineReferenceElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
+        $orderLineReferenceElements = $xpath->query(\sprintf('./%s', self::XML_NODE), $currentElement);
 
         if (0 === $orderLineReferenceElements->count()) {
             return null;

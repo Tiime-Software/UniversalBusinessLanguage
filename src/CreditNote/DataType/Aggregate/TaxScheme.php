@@ -29,7 +29,7 @@ class TaxScheme
 
     public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): self
     {
-        $taxSchemeElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
+        $taxSchemeElements = $xpath->query(\sprintf('./%s', self::XML_NODE), $currentElement);
 
         if (1 !== $taxSchemeElements->count()) {
             throw new \Exception('Malformed');

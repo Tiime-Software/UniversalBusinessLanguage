@@ -32,7 +32,7 @@ class OriginatorDocumentReference
 
     public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): ?self
     {
-        $originatorDocumentReferenceElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
+        $originatorDocumentReferenceElements = $xpath->query(\sprintf('./%s', self::XML_NODE), $currentElement);
 
         if (0 === $originatorDocumentReferenceElements->count()) {
             return null;

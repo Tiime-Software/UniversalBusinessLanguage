@@ -62,7 +62,7 @@ class InvoiceDocumentReference
 
     public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): self
     {
-        $invoiceReferencedDocumentElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
+        $invoiceReferencedDocumentElements = $xpath->query(\sprintf('./%s', self::XML_NODE), $currentElement);
 
         if (!$invoiceReferencedDocumentElements || 1 !== $invoiceReferencedDocumentElements->count()) {
             throw new \Exception('Malformed');

@@ -77,7 +77,7 @@ class TaxTotal
      */
     public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): array
     {
-        $taxTotalElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
+        $taxTotalElements = $xpath->query(\sprintf('./%s', self::XML_NODE), $currentElement);
 
         if (0 === $taxTotalElements->count() || $taxTotalElements->count() > 2) {
             throw new \Exception('Malformed');

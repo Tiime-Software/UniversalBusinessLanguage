@@ -32,7 +32,7 @@ class PaymentTerms
 
     public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): ?self
     {
-        $paymentTermsElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
+        $paymentTermsElements = $xpath->query(\sprintf('./%s', self::XML_NODE), $currentElement);
 
         if (0 === $paymentTermsElements->count()) {
             return null;

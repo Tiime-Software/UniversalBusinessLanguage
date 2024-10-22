@@ -34,7 +34,7 @@ class BillingReference
      */
     public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): array
     {
-        $billingReferenceElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
+        $billingReferenceElements = $xpath->query(\sprintf('./%s', self::XML_NODE), $currentElement);
 
         if (0 === $billingReferenceElements->count()) {
             return [];

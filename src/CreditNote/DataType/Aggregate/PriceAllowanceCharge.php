@@ -68,7 +68,7 @@ class PriceAllowanceCharge
 
     public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): ?self
     {
-        $priceAllowanceChargeElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
+        $priceAllowanceChargeElements = $xpath->query(\sprintf('./%s', self::XML_NODE), $currentElement);
 
         if (0 === $priceAllowanceChargeElements->count()) {
             return null;

@@ -32,7 +32,7 @@ class PaymentDueDate
 
     public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): ?self
     {
-        $dueDateElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
+        $dueDateElements = $xpath->query(\sprintf('./%s', self::XML_NODE), $currentElement);
 
         if (0 === $dueDateElements->count()) {
             return null;

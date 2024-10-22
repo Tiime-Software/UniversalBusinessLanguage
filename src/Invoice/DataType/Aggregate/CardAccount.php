@@ -57,7 +57,7 @@ class CardAccount
 
     public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): ?self
     {
-        $cardAccountElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
+        $cardAccountElements = $xpath->query(\sprintf('./%s', self::XML_NODE), $currentElement);
 
         if (0 === $cardAccountElements->count()) {
             return null;

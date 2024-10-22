@@ -32,7 +32,7 @@ class DespatchDocumentReference
 
     public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): ?self
     {
-        $despatchDocumentReferenceElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
+        $despatchDocumentReferenceElements = $xpath->query(\sprintf('./%s', self::XML_NODE), $currentElement);
 
         if (0 === $despatchDocumentReferenceElements->count()) {
             return null;

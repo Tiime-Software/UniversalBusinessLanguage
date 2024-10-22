@@ -32,7 +32,7 @@ class PayeePartyName
 
     public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): self
     {
-        $payeePartyNameElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
+        $payeePartyNameElements = $xpath->query(\sprintf('./%s', self::XML_NODE), $currentElement);
 
         if (1 !== $payeePartyNameElements->count()) {
             throw new \Exception('Malformed');

@@ -34,7 +34,7 @@ class FinancialInstitutionBranch
 
     public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): ?self
     {
-        $financialInstitutionElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
+        $financialInstitutionElements = $xpath->query(\sprintf('./%s', self::XML_NODE), $currentElement);
 
         if (0 === $financialInstitutionElements->count()) {
             return null;

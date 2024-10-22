@@ -64,7 +64,7 @@ class LegalMonetaryTotal
         LineExtensionAmount $lineExtensionAmount,
         TaxExclusiveAmount $taxExclusiveAmount,
         TaxInclusiveAmount $taxInclusiveAmount,
-        PayableAmount $payableAmount
+        PayableAmount $payableAmount,
     ) {
         $this->lineExtensionAmount   = $lineExtensionAmount;
         $this->taxExclusiveAmount    = $taxExclusiveAmount;
@@ -175,7 +175,7 @@ class LegalMonetaryTotal
 
     public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): self
     {
-        $legalMonetaryTotalElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
+        $legalMonetaryTotalElements = $xpath->query(\sprintf('./%s', self::XML_NODE), $currentElement);
 
         if (1 !== $legalMonetaryTotalElements->count()) {
             throw new \Exception('Malformed');

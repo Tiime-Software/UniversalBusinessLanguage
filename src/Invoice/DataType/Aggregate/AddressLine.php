@@ -32,7 +32,7 @@ class AddressLine
 
     public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): ?self
     {
-        $countryElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
+        $countryElements = $xpath->query(\sprintf('./%s', self::XML_NODE), $currentElement);
 
         if (0 === $countryElements->count()) {
             return null;

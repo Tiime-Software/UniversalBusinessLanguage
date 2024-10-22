@@ -32,7 +32,7 @@ class InvoiceDocumentReferenceIssueDate
 
     public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): ?self
     {
-        $issueDateElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
+        $issueDateElements = $xpath->query(\sprintf('./%s', self::XML_NODE), $currentElement);
 
         if (0 === $issueDateElements->count()) {
             return null;

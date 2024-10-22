@@ -42,7 +42,7 @@ class TaxRepresentativePartyTaxScheme
 
     public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): self
     {
-        $partyTaxSchemeElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
+        $partyTaxSchemeElements = $xpath->query(\sprintf('./%s', self::XML_NODE), $currentElement);
 
         if (1 !== $partyTaxSchemeElements->count()) {
             throw new \Exception('Malformed');

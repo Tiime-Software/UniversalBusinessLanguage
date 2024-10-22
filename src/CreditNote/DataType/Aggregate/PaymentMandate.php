@@ -65,7 +65,7 @@ class PaymentMandate
 
     public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): ?self
     {
-        $paymentMandateElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
+        $paymentMandateElements = $xpath->query(\sprintf('./%s', self::XML_NODE), $currentElement);
 
         if (0 === $paymentMandateElements->count()) {
             return null;

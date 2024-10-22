@@ -177,7 +177,7 @@ class SellerParty
 
     public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): self
     {
-        $partyElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
+        $partyElements = $xpath->query(\sprintf('./%s', self::XML_NODE), $currentElement);
 
         if (1 !== $partyElements->count()) {
             throw new \Exception('Malformed');

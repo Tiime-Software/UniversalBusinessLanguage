@@ -76,7 +76,7 @@ class CommodityClassification
      */
     public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): array
     {
-        $commodityClassificationElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
+        $commodityClassificationElements = $xpath->query(\sprintf('./%s', self::XML_NODE), $currentElement);
 
         if (0 === $commodityClassificationElements->count()) {
             return [];

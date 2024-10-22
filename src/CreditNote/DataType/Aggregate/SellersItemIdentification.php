@@ -32,7 +32,7 @@ class SellersItemIdentification
 
     public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): ?self
     {
-        $sellersItemIdentificationElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
+        $sellersItemIdentificationElements = $xpath->query(\sprintf('./%s', self::XML_NODE), $currentElement);
 
         if (0 === $sellersItemIdentificationElements->count()) {
             return null;

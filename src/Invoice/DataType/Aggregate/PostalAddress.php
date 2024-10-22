@@ -167,7 +167,7 @@ class PostalAddress
 
     public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): self
     {
-        $postalAddressElements = $xpath->query(sprintf('./%s', self::XML_NODE), $currentElement);
+        $postalAddressElements = $xpath->query(\sprintf('./%s', self::XML_NODE), $currentElement);
 
         if (1 !== $postalAddressElements->count()) {
             throw new \Exception('Malformed');
