@@ -5,6 +5,7 @@ use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate\TaxCategory;
 use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Basic\AllowanceChargeAmount;
 use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Basic\BaseAmount;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
+use Tiime\EN16931\Codelist\ChargeReasonCodeUNTDID7161 as ChargeReasonCode;
 
 class CreditNoteChargeTest extends BaseXMLNodeTestWithHelpers
 {

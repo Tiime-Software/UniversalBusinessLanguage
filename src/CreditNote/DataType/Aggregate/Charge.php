@@ -7,6 +7,7 @@ namespace Tiime\UniversalBusinessLanguage\CreditNote\DataType\Aggregate;
 use Tiime\EN16931\SemanticDataType\Percentage;
 use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Basic\AllowanceChargeAmount;
 use Tiime\UniversalBusinessLanguage\CreditNote\DataType\Basic\BaseAmount;
+use Tiime\EN16931\Codelist\ChargeReasonCodeUNTDID7161 as ChargeReasonCode;
 
 /**
  * BG-21.

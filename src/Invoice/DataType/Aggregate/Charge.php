@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tiime\UniversalBusinessLanguage\Invoice\DataType\Aggregate;
 
+use Tiime\EN16931\Codelist\ChargeReasonCodeUNTDID7161 as ChargeReasonCode;
 use Tiime\EN16931\SemanticDataType\Percentage;
 use Tiime\UniversalBusinessLanguage\Invoice\DataType\Basic\AllowanceChargeAmount;
 use Tiime\UniversalBusinessLanguage\Invoice\DataType\Basic\BaseAmount;

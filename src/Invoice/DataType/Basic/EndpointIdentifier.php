@@ -8,14 +8,9 @@ use Tiime\EN16931\DataType\Identifier\ElectronicAddressIdentifier;
 /**
  * BT-34. or BT-49.
  */
-class EndpointIdentifier extends ElectronicAddressIdentifier
+readonly class EndpointIdentifier extends ElectronicAddressIdentifier
 {
     protected const XML_NODE = 'cbc:EndpointID';
-
-    public function __construct(string $value, ElectronicAddressScheme $scheme)
-    {
-        parent::__construct($value, $scheme);
-    }
 
     public function toXML(\DOMDocument $document): \DOMElement
     {
