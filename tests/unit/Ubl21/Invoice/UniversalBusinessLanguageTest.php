@@ -5,6 +5,7 @@ namespace Tiime\UniversalBusinessLanguage\Tests\unit\Ubl21\Invoice;
 use Tiime\EN16931\Codelist\CurrencyCodeISO4217 as CurrencyCode;
 use Tiime\EN16931\DataType\Identifier\InvoiceIdentifier;
 use Tiime\EN16931\DataType\Identifier\SpecificationIdentifier;
+use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Aggregate\AccountingCustomerParty;
 use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Aggregate\AccountingSupplierParty;
 use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Aggregate\AdditionalDocumentReference;
@@ -27,11 +28,11 @@ use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Aggregate\TaxRepresen
 use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Aggregate\TaxTotal;
 use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Basic\DueDate;
 use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Basic\IssueDate;
+use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Basic\Note;
 use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Basic\TaxPointDate;
 use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\InvoiceTypeCode;
 use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\UniversalBusinessLanguage;
 use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\Utils\UniversalBusinessLanguageUtils;
-use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
 class UniversalBusinessLanguageTest extends BaseXMLNodeTestWithHelpers
 {
@@ -41,13 +42,13 @@ class UniversalBusinessLanguageTest extends BaseXMLNodeTestWithHelpers
     protected function setUp(): void
     {
         parent::setUp();
-        $this->xmlValidContent = file_get_contents(__DIR__ . '/../sample/ubl_fullcontent.xml');
+        $this->xmlValidContent = file_get_contents(__DIR__ . '/../sample/ubl21_fullcontent.xml');
 
         if ('' === $this->xmlValidContent) {
             $this->fail('cant load valid full sample');
         }
 
-        $this->xmlValidNoDefaultNamespace = file_get_contents(__DIR__ . '/../sample/ubl_no_default_namespace.xml');
+        $this->xmlValidNoDefaultNamespace = file_get_contents(__DIR__ . '/../sample/ubl21_no_default_namespace.xml');
 
         if ('' === $this->xmlValidNoDefaultNamespace) {
             $this->fail('cant load valid no default namespace sample');
@@ -66,7 +67,13 @@ class UniversalBusinessLanguageTest extends BaseXMLNodeTestWithHelpers
         $this->assertInstanceOf(IssueDate::class, $ublObject->getIssueDate());
         $this->assertInstanceOf(DueDate::class, $ublObject->getDueDate());
         $this->assertInstanceOf(InvoiceTypeCode::class, $ublObject->getInvoiceTypeCode());
-        $this->assertEquals('Please note our new phone number 33 44 55 66', $ublObject->getNote());
+        $this->assertIsArray($ublObject->getNotes());
+        $this->assertCount(2, $ublObject->getNotes());
+
+        foreach ($ublObject->getNotes() as $note) {
+            $this->assertInstanceOf(Note::class, $note);
+        }
+
         $this->assertInstanceOf(TaxPointDate::class, $ublObject->getTaxPointDate());
         $this->assertInstanceOf(CurrencyCode::class, $ublObject->getDocumentCurrencyCode());
         $this->assertInstanceOf(CurrencyCode::class, $ublObject->getTaxCurrencyCode());
@@ -80,6 +87,7 @@ class UniversalBusinessLanguageTest extends BaseXMLNodeTestWithHelpers
         foreach ($ublObject->getBillingReferences() as $billingReference) {
             $this->assertInstanceOf(BillingReference::class, $billingReference);
         }
+
         $this->assertInstanceOf(DespatchDocumentReference::class, $ublObject->getDespatchDocumentReference());
         $this->assertInstanceOf(ReceiptDocumentReference::class, $ublObject->getReceiptDocumentReference());
         $this->assertInstanceOf(OriginatorDocumentReference::class, $ublObject->getOriginatorDocumentReference());

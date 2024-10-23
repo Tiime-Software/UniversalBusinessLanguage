@@ -30,6 +30,7 @@ use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Aggregate\TaxRepresen
 use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Aggregate\TaxTotal;
 use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Basic\DueDate;
 use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Basic\IssueDate;
+use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Basic\Note;
 use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Basic\TaxPointDate;
 use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\InvoiceTypeCode;
 use Tiime\UniversalBusinessLanguage\UniversalBusinessLanguageInterface;
@@ -120,9 +121,10 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
 
     /**
      * BG-1-00.
-     * en (0,1) conformément au format UBL Peppol mais en désaccord avec les specs 2.3 (0,n) et la norme Oasis (2.x).
+     *
+     * @var array<int, Note>
      */
-    private ?string $note;
+    private array $notes;
 
     /**
      * BT-23.
@@ -281,7 +283,7 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
         $this->despatchDocumentReference    = null;
         $this->originatorDocumentReference  = null;
         $this->accountingCost               = null;
-        $this->note                         = null;
+        $this->notes                        = [];
         $this->billingReferences            = [];
         $this->additionalDocumentReferences = [];
         $this->payeeParty                   = null;
@@ -463,14 +465,28 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
         return $this;
     }
 
-    public function getNote(): ?string
+    /**
+     * @return array|Note[]
+     */
+    public function getNotes(): array
     {
-        return $this->note;
+        return $this->notes;
     }
 
-    public function setNote(?string $note): static
+    /**
+     * @param array<int, Note> $notes
+     *
+     * @return $this
+     */
+    public function setNotes(array $notes): static
     {
-        $this->note = $note;
+        foreach ($notes as $note) {
+            if (!$note instanceof Note) {
+                throw new \TypeError();
+            }
+        }
+
+        $this->notes = $notes;
 
         return $this;
     }
@@ -734,8 +750,8 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
         }
         $root->appendChild($document->createElement('cbc:InvoiceTypeCode', $this->invoiceTypeCode->value));
 
-        if (\is_string($this->note)) {
-            $root->appendChild($document->createElement('cbc:Note', $this->note));
+        foreach ($this->notes as $note) {
+            $root->appendChild($note->toXML($document));
         }
 
         if ($this->taxPointDate instanceof TaxPointDate) {
@@ -905,7 +921,7 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
         $despatchDocumentReference    = DespatchDocumentReference::fromXML($xpath, $universalBusinessLanguageElement);
         $originatorDocumentReference  = OriginatorDocumentReference::fromXML($xpath, $universalBusinessLanguageElement);
         $accountingCostElements       = $xpath->query('./cbc:AccountingCost', $universalBusinessLanguageElement);
-        $noteElements                 = $xpath->query('./cbc:Note', $universalBusinessLanguageElement);
+        $notes                        = Note::fromXML($xpath, $universalBusinessLanguageElement);
         $billingReferences            = BillingReference::fromXML($xpath, $universalBusinessLanguageElement);
         $additionalDocumentReferences = AdditionalDocumentReference::fromXML($xpath, $universalBusinessLanguageElement);
         $accountingSupplierParty      = AccountingSupplierParty::fromXML($xpath, $universalBusinessLanguageElement);
@@ -948,10 +964,6 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
         }
 
         if ($accountingCostElements->count() > 1) {
-            throw new \Exception('Malformed');
-        }
-
-        if ($noteElements->count() > 1) {
             throw new \Exception('Malformed');
         }
 
@@ -1003,8 +1015,8 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
             $universalBusinessLanguage->setBuyerReference($buyerReferenceElements->item(0)->nodeValue);
         }
 
-        if (1 === $noteElements->count()) {
-            $universalBusinessLanguage->setNote($noteElements->item(0)->nodeValue);
+        if (\count($notes) > 0) {
+            $universalBusinessLanguage->setNotes($notes);
         }
 
         if ($projectReference instanceof ProjectReference) {
