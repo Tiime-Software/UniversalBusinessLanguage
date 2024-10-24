@@ -124,7 +124,7 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
      * BT-23.
      * en (1,1) conformément au format UBL mais en désaccord avec les specs 2.3 (0,1).
      */
-    private string $profileIdentifier;
+    private ?string $profileIdentifier;
 
     /**
      * BT-24.
@@ -226,7 +226,6 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
         CreditNoteTypeCode $creditNoteTypeCode,
         CurrencyCode $documentCurrencyCode,
         SpecificationIdentifier $customizationIdentifier,
-        string $profileIdentifier,
         AccountingSupplierParty $accountingSupplierParty,
         AccountingCustomerParty $accountingCustomerParty,
         array $taxTotals,
@@ -259,12 +258,12 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
         $this->creditNoteTypeCode      = $creditNoteTypeCode;
         $this->documentCurrencyCode    = $documentCurrencyCode;
         $this->customizationIdentifier = $customizationIdentifier;
-        $this->profileIdentifier       = $profileIdentifier;
         $this->accountingSupplierParty = $accountingSupplierParty;
         $this->accountingCustomerParty = $accountingCustomerParty;
         $this->taxTotals               = $taxTotals;
         $this->legalMonetaryTotal      = $legalMonetaryTotal;
 
+        $this->profileIdentifier            = null;
         $this->taxCurrencyCode              = null;
         $this->taxPointDate                 = null;
         $this->invoicePeriod                = null;
@@ -484,7 +483,7 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
         return $this;
     }
 
-    public function getProfileIdentifier(): string
+    public function getProfileIdentifier(): ?string
     {
         return $this->profileIdentifier;
     }
@@ -722,7 +721,10 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
             $root->appendChild($document->createElement('cbc:UBLVersionID', $this->ublVersionIdentifier));
         }
         $root->appendChild($document->createElement('cbc:CustomizationID', $this->customizationIdentifier->value));
-        $root->appendChild($document->createElement('cbc:ProfileID', $this->profileIdentifier));
+
+        if (\is_string($this->profileIdentifier)) {
+            $root->appendChild($document->createElement('cbc:ProfileID', $this->profileIdentifier));
+        }
         $root->appendChild($document->createElement('cbc:ID', $this->identifier->value));
         $root->appendChild($this->issueDate->toXML($document));
 
@@ -879,10 +881,13 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
 
         $profileIdentifierElements = $xpath->query('./cbc:ProfileID', $universalBusinessLanguageElement);
 
-        if (1 !== $profileIdentifierElements->count()) {
+        if ($profileIdentifierElements->count() > 1) {
             throw new \Exception('Malformed');
         }
-        $profileIdentifier = (string) $profileIdentifierElements->item(0)->nodeValue;
+
+        if (1 === $profileIdentifierElements->count()) {
+            $profileIdentifier = (string) $profileIdentifierElements->item(0)->nodeValue;
+        }
 
         $taxCurrencyCodeElements      = $xpath->query('./cbc:TaxCurrencyCode', $universalBusinessLanguageElement);
         $taxPointDate                 = TaxPointDate::fromXML($xpath, $universalBusinessLanguageElement);
@@ -961,7 +966,6 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
             $invoiceTypeCode,
             $documentCurrencyCode,
             $customizationIdentifier,
-            $profileIdentifier,
             $accountingSupplierParty,
             $accountingCustomerParty,
             $taxTotals,
