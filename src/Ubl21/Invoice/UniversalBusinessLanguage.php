@@ -128,7 +128,6 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
 
     /**
      * BT-23.
-     * en (1,1) conformément au format UBL mais en désaccord avec les specs 2.3 (0,1).
      */
     private ?string $profileIdentifier;
 

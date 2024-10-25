@@ -11,7 +11,7 @@ class BuyerParty
     /**
      * BT-49.
      */
-    private EndpointIdentifier $endpointIdentifier;
+    private ?EndpointIdentifier $endpointIdentifier;
 
     /**
      * BT-46.
@@ -40,9 +40,9 @@ class BuyerParty
      */
     private ?Contact $contact;
 
-    public function __construct(EndpointIdentifier $endpointIdentifier, PostalAddress $postalAddress, BuyerPartyLegalEntity $partyLegalEntity)
+    public function __construct(PostalAddress $postalAddress, BuyerPartyLegalEntity $partyLegalEntity)
     {
-        $this->endpointIdentifier  = $endpointIdentifier;
+        $this->endpointIdentifier  = null;
         $this->postalAddress       = $postalAddress;
         $this->partyLegalEntity    = $partyLegalEntity;
         $this->partyIdentification = null;
@@ -51,9 +51,16 @@ class BuyerParty
         $this->contact             = null;
     }
 
-    public function getEndpointIdentifier(): EndpointIdentifier
+    public function getEndpointIdentifier(): ?EndpointIdentifier
     {
         return $this->endpointIdentifier;
+    }
+
+    public function setEndpointIdentifier(?EndpointIdentifier $endpointIdentifier): static
+    {
+        $this->endpointIdentifier = $endpointIdentifier;
+
+        return $this;
     }
 
     public function getPartyIdentification(): ?BuyerPartyIdentification
@@ -118,7 +125,9 @@ class BuyerParty
     {
         $currentNode = $document->createElement(self::XML_NODE);
 
-        $currentNode->appendChild($this->endpointIdentifier->toXML($document));
+        if ($this->endpointIdentifier instanceof EndpointIdentifier) {
+            $currentNode->appendChild($this->endpointIdentifier->toXML($document));
+        }
 
         if ($this->partyIdentification instanceof BuyerPartyIdentification) {
             $currentNode->appendChild($this->partyIdentification->toXML($document));
@@ -162,7 +171,11 @@ class BuyerParty
         $postalAddress       = PostalAddress::fromXML($xpath, $partyElement);
         $contact             = Contact::fromXML($xpath, $partyElement);
 
-        $party = new self($endpointId, $postalAddress, $partyLegalEntity);
+        $party = new self($postalAddress, $partyLegalEntity);
+
+        if ($endpointId instanceof EndpointIdentifier) {
+            $party->setEndpointIdentifier($endpointId);
+        }
 
         if ($partyIdentification instanceof BuyerPartyIdentification) {
             $party->setPartyIdentification($partyIdentification);

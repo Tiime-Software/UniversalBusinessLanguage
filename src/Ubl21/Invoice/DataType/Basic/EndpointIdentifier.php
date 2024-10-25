@@ -21,11 +21,15 @@ readonly class EndpointIdentifier extends ElectronicAddressIdentifier
         return $currentNode;
     }
 
-    public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): self
+    public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): ?self
     {
         $endpointIdentifierElements = $xpath->query(\sprintf('./%s', self::XML_NODE), $currentElement);
 
-        if (1 !== $endpointIdentifierElements->count()) {
+        if (0 === $endpointIdentifierElements->count()) {
+            return null;
+        }
+
+        if ($endpointIdentifierElements->count() > 1) {
             throw new \Exception('Malformed');
         }
 
