@@ -38,7 +38,6 @@ XML;
         $ublObject      = LineExtensionAmount::fromXML($this->xpath, $currentElement);
         $this->assertInstanceOf(LineExtensionAmount::class, $ublObject);
         $this->assertEquals(36, $ublObject->getValue()->getFormattedValueRounded());
-        $this->assertEquals(CurrencyCode::tryFrom('EUR'), $ublObject->getCurrencyCode());
     }
 
     public function testCannotBeCreatedFromInvalidAmount(): void

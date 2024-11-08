@@ -2,7 +2,6 @@
 
 namespace Tiime\UniversalBusinessLanguage\Ubl21\CreditNote\DataType\Basic;
 
-use Tiime\EN16931\Codelist\CurrencyCodeISO4217 as CurrencyCode;
 use Tiime\EN16931\SemanticDataType\Amount;
 
 /**
@@ -14,12 +13,9 @@ class AllowanceChargeAmount
 
     private Amount $value;
 
-    private CurrencyCode $currencyIdentifier;
-
-    public function __construct(float $value, CurrencyCode $currencyIdentifier)
+    public function __construct(float $value)
     {
-        $this->value              = new Amount($value);
-        $this->currencyIdentifier = $currencyIdentifier;
+        $this->value = new Amount($value);
     }
 
     public function getValue(): Amount
@@ -27,18 +23,9 @@ class AllowanceChargeAmount
         return $this->value;
     }
 
-    public function getCurrencyCode(): CurrencyCode
-    {
-        return $this->currencyIdentifier;
-    }
-
     public function toXML(\DOMDocument $document): \DOMElement
     {
-        $currentNode = $document->createElement(self::XML_NODE, $this->value->getFormattedValueRounded());
-
-        $currentNode->setAttribute('currencyID', $this->currencyIdentifier->value);
-
-        return $currentNode;
+        return $document->createElement(self::XML_NODE, $this->value->getFormattedValueRounded());
     }
 
     public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): self
@@ -58,13 +45,6 @@ class AllowanceChargeAmount
 
         $value = (float) $allowanceAmountElement->nodeValue;
 
-        $currencyIdentifier = $allowanceAmountElement->hasAttribute('currencyID') ?
-            CurrencyCode::tryFrom($allowanceAmountElement->getAttribute('currencyID')) : null;
-
-        if (!$currencyIdentifier instanceof CurrencyCode) {
-            throw new \Exception('Invalid currency code');
-        }
-
-        return new self($value, $currencyIdentifier);
+        return new self($value);
     }
 }
