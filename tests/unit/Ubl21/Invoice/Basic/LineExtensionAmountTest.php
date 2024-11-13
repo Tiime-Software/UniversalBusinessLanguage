@@ -3,8 +3,8 @@
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Ubl21\Invoice\Basic;
 
 use Tiime\EN16931\Codelist\CurrencyCodeISO4217 as CurrencyCode;
-use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Basic\LineExtensionAmount;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
+use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Basic\LineExtensionAmount;
 
 class LineExtensionAmountTest extends BaseXMLNodeTestWithHelpers
 {
@@ -38,6 +38,7 @@ XML;
         $ublObject      = LineExtensionAmount::fromXML($this->xpath, $currentElement);
         $this->assertInstanceOf(LineExtensionAmount::class, $ublObject);
         $this->assertEquals(36, $ublObject->getValue()->getFormattedValueRounded());
+        $this->assertEquals(CurrencyCode::tryFrom('EUR'), $ublObject->getCurrencyCode());
     }
 
     public function testCannotBeCreatedFromInvalidAmount(): void
