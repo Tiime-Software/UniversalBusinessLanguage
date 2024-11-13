@@ -2,7 +2,7 @@
 
 namespace Tiime\UniversalBusinessLanguage\PeppolBIS\Invoice\DataType\Aggregate;
 
-use Tiime\EN16931\DataType\DateCode2005;
+use Tiime\EN16931\Codelist\TimeReferencingCodeUNTDID2005 as DateCode2005;
 use Tiime\UniversalBusinessLanguage\PeppolBIS\Invoice\DataType\Basic\EndDate;
 use Tiime\UniversalBusinessLanguage\PeppolBIS\Invoice\DataType\Basic\StartDate;
 

@@ -2,11 +2,11 @@
 
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Ubl21\CreditNote\Aggregate;
 
-use Tiime\EN16931\DataType\DateCode2005;
+use Tiime\EN16931\Codelist\TimeReferencingCodeUNTDID2005 as DateCode2005;
+use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 use Tiime\UniversalBusinessLanguage\Ubl21\CreditNote\DataType\Aggregate\InvoicePeriod;
 use Tiime\UniversalBusinessLanguage\Ubl21\CreditNote\DataType\Basic\EndDate;
 use Tiime\UniversalBusinessLanguage\Ubl21\CreditNote\DataType\Basic\StartDate;
-use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
 class CreditNoteInvoicePeriodTest extends BaseXMLNodeTestWithHelpers
 {
