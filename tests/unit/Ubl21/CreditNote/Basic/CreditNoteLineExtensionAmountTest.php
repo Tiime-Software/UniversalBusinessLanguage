@@ -3,8 +3,8 @@
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Ubl21\CreditNote\Basic;
 
 use Tiime\EN16931\Codelist\CurrencyCodeISO4217 as CurrencyCode;
-use Tiime\UniversalBusinessLanguage\Ubl21\CreditNote\DataType\Basic\LineExtensionAmount;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
+use Tiime\UniversalBusinessLanguage\Ubl21\CreditNote\DataType\Basic\LineExtensionAmount;
 
 class CreditNoteLineExtensionAmountTest extends BaseXMLNodeTestWithHelpers
 {

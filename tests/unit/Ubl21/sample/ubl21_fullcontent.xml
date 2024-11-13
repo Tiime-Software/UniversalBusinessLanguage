@@ -6,7 +6,8 @@
   <cbc:IssueDate>2017-11-01</cbc:IssueDate>
   <cbc:DueDate>2017-11-01</cbc:DueDate>
   <cbc:InvoiceTypeCode>380</cbc:InvoiceTypeCode>
-  <cbc:Note>Please note our new phone number 33 44 55 66</cbc:Note>
+  <cbc:Note>Note 1</cbc:Note>
+  <cbc:Note>##AAC##Attention ça pique</cbc:Note>
   <cbc:TaxPointDate>2017-11-01</cbc:TaxPointDate>
   <cbc:DocumentCurrencyCode>EUR</cbc:DocumentCurrencyCode>
   <cbc:TaxCurrencyCode>SEK</cbc:TaxCurrencyCode>
