@@ -122,7 +122,6 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
 
     /**
      * BT-23.
-     * en (1,1) conformément au format UBL mais en désaccord avec les specs 2.3 (0,1).
      */
     private ?string $profileIdentifier;
 
@@ -486,6 +485,13 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
     public function getProfileIdentifier(): ?string
     {
         return $this->profileIdentifier;
+    }
+
+    public function setProfileIdentifier(?string $profileIdentifier): static
+    {
+        $this->profileIdentifier = $profileIdentifier;
+
+        return $this;
     }
 
     /**
@@ -973,6 +979,10 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
             $invoiceLines
         );
 
+        if (isset($profileIdentifier)) {
+            $universalBusinessLanguage->setProfileIdentifier($profileIdentifier);
+        }
+
         if ($taxCurrencyCode instanceof CurrencyCode) {
             $universalBusinessLanguage->setTaxCurrencyCode($taxCurrencyCode);
         }
@@ -995,10 +1005,6 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
 
         if (\count($notes) > 0) {
             $universalBusinessLanguage->setNotes($notes);
-        }
-
-        if ($projectReference instanceof ProjectReference) {
-            $universalBusinessLanguage->setProjectReference($projectReference);
         }
 
         if ($contractDocumentReference instanceof ContractDocumentReference) {
