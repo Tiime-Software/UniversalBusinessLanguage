@@ -2,9 +2,9 @@
 
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Ubl21\Invoice\Aggregate;
 
-use Tiime\EN16931\DataType\ItemTypeCode;
-use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Aggregate\CommodityClassification;
+use Tiime\EN16931\Codelist\ItemTypeCodeUNTDID7143 as ItemTypeCode;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
+use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Aggregate\CommodityClassification;
 
 class CommodityClassificationTest extends BaseXMLNodeTestWithHelpers
 {

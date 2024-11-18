@@ -2,9 +2,9 @@
 
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Ubl21\CreditNote\Aggregate;
 
-use Tiime\EN16931\DataType\ItemTypeCode;
-use Tiime\UniversalBusinessLanguage\Ubl21\CreditNote\DataType\Aggregate\CommodityClassification;
+use Tiime\EN16931\Codelist\ItemTypeCodeUNTDID7143 as ItemTypeCode;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
+use Tiime\UniversalBusinessLanguage\Ubl21\CreditNote\DataType\Aggregate\CommodityClassification;
 
 class CreditNoteCommodityClassificationTest extends BaseXMLNodeTestWithHelpers
 {

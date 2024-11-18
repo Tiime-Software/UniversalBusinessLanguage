@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tiime\UniversalBusinessLanguage\Ubl21\CreditNote\DataType\Aggregate;
 
-use Tiime\EN16931\DataType\ItemTypeCode;
+use Tiime\EN16931\Codelist\ItemTypeCodeUNTDID7143 as ItemTypeCode;
 
 class CommodityClassification
 {

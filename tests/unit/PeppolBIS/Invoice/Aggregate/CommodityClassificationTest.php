@@ -2,7 +2,7 @@
 
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\PeppolBIS\Invoice\Aggregate;
 
-use Tiime\EN16931\DataType\ItemTypeCode;
+use Tiime\EN16931\Codelist\ItemTypeCodeUNTDID7143 as ItemTypeCode;
 use Tiime\UniversalBusinessLanguage\PeppolBIS\Invoice\DataType\Aggregate\CommodityClassification;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
