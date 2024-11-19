@@ -56,7 +56,7 @@ class BuyerParty
         return $this->endpointIdentifier;
     }
 
-    public function setEndpointIdentifier(EndpointIdentifier $endpointIdentifier): static
+    public function setEndpointIdentifier(?EndpointIdentifier $endpointIdentifier): static
     {
         $this->endpointIdentifier = $endpointIdentifier;
 
