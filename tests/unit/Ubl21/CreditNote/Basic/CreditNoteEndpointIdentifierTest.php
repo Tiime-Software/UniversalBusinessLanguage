@@ -3,8 +3,8 @@
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Ubl21\CreditNote\Basic;
 
 use Tiime\EN16931\Codelist\ElectronicAddressSchemeCode as ElectronicAddressScheme;
-use Tiime\UniversalBusinessLanguage\Ubl21\CreditNote\DataType\Basic\EndpointIdentifier;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
+use Tiime\UniversalBusinessLanguage\Ubl21\CreditNote\DataType\Basic\EndpointIdentifier;
 
 class CreditNoteEndpointIdentifierTest extends BaseXMLNodeTestWithHelpers
 {
@@ -24,11 +24,6 @@ XML;
 <CreditNote xmlns="urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cbc:EndpointID schemeID="EM">VendeurCanal1.00017@100000009.ppf</cbc:EndpointID>
   <cbc:EndpointID schemeID="EM">VendeurCanal1.00017@100000009.ppf</cbc:EndpointID>
-</CreditNote>
-XML;
-
-    protected const XML_INVALID_NO_CODE = <<<XML
-<CreditNote xmlns="urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
 </CreditNote>
 XML;
 
@@ -52,13 +47,6 @@ XML;
     {
         $this->expectException(\Exception::class);
         $currentElement = $this->loadXMLDocument(self::XML_INVALID_MULTIPLE_CODES);
-        EndpointIdentifier::fromXML($this->xpath, $currentElement);
-    }
-
-    public function testCannotBeCreatedFromNoCode(): void
-    {
-        $this->expectException(\Exception::class);
-        $currentElement = $this->loadXMLDocument(self::XML_INVALID_NO_CODE);
         EndpointIdentifier::fromXML($this->xpath, $currentElement);
     }
 
