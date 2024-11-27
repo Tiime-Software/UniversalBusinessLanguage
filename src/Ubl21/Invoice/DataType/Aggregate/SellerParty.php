@@ -2,7 +2,7 @@
 
 namespace Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Aggregate;
 
-use Tiime\UniversalBusinessLanguage\Ubl21\CreditNote\DataType\Aggregate\SellerPartyBACIdentification;
+use Tiime\UniversalBusinessLanguage\Ubl21\CreditNote\DataType\Aggregate\SellerPartyBankAccountIdentification;
 use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Basic\EndpointIdentifier;
 
 class SellerParty
@@ -24,9 +24,9 @@ class SellerParty
     /**
      * BT-90-00.
      *
-     * @var array<int, SellerPartyBACIdentification>
+     * @var array<int, SellerPartyBankAccountIdentification>
      */
-    private array $partyBACIdentifications;
+    private array $partyBankAccountIdentifications;
 
     private SellerPartyLegalEntity $partyLegalEntity;
 
@@ -54,14 +54,14 @@ class SellerParty
 
     public function __construct(PostalAddress $postalAddress, SellerPartyLegalEntity $partyLegalEntity)
     {
-        $this->endpointIdentifier      = null;
-        $this->postalAddress           = $postalAddress;
-        $this->partyIdentifications    = [];
-        $this->partyBACIdentifications = [];
-        $this->partyLegalEntity        = $partyLegalEntity;
-        $this->partyTaxSchemes         = [];
-        $this->partyName               = null;
-        $this->contact                 = null;
+        $this->endpointIdentifier              = null;
+        $this->postalAddress                   = $postalAddress;
+        $this->partyIdentifications            = [];
+        $this->partyBankAccountIdentifications = [];
+        $this->partyLegalEntity                = $partyLegalEntity;
+        $this->partyTaxSchemes                 = [];
+        $this->partyName                       = null;
+        $this->contact                         = null;
     }
 
     public function getEndpointIdentifier(): ?EndpointIdentifier
@@ -103,27 +103,27 @@ class SellerParty
     }
 
     /**
-     * @return array|SellerPartyBACIdentification[]
+     * @return array|SellerPartyBankAccountIdentification[]
      */
-    public function getPartyBACIdentifications(): array
+    public function getPartyBankAccountIdentifications(): array
     {
-        return $this->partyBACIdentifications;
+        return $this->partyBankAccountIdentifications;
     }
 
     /**
-     * @param array<int, SellerPartyBACIdentification> $partyBACIdentifications
+     * @param array<int, SellerPartyBankAccountIdentification> $partyBankAccountIdentifications
      *
      * @return $this
      */
-    public function setPartyBACIdentifications(array $partyBACIdentifications): static
+    public function setPartyBankAccountIdentifications(array $partyBankAccountIdentifications): static
     {
-        foreach ($partyBACIdentifications as $partyBACIdentification) {
-            if (!$partyBACIdentification instanceof SellerPartyBACIdentification) {
+        foreach ($partyBankAccountIdentifications as $partyBankAccountIdentification) {
+            if (!$partyBankAccountIdentification instanceof SellerPartyBankAccountIdentification) {
                 throw new \TypeError();
             }
         }
 
-        $this->partyBACIdentifications = $partyBACIdentifications;
+        $this->partyBankAccountIdentifications = $partyBankAccountIdentifications;
 
         return $this;
     }
@@ -200,8 +200,8 @@ class SellerParty
             $currentNode->appendChild($sellerPartyIdentification->toXML($document));
         }
 
-        foreach ($this->partyBACIdentifications as $partyBACIdentification) {
-            $currentNode->appendChild($partyBACIdentification->toXML($document));
+        foreach ($this->partyBankAccountIdentifications as $partyBankAccountIdentification) {
+            $currentNode->appendChild($partyBankAccountIdentification->toXML($document));
         }
 
         if ($this->partyName instanceof PartyName) {
@@ -234,14 +234,14 @@ class SellerParty
         /** @var \DOMElement $partyElement */
         $partyElement = $partyElements->item(0);
 
-        $endpointId              = EndpointIdentifier::fromXML($xpath, $partyElement);
-        $partyIdentifications    = SellerPartyIdentification::fromXML($xpath, $partyElement);
-        $partyBACIdentifications = SellerPartyBACIdentification::fromXML($xpath, $partyElement);
-        $partyLegalEntity        = SellerPartyLegalEntity::fromXML($xpath, $partyElement);
-        $partyTaxSchemes         = SellerPartyTaxScheme::fromXML($xpath, $partyElement);
-        $partyName               = PartyName::fromXML($xpath, $partyElement);
-        $postalAddress           = PostalAddress::fromXML($xpath, $partyElement);
-        $contact                 = Contact::fromXML($xpath, $partyElement);
+        $endpointId                      = EndpointIdentifier::fromXML($xpath, $partyElement);
+        $partyIdentifications            = SellerPartyIdentification::fromXML($xpath, $partyElement);
+        $partyBankAccountIdentifications = SellerPartyBankAccountIdentification::fromXML($xpath, $partyElement);
+        $partyLegalEntity                = SellerPartyLegalEntity::fromXML($xpath, $partyElement);
+        $partyTaxSchemes                 = SellerPartyTaxScheme::fromXML($xpath, $partyElement);
+        $partyName                       = PartyName::fromXML($xpath, $partyElement);
+        $postalAddress                   = PostalAddress::fromXML($xpath, $partyElement);
+        $contact                         = Contact::fromXML($xpath, $partyElement);
 
         $party = new self($postalAddress, $partyLegalEntity);
 
@@ -253,8 +253,8 @@ class SellerParty
             $party->setPartyIdentifications($partyIdentifications);
         }
 
-        if (\count($partyBACIdentifications) > 0) {
-            $party->setPartyBACIdentifications($partyBACIdentifications);
+        if (\count($partyBankAccountIdentifications) > 0) {
+            $party->setPartyBankAccountIdentifications($partyBankAccountIdentifications);
         }
 
         if (\count($partyTaxSchemes) > 0) {
