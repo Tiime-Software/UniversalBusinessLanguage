@@ -2,8 +2,8 @@
 
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Ubl21\Invoice\Aggregate;
 
-use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Aggregate\PayeePartyBACIdentification;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
+use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Aggregate\PayeePartyBankAssignedCreditorIdentification;
 
 class PayeePartyBACIdentificationTest extends BaseXMLNodeTestWithHelpers
 {
@@ -38,8 +38,8 @@ XML;
     public function testCanBeCreatedFromContent(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_CONTENT);
-        $ublObject      = PayeePartyBACIdentification::fromXML($this->xpath, $currentElement);
-        $this->assertInstanceOf(PayeePartyBACIdentification::class, $ublObject);
+        $ublObject      = PayeePartyBankAssignedCreditorIdentification::fromXML($this->xpath, $currentElement);
+        $this->assertInstanceOf(PayeePartyBankAssignedCreditorIdentification::class, $ublObject);
         $this->assertEquals('FR932874294', $ublObject->getBankAssignedCreditorIdentifier());
     }
 
@@ -47,20 +47,20 @@ XML;
     {
         $this->expectException(\Exception::class);
         $currentElement = $this->loadXMLDocument(self::XML_INVALID_MANY_CONTENTS);
-        PayeePartyBACIdentification::fromXML($this->xpath, $currentElement);
+        PayeePartyBankAssignedCreditorIdentification::fromXML($this->xpath, $currentElement);
     }
 
     public function testCannotBeCreatedFromManyLines(): void
     {
         $this->expectException(\Exception::class);
         $currentElement = $this->loadXMLDocument(self::XML_INVALID_MANY_LINES);
-        PayeePartyBACIdentification::fromXML($this->xpath, $currentElement);
+        PayeePartyBankAssignedCreditorIdentification::fromXML($this->xpath, $currentElement);
     }
 
     public function testGenerateXml(): void
     {
         $currentElement  = $this->loadXMLDocument(self::XML_VALID_CONTENT);
-        $ublObject       = PayeePartyBACIdentification::fromXML($this->xpath, $currentElement);
+        $ublObject       = PayeePartyBankAssignedCreditorIdentification::fromXML($this->xpath, $currentElement);
         $rootDestination = $this->generateEmptyInvoiceRootDocument();
         $rootDestination->appendChild($ublObject->toXML($this->document));
         $generatedOutput = $this->formatXMLOutput();

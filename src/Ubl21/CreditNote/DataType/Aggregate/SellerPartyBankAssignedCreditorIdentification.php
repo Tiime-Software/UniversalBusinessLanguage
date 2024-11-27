@@ -5,7 +5,7 @@ namespace Tiime\UniversalBusinessLanguage\Ubl21\CreditNote\DataType\Aggregate;
 /**
  * BT-90.
  */
-class SellerPartyBankAccountIdentification
+class SellerPartyBankAssignedCreditorIdentification
 {
     protected const XML_NODE = 'cac:PartyIdentification';
 
