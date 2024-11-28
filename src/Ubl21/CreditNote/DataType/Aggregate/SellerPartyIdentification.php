@@ -41,7 +41,7 @@ class SellerPartyIdentification
 
     public static function fromXML(\DOMXPath $xpath, \DOMElement $currentElement): array
     {
-        $partyIdentificationElements = $xpath->query(\sprintf('./%s', self::XML_NODE), $currentElement);
+        $partyIdentificationElements = $xpath->query(\sprintf('./%s[cbc:ID[@schemeID!=\'SEPA\']]', self::XML_NODE), $currentElement);
 
         if (0 === $partyIdentificationElements->count()) {
             return [];
