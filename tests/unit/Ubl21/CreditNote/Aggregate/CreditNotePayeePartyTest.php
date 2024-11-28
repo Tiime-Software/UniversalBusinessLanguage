@@ -2,11 +2,11 @@
 
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Ubl21\CreditNote\Aggregate;
 
+use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 use Tiime\UniversalBusinessLanguage\Ubl21\CreditNote\DataType\Aggregate\PayeeParty;
-use Tiime\UniversalBusinessLanguage\Ubl21\CreditNote\DataType\Aggregate\PayeePartyBACIdentification;
+use Tiime\UniversalBusinessLanguage\Ubl21\CreditNote\DataType\Aggregate\PayeePartyBankAssignedCreditorIdentification;
 use Tiime\UniversalBusinessLanguage\Ubl21\CreditNote\DataType\Aggregate\PayeePartyLegalEntity;
 use Tiime\UniversalBusinessLanguage\Ubl21\CreditNote\DataType\Aggregate\PayeePartyName;
-use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
 class CreditNotePayeePartyTest extends BaseXMLNodeTestWithHelpers
 {
@@ -62,7 +62,7 @@ XML;
         $ublObject      = PayeeParty::fromXML($this->xpath, $currentElement);
         $this->assertInstanceOf(PayeeParty::class, $ublObject);
         $this->assertNull($ublObject->getPartyIdentification());
-        $this->assertInstanceOf(PayeePartyBACIdentification::class, $ublObject->getPartyBACIdentification());
+        $this->assertInstanceOf(PayeePartyBankAssignedCreditorIdentification::class, $ublObject->getPartyBankAssignedCreditorIdentification());
         $this->assertInstanceOf(PayeePartyName::class, $ublObject->getPartyName());
         $this->assertInstanceOf(PayeePartyLegalEntity::class, $ublObject->getPartyLegalEntity());
     }
@@ -73,7 +73,7 @@ XML;
         $ublObject      = PayeeParty::fromXML($this->xpath, $currentElement);
         $this->assertInstanceOf(PayeeParty::class, $ublObject);
         $this->assertNull($ublObject->getPartyIdentification());
-        $this->assertNull($ublObject->getPartyBACIdentification());
+        $this->assertNull($ublObject->getPartyBankAssignedCreditorIdentification());
         $this->assertInstanceOf(PayeePartyName::class, $ublObject->getPartyName());
         $this->assertNull($ublObject->getPartyLegalEntity());
     }
