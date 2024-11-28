@@ -2,6 +2,7 @@
 
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Ubl21\CreditNote\Aggregate;
 
+use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 use Tiime\UniversalBusinessLanguage\Ubl21\CreditNote\DataType\Aggregate\Contact;
 use Tiime\UniversalBusinessLanguage\Ubl21\CreditNote\DataType\Aggregate\PartyName;
 use Tiime\UniversalBusinessLanguage\Ubl21\CreditNote\DataType\Aggregate\PostalAddress;
@@ -9,7 +10,6 @@ use Tiime\UniversalBusinessLanguage\Ubl21\CreditNote\DataType\Aggregate\SellerPa
 use Tiime\UniversalBusinessLanguage\Ubl21\CreditNote\DataType\Aggregate\SellerPartyIdentification;
 use Tiime\UniversalBusinessLanguage\Ubl21\CreditNote\DataType\Aggregate\SellerPartyLegalEntity;
 use Tiime\UniversalBusinessLanguage\Ubl21\CreditNote\DataType\Basic\EndpointIdentifier;
-use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
 class CreditNoteSellerPartyTest extends BaseXMLNodeTestWithHelpers
 {
@@ -19,6 +19,9 @@ class CreditNoteSellerPartyTest extends BaseXMLNodeTestWithHelpers
     <cbc:EndpointID schemeID="EM">VendeurCanal1.00017@100000009.ppf</cbc:EndpointID>
     <cac:PartyIdentification>
       <cbc:ID schemeID="0009">10000000900017</cbc:ID>
+    </cac:PartyIdentification>
+    <cac:PartyIdentification>
+      <cbc:ID schemeID="SEPA">10000000900018</cbc:ID>
     </cac:PartyIdentification>
     <cac:PartyName>
       <cbc:Name>SELLER TRADE NAME</cbc:Name>
