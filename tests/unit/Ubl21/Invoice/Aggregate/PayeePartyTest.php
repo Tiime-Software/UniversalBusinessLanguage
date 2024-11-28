@@ -62,7 +62,7 @@ XML;
         $ublObject      = PayeeParty::fromXML($this->xpath, $currentElement);
         $this->assertInstanceOf(PayeeParty::class, $ublObject);
         $this->assertNull($ublObject->getPartyIdentification());
-        $this->assertInstanceOf(PayeePartyBankAssignedCreditorIdentification::class, $ublObject->getPartyBACIdentification());
+        $this->assertInstanceOf(PayeePartyBankAssignedCreditorIdentification::class, $ublObject->getPartyBankAssignedCreditorIdentification());
         $this->assertInstanceOf(PayeePartyName::class, $ublObject->getPartyName());
         $this->assertInstanceOf(PayeePartyLegalEntity::class, $ublObject->getPartyLegalEntity());
     }
@@ -73,7 +73,7 @@ XML;
         $ublObject      = PayeeParty::fromXML($this->xpath, $currentElement);
         $this->assertInstanceOf(PayeeParty::class, $ublObject);
         $this->assertNull($ublObject->getPartyIdentification());
-        $this->assertNull($ublObject->getPartyBACIdentification());
+        $this->assertNull($ublObject->getPartyBankAssignedCreditorIdentification());
         $this->assertInstanceOf(PayeePartyName::class, $ublObject->getPartyName());
         $this->assertNull($ublObject->getPartyLegalEntity());
     }

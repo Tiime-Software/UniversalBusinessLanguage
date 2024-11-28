@@ -2,7 +2,7 @@
 
 namespace Tiime\UniversalBusinessLanguage\Ubl21\CreditNote\DataType\Aggregate;
 
-class PayeePartyBACIdentification
+class PayeePartyBankAssignedCreditorIdentification
 {
     protected const XML_NODE = 'cac:PartyIdentification';
 

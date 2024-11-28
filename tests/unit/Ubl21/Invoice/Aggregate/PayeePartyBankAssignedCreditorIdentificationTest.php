@@ -5,7 +5,7 @@ namespace Tiime\UniversalBusinessLanguage\Tests\unit\Ubl21\Invoice\Aggregate;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Aggregate\PayeePartyBankAssignedCreditorIdentification;
 
-class PayeePartyBACIdentificationTest extends BaseXMLNodeTestWithHelpers
+class PayeePartyBankAssignedCreditorIdentificationTest extends BaseXMLNodeTestWithHelpers
 {
     protected const XML_VALID_CONTENT = <<<XML
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
