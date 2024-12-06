@@ -22,7 +22,7 @@ class Note
         $this->content     = $content;
     }
 
-    public function getSubjectCode(): TextSubjectCodeUNTDID4451
+    public function getSubjectCode(): ?TextSubjectCodeUNTDID4451
     {
         return $this->subjectCode;
     }
@@ -34,7 +34,7 @@ class Note
 
     public function toXML(\DOMDocument $document): \DOMElement
     {
-        $note = ($this->subjectCode ? "##{$this->subjectCode->value}##" : '') . $this->content;
+        $note = ($this->subjectCode ? "#{$this->subjectCode->value}#" : '') . $this->content;
 
         return $document->createElement(self::XML_NODE, $note);
     }
@@ -52,13 +52,13 @@ class Note
 
         $notes = [];
 
-        $pattern = '/##(.*?)##(.*)/';
+        $pattern = '/#(.*?)#(.*)/';
 
         /** @var \DOMElement $noteElement */
         foreach ($noteElements as $noteElement) {
             preg_match($pattern, $noteElement->nodeValue, $matches);
 
-            $subjectCode = $matches[1] ? TextSubjectCodeUNTDID4451::tryFrom($matches[1]) : null;
+            $subjectCode = isset($matches[1]) && $matches[1] !== '' ? TextSubjectCodeUNTDID4451::tryFrom($matches[1]) : null;
             $content     = $matches[2] ?? $noteElement->nodeValue;
 
             $note = new self($subjectCode, $content);

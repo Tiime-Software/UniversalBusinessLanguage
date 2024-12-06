@@ -7,7 +7,7 @@
   <cbc:DueDate>2017-11-01</cbc:DueDate>
   <cbc:InvoiceTypeCode>380</cbc:InvoiceTypeCode>
   <cbc:Note>Note 1</cbc:Note>
-  <cbc:Note>##AAC##Attention ça pique</cbc:Note>
+  <cbc:Note>#AAC#Attention ça pique</cbc:Note>
   <cbc:TaxPointDate>2017-11-01</cbc:TaxPointDate>
   <cbc:DocumentCurrencyCode>EUR</cbc:DocumentCurrencyCode>
   <cbc:TaxCurrencyCode>SEK</cbc:TaxCurrencyCode>
