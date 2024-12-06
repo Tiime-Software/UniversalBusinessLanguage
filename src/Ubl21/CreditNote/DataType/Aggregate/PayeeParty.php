@@ -22,9 +22,6 @@ class PayeeParty
         ?PayeePartyIdentification $partyIdentification = null,
         ?PayeePartyBankAssignedCreditorIdentification $partyBankAssignedCreditorIdentification = null)
     {
-        if ($partyIdentification instanceof PayeePartyIdentification && $partyBankAssignedCreditorIdentification instanceof PayeePartyBankAssignedCreditorIdentification) {
-            throw new \Exception('Malformed');
-        }
         $this->partyIdentification                     = $partyIdentification;
         $this->partyBankAssignedCreditorIdentification = $partyBankAssignedCreditorIdentification;
         $this->partyName                               = $partyName;
