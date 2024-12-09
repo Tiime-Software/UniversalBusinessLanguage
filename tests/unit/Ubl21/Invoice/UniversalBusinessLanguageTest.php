@@ -11,6 +11,7 @@ use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Aggregate\AccountingS
 use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Aggregate\AdditionalDocumentReference;
 use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Aggregate\Allowance;
 use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Aggregate\BillingReference;
+use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Aggregate\Charge;
 use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Aggregate\ContractDocumentReference;
 use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Aggregate\Delivery;
 use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Aggregate\DespatchDocumentReference;
@@ -116,6 +117,12 @@ class UniversalBusinessLanguageTest extends BaseXMLNodeTestWithHelpers
 
         foreach ($ublObject->getAllowances() as $allowance) {
             $this->assertInstanceOf(Allowance::class, $allowance);
+        }
+        $this->assertIsArray($ublObject->getCharges());
+        $this->assertCount(1, $ublObject->getCharges());
+
+        foreach ($ublObject->getCharges() as $charge) {
+            $this->assertInstanceOf(Charge::class, $charge);
         }
         $this->assertIsArray($ublObject->getTaxTotals());
         $this->assertCount(1, $ublObject->getTaxTotals());

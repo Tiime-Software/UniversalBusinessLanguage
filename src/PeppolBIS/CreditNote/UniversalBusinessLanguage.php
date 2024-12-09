@@ -656,7 +656,7 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
             }
         }
 
-        $this->allowances = $charges;
+        $this->charges = $charges;
 
         return $this;
     }
