@@ -159,15 +159,6 @@ class AdditionalDocumentReference
 
             if (1 === $documentTypeCodeElements->count()) {
                 $documentTypeCode = (string) $documentTypeCodeElements->item(0)->nodeValue;
-
-                if ('130' !== $documentTypeCode) {
-                    throw new \Exception('Wrong TypeCode');
-                }
-                ++$invoiceCount;
-
-                if ($invoiceCount > 1) {
-                    throw new \Exception('PEPPOL-EN16931-R006 Only one invoiced object is allowed on document level');
-                }
                 $additionalDocumentReference->setDocumentTypeCode($documentTypeCode);
             }
 
