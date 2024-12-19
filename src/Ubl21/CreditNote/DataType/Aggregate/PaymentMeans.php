@@ -34,6 +34,9 @@ class PaymentMeans
 
     private ?PaymentMandate $paymentMandate;
 
+    /**
+     * BT-9.
+     */
     private ?PaymentDueDate $paymentDueDate;
 
     public function __construct(PaymentMeansNamedCode $paymentMeansCode)
