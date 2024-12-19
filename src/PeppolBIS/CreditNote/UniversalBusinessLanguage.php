@@ -710,6 +710,10 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
         $root->appendChild($document->createElement('cbc:ID', $this->identifier->value));
         $root->appendChild($this->issueDate->toXML($document));
 
+        if ($this->dueDate instanceof PaymentDueDate) {
+            $root->appendChild($this->dueDate->toXML($document));
+        }
+
         if ($this->taxPointDate instanceof TaxPointDate) {
             $root->appendChild($this->taxPointDate->toXML($document));
         }
