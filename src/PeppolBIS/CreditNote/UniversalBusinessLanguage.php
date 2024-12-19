@@ -28,7 +28,6 @@ use Tiime\UniversalBusinessLanguage\PeppolBIS\CreditNote\DataType\Aggregate\Rece
 use Tiime\UniversalBusinessLanguage\PeppolBIS\CreditNote\DataType\Aggregate\TaxRepresentativeParty;
 use Tiime\UniversalBusinessLanguage\PeppolBIS\CreditNote\DataType\Aggregate\TaxTotal;
 use Tiime\UniversalBusinessLanguage\PeppolBIS\CreditNote\DataType\Basic\IssueDate;
-use Tiime\UniversalBusinessLanguage\PeppolBIS\CreditNote\DataType\Basic\PaymentDueDate;
 use Tiime\UniversalBusinessLanguage\PeppolBIS\CreditNote\DataType\Basic\TaxPointDate;
 use Tiime\UniversalBusinessLanguage\PeppolBIS\CreditNote\DataType\CreditNoteTypeCode;
 use Tiime\UniversalBusinessLanguage\UniversalBusinessLanguageInterface;
@@ -71,11 +70,6 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
      * BT-8-00.
      */
     private ?InvoicePeriod $invoicePeriod;
-
-    /**
-     * BT-9-00.
-     */
-    private ?PaymentDueDate $dueDate;
 
     /**
      * BT-10.
@@ -266,7 +260,6 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
         $this->taxCurrencyCode              = null;
         $this->taxPointDate                 = null;
         $this->invoicePeriod                = null;
-        $this->dueDate                      = null;
         $this->buyerReference               = null;
         $this->contractDocumentReference    = null;
         $this->orderReference               = null;
@@ -327,18 +320,6 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
     public function setTaxPointDate(?TaxPointDate $taxPointDate): static
     {
         $this->taxPointDate = $taxPointDate;
-
-        return $this;
-    }
-
-    public function getDueDate(): ?PaymentDueDate
-    {
-        return $this->dueDate;
-    }
-
-    public function setDueDate(?PaymentDueDate $dueDate): static
-    {
-        $this->dueDate = $dueDate;
 
         return $this;
     }
@@ -710,10 +691,6 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
         $root->appendChild($document->createElement('cbc:ID', $this->identifier->value));
         $root->appendChild($this->issueDate->toXML($document));
 
-        if ($this->dueDate instanceof PaymentDueDate) {
-            $root->appendChild($this->dueDate->toXML($document));
-        }
-
         if ($this->taxPointDate instanceof TaxPointDate) {
             $root->appendChild($this->taxPointDate->toXML($document));
         }
@@ -875,7 +852,6 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
         $taxCurrencyCodeElements      = $xpath->query('./cbc:TaxCurrencyCode', $universalBusinessLanguageElement);
         $taxPointDate                 = TaxPointDate::fromXML($xpath, $universalBusinessLanguageElement);
         $invoicePeriod                = InvoicePeriod::fromXML($xpath, $universalBusinessLanguageElement);
-        $dueDate                      = PaymentDueDate::fromXML($xpath, $universalBusinessLanguageElement);
         $buyerReferenceElements       = $xpath->query('./cbc:BuyerReference', $universalBusinessLanguageElement);
         $contractDocumentReference    = ContractDocumentReference::fromXML($xpath, $universalBusinessLanguageElement);
         $orderReference               = OrderReference::fromXML($xpath, $universalBusinessLanguageElement);
@@ -971,10 +947,6 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
 
         if ($invoicePeriod instanceof InvoicePeriod) {
             $universalBusinessLanguage->setInvoicePeriod($invoicePeriod);
-        }
-
-        if ($dueDate instanceof PaymentDueDate) {
-            $universalBusinessLanguage->setDueDate($dueDate);
         }
 
         if (1 === $buyerReferenceElements->count()) {
