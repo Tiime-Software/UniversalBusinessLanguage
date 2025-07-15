@@ -10,11 +10,6 @@ class SellerPartyLegalEntity
     protected const XML_NODE = 'cac:PartyLegalEntity';
 
     /**
-     * BT-27.
-     */
-    private string $registrationName;
-
-    /**
      * BT-30.
      */
     private ?LegalRegistrationIdentifier $companyIdentifier;
@@ -24,16 +19,10 @@ class SellerPartyLegalEntity
      */
     private ?string $companyLegalForm;
 
-    public function __construct(string $registrationName)
+    public function __construct()
     {
-        $this->registrationName  = $registrationName;
         $this->companyIdentifier = null;
         $this->companyLegalForm  = null;
-    }
-
-    public function getRegistrationName(): string
-    {
-        return $this->registrationName;
     }
 
     public function getIdentifier(): ?LegalRegistrationIdentifier
@@ -64,8 +53,6 @@ class SellerPartyLegalEntity
     {
         $currentNode = $document->createElement(self::XML_NODE);
 
-        $currentNode->appendChild($document->createElement('cbc:RegistrationName', $this->registrationName));
-
         if ($this->companyIdentifier instanceof LegalRegistrationIdentifier) {
             $companyIdentifierElement = $document->createElement('cbc:CompanyID', $this->companyIdentifier->value);
 
@@ -94,13 +81,8 @@ class SellerPartyLegalEntity
         /** @var \DOMElement $sellerPartyLegalEntityElement */
         $sellerPartyLegalEntityElement = $sellerPartyLegalEntityElements->item(0);
 
-        $registrationNameElements  = $xpath->query('./cbc:RegistrationName', $sellerPartyLegalEntityElement);
         $companyIdentifierElements = $xpath->query('./cbc:CompanyID', $sellerPartyLegalEntityElement);
         $companyLegalFormElements  = $xpath->query('./cbc:CompanyLegalForm', $sellerPartyLegalEntityElement);
-
-        if (1 !== $registrationNameElements->count()) {
-            throw new \Exception('Malformed');
-        }
 
         if ($companyIdentifierElements->count() > 1) {
             throw new \Exception('Malformed');
@@ -110,8 +92,7 @@ class SellerPartyLegalEntity
             throw new \Exception('Malformed');
         }
 
-        $registrationName       = (string) $registrationNameElements->item(0)->nodeValue;
-        $sellerPartyLegalEntity = new self($registrationName);
+        $sellerPartyLegalEntity = new self();
 
         if (1 === $companyIdentifierElements->count()) {
             /** @var \DOMElement $companyIdentifierElement */

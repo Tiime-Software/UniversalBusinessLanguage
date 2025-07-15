@@ -3,15 +3,14 @@
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Ubl21\Invoice\Aggregate;
 
 use Tiime\EN16931\DataType\Identifier\LegalRegistrationIdentifier;
-use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Aggregate\SellerPartyLegalEntity;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
+use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Aggregate\SellerPartyLegalEntity;
 
 class SellerPartyLegalEntityTest extends BaseXMLNodeTestWithHelpers
 {
     protected const XML_VALID_FULL_CONTENT = <<<XML
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cac:PartyLegalEntity>
-    <cbc:RegistrationName>Full Formal Seller Name LTD.</cbc:RegistrationName>
     <cbc:CompanyID schemeID="0002">987654321</cbc:CompanyID>
     <cbc:CompanyLegalForm>Share capital</cbc:CompanyLegalForm>
   </cac:PartyLegalEntity>
@@ -21,7 +20,6 @@ XML;
     protected const XML_VALID_MINIMAL_CONTENT = <<<XML
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cac:PartyLegalEntity>
-    <cbc:RegistrationName>Full Formal Seller Name LTD.</cbc:RegistrationName>
   </cac:PartyLegalEntity>
 </Invoice>
 XML;
@@ -29,7 +27,6 @@ XML;
     protected const XML_INVALID_MANY_CONTENTS = <<<XML
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cac:PartyLegalEntity>
-    <cbc:RegistrationName>Full Formal Seller Name LTD.</cbc:RegistrationName>
     <cbc:CompanyID schemeID="0002">987654321</cbc:CompanyID>
     <cbc:CompanyID schemeID="0002">987654321</cbc:CompanyID>
     <cbc:CompanyLegalForm>Share capital</cbc:CompanyLegalForm>
@@ -59,7 +56,6 @@ XML;
         $ublObject      = SellerPartyLegalEntity::fromXML($this->xpath, $currentElement);
         $this->assertInstanceOf(SellerPartyLegalEntity::class, $ublObject);
         $this->assertInstanceOf(LegalRegistrationIdentifier::class, $ublObject->getIdentifier());
-        $this->assertEquals('Full Formal Seller Name LTD.', $ublObject->getRegistrationName());
         $this->assertEquals('Share capital', $ublObject->getCompanyLegalForm());
     }
 
@@ -69,7 +65,6 @@ XML;
         $ublObject      = SellerPartyLegalEntity::fromXML($this->xpath, $currentElement);
         $this->assertInstanceOf(SellerPartyLegalEntity::class, $ublObject);
         $this->assertNull($ublObject->getIdentifier());
-        $this->assertEquals('Full Formal Seller Name LTD.', $ublObject->getRegistrationName());
         $this->assertNull($ublObject->getCompanyLegalForm());
     }
 

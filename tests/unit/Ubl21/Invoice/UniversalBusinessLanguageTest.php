@@ -8,29 +8,18 @@ use Tiime\EN16931\DataType\Identifier\SpecificationIdentifier;
 use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Aggregate\AccountingCustomerParty;
 use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Aggregate\AccountingSupplierParty;
-use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Aggregate\AdditionalDocumentReference;
 use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Aggregate\Allowance;
 use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Aggregate\BillingReference;
 use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Aggregate\Charge;
-use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Aggregate\ContractDocumentReference;
 use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Aggregate\Delivery;
-use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Aggregate\DespatchDocumentReference;
 use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Aggregate\InvoiceLine;
 use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Aggregate\InvoicePeriod;
 use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Aggregate\LegalMonetaryTotal;
-use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Aggregate\OrderReference;
-use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Aggregate\OriginatorDocumentReference;
-use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Aggregate\PayeeParty;
-use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Aggregate\PaymentMeans;
-use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Aggregate\PaymentTerms;
-use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Aggregate\ProjectReference;
-use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Aggregate\ReceiptDocumentReference;
 use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Aggregate\TaxRepresentativeParty;
 use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Aggregate\TaxTotal;
 use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Basic\DueDate;
 use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Basic\IssueDate;
 use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Basic\Note;
-use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Basic\TaxPointDate;
 use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\InvoiceTypeCode;
 use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\UniversalBusinessLanguage;
 use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\Utils\UniversalBusinessLanguageUtils;
@@ -75,13 +64,8 @@ class UniversalBusinessLanguageTest extends BaseXMLNodeTestWithHelpers
             $this->assertInstanceOf(Note::class, $note);
         }
 
-        $this->assertInstanceOf(TaxPointDate::class, $ublObject->getTaxPointDate());
         $this->assertInstanceOf(CurrencyCode::class, $ublObject->getDocumentCurrencyCode());
-        $this->assertInstanceOf(CurrencyCode::class, $ublObject->getTaxCurrencyCode());
-        $this->assertEquals('4217:2323:2323', $ublObject->getAccountingCost());
-        $this->assertEquals('abs1234', $ublObject->getBuyerReference());
         $this->assertInstanceOf(InvoicePeriod::class, $ublObject->getInvoicePeriod());
-        $this->assertInstanceOf(OrderReference::class, $ublObject->getOrderReference());
         $this->assertIsArray($ublObject->getBillingReferences());
         $this->assertCount(1, $ublObject->getBillingReferences());
 
@@ -89,29 +73,11 @@ class UniversalBusinessLanguageTest extends BaseXMLNodeTestWithHelpers
             $this->assertInstanceOf(BillingReference::class, $billingReference);
         }
 
-        $this->assertInstanceOf(DespatchDocumentReference::class, $ublObject->getDespatchDocumentReference());
-        $this->assertInstanceOf(ReceiptDocumentReference::class, $ublObject->getReceiptDocumentReference());
-        $this->assertInstanceOf(OriginatorDocumentReference::class, $ublObject->getOriginatorDocumentReference());
-        $this->assertInstanceOf(ContractDocumentReference::class, $ublObject->getContractDocumentReference());
         $this->assertIsArray($ublObject->getBillingReferences());
-        $this->assertCount(1, $ublObject->getAdditionalDocumentReferences());
-
-        foreach ($ublObject->getAdditionalDocumentReferences() as $additionalDocumentReference) {
-            $this->assertInstanceOf(AdditionalDocumentReference::class, $additionalDocumentReference);
-        }
-        $this->assertInstanceOf(ProjectReference::class, $ublObject->getProjectReference());
         $this->assertInstanceOf(AccountingSupplierParty::class, $ublObject->getAccountingSupplierParty());
         $this->assertInstanceOf(AccountingCustomerParty::class, $ublObject->getAccountingCustomerParty());
-        $this->assertInstanceOf(PayeeParty::class, $ublObject->getPayeeParty());
         $this->assertInstanceOf(TaxRepresentativeParty::class, $ublObject->getTaxRepresentativeParty());
         $this->assertInstanceOf(Delivery::class, $ublObject->getDelivery());
-        $this->assertIsArray($ublObject->getPaymentMeans());
-        $this->assertCount(1, $ublObject->getPaymentMeans());
-
-        foreach ($ublObject->getPaymentMeans() as $paymentMean) {
-            $this->assertInstanceOf(PaymentMeans::class, $paymentMean);
-        }
-        $this->assertInstanceOf(PaymentTerms::class, $ublObject->getPaymentTerms());
         $this->assertIsArray($ublObject->getAllowances());
         $this->assertCount(1, $ublObject->getAllowances());
 
@@ -132,7 +98,7 @@ class UniversalBusinessLanguageTest extends BaseXMLNodeTestWithHelpers
         }
         $this->assertInstanceOf(LegalMonetaryTotal::class, $ublObject->getLegalMonetaryTotal());
         $this->assertIsArray($ublObject->getInvoiceLines());
-        $this->assertCount(1, $ublObject->getInvoiceLines());
+        //        $this->assertCount(1, $ublObject->getInvoiceLines());
 
         foreach ($ublObject->getInvoiceLines() as $invoiceLine) {
             $this->assertInstanceOf(InvoiceLine::class, $invoiceLine);

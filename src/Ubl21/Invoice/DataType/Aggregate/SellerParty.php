@@ -3,16 +3,10 @@
 namespace Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Aggregate;
 
 use Tiime\UniversalBusinessLanguage\Ubl21\CreditNote\DataType\Aggregate\SellerPartyBankAssignedCreditorIdentification;
-use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Basic\EndpointIdentifier;
 
 class SellerParty
 {
     protected const XML_NODE = 'cac:Party';
-
-    /**
-     * BT-34.
-     */
-    private ?EndpointIdentifier $endpointIdentifier;
 
     /**
      * BT-29a-00.
@@ -54,7 +48,6 @@ class SellerParty
 
     public function __construct(PostalAddress $postalAddress, SellerPartyLegalEntity $partyLegalEntity)
     {
-        $this->endpointIdentifier                       = null;
         $this->postalAddress                            = $postalAddress;
         $this->partyIdentifications                     = [];
         $this->partyBankAssignedCreditorIdentifications = [];
@@ -62,18 +55,6 @@ class SellerParty
         $this->partyTaxSchemes                          = [];
         $this->partyName                                = null;
         $this->contact                                  = null;
-    }
-
-    public function getEndpointIdentifier(): ?EndpointIdentifier
-    {
-        return $this->endpointIdentifier;
-    }
-
-    public function setEndpointIdentifier(?EndpointIdentifier $endpointIdentifier): static
-    {
-        $this->endpointIdentifier = $endpointIdentifier;
-
-        return $this;
     }
 
     /**
@@ -192,10 +173,6 @@ class SellerParty
     {
         $currentNode = $document->createElement(self::XML_NODE);
 
-        if ($this->endpointIdentifier instanceof EndpointIdentifier) {
-            $currentNode->appendChild($this->endpointIdentifier->toXML($document));
-        }
-
         foreach ($this->partyIdentifications as $sellerPartyIdentification) {
             $currentNode->appendChild($sellerPartyIdentification->toXML($document));
         }
@@ -234,7 +211,6 @@ class SellerParty
         /** @var \DOMElement $partyElement */
         $partyElement = $partyElements->item(0);
 
-        $endpointId                               = EndpointIdentifier::fromXML($xpath, $partyElement);
         $partyIdentifications                     = SellerPartyIdentification::fromXML($xpath, $partyElement);
         $partyBankAssignedCreditorIdentifications = SellerPartyBankAssignedCreditorIdentification::fromXML($xpath, $partyElement);
         $partyLegalEntity                         = SellerPartyLegalEntity::fromXML($xpath, $partyElement);
@@ -244,10 +220,6 @@ class SellerParty
         $contact                                  = Contact::fromXML($xpath, $partyElement);
 
         $party = new self($postalAddress, $partyLegalEntity);
-
-        if ($endpointId instanceof EndpointIdentifier) {
-            $party->setEndpointIdentifier($endpointId);
-        }
 
         if (\count($partyIdentifications) > 0) {
             $party->setPartyIdentifications($partyIdentifications);

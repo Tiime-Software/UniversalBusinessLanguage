@@ -2,20 +2,16 @@
 
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Ubl21\Invoice\Aggregate;
 
+use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Aggregate\PostalAddress;
 use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Aggregate\TaxRepresentativeParty;
-use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Aggregate\TaxRepresentativePartyName;
 use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Aggregate\TaxRepresentativePartyTaxScheme;
-use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
 class TaxRepresentativePartyTest extends BaseXMLNodeTestWithHelpers
 {
     protected const XML_VALID_CONTENT = <<<XML
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cac:TaxRepresentativeParty>
-    <cac:PartyName>
-      <cbc:Name>SELLER TAX REP</cbc:Name>
-    </cac:PartyName>
     <cac:PostalAddress>
       <cbc:StreetName>1, rue du représentant fiscal</cbc:StreetName>
       <cbc:AdditionalStreetName>Venelle du représentant fiscal</cbc:AdditionalStreetName>
@@ -49,7 +45,6 @@ XML;
         $currentElement = $this->loadXMLDocument(self::XML_VALID_CONTENT);
         $ublObject      = TaxRepresentativeParty::fromXML($this->xpath, $currentElement);
         $this->assertInstanceOf(TaxRepresentativeParty::class, $ublObject);
-        $this->assertInstanceOf(TaxRepresentativePartyName::class, $ublObject->getPartyName());
         $this->assertInstanceOf(PostalAddress::class, $ublObject->getPostalAddress());
         $this->assertInstanceOf(TaxRepresentativePartyTaxScheme::class, $ublObject->getPartyTaxScheme());
     }

@@ -2,13 +2,11 @@
 
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Ubl21\Invoice\Aggregate;
 
-use Tiime\EN16931\Codelist\AllowanceReasonCodeUNTDID5189 as AllowanceReasonCode;
-use Tiime\EN16931\SemanticDataType\Percentage;
+use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Aggregate\InvoiceLine;
 use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Aggregate\InvoiceLineAllowance;
 use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Basic\AllowanceChargeAmount;
 use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Basic\BaseAmount;
-use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
 class InvoiceLineAllowanceTest extends BaseXMLNodeTestWithHelpers
 {
@@ -16,9 +14,6 @@ class InvoiceLineAllowanceTest extends BaseXMLNodeTestWithHelpers
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cac:AllowanceCharge>
     <cbc:ChargeIndicator>false</cbc:ChargeIndicator>
-    <cbc:AllowanceChargeReasonCode>95</cbc:AllowanceChargeReasonCode>
-    <cbc:AllowanceChargeReason>Discount</cbc:AllowanceChargeReason>
-    <cbc:MultiplierFactorNumeric>20.00</cbc:MultiplierFactorNumeric>
     <cbc:Amount currencyID="EUR">200.00</cbc:Amount>
     <cbc:BaseAmount currencyID="EUR">1000.00</cbc:BaseAmount>
   </cac:AllowanceCharge>
@@ -71,11 +66,6 @@ XML;
         $ublObject = $ublObjects[0];
         $this->assertInstanceOf(InvoiceLineAllowance::class, $ublObject);
         $this->assertEquals('false', $ublObject->getChargeIndicator());
-        $this->assertEquals('Discount', $ublObject->getAllowanceReason());
-        $this->assertInstanceOf(AllowanceReasonCode::class, $ublObject->getAllowanceReasonCode());
-        $this->assertEquals(AllowanceReasonCode::tryFrom('95'), $ublObject->getAllowanceReasonCode());
-        $this->assertInstanceOf(Percentage::class, $ublObject->getMultiplierFactorNumeric());
-        $this->assertEquals('20.00', $ublObject->getMultiplierFactorNumeric()->getFormattedValueRounded());
         $this->assertInstanceOf(AllowanceChargeAmount::class, $ublObject->getAmount());
         $this->assertInstanceOf(BaseAmount::class, $ublObject->getBaseAmount());
     }

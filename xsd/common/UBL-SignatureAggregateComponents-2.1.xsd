@@ -22,7 +22,7 @@
    <xsd:import namespace="urn:oasis:names:specification:ubl:schema:xsd:SignatureBasicComponents-2"
                schemaLocation="UBL-SignatureBasicComponents-2.1.xsd"/>
    <xsd:import namespace="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2"
-               schemaLocation="UBL-CommonBasicComponents-2.1.xsd"/>
+               schemaLocation="F1FULL_UBL-CommonBasicComponents-2.1.xsd"/>
 
    <!-- ===== Incorporate W3C signature specification-->
    <xsd:import namespace="http://www.w3.org/2000/09/xmldsig#"

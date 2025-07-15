@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Aggregate;
 
-use Tiime\EN16931\Codelist\AllowanceReasonCodeUNTDID5189 as AllowanceReasonCode;
-use Tiime\EN16931\SemanticDataType\Percentage;
 use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Basic\AllowanceChargeAmount;
 use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Basic\BaseAmount;
 
@@ -19,21 +17,6 @@ class InvoiceLineAllowance
     private string $chargeIndicator;
 
     /**
-     * BT-140.
-     */
-    private ?AllowanceReasonCode $allowanceReasonCode;
-
-    /**
-     * BT-19.
-     */
-    private ?string $allowanceReason;
-
-    /**
-     * BT-138.
-     */
-    private ?Percentage $multiplierFactorNumeric;
-
-    /**
      * BT-136.
      */
     private AllowanceChargeAmount $amount;
@@ -45,12 +28,9 @@ class InvoiceLineAllowance
 
     public function __construct(AllowanceChargeAmount $amount)
     {
-        $this->chargeIndicator         = 'false';
-        $this->allowanceReasonCode     = null;
-        $this->allowanceReason         = null;
-        $this->multiplierFactorNumeric = null;
-        $this->amount                  = $amount;
-        $this->baseAmount              = null;
+        $this->chargeIndicator = 'false';
+        $this->amount          = $amount;
+        $this->baseAmount      = null;
     }
 
     public function getChargeIndicator(): string
@@ -61,42 +41,6 @@ class InvoiceLineAllowance
     public function getAmount(): AllowanceChargeAmount
     {
         return $this->amount;
-    }
-
-    public function getAllowanceReasonCode(): ?AllowanceReasonCode
-    {
-        return $this->allowanceReasonCode;
-    }
-
-    public function setAllowanceReasonCode(?AllowanceReasonCode $allowanceReasonCode): static
-    {
-        $this->allowanceReasonCode = $allowanceReasonCode;
-
-        return $this;
-    }
-
-    public function getAllowanceReason(): ?string
-    {
-        return $this->allowanceReason;
-    }
-
-    public function setAllowanceReason(?string $allowanceReason): static
-    {
-        $this->allowanceReason = $allowanceReason;
-
-        return $this;
-    }
-
-    public function getMultiplierFactorNumeric(): ?Percentage
-    {
-        return $this->multiplierFactorNumeric;
-    }
-
-    public function setMultiplierFactorNumeric(?float $value): static
-    {
-        $this->multiplierFactorNumeric = \is_float($value) ? new Percentage($value) : null;
-
-        return $this;
     }
 
     public function getBaseAmount(): ?BaseAmount
@@ -114,33 +58,7 @@ class InvoiceLineAllowance
     public function toXML(\DOMDocument $document): \DOMElement
     {
         $currentNode = $document->createElement(self::XML_NODE);
-
         $currentNode->appendChild($document->createElement('cbc:ChargeIndicator', 'false'));
-
-        if ($this->allowanceReasonCode instanceof AllowanceReasonCode) {
-            $currentNode->appendChild(
-                $document->createElement(
-                    'cbc:AllowanceChargeReasonCode', $this->allowanceReasonCode->value
-                )
-            );
-        }
-
-        if (\is_string($this->allowanceReason)) {
-            $currentNode->appendChild(
-                $document->createElement(
-                    'cbc:AllowanceChargeReason', $this->allowanceReason
-                )
-            );
-        }
-
-        if ($this->multiplierFactorNumeric instanceof Percentage) {
-            $currentNode->appendChild(
-                $document->createElement(
-                    'cbc:MultiplierFactorNumeric', $this->multiplierFactorNumeric->getFormattedValueRounded()
-                )
-            );
-        }
-
         $currentNode->appendChild($this->amount->toXML($document));
 
         if ($this->baseAmount instanceof BaseAmount) {
@@ -165,56 +83,14 @@ class InvoiceLineAllowance
 
         /** @var \DOMElement $allowanceElement */
         foreach ($allowanceElements as $allowanceElement) {
-            $allowanceReasonCodeElements = $xpath->query('./cbc:AllowanceChargeReasonCode', $allowanceElement);
-
-            if ($allowanceReasonCodeElements->count() > 1) {
-                throw new \Exception('Malformed');
-            }
-
-            $allowanceReasonElements = $xpath->query('./cbc:AllowanceChargeReason', $allowanceElement);
-
-            if ($allowanceReasonElements->count() > 1) {
-                throw new \Exception('Malformed');
-            }
-
-            $multiplierFactorNumericElements = $xpath->query('./cbc:MultiplierFactorNumeric', $allowanceElement);
-
-            if ($multiplierFactorNumericElements->count() > 1) {
-                throw new \Exception('Malformed');
-            }
-
             $amount     = AllowanceChargeAmount::fromXML($xpath, $allowanceElement);
             $baseAmount = BaseAmount::fromXML($xpath, $allowanceElement);
 
             $allowance = new self($amount);
 
-            if (1 === $allowanceReasonCodeElements->count()) {
-                $allowanceReasonCode = AllowanceReasonCode::tryFrom(
-                    (string) $allowanceReasonCodeElements->item(0)->nodeValue
-                );
-
-                if (null === $allowanceReasonCode) {
-                    throw new \Exception('Wrong allowance reason code');
-                }
-
-                $allowance->setAllowanceReasonCode($allowanceReasonCode);
-            }
-
-            if (1 === $allowanceReasonElements->count()) {
-                $allowanceReason = (string) $allowanceReasonElements->item(0)->nodeValue;
-                $allowance->setAllowanceReason($allowanceReason);
-            }
-
-            if (1 === $multiplierFactorNumericElements->count()) {
-                $allowance->setMultiplierFactorNumeric(
-                    (float) $multiplierFactorNumericElements->item(0)->nodeValue
-                );
-            }
-
             if ($baseAmount instanceof BaseAmount) {
                 $allowance->setBaseAmount($baseAmount);
             }
-
             $allowances[] = $allowance;
         }
 

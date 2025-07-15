@@ -9,8 +9,6 @@ class TaxRepresentativeParty
 {
     protected const XML_NODE = 'cac:TaxRepresentativeParty';
 
-    private TaxRepresentativePartyName $partyName;
-
     /**
      * BG-12-00.
      */
@@ -22,18 +20,11 @@ class TaxRepresentativeParty
     private TaxRepresentativePartyTaxScheme $partyTaxScheme;
 
     public function __construct(
-        TaxRepresentativePartyName $partyName,
         PostalAddress $postalAddress,
         TaxRepresentativePartyTaxScheme $partyTaxScheme,
     ) {
-        $this->partyName      = $partyName;
         $this->partyTaxScheme = $partyTaxScheme;
         $this->postalAddress  = $postalAddress;
-    }
-
-    public function getPartyName(): TaxRepresentativePartyName
-    {
-        return $this->partyName;
     }
 
     public function getPostalAddress(): PostalAddress
@@ -49,7 +40,6 @@ class TaxRepresentativeParty
     public function toXML(\DOMDocument $document): \DOMElement
     {
         $currentNode = $document->createElement(self::XML_NODE);
-        $currentNode->appendChild($this->partyName->toXML($document));
         $currentNode->appendChild($this->postalAddress->toXML($document));
         $currentNode->appendChild($this->partyTaxScheme->toXML($document));
 
@@ -71,10 +61,9 @@ class TaxRepresentativeParty
         /** @var \DOMElement $partyElement */
         $partyElement = $partyElements->item(0);
 
-        $partyName      = TaxRepresentativePartyName::fromXML($xpath, $partyElement);
         $postalAddress  = PostalAddress::fromXML($xpath, $partyElement);
         $partyTaxScheme = TaxRepresentativePartyTaxScheme::fromXML($xpath, $partyElement);
 
-        return new self($partyName, $postalAddress, $partyTaxScheme);
+        return new self($postalAddress, $partyTaxScheme);
     }
 }

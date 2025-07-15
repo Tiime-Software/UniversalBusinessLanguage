@@ -2,9 +2,9 @@
 
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Ubl21\Invoice\Aggregate;
 
+use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Aggregate\AccountingSupplierParty;
 use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Aggregate\SellerParty;
-use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
 class AccountingSupplierPartyTest extends BaseXMLNodeTestWithHelpers
 {
@@ -12,13 +12,9 @@ class AccountingSupplierPartyTest extends BaseXMLNodeTestWithHelpers
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cac:AccountingSupplierParty>
     <cac:Party>
-      <cbc:EndpointID schemeID="0088">7300010000001</cbc:EndpointID>
       <cac:PartyIdentification>
         <cbc:ID schemeID="0088">5060012349998</cbc:ID>
       </cac:PartyIdentification>
-      <cac:PartyName>
-        <cbc:Name>Seller Business Name AS</cbc:Name>
-      </cac:PartyName>
       <cac:PostalAddress>
         <cbc:StreetName>Main Street 1</cbc:StreetName>
         <cbc:AdditionalStreetName>Po Box 351</cbc:AdditionalStreetName>
@@ -39,15 +35,8 @@ class AccountingSupplierPartyTest extends BaseXMLNodeTestWithHelpers
         </cac:TaxScheme>
       </cac:PartyTaxScheme>
       <cac:PartyLegalEntity>
-        <cbc:RegistrationName>Full Formal Seller Name LTD.</cbc:RegistrationName>
         <cbc:CompanyID schemeID="0002">987654321</cbc:CompanyID>
-        <cbc:CompanyLegalForm>Share capital</cbc:CompanyLegalForm>
       </cac:PartyLegalEntity>
-      <cac:Contact>
-        <cbc:Name>xyz123</cbc:Name>
-        <cbc:Telephone>887 654 321</cbc:Telephone>
-        <cbc:ElectronicMail>test.name@foo.bar</cbc:ElectronicMail>
-      </cac:Contact>
     </cac:Party>
   </cac:AccountingSupplierParty>
 </Invoice>
@@ -57,14 +46,12 @@ XML;
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cac:AccountingSupplierParty>
     <cac:Party>
-      <cbc:EndpointID schemeID="0088">7300010000001</cbc:EndpointID>
       <cac:PostalAddress>
         <cac:Country>
           <cbc:IdentificationCode>GB</cbc:IdentificationCode>
         </cac:Country>
       </cac:PostalAddress>
       <cac:PartyLegalEntity>
-        <cbc:RegistrationName>Full Formal Seller Name LTD.</cbc:RegistrationName>
       </cac:PartyLegalEntity>
     </cac:Party>
   </cac:AccountingSupplierParty>
@@ -79,9 +66,6 @@ XML;
     protected const XML_INVALID_NOT_ENOUGH_DATA = <<<XML
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cac:AccountingSupplierParty>
-    <cac:Party>
-      <cbc:EndpointID schemeID="0088">7300010000001</cbc:EndpointID>
-    </cac:Party>
   </cac:AccountingSupplierParty>
 </Invoice>
 XML;
@@ -90,16 +74,18 @@ XML;
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cac:AccountingSupplierParty>
     <cac:Party>
-      <cbc:EndpointID schemeID="0088">7300010000001</cbc:EndpointID>
-      <cbc:EndpointID schemeID="0088">7300010000001</cbc:EndpointID>
       <cac:PostalAddress>
         <cac:Country>
           <cbc:IdentificationCode>GB</cbc:IdentificationCode>
         </cac:Country>
       </cac:PostalAddress>
-      <cac:PartyLegalEntity>
-        <cbc:RegistrationName>Full Formal Seller Name LTD.</cbc:RegistrationName>
-      </cac:PartyLegalEntity>
+    </cac:Party>
+    <cac:Party>
+      <cac:PostalAddress>
+        <cac:Country>
+          <cbc:IdentificationCode>GB</cbc:IdentificationCode>
+        </cac:Country>
+      </cac:PostalAddress>
     </cac:Party>
   </cac:AccountingSupplierParty>
 
@@ -110,28 +96,20 @@ XML;
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cac:AccountingSupplierParty>
     <cac:Party>
-      <cbc:EndpointID schemeID="0088">7300010000001</cbc:EndpointID>
       <cac:PostalAddress>
         <cac:Country>
           <cbc:IdentificationCode>GB</cbc:IdentificationCode>
         </cac:Country>
       </cac:PostalAddress>
-      <cac:PartyLegalEntity>
-        <cbc:RegistrationName>Full Formal Seller Name LTD.</cbc:RegistrationName>
-      </cac:PartyLegalEntity>
     </cac:Party>
   </cac:AccountingSupplierParty>
   <cac:AccountingSupplierParty>
     <cac:Party>
-      <cbc:EndpointID schemeID="0088">7300010000001</cbc:EndpointID>
       <cac:PostalAddress>
         <cac:Country>
           <cbc:IdentificationCode>GB</cbc:IdentificationCode>
         </cac:Country>
       </cac:PostalAddress>
-      <cac:PartyLegalEntity>
-        <cbc:RegistrationName>Full Formal Seller Name LTD.</cbc:RegistrationName>
-      </cac:PartyLegalEntity>
     </cac:Party>
   </cac:AccountingSupplierParty>
 </Invoice>
@@ -140,7 +118,7 @@ XML;
     public function testCanBeCreatedFromFullContent(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_FULL_CONTENT);
-        $ublObject = AccountingSupplierParty::fromXML($this->xpath, $currentElement);
+        $ublObject      = AccountingSupplierParty::fromXML($this->xpath, $currentElement);
         $this->assertInstanceOf(AccountingSupplierParty::class, $ublObject);
         $this->assertInstanceOf(SellerParty::class, $ublObject->getParty());
     }
@@ -148,7 +126,7 @@ XML;
     public function testCanBeCreatedFromMinimalContent(): void
     {
         $currentElement = $this->loadXMLDocument(self::XML_VALID_MINIMAL_CONTENT);
-        $ublObject = AccountingSupplierParty::fromXML($this->xpath, $currentElement);
+        $ublObject      = AccountingSupplierParty::fromXML($this->xpath, $currentElement);
         $this->assertInstanceOf(AccountingSupplierParty::class, $ublObject);
         $this->assertInstanceOf(SellerParty::class, $ublObject->getParty());
     }
@@ -176,8 +154,8 @@ XML;
 
     public function testGenerateXml(): void
     {
-        $currentElement = $this->loadXMLDocument(self::XML_VALID_FULL_CONTENT);
-        $ublObject = AccountingSupplierParty::fromXML($this->xpath, $currentElement);
+        $currentElement  = $this->loadXMLDocument(self::XML_VALID_FULL_CONTENT);
+        $ublObject       = AccountingSupplierParty::fromXML($this->xpath, $currentElement);
         $rootDestination = $this->generateEmptyInvoiceRootDocument();
         $rootDestination->appendChild($ublObject->toXML($this->document));
         $generatedOutput = $this->formatXMLOutput();

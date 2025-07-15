@@ -9,14 +9,12 @@ use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Aggregate\PostalAddre
 use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Aggregate\SellerParty;
 use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Aggregate\SellerPartyIdentification;
 use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Aggregate\SellerPartyLegalEntity;
-use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Basic\EndpointIdentifier;
 
 class SellerPartyTest extends BaseXMLNodeTestWithHelpers
 {
     protected const XML_VALID_FULL_CONTENT = <<<XML
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cac:Party>
-    <cbc:EndpointID schemeID="EM">VendeurCanal1.00017@100000009.ppf</cbc:EndpointID>
     <cac:PartyIdentification>
       <cbc:ID schemeID="0009">10000000900017</cbc:ID>
     </cac:PartyIdentification>
@@ -46,7 +44,6 @@ class SellerPartyTest extends BaseXMLNodeTestWithHelpers
       </cac:TaxScheme>
     </cac:PartyTaxScheme>
     <cac:PartyLegalEntity>
-      <cbc:RegistrationName>LE FOURNISSEUR</cbc:RegistrationName>
       <cbc:CompanyID schemeID="0002">100000009</cbc:CompanyID>
       <cbc:CompanyLegalForm>SARL au capital de 50 000 EUR</cbc:CompanyLegalForm>
     </cac:PartyLegalEntity>
@@ -62,14 +59,12 @@ XML;
     protected const XML_VALID_MINIMAL_CONTENT = <<<XML
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
   <cac:Party>
-    <cbc:EndpointID schemeID="EM">VendeurCanal1.00017@100000009.ppf</cbc:EndpointID>
     <cac:PostalAddress>
       <cac:Country>
         <cbc:IdentificationCode>FR</cbc:IdentificationCode>
       </cac:Country>
     </cac:PostalAddress>
     <cac:PartyLegalEntity>
-      <cbc:RegistrationName>LE FOURNISSEUR</cbc:RegistrationName>
       <cbc:CompanyID schemeID="0002">100000009</cbc:CompanyID>
       <cbc:CompanyLegalForm>SARL au capital de 50 000 EUR</cbc:CompanyLegalForm>
     </cac:PartyLegalEntity>
@@ -92,7 +87,6 @@ XML;
         $currentElement = $this->loadXMLDocument(self::XML_VALID_FULL_CONTENT);
         $ublObject      = SellerParty::fromXML($this->xpath, $currentElement);
         $this->assertInstanceOf(SellerParty::class, $ublObject);
-        $this->assertInstanceOf(EndpointIdentifier::class, $ublObject->getEndpointIdentifier());
         $this->assertIsArray($ublObject->getPartyIdentifications());
         $identifiers = $ublObject->getPartyIdentifications();
 
@@ -112,7 +106,6 @@ XML;
         $currentElement = $this->loadXMLDocument(self::XML_VALID_MINIMAL_CONTENT);
         $ublObject      = SellerParty::fromXML($this->xpath, $currentElement);
         $this->assertInstanceOf(SellerParty::class, $ublObject);
-        $this->assertInstanceOf(EndpointIdentifier::class, $ublObject->getEndpointIdentifier());
         $this->assertIsArray($ublObject->getPartyIdentifications());
         $identifiers = $ublObject->getPartyIdentifications();
 

@@ -3,17 +3,14 @@
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Ubl21\Invoice\Aggregate;
 
 use Tiime\EN16931\DataType\Identifier\InvoiceLineIdentifier;
-use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Aggregate\DocumentReference;
+use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Aggregate\InvoiceLine;
 use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Aggregate\InvoiceLineAllowance;
 use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Aggregate\InvoiceLineCharge;
 use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Aggregate\InvoiceLineInvoicePeriod;
 use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Aggregate\Item;
-use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Aggregate\OrderLineReference;
 use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Aggregate\Price;
 use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Basic\InvoicedQuantity;
-use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Basic\LineExtensionAmount;
-use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
 class InvoiceLineTest extends BaseXMLNodeTestWithHelpers
 {
@@ -23,64 +20,22 @@ class InvoiceLineTest extends BaseXMLNodeTestWithHelpers
     <cbc:ID>15</cbc:ID>
     <cbc:Note>New article number 12345</cbc:Note>
     <cbc:InvoicedQuantity unitCode="C62">100.0000</cbc:InvoicedQuantity>
-    <cbc:LineExtensionAmount currencyID="EUR">2145.00</cbc:LineExtensionAmount>
-    <cbc:AccountingCost>1287:65464</cbc:AccountingCost>
     <cac:InvoicePeriod>
       <cbc:StartDate>2017-10-05</cbc:StartDate>
       <cbc:EndDate>2017-10-15</cbc:EndDate>
     </cac:InvoicePeriod>
-    <cac:OrderLineReference>
-      <cbc:LineID>3</cbc:LineID>
-    </cac:OrderLineReference>
-    <cac:DocumentReference>
-      <cbc:ID schemeID="ABZ">AB12345</cbc:ID>
-      <cbc:DocumentTypeCode>130</cbc:DocumentTypeCode>
-    </cac:DocumentReference>
     <cac:AllowanceCharge>
       <cbc:ChargeIndicator>false</cbc:ChargeIndicator>
-      <cbc:AllowanceChargeReasonCode>95</cbc:AllowanceChargeReasonCode>
-      <cbc:AllowanceChargeReason>Discount</cbc:AllowanceChargeReason>
-      <cbc:MultiplierFactorNumeric>20.00</cbc:MultiplierFactorNumeric>
       <cbc:Amount currencyID="EUR">200.00</cbc:Amount>
       <cbc:BaseAmount currencyID="EUR">1000.00</cbc:BaseAmount>
     </cac:AllowanceCharge>
     <cac:AllowanceCharge>
       <cbc:ChargeIndicator>true</cbc:ChargeIndicator>
-      <cbc:AllowanceChargeReasonCode>AA</cbc:AllowanceChargeReasonCode>
-      <cbc:AllowanceChargeReason>Google Ads</cbc:AllowanceChargeReason>
-      <cbc:MultiplierFactorNumeric>20.00</cbc:MultiplierFactorNumeric>
       <cbc:Amount currencyID="EUR">200.00</cbc:Amount>
       <cbc:BaseAmount currencyID="EUR">1000.00</cbc:BaseAmount>
     </cac:AllowanceCharge>
     <cac:Item>
-      <cbc:Description>Long description of the item on the invoice line</cbc:Description>
       <cbc:Name>Item name</cbc:Name>
-      <cac:BuyersItemIdentification>
-        <cbc:ID>123455</cbc:ID>
-      </cac:BuyersItemIdentification>
-      <cac:SellersItemIdentification>
-        <cbc:ID>9873242</cbc:ID>
-      </cac:SellersItemIdentification>
-      <cac:StandardItemIdentification>
-        <cbc:ID schemeID="0160">109876700</cbc:ID>
-      </cac:StandardItemIdentification>
-      <cac:OriginCountry>
-        <cbc:IdentificationCode>CN</cbc:IdentificationCode>
-      </cac:OriginCountry>
-      <cac:CommodityClassification>
-        <cbc:ItemClassificationCode listID="STI" listVersionID="0.1">9873242</cbc:ItemClassificationCode>
-      </cac:CommodityClassification>
-      <cac:ClassifiedTaxCategory>
-        <cbc:ID>S</cbc:ID>
-        <cbc:Percent>25.00</cbc:Percent>
-        <cac:TaxScheme>
-          <cbc:ID>VAT</cbc:ID>
-        </cac:TaxScheme>
-      </cac:ClassifiedTaxCategory>
-      <cac:AdditionalItemProperty>
-        <cbc:Name>Color</cbc:Name>
-        <cbc:Value>Black</cbc:Value>
-      </cac:AdditionalItemProperty>
     </cac:Item>
     <cac:Price>
       <cbc:PriceAmount currencyID="EUR">23.45</cbc:PriceAmount>
@@ -103,12 +58,6 @@ XML;
     <cbc:LineExtensionAmount currencyID="EUR">2145.00</cbc:LineExtensionAmount>
     <cac:Item>
       <cbc:Name>Item name</cbc:Name>
-      <cac:ClassifiedTaxCategory>
-        <cbc:ID>S</cbc:ID>
-        <cac:TaxScheme>
-          <cbc:ID>VAT</cbc:ID>
-        </cac:TaxScheme>
-      </cac:ClassifiedTaxCategory>
     </cac:Item>
     <cac:Price>
       <cbc:PriceAmount currencyID="EUR">23.45</cbc:PriceAmount>
@@ -131,12 +80,6 @@ XML;
     <cbc:LineExtensionAmount currencyID="EUR">2145.00</cbc:LineExtensionAmount>
     <cac:Item>
       <cbc:Name>Item name</cbc:Name>
-      <cac:ClassifiedTaxCategory>
-        <cbc:ID>S</cbc:ID>
-        <cac:TaxScheme>
-          <cbc:ID>VAT</cbc:ID>
-        </cac:TaxScheme>
-      </cac:ClassifiedTaxCategory>
     </cac:Item>
     <cac:Price>
       <cbc:PriceAmount currencyID="EUR">23.45</cbc:PriceAmount>
@@ -153,12 +96,6 @@ XML;
     <cbc:LineExtensionAmount currencyID="EUR">2145.00</cbc:LineExtensionAmount>
     <cac:Item>
       <cbc:Name>Item name</cbc:Name>
-      <cac:ClassifiedTaxCategory>
-        <cbc:ID>S</cbc:ID>
-        <cac:TaxScheme>
-          <cbc:ID>VAT</cbc:ID>
-        </cac:TaxScheme>
-      </cac:ClassifiedTaxCategory>
     </cac:Item>
     <cac:Price>
       <cbc:PriceAmount currencyID="EUR">23.45</cbc:PriceAmount>
@@ -170,12 +107,6 @@ XML;
     <cbc:LineExtensionAmount currencyID="EUR">2145.00</cbc:LineExtensionAmount>
     <cac:Item>
       <cbc:Name>Item name</cbc:Name>
-      <cac:ClassifiedTaxCategory>
-        <cbc:ID>S</cbc:ID>
-        <cac:TaxScheme>
-          <cbc:ID>VAT</cbc:ID>
-        </cac:TaxScheme>
-      </cac:ClassifiedTaxCategory>
     </cac:Item>
     <cac:Price>
       <cbc:PriceAmount currencyID="EUR">23.45</cbc:PriceAmount>
@@ -195,11 +126,7 @@ XML;
         $this->assertInstanceOf(InvoiceLineIdentifier::class, $ublObject->getInvoiceLineIdentifier());
         $this->assertEquals('New article number 12345', $ublObject->getNote());
         $this->assertInstanceOf(InvoicedQuantity::class, $ublObject->getInvoicedQuantity());
-        $this->assertInstanceOf(LineExtensionAmount::class, $ublObject->getLineExtensionAmount());
-        $this->assertEquals('1287:65464', $ublObject->getAccountingCost());
         $this->assertInstanceOf(InvoiceLineInvoicePeriod::class, $ublObject->getInvoicePeriod());
-        $this->assertInstanceOf(OrderLineReference::class, $ublObject->getOrderLineReference());
-        $this->assertInstanceOf(DocumentReference::class, $ublObject->getDocumentReference());
         $this->assertIsArray($ublObject->getAllowances());
         $this->assertCount(1, $ublObject->getAllowances());
 
@@ -227,10 +154,7 @@ XML;
         $this->assertInstanceOf(InvoiceLineIdentifier::class, $ublObject->getInvoiceLineIdentifier());
         $this->assertNull($ublObject->getNote());
         $this->assertInstanceOf(InvoicedQuantity::class, $ublObject->getInvoicedQuantity());
-        $this->assertInstanceOf(LineExtensionAmount::class, $ublObject->getLineExtensionAmount());
         $this->assertNull($ublObject->getInvoicePeriod());
-        $this->assertNull($ublObject->getOrderLineReference());
-        $this->assertNull($ublObject->getDocumentReference());
         $this->assertIsArray($ublObject->getAllowances());
         $this->assertCount(0, $ublObject->getAllowances());
         $this->assertIsArray($ublObject->getCharges());

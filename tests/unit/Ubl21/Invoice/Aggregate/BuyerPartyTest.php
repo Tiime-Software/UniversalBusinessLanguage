@@ -2,6 +2,7 @@
 
 namespace Tiime\UniversalBusinessLanguage\Tests\unit\Ubl21\Invoice\Aggregate;
 
+use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Aggregate\BuyerParty;
 use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Aggregate\BuyerPartyIdentification;
 use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Aggregate\BuyerPartyLegalEntity;
@@ -10,7 +11,6 @@ use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Aggregate\Contact;
 use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Aggregate\PartyName;
 use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Aggregate\PostalAddress;
 use Tiime\UniversalBusinessLanguage\Ubl21\Invoice\DataType\Basic\EndpointIdentifier;
-use Tiime\UniversalBusinessLanguage\Tests\helpers\BaseXMLNodeTestWithHelpers;
 
 class BuyerPartyTest extends BaseXMLNodeTestWithHelpers
 {
@@ -44,7 +44,6 @@ class BuyerPartyTest extends BaseXMLNodeTestWithHelpers
       </cac:TaxScheme>
     </cac:PartyTaxScheme>
     <cac:PartyLegalEntity>
-      <cbc:RegistrationName>Buyer Full Name AS</cbc:RegistrationName>
       <cbc:CompanyID schemeID="0007">5560104525</cbc:CompanyID>
     </cac:PartyLegalEntity>
     <cac:Contact>
@@ -96,7 +95,7 @@ XML;
       </cac:Country>
     </cac:PostalAddress>
     <cac:PartyLegalEntity>
-      <cbc:RegistrationName>Buyer Full Name AS</cbc:RegistrationName>
+      <cbc:CompanyID schemeID="0007">5560104525</cbc:CompanyID>
     </cac:PartyLegalEntity>
   </cac:Party>
 </Invoice>
@@ -112,7 +111,7 @@ XML;
       </cac:Country>
     </cac:PostalAddress>
     <cac:PartyLegalEntity>
-      <cbc:RegistrationName>Buyer Full Name AS</cbc:RegistrationName>
+      <cbc:CompanyID schemeID="0007">5560104526</cbc:CompanyID>
     </cac:PartyLegalEntity>
   </cac:Party>
   <cac:Party>
@@ -123,7 +122,7 @@ XML;
       </cac:Country>
     </cac:PostalAddress>
     <cac:PartyLegalEntity>
-      <cbc:RegistrationName>Buyer Full Name AS</cbc:RegistrationName>
+        <cbc:CompanyID schemeID="0007">5560104525</cbc:CompanyID>
     </cac:PartyLegalEntity>
   </cac:Party>
 </Invoice>

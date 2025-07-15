@@ -10,24 +10,13 @@ class BuyerPartyLegalEntity
     protected const XML_NODE = 'cac:PartyLegalEntity';
 
     /**
-     * BT-44.
-     */
-    private string $registrationName;
-
-    /**
      * BT-47.
      */
     private ?LegalRegistrationIdentifier $companyIdentifier;
 
-    public function __construct(string $registrationName)
+    public function __construct()
     {
-        $this->registrationName  = $registrationName;
         $this->companyIdentifier = null;
-    }
-
-    public function getRegistrationName(): string
-    {
-        return $this->registrationName;
     }
 
     public function getIdentifier(): ?LegalRegistrationIdentifier
@@ -45,8 +34,6 @@ class BuyerPartyLegalEntity
     public function toXML(\DOMDocument $document): \DOMElement
     {
         $currentNode = $document->createElement(self::XML_NODE);
-
-        $currentNode->appendChild($document->createElement('cbc:RegistrationName', $this->registrationName));
 
         if ($this->companyIdentifier instanceof LegalRegistrationIdentifier) {
             $companyIdentifierElement = $document->createElement('cbc:CompanyID', $this->companyIdentifier->value);
@@ -72,21 +59,13 @@ class BuyerPartyLegalEntity
         /** @var \DOMElement $buyerPartyLegalEntityElement */
         $buyerPartyLegalEntityElement = $buyerPartyLegalEntityElements->item(0);
 
-        $registrationNameElements = $xpath->query('./cbc:RegistrationName', $buyerPartyLegalEntityElement);
-
-        if (1 !== $registrationNameElements->count()) {
-            throw new \Exception('Malformed');
-        }
-
-        $registrationName = (string) $registrationNameElements->item(0)->nodeValue;
-
         $companyIdentifierElements = $xpath->query('./cbc:CompanyID', $buyerPartyLegalEntityElement);
 
         if ($companyIdentifierElements->count() > 1) {
             throw new \Exception('Malformed');
         }
 
-        $buyerPartyLegalEntity = new self($registrationName);
+        $buyerPartyLegalEntity = new self();
 
         if (1 === $companyIdentifierElements->count()) {
             /** @var \DOMElement $companyIdentifierElement */

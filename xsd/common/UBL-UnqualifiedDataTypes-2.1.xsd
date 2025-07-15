@@ -69,7 +69,7 @@ namespace="urn:un:unece:uncefact:data:specification:CoreComponentTypeSchemaModul
     </xsd:annotation>
     <xsd:simpleContent>
       <xsd:restriction base="ccts-cct:AmountType">
-        <xsd:attribute name="currencyID" type="xsd:normalizedString" use="required">
+        <xsd:attribute name="currencyID" type="xsd:normalizedString" use="optional">
            <xsd:annotation>
               <xsd:documentation xml:lang="en">
                  <ccts:UniqueID>UNDT000001-SC2</ccts:UniqueID>

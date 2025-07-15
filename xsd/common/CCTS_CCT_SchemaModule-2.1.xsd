@@ -621,7 +621,7 @@ xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attr
       </xsd:annotation>
       <xsd:simpleContent>
          <xsd:extension base="xsd:decimal">
-            <xsd:attribute name="unitCode" type="xsd:normalizedString" use="optional">
+            <xsd:attribute name="unitCode" type="xsd:normalizedString" use="required">
                <xsd:annotation>
                   <xsd:documentation xml:lang="en">
                      <ccts:UniqueID>UNDT000018-SC2</ccts:UniqueID>
