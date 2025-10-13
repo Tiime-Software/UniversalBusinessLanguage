@@ -1291,17 +1291,7 @@ parameters:
 			path: src/PeppolBIS/CreditNote/DataType/Basic/TaxableAmount.php
 
 		-
-			message: "#^Access to an undefined property Tiime\\\\UniversalBusinessLanguage\\\\PeppolBIS\\\\CreditNote\\\\UniversalBusinessLanguage\\:\\:\\$dueDate\\.$#"
-			count: 1
-			path: src/PeppolBIS/CreditNote/UniversalBusinessLanguage.php
-
-		-
 			message: "#^Argument of an invalid type DOMNodeList\\<DOMNode\\>\\|false supplied for foreach, only iterables are supported\\.$#"
-			count: 1
-			path: src/PeppolBIS/CreditNote/UniversalBusinessLanguage.php
-
-		-
-			message: "#^Call to method toXML\\(\\) on an unknown class Tiime\\\\UniversalBusinessLanguage\\\\PeppolBIS\\\\CreditNote\\\\PaymentDueDate\\.$#"
 			count: 1
 			path: src/PeppolBIS/CreditNote/UniversalBusinessLanguage.php
 
@@ -1318,11 +1308,6 @@ parameters:
 		-
 			message: "#^Cannot call method item\\(\\) on DOMNodeList\\<DOMNode\\>\\|false\\.$#"
 			count: 10
-			path: src/PeppolBIS/CreditNote/UniversalBusinessLanguage.php
-
-		-
-			message: "#^Class Tiime\\\\UniversalBusinessLanguage\\\\PeppolBIS\\\\CreditNote\\\\PaymentDueDate not found\\.$#"
-			count: 1
 			path: src/PeppolBIS/CreditNote/UniversalBusinessLanguage.php
 
 		-
@@ -3906,11 +3891,6 @@ parameters:
 			path: src/Ubl21/CreditNote/DataType/Basic/Note.php
 
 		-
-			message: "#^Offset 1 does not exist on array\\{0\\?\\: string, 1\\?\\: string, 2\\?\\: string\\}\\.$#"
-			count: 1
-			path: src/Ubl21/CreditNote/DataType/Basic/Note.php
-
-		-
 			message: "#^Parameter \\#2 \\$content of class Tiime\\\\UniversalBusinessLanguage\\\\Ubl21\\\\CreditNote\\\\DataType\\\\Basic\\\\Note constructor expects string, string\\|null given\\.$#"
 			count: 1
 			path: src/Ubl21/CreditNote/DataType/Basic/Note.php
@@ -4056,17 +4036,7 @@ parameters:
 			path: src/Ubl21/CreditNote/DataType/Basic/TaxableAmount.php
 
 		-
-			message: "#^Access to an undefined property Tiime\\\\UniversalBusinessLanguage\\\\Ubl21\\\\CreditNote\\\\UniversalBusinessLanguage\\:\\:\\$dueDate\\.$#"
-			count: 1
-			path: src/Ubl21/CreditNote/UniversalBusinessLanguage.php
-
-		-
 			message: "#^Argument of an invalid type DOMNodeList\\<DOMNode\\>\\|false supplied for foreach, only iterables are supported\\.$#"
-			count: 1
-			path: src/Ubl21/CreditNote/UniversalBusinessLanguage.php
-
-		-
-			message: "#^Call to method toXML\\(\\) on an unknown class Tiime\\\\UniversalBusinessLanguage\\\\Ubl21\\\\CreditNote\\\\PaymentDueDate\\.$#"
 			count: 1
 			path: src/Ubl21/CreditNote/UniversalBusinessLanguage.php
 
@@ -4083,11 +4053,6 @@ parameters:
 		-
 			message: "#^Cannot call method item\\(\\) on DOMNodeList\\<DOMNode\\>\\|false\\.$#"
 			count: 9
-			path: src/Ubl21/CreditNote/UniversalBusinessLanguage.php
-
-		-
-			message: "#^Class Tiime\\\\UniversalBusinessLanguage\\\\Ubl21\\\\CreditNote\\\\PaymentDueDate not found\\.$#"
-			count: 1
 			path: src/Ubl21/CreditNote/UniversalBusinessLanguage.php
 
 		-
