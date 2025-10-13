@@ -8,12 +8,11 @@
          beStrictAboutCoverageMetadata="true"
          beStrictAboutOutputDuringTests="true"
          failOnRisky="true"
-         failOnWarning="true">
+         failOnWarning="true"
+>
     <testsuites>
         <testsuite name="default">
-            <directory>tests/unit/Basic</directory>
-            <directory>tests/unit/Aggregate</directory>
-            <file>tests/unit/UniversalBusinessLanguageTest.php</file>
+            <directory>tests</directory>
         </testsuite>
     </testsuites>
 
