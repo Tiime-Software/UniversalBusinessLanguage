@@ -8,7 +8,7 @@ class UniversalBusinessLanguageUtils
 {
     public const UBL_DATE_FORMAT = 'Y-m-d';
 
-    public const XSD_PATH = __DIR__ . \DIRECTORY_SEPARATOR . '..' . \DIRECTORY_SEPARATOR . '..' . \DIRECTORY_SEPARATOR . '..'  . \DIRECTORY_SEPARATOR . '..' . \DIRECTORY_SEPARATOR . 'xsd' . \DIRECTORY_SEPARATOR . 'maindoc' . \DIRECTORY_SEPARATOR . 'UBL-CreditNote-2.1.xsd';
+    public const XSD_PATH = __DIR__ . \DIRECTORY_SEPARATOR . '..' . \DIRECTORY_SEPARATOR . '..' . \DIRECTORY_SEPARATOR . '..' . \DIRECTORY_SEPARATOR . '..' . \DIRECTORY_SEPARATOR . 'xsd' . \DIRECTORY_SEPARATOR . 'maindoc' . \DIRECTORY_SEPARATOR . 'UBL-CreditNote-2.1.xsd';
 
     /**
      * @return array<int, \LibXMLError>

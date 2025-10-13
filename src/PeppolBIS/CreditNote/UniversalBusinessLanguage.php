@@ -28,6 +28,7 @@ use Tiime\UniversalBusinessLanguage\PeppolBIS\CreditNote\DataType\Aggregate\Rece
 use Tiime\UniversalBusinessLanguage\PeppolBIS\CreditNote\DataType\Aggregate\TaxRepresentativeParty;
 use Tiime\UniversalBusinessLanguage\PeppolBIS\CreditNote\DataType\Aggregate\TaxTotal;
 use Tiime\UniversalBusinessLanguage\PeppolBIS\CreditNote\DataType\Basic\IssueDate;
+use Tiime\UniversalBusinessLanguage\PeppolBIS\CreditNote\DataType\Basic\PaymentDueDate;
 use Tiime\UniversalBusinessLanguage\PeppolBIS\CreditNote\DataType\Basic\TaxPointDate;
 use Tiime\UniversalBusinessLanguage\PeppolBIS\CreditNote\DataType\CreditNoteTypeCode;
 use Tiime\UniversalBusinessLanguage\UniversalBusinessLanguageInterface;
