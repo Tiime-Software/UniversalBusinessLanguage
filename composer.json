@@ -2,6 +2,7 @@
     "name": "tiime/universal-business-language",
     "type": "library",
     "license": "MIT",
+    "description": "PHP library to generate and parse UBL documents",
     "require": {
         "php": ">=8.3",
         "ext-dom": "*",
@@ -29,11 +30,11 @@
     },
     "authors": [],
     "scripts": {
-        "test": "vendor/bin/phpunit tests --display-warnings",
+        "test": "vendor/bin/phpunit --display-warnings",
         "coverage": "XDEBUG_MODE=coverage vendor/bin/phpunit --testsuite default --coverage-text",
         "fix-cs": "vendor/bin/php-cs-fixer fix src",
         "fix-cs-test": "vendor/bin/php-cs-fixer fix tests",
-        "phpstan": "vendor/bin/phpstan analyse -l 9 src tests"
+        "phpstan": "vendor/bin/phpstan analyse -c phpstan.neon.dist"
     },
     "minimum-stability": "stable"
 }
