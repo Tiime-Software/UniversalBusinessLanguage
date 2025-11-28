@@ -58,7 +58,7 @@ class Note
         foreach ($noteElements as $noteElement) {
             preg_match($pattern, $noteElement->nodeValue, $matches);
 
-            $subjectCode = $matches[1] ? TextSubjectCodeUNTDID4451::tryFrom($matches[1]) : null;
+            $subjectCode = !empty($matches[1]) ? TextSubjectCodeUNTDID4451::tryFrom($matches[1]) : null;
             $content     = $matches[2] ?? $noteElement->nodeValue;
 
             $note = new self($subjectCode, $content);

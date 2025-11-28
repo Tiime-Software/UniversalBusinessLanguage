@@ -29,6 +29,7 @@ use Tiime\UniversalBusinessLanguage\Ubl21\CreditNote\DataType\Aggregate\TaxRepre
 use Tiime\UniversalBusinessLanguage\Ubl21\CreditNote\DataType\Aggregate\TaxTotal;
 use Tiime\UniversalBusinessLanguage\Ubl21\CreditNote\DataType\Basic\IssueDate;
 use Tiime\UniversalBusinessLanguage\Ubl21\CreditNote\DataType\Basic\Note;
+use Tiime\UniversalBusinessLanguage\Ubl21\CreditNote\DataType\Basic\PaymentDueDate;
 use Tiime\UniversalBusinessLanguage\Ubl21\CreditNote\DataType\Basic\TaxPointDate;
 use Tiime\UniversalBusinessLanguage\Ubl21\CreditNote\DataType\CreditNoteTypeCode;
 use Tiime\UniversalBusinessLanguage\UniversalBusinessLanguageInterface;
@@ -71,6 +72,11 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
      * BT-8-00.
      */
     private ?InvoicePeriod $invoicePeriod;
+
+    /**
+     * BT-9-00.
+     */
+    private ?PaymentDueDate $paymentDueDate;
 
     /**
      * BT-10.
@@ -260,6 +266,7 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
         $this->taxCurrencyCode              = null;
         $this->taxPointDate                 = null;
         $this->invoicePeriod                = null;
+        $this->paymentDueDate               = null;
         $this->buyerReference               = null;
         $this->contractDocumentReference    = null;
         $this->orderReference               = null;
@@ -459,6 +466,18 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
     public function setInvoicePeriod(?InvoicePeriod $invoicePeriod): static
     {
         $this->invoicePeriod = $invoicePeriod;
+
+        return $this;
+    }
+
+    public function getPaymentDueDate(): ?PaymentDueDate
+    {
+        return $this->paymentDueDate;
+    }
+
+    public function setPaymentDueDate(?PaymentDueDate $paymentDueDate): static
+    {
+        $this->paymentDueDate = $paymentDueDate;
 
         return $this;
     }
@@ -715,8 +734,8 @@ class UniversalBusinessLanguage implements UniversalBusinessLanguageInterface
         $root->appendChild($document->createElement('cbc:ID', $this->identifier->value));
         $root->appendChild($this->issueDate->toXML($document));
 
-        if ($this->dueDate instanceof PaymentDueDate) {
-            $root->appendChild($this->dueDate->toXML($document));
+        if ($this->paymentDueDate instanceof PaymentDueDate) {
+            $root->appendChild($this->paymentDueDate->toXML($document));
         }
 
         if ($this->taxPointDate instanceof TaxPointDate) {
